@@ -15,7 +15,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'earnings', path: '/profile', icon: TrendingUp },
   { key: 'create', path: '/create', icon: PlusCircle, highlight: true },
   { key: 'ranking', path: '/ranking', icon: Trophy },
-  { key: 'assets', path: '/red-packet', icon: Wallet },
+  { key: 'assets', path: '/assets', icon: Wallet },
 ];
 
 export function BottomNav() {

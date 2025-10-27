@@ -14,6 +14,8 @@ import enCreate from './locales/en/create.json';
 import zhCreate from './locales/zh/create.json';
 import enRedPacket from './locales/en/redpacket.json';
 import zhRedPacket from './locales/zh/redpacket.json';
+import enAssets from './locales/en/assets.json';
+import zhAssets from './locales/zh/assets.json';
 import enProfile from './locales/en/profile.json';
 import zhProfile from './locales/zh/profile.json';
 import enInvite from './locales/en/invite.json';
@@ -47,6 +49,7 @@ void i18n
         detail: enDetail,
         create: enCreate,
         redpacket: enRedPacket,
+        assets: enAssets,
         profile: enProfile,
         invite: enInvite,
         history: enHistory,
@@ -66,6 +69,7 @@ void i18n
         detail: zhDetail,
         create: zhCreate,
         redpacket: zhRedPacket,
+        assets: zhAssets,
         profile: zhProfile,
         invite: zhInvite,
         history: zhHistory,
@@ -81,7 +85,7 @@ void i18n
         brand: zhBrand,
       },
     },
-    ns: ['translation', 'detail', 'create', 'redpacket', 'profile', 'invite', 'history', 'avatar', 'ranking', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand'],
+    ns: ['translation', 'detail', 'create', 'redpacket', 'assets', 'profile', 'invite', 'history', 'avatar', 'ranking', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand'],
     defaultNS: 'translation',
     fallbackLng: 'en',
     interpolation: { escapeValue: false },

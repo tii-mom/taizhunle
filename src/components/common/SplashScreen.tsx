@@ -32,11 +32,9 @@ export function SplashScreen() {
           backgroundColor: isDark ? '#0A0C12' : '#FAFAFA',
         }}
       >
-        <img
-          src={isDark ? '/splash-dark.svg' : '/splash-light.svg'}
-          alt="Taizhunle"
-          className="h-64 w-64 animate-in fade-in zoom-in duration-500"
-        />
+        <div className="text-4xl font-bold text-text-primary">
+          Taizhunle
+        </div>
       </motion.div>
     </AnimatePresence>
   );

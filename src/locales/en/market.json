@@ -91,5 +91,9 @@
     "volume": "Volume",
     "bettors": "Bettors",
     "recentBets": "Recent Bets"
+  },
+  "balance": {
+    "label": "TAI Balance",
+    "todayProfit": "Today's Profit"
   }
 }

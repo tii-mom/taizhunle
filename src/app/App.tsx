@@ -7,12 +7,12 @@ import { useTonSignature } from '../hooks/useTonWallet';
 import { useTheme } from '../providers/ThemeProvider';
 import { useHaptic } from '../hooks/useHaptic';
 import { useTelegramTheme } from '../hooks/useTelegramTheme';
+import { useUserBalance } from '../hooks/useUserBalance';
 import { FilterToggle } from '../components/market/FilterToggle';
-import { TotalPool } from '../components/market/TotalPool';
-import { WhaleFeed } from '../components/market/WhaleFeed';
 import { ExpandedPrediction } from '../components/market/ExpandedPrediction';
 import { EmptyState } from '../components/common/EmptyState';
 import { Logo } from '../components/common/Logo';
+import { TaiBalance } from '../components/layout/TaiBalance';
 import { PageLayout } from '../components/layout/PageLayout';
 import { useMarketsQuery, type MarketFilter } from '../services/markets';
 
@@ -24,7 +24,7 @@ export function App() {
   const { vibrate } = useHaptic();
   const [activeFilter, setActiveFilter] = useState<MarketFilter>('all');
   const marketsQuery = useMarketsQuery(activeFilter);
-  const allMarketsQuery = useMarketsQuery('all');
+  const { data: userBalance } = useUserBalance();
 
   const cards = marketsQuery.data ?? [];
 
@@ -57,9 +57,15 @@ export function App() {
 
   return (
     <PageLayout>
-      {/* Top Bar: Logo + Wallet + Theme + Language */}
+      {/* Top Bar: Logo + Balance + Wallet + Theme + Language */}
       <header className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border-light bg-surface-glass/60 p-4 backdrop-blur-md">
         <Logo size="md" />
+        
+        {/* TAI Balance + Today Profit */}
+        {userBalance && (
+          <TaiBalance balance={userBalance.balance} todayProfit={userBalance.todayProfit} />
+        )}
+        
         <div className="flex flex-wrap items-center gap-3">
           <TonConnectButton />
           <button
@@ -85,25 +91,7 @@ export function App() {
         </div>
       </header>
 
-      {/* Section 1: Top Aggregate (Pool + Whale Feed) */}
-      {allMarketsQuery.isLoading ? (
-        <article className="animate-pulse space-y-4 rounded-xl border border-border-light bg-surface-glass/60 p-6 backdrop-blur-md">
-          <div className="h-3 w-24 rounded bg-border" />
-          <div className="h-10 w-1/2 rounded bg-border" />
-          <div className="h-3 w-32 rounded bg-border" />
-        </article>
-      ) : allMarketsQuery.isError ? (
-        <article className="rounded-xl border border-border-light bg-surface-glass/60 p-6 text-text-secondary backdrop-blur-md">
-          {t('common.loadError')}
-        </article>
-      ) : (
-        <>
-          <TotalPool markets={allMarketsQuery.data ?? []} onWatch={() => setActiveFilter('live')} />
-          <WhaleFeed />
-        </>
-      )}
-
-      {/* Section 2: Expanded Predictions */}
+      {/* Expanded Predictions */}
       <section className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <h2 className="text-2xl font-extrabold tracking-tight text-text-primary drop-shadow-[0_0_10px_rgba(var(--accent),0.5)]">

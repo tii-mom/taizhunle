@@ -91,5 +91,9 @@
     "volume": "成交量",
     "bettors": "参与人数",
     "recentBets": "最新下注"
+  },
+  "balance": {
+    "label": "TAI 余额",
+    "todayProfit": "今日收益"
   }
 }

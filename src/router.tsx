@@ -4,7 +4,7 @@ import { useTonWallet } from '@tonconnect/ui-react';
 
 import { PageSkeleton } from './components/common/PageSkeleton';
 import { PageTransition } from './components/common/PageTransition';
-import { RedPacket } from './pages/RedPacket';
+import { Assets } from './pages/Assets';
 import { RedPacketSale } from './pages/RedPacketSale';
 import { OfficialRain } from './pages/OfficialRain';
 import { Invite } from './pages/Invite';
@@ -51,9 +51,9 @@ export const router = createBrowserRouter([
       { index: true, element: withWalletGuard(<AppPage />) },
       { path: 'detail/:id', element: withWalletGuard(<DetailPage />) },
       { path: 'create', element: withWalletGuard(<CreatePage />) },
-      { path: 'red-packet', element: withWalletGuard(<RedPacket />) },
-      { path: 'red-packet/sale', element: withWalletGuard(<RedPacketSale />) },
-      { path: 'red-packet/official', element: withWalletGuard(<OfficialRain />) },
+      { path: 'assets', element: withWalletGuard(<Assets />) },
+      { path: 'assets/redpacket', element: withWalletGuard(<RedPacketSale />) },
+      { path: 'assets/official', element: withWalletGuard(<OfficialRain />) },
       { path: 'profile', element: withWalletGuard(<ProfilePage />) },
       { path: 'invite', element: withWalletGuard(<Invite />) },
       { path: 'avatars', element: withWalletGuard(<AvatarMarket />) },

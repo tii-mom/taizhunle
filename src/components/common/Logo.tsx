@@ -33,12 +33,20 @@ export function Logo({ size = 'md', animated = true, onClick }: Props) {
       initial={animated ? { scale: 1.1, rotate: 12 } : false}
       animate={animated ? { scale: 1, rotate: 0 } : false}
       transition={animated ? { duration: 0.6, type: 'spring', bounce: 0.4 } : undefined}
-      className={`flex items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent-light shadow-lg shadow-accent/30 transition-transform hover:scale-105 active:scale-95 ${sizeClasses[size]} ${onClick ? 'cursor-pointer' : 'cursor-default'}`}
+      className={`flex items-center justify-center rounded-full transition-transform hover:scale-105 active:scale-95 ${sizeClasses[size]} ${onClick ? 'cursor-pointer' : 'cursor-default'}`}
       aria-label={t('logo')}
     >
-      <svg viewBox="0 0 24 24" fill="none" className="h-3/5 w-3/5">
-        <path d="M12 4 L16 12 L12 20 L8 12 Z" fill="white" opacity="0.95" />
-      </svg>
+      <div className="h-full w-full overflow-hidden rounded-full">
+        <img 
+          src="/logo.jpg" 
+          alt={t('logo')} 
+          className="h-full w-full object-cover"
+          style={{
+            transform: 'scale(1.1)',
+            objectPosition: 'center'
+          }}
+        />
+      </div>
     </motion.button>
   );
 }

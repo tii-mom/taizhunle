@@ -12,6 +12,10 @@
     "profile": {
       "title": "暂无数据",
       "description": "当前没有相关记录，开始你的第一次预测吧。"
+    },
+    "avatar": {
+      "title": "暂无头像",
+      "description": "您还没有拥有任何头像，打开盲盒开始收集吧。"
     }
   }
 }

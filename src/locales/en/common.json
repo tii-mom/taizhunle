@@ -12,6 +12,10 @@
     "profile": {
       "title": "No Data",
       "description": "No records found yet. Start your first prediction."
+    },
+    "avatar": {
+      "title": "No Avatars",
+      "description": "You don't own any avatars yet. Open a blind box to get started."
     }
   }
 }

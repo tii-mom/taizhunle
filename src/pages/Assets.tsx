@@ -1,0 +1,24 @@
+import { useTranslation } from 'react-i18next';
+import { PageLayout } from '../components/layout/PageLayout';
+import { AssetHeader } from '../components/assets/AssetHeader';
+import { FinanceSections } from '../components/assets/FinanceSections';
+import { ActionBar } from '../components/assets/ActionBar';
+
+export function Assets() {
+  const { t } = useTranslation('assets');
+
+  return (
+    <PageLayout>
+      <div className="space-y-6 pb-32 lg:pb-6">
+        <header className="space-y-2">
+          <h1 className="text-3xl font-semibold text-text-primary">{t('title')}</h1>
+          <p className="text-text-secondary">{t('subtitle')}</p>
+        </header>
+
+        <AssetHeader />
+        <FinanceSections />
+        <ActionBar />
+      </div>
+    </PageLayout>
+  );
+}
