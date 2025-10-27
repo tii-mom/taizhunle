@@ -11,7 +11,7 @@ export function RedPacketMarquee({ items }: Props) {
     return null;
   }
   return (
-    <div className="overflow-hidden rounded-3xl border border-border bg-background/60">
+    <div className="overflow-hidden rounded-xl border border-light bg-surface-glass/60 backdrop-blur-sm">
       <div className="animate-marquee whitespace-nowrap py-3 text-sm text-text-secondary">
         {repeated.map((item, index) => (
           <span key={`${item}-${index}`} className="mx-4 inline-flex items-center gap-2">

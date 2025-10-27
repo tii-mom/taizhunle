@@ -15,12 +15,12 @@ type Props = {
 
 export function AvatarGrid({ items, empty }: Props) {
   if (items.length === 0) {
-    return <p className="rounded-3xl border border-border bg-surface p-6 text-sm text-text-secondary">{empty}</p>;
+    return <p className="rounded-xl border border-light bg-surface-glass p-6 text-sm text-text-secondary backdrop-blur-lg shadow-2xl">{empty}</p>;
   }
   return (
     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {items.map((item) => (
-        <article key={item.id} className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+        <article key={item.id} className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
           <div className="flex items-start justify-between gap-4">
             <div>
               <h3 className="text-lg font-semibold text-text-primary">{item.name}</h3>
@@ -32,7 +32,7 @@ export function AvatarGrid({ items, empty }: Props) {
           <button
             type="button"
             onClick={() => window.open(item.tradeUrl, '_blank', 'noopener')}
-            className="w-full rounded-full border border-border px-4 py-2 text-sm text-text-secondary hover:text-text-primary"
+            className="w-full rounded-full border border-border px-4 py-2 text-sm text-text-secondary transition-transform hover:text-text-primary active:scale-95"
           >
             {item.tradeLabel}
           </button>

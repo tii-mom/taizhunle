@@ -4,6 +4,7 @@ import { AvatarFilters } from '../components/avatar/AvatarFilters';
 import { AvatarGrid } from '../components/avatar/AvatarGrid';
 import { AvatarBlindBox } from '../components/avatar/AvatarBlindBox';
 import { AvatarInventory } from '../components/avatar/AvatarInventory';
+import { PageLayout } from '../components/layout/PageLayout';
 
 type AvatarItem = {
   id: string;
@@ -31,7 +32,8 @@ export function AvatarMarket() {
   const items = useMemo(() => (filter === 'all' ? rawItems : rawItems.filter((item) => item.tags.includes(filter))), [filter, rawItems]);
   const inventory = useMemo(() => (t('inventory.items', { returnObjects: true }) as InventoryItem[]) ?? [], [t]);
   return (
-    <main className="space-y-6">
+    <PageLayout>
+      <div className="space-y-6">
       <header className="space-y-2 text-text-secondary">
         <h1 className="text-3xl font-semibold text-text-primary">{t('title')}</h1>
         <p>{t('subtitle')}</p>
@@ -53,6 +55,7 @@ export function AvatarMarket() {
           onHistory={() => window.alert(t('blindbox.logNotice'))}
         />
       </section>
-    </main>
+      </div>
+    </PageLayout>
   );
 }

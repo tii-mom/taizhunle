@@ -1,8 +1,13 @@
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useHaptic } from '../../hooks/useHaptic';
+import { StepIndicator } from '../common/StepIndicator';
+import { triggerSuccessConfetti } from '../../utils/confetti';
 
 const schema = z
   .object({
@@ -20,47 +25,169 @@ const schema = z
 type FormValues = z.infer<typeof schema>;
 
 export function CreateForm() {
-  const { t } = useTranslation('create');
-  const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { title: '', closesAt: '', minStake: 10, maxStake: 1000 } });
+  const { t } = useTranslation(['create', 'form']);
+  const { vibrate } = useHaptic();
+  const [currentStep, setCurrentStep] = useState(0);
+  const { register, handleSubmit, reset, formState: { errors }, watch, trigger } = useForm<FormValues>({ 
+    resolver: zodResolver(schema), 
+    defaultValues: { title: '', closesAt: '', minStake: 10, maxStake: 1000 },
+    mode: 'onBlur'
+  });
   const minStake = watch('minStake');
   const maxStake = watch('maxStake');
-  const rangePreview = useMemo(() => t('form.rangePreview', { min: Number.isFinite(minStake) ? minStake : 0, max: Number.isFinite(maxStake) ? maxStake : 0 }), [minStake, maxStake, t]);
+  const rangePreview = useMemo(() => t('create:form.rangePreview', { min: Number.isFinite(minStake) ? minStake : 0, max: Number.isFinite(maxStake) ? maxStake : 0 }), [minStake, maxStake, t]);
+
+  const steps = useMemo(
+    () => [
+      { key: 'step1', label: t('form:step1') },
+      { key: 'step2', label: t('form:step2') },
+      { key: 'step3', label: t('form:step3') },
+    ],
+    [t],
+  );
+
+  const handleNext = async () => {
+    let isValid = false;
+    if (currentStep === 0) {
+      isValid = await trigger('title');
+    } else if (currentStep === 1) {
+      isValid = await trigger('closesAt');
+    }
+    
+    if (isValid) {
+      vibrate();
+      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+    }
+  };
+
+  const handlePrev = () => {
+    vibrate();
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handleStepClick = (index: number) => {
+    setCurrentStep(index);
+  };
+
+  const onSubmit = (values: FormValues) => {
+    triggerSuccessConfetti();
+    window.alert(t('create:form.submitSuccess'));
+    reset(values);
+    setCurrentStep(0);
+  };
 
   return (
     <form
-      className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface"
-      onSubmit={handleSubmit((values) => {
-        window.alert(t('form.submitSuccess'));
-        reset(values);
-      })}
+      className="space-y-6 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg"
+      onSubmit={handleSubmit(onSubmit)}
     >
-      <p className="text-sm text-text-secondary">{t('form.hint')}</p>
-      <label className="block text-sm text-text-secondary">
-        {t('fields.title')}
-        <input className="mt-1 w-full rounded border border-border bg-background px-3 py-2" {...register('title')} />
-        {errors.title ? <span className="text-xs text-danger">{t(`errors.${errors.title.message}`)}</span> : null}
-      </label>
-      <label className="block text-sm text-text-secondary">
-        {t('fields.closesAt')}
-        <input type="datetime-local" className="mt-1 w-full rounded border border-border bg-background px-3 py-2" {...register('closesAt')} />
-        {errors.closesAt ? <span className="text-xs text-danger">{t(`errors.${errors.closesAt.message}`)}</span> : null}
-      </label>
-      <div className="grid gap-3 md:grid-cols-2">
-        <label className="text-sm text-text-secondary">
-          {t('fields.minStake')}
-          <input type="number" className="mt-1 w-full rounded border border-border bg-background px-3 py-2" {...register('minStake', { valueAsNumber: true })} />
-          {errors.minStake ? <span className="text-xs text-danger">{t(`errors.${errors.minStake.message}`)}</span> : null}
-        </label>
-        <label className="text-sm text-text-secondary">
-          {t('fields.maxStake')}
-          <input type="number" className="mt-1 w-full rounded border border-border bg-background px-3 py-2" {...register('maxStake', { valueAsNumber: true })} />
-          {errors.maxStake ? <span className="text-xs text-danger">{t(`errors.${errors.maxStake.message}`)}</span> : null}
-        </label>
-      </div>
-      <p className="text-xs uppercase tracking-wide text-text-secondary">{rangePreview}</p>
-      <div className="flex gap-3">
-        <button type="submit" className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast">{t('buttons.submit')}</button>
-        <button type="button" className="rounded-full border border-border px-4 py-3 text-sm text-text-secondary" onClick={() => window.alert(t('buttons.cancelled'))}>{t('buttons.cancel')}</button>
+      <StepIndicator steps={steps} currentStep={currentStep} onStepClick={handleStepClick} />
+
+      <AnimatePresence mode="wait">
+        {currentStep === 0 && (
+          <motion.div
+            key="step1"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            <p className="text-sm text-text-secondary">{t('create:form.hint')}</p>
+            <label className="block text-sm text-text-secondary">
+              {t('create:fields.title')}
+              <input
+                className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.title ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                {...register('title')}
+              />
+              {errors.title ? <span className="text-xs text-danger">{t(`create:errors.${errors.title.message}`)}</span> : null}
+            </label>
+          </motion.div>
+        )}
+
+        {currentStep === 1 && (
+          <motion.div
+            key="step2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            <label className="block text-sm text-text-secondary">
+              {t('create:fields.closesAt')}
+              <input
+                type="datetime-local"
+                className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.closesAt ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                {...register('closesAt')}
+              />
+              {errors.closesAt ? <span className="text-xs text-danger">{t(`create:errors.${errors.closesAt.message}`)}</span> : null}
+            </label>
+          </motion.div>
+        )}
+
+        {currentStep === 2 && (
+          <motion.div
+            key="step3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            <div className="grid gap-3 md:grid-cols-2">
+              <label className="text-sm text-text-secondary">
+                {t('create:fields.minStake')}
+                <input
+                  type="number"
+                  className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.minStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                  {...register('minStake', { valueAsNumber: true })}
+                />
+                {errors.minStake ? <span className="text-xs text-danger">{t(`create:errors.${errors.minStake.message}`)}</span> : null}
+              </label>
+              <label className="text-sm text-text-secondary">
+                {t('create:fields.maxStake')}
+                <input
+                  type="number"
+                  className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.maxStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                  {...register('maxStake', { valueAsNumber: true })}
+                />
+                {errors.maxStake ? <span className="text-xs text-danger">{t(`create:errors.${errors.maxStake.message}`)}</span> : null}
+              </label>
+            </div>
+            <p className="text-xs uppercase tracking-wide text-text-secondary">{rangePreview}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="flex justify-between gap-3">
+        <button
+          type="button"
+          onClick={handlePrev}
+          disabled={currentStep === 0}
+          className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-3 text-sm text-text-secondary transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 disabled:opacity-40 md:hover:shadow-lg"
+        >
+          <ChevronLeft size={16} />
+          {t('form:prev')}
+        </button>
+        {currentStep < steps.length - 1 ? (
+          <button
+            type="button"
+            onClick={handleNext}
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
+          >
+            {t('form:next')}
+            <ChevronRight size={16} />
+          </button>
+        ) : (
+          <button
+            type="submit"
+            onClick={() => vibrate()}
+            className="rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
+          >
+            {t('form:submit')}
+          </button>
+        )}
       </div>
     </form>
   );

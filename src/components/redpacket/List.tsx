@@ -1,3 +1,5 @@
+import { EmptyState } from '../common/EmptyState';
+
 export type RedPacketItem = {
   id: string;
   title: string;
@@ -22,15 +24,15 @@ type Props = {
   meta: ListMeta;
 };
 
-export function RedPacketList({ empty, items, meta }: Props) {
+export function RedPacketList({ empty: _empty, items, meta }: Props) {
   if (!items || items.length === 0) {
-    return <p className="rounded-2xl border border-border bg-background/40 px-4 py-6 text-center text-sm text-text-secondary">{empty}</p>;
+    return <EmptyState type="redPacket" />;
   }
 
   return (
     <div className="space-y-4">
       {items.map((item) => (
-        <article key={item.id} className="space-y-3 rounded-3xl border border-border bg-background/40 p-4">
+        <article key={item.id} className="space-y-3 rounded-xl border border-light bg-surface-glass/50 p-4 backdrop-blur-sm">
           <header className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-semibold text-text-primary">{item.title}</h2>

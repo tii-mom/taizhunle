@@ -5,6 +5,7 @@ import { DetailSummary } from '../components/detail/Summary';
 import { DetailHistory } from '../components/detail/History';
 import { BetModal } from '../components/BetModal';
 import { useDetailData } from '../components/detail/useDetailData';
+import { PageLayout } from '../components/layout/PageLayout';
 
 export function Detail() {
   const { id = '' } = useParams();
@@ -24,7 +25,8 @@ export function Detail() {
   );
 
   return (
-    <main className="space-y-6">
+    <PageLayout>
+      <div className="space-y-6">
       <DetailSummary
         statusKey={data.statusKey}
         trend={data.trend}
@@ -50,6 +52,7 @@ export function Detail() {
         onClose={() => setOpen(false)}
         onSubmit={async () => window.alert(t('modal.success'))}
       />
-    </main>
+      </div>
+    </PageLayout>
   );
 }

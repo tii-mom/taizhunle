@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { TrendingUp, Share2 } from 'lucide-react';
 
 type Props = {
   statusKey: string;
@@ -17,7 +18,7 @@ type Props = {
 export function DetailSummary({ statusKey, trend, title, description, odds, change, volume, liquidity, onBet, onShare }: Props) {
   const { t } = useTranslation('detail');
   return (
-    <section className="space-y-6 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-6 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <header className="space-y-2 text-text-secondary">
         <div className="flex items-center gap-3 text-xs uppercase tracking-wide">
           <span className="rounded-full border border-border px-3 py-1 text-text-primary">{t(`status.${statusKey}`)}</span>
@@ -35,10 +36,12 @@ export function DetailSummary({ statusKey, trend, title, description, odds, chan
         <Metric label={t('metrics.liquidity', { value: liquidity })} value={liquidity} />
       </dl>
       <div className="flex flex-wrap gap-3">
-        <button type="button" onClick={onBet} className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast">
+        <button type="button" onClick={onBet} className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-transform active:scale-95">
+          <TrendingUp size={20} />
           {t('cta.bet')}
         </button>
-        <button type="button" onClick={onShare} className="rounded-full border border-border px-6 py-3 text-sm text-text-secondary">
+        <button type="button" onClick={onShare} className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm text-text-secondary transition-transform active:scale-95">
+          <Share2 size={20} className="text-text-secondary" />
           {t('cta.share')}
         </button>
       </div>
@@ -53,11 +56,11 @@ type MetricProps = {
 };
 
 function Metric({ label, value, highlight }: MetricProps) {
-  const tone = highlight === 'success' ? 'text-success' : highlight === 'warning' ? 'text-warning' : 'text-text-primary';
+  const tone = highlight === 'success' ? 'text-success' : highlight === 'warning' ? 'text-warning' : 'text-accent';
   return (
-    <div className="space-y-1 rounded-2xl border border-border/60 bg-background/40 p-4">
+    <div className="animate-in fade-in slide-in-from-bottom-2 space-y-1 rounded-2xl border border-border/60 bg-background/40 p-4 duration-200">
       <dt className="text-xs uppercase tracking-wide text-text-secondary">{label}</dt>
-      <dd className={clsx('text-lg font-semibold', tone)}>{value}</dd>
+      <dd className={clsx('font-mono text-lg font-semibold shadow-accent/30', tone)}>{value}</dd>
     </div>
   );
 }

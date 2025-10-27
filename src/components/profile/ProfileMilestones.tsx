@@ -1,3 +1,5 @@
+import { EmptyState } from '../common/EmptyState';
+
 type Props = {
   heading: string;
   labels: string[];
@@ -7,10 +9,10 @@ type Props = {
   achievements: string[];
 };
 
-export function ProfileMilestones({ heading, labels, progress, target, emptyState, achievements }: Props) {
+export function ProfileMilestones({ heading, labels, progress, target, emptyState: _emptyState, achievements }: Props) {
   const completion = target > 0 ? Math.min(100, Math.round((progress / target) * 100)) : 0;
   return (
-    <section className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <header className="space-y-1">
         <h2 className="text-xl font-semibold text-text-primary">{heading}</h2>
         <p className="text-sm text-text-secondary">{labels[0] ?? ''}</p>
@@ -25,7 +27,7 @@ export function ProfileMilestones({ heading, labels, progress, target, emptyStat
       <div className="space-y-3">
         <h3 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">{labels[3] ?? ''}</h3>
         {achievements.length === 0 ? (
-          <p className="rounded-2xl border border-border/60 bg-background/40 px-4 py-3 text-sm text-text-secondary">{emptyState}</p>
+          <EmptyState type="profile" />
         ) : (
           <ul className="grid gap-3 md:grid-cols-2">
             {achievements.map((item) => (

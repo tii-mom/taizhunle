@@ -1,0 +1,32 @@
+{
+  "surfaceGlass": "玻璃质感表面",
+  "borderLight": "轻量边框",
+  "button": {
+    "gradient": "渐变按钮"
+  },
+  "number": {
+    "format": "数字格式化",
+    "decimals": "小数位数"
+  },
+  "animation": {
+    "duration": "动画时长",
+    "route": "路由切换动画"
+  },
+  "haptic": {
+    "enable": "触觉反馈开关"
+  },
+  "pool": {
+    "total": "总奖池"
+  },
+  "whale": {
+    "feed": "鲸鱼动向"
+  },
+  "top": {
+    "collapse": "收起"
+  },
+  "ui": {
+    "pulse": "脉冲动画",
+    "glow": "发光效果",
+    "hover": "悬停状态"
+  }
+}

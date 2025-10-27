@@ -1,0 +1,32 @@
+{
+    "surfaceGlass": "Glass Surface",
+    "borderLight": "Light Border",
+    "button": {
+        "gradient": "Gradient Button"
+    },
+    "number": {
+        "format": "Number Format",
+        "decimals": "Decimal Places"
+    },
+    "animation": {
+        "duration": "Animation Duration",
+        "route": "Route Transition"
+    },
+    "haptic": {
+        "enable": "Haptic Feedback"
+    },
+    "pool": {
+        "total": "Total Pool"
+    },
+    "whale": {
+        "feed": "Whale Feed"
+    },
+    "top": {
+        "collapse": "Collapse"
+    },
+    "ui": {
+        "pulse": "Pulse Animation",
+        "glow": "Glow Effect",
+        "hover": "Hover State"
+    }
+}

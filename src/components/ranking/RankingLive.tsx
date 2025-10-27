@@ -1,3 +1,5 @@
+import { EmptyState } from '../common/EmptyState';
+
 type Props = {
   heading: string;
   updatedAt: string;
@@ -6,9 +8,9 @@ type Props = {
   empty: string;
 };
 
-export function RankingLive({ heading, updatedAt, columns, entries, empty }: Props) {
+export function RankingLive({ heading, updatedAt, columns, entries, empty: _empty }: Props) {
   return (
-    <section className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-semibold text-text-primary">{heading}</h2>
@@ -16,7 +18,7 @@ export function RankingLive({ heading, updatedAt, columns, entries, empty }: Pro
         </div>
       </header>
       {entries.length === 0 ? (
-        <p className="rounded-2xl border border-border/60 bg-background/40 px-4 py-6 text-center text-sm text-text-secondary">{empty}</p>
+        <EmptyState type="market" />
       ) : (
         <div className="space-y-3">
           <header className="grid grid-cols-[0.5fr,2fr,1fr,1fr] gap-4 rounded-2xl border border-border/60 bg-background/60 px-4 py-2 text-xs uppercase tracking-wide text-text-secondary">

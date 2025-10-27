@@ -6,7 +6,7 @@ type Props = {
 
 export function RankingTitles({ heading, description, entries }: Props) {
   return (
-    <section className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <header className="space-y-1">
         <h2 className="text-xl font-semibold text-text-primary">{heading}</h2>
         <p className="text-sm text-text-secondary">{description}</p>

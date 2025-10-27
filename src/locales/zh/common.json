@@ -1,93 +1,17 @@
 {
-  "app": {
-    "title": "太准了 V3",
-    "subtitle": "预测 · 连接 · 庆祝",
-    "theme": { "light": "亮色", "dark": "暗色" },
-    "language": { "label": "语言", "english": "English", "chinese": "中文" }
-  },
-  "actions": {
-    "toggleTheme": "切换主题",
-    "toggleLanguage": "切换语言",
-    "launch": "打开预测空间"
-  },
-  "wallet": {
-    "heading": "钱包状态",
-    "connected": "已连接：{{address}}",
-    "disconnected": "未连接钱包",
-    "openModal": "管理钱包",
-    "signData": "发起签名"
-  },
-  "status": { "ready": "Day 0 脚手架就绪" },
-  "login": {
-    "badge": "Day-1 接入",
-    "heroTitle": "Telegram 登录与 Ton 钱包",
-    "heroSubtitle": "通过 Telegram 打开小程序，并在同一个流程内连接 TON 钱包。",
-    "stepsTitle": "三步开始",
-    "steps": [
-      "在 Telegram 菜单里打开太准了小程序。",
-      "检查 Telegram 账号信息并确认钱包连接。",
-      "随时回到这里管理你的 TON 身份。"
-    ],
-    "telegramTitle": "Telegram 账户",
-    "telegramConnected": "已登录：{{name}}",
-    "telegramDisconnected": "请从 Telegram 启动以完成登录。",
-    "telegramCta": "查看 Telegram 指南",
-    "walletTitle": "TON 钱包",
-    "walletConnected": "钱包就绪：{{address}}",
-    "walletEmpty": "尚未检测到钱包，请使用 TonConnect 按钮连接。",
-    "signAction": "发送问候签名",
-    "statusTitle": "部署状态"
-  },
-  "market": {
-    "badge": "Day-2 启动",
-    "heroTitle": "预测市场概览",
-    "heroSubtitle": "关注实时奖池、过滤机会，并在下单前观察鲸鱼动向。",
-    "walletConnected": "交易钱包已连接：{{address}}",
-    "walletEmpty": "请使用 TonConnect 按钮同步交易资产。",
-    "filters": ["全部", "进行中", "已结束", "我的注单"],
-    "filterTitle": "筛选预测市场",
-    "filterDescription": "使用筛选器按状态查看预测卡片。",
-    "empty": "暂无符合条件的市场，请尝试其他筛选。",
-    "badges": { "live": "实时", "settled": "已结算" },
-    "card": { "oddsLabel": "赔率", "volumeLabel": "奖池规模" },
-    "realtime": {
-      "title": "实时奖池",
-      "subtitle": "每 3 秒刷新一次，与最新撮合订单同步。",
-      "poolBase": "1200000",
-      "poolIncrement": "37",
-      "poolUnit": "TAI",
-      "ticker": [
-        "鲸鱼 Amber 追加 12,000 TAI 押注 BTC 破 8 万。",
-        "DeepBlue 加注 8,500 TAI 支持 TON TVL 新高。",
-        "Validator 云补仓 4,200 TAI 对冲 ETH APY 下滑。"
-      ]
+  "loadError": "加载失败，请稍后重试",
+  "empty": {
+    "market": {
+      "title": "暂无市场",
+      "description": "当前没有符合条件的预测市场，请尝试其他筛选条件。"
     },
-    "whales": { "title": "鲸鱼提醒", "cta": "关注鲸鱼", "empty": "鲸鱼动态每几分钟更新一次。" },
-    "cta": {
-      "enter": "进入盘口",
-      "place": "提交下注",
-      "share": "分享盘口",
-      "watch": "关注鲸鱼",
-      "create": "创建盘口",
-      "packets": "打开红包",
-      "profile": "个人中心",
-      "invite": "邀请收益",
-      "avatars": "头像市场",
-      "ranking": "排行榜"
+    "redPacket": {
+      "title": "暂无红包",
+      "description": "当前没有可领取的红包，请稍后再来看看。"
     },
-    "cards": [
-      "btc|live|BTC 于周五前突破 8 万美元|宏观利好与社区情绪共振，押注者看涨。|实时赔率|1.42x|32,406 TAI",
-      "eth|live|ETH 质押年化低于 3%|网络升级与需求变化影响质押收益。|实时赔率|3.10x|12,887 TAI",
-      "ton|closed|TON TVL 创历史新高|Layer-1 激励计划吸引鲸鱼回流 TON 生态。|已结算赔率|9.30x|5,204 TAI"
-    ],
-    "shareText": "{{title}} ｜ 赔率 {{odds}} ｜ 奖池 {{volume}}",
-    "shareTitle": "太准了热门盘口",
-    "shareCopied": "分享文案已就绪。",
-    "shareFailed": "暂时无法分享，请稍后再试。",
-    "betSignature": "太准了下注签名：{{market}}",
-    "betQueued": "下注请求已发送至钱包。",
-    "betFailed": "钱包拒绝了本次下注。",
-    "betUnavailable": "请先连接钱包再下注。",
-    "watchPrompt": "鲸鱼提醒已排队，记得保持 Telegram 推送开启。"
+    "profile": {
+      "title": "暂无数据",
+      "description": "当前没有相关记录，开始你的第一次预测吧。"
+    }
   }
 }

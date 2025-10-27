@@ -16,10 +16,10 @@ type Props = {
 export function DetailHistory({ items, empty }: Props) {
   const { t } = useTranslation('detail');
   if (items.length === 0) {
-    return <section className="rounded-3xl border border-border bg-surface p-6 text-sm text-text-secondary">{empty}</section>;
+    return <section className="rounded-xl border border-light bg-surface-glass p-6 text-sm text-text-secondary backdrop-blur-lg shadow-2xl">{empty}</section>;
   }
   return (
-    <section className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <h2 className="text-xl font-semibold text-text-primary">{t('history')}</h2>
       <div className="space-y-2 text-sm">
         <header className="grid grid-cols-[2fr,1fr,1fr,1fr] gap-4 rounded-2xl border border-border/60 bg-background/60 px-4 py-2 text-xs uppercase tracking-wide text-text-secondary">

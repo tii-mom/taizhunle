@@ -55,17 +55,17 @@ export function WhaleFeed() {
   } as const;
 
   return (
-    <article className="flex flex-col gap-3 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <article className="flex flex-col gap-3 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-wide text-text-secondary">{t('market:whales.title')}</p>
           <p className="text-sm text-text-secondary">{t('market:realtime.subtitle', { unit: 'TAI' })}</p>
         </div>
-        <button type="button" className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary">
+        <button type="button" className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-transform active:scale-95">
           {t('market:whales.cta')}
         </button>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-border bg-background/60" aria-live="polite">
+      <div className="overflow-hidden rounded-2xl border border-light bg-background/60 backdrop-blur-sm" aria-live="polite">
         {isLoading ? (
           <div className="animate-pulse px-4 py-3 text-sm text-text-secondary">
             <div className="h-4 w-3/4 rounded bg-border" />

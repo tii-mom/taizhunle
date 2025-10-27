@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { RankingLive } from '../components/ranking/RankingLive';
 import { RankingTitles } from '../components/ranking/RankingTitles';
 import { RankingShare } from '../components/ranking/RankingShare';
+import { PageLayout } from '../components/layout/PageLayout';
 
 export function Ranking() {
   const { t } = useTranslation('ranking');
@@ -10,7 +11,8 @@ export function Ranking() {
   const titleEntries = useMemo(() => (t('titles.entries', { returnObjects: true }) as string[]) ?? [], [t]);
   const sharePayload = t('share.template');
   return (
-    <main className="space-y-6">
+    <PageLayout>
+      <div className="space-y-6">
       <header className="space-y-2 text-text-secondary">
         <h1 className="text-3xl font-semibold text-text-primary">{t('title')}</h1>
         <p>{t('subtitle')}</p>
@@ -36,6 +38,7 @@ export function Ranking() {
           template={sharePayload}
         />
       </section>
-    </main>
+      </div>
+    </PageLayout>
   );
 }

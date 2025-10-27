@@ -7,7 +7,7 @@ export function CreateSchedule() {
     return null;
   }
   return (
-    <aside className="space-y-3 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <aside className="space-y-3 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <h2 className="text-xl font-semibold text-text-primary">{t('schedule.title')}</h2>
       <ul className="list-disc space-y-2 pl-5 text-sm text-text-secondary">
         {tips.map((tip, index) => (

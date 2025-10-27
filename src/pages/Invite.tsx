@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { InviteSummary } from '../components/invite/InviteSummary';
 import { InviteRewards } from '../components/invite/InviteRewards';
 import { InviteHistory } from '../components/invite/InviteHistory';
+import { PageLayout } from '../components/layout/PageLayout';
 
 type HistoryEntry = {
   id: string;
@@ -20,7 +21,8 @@ export function Invite() {
     [t],
   );
   return (
-    <main className="space-y-6">
+    <PageLayout>
+      <div className="space-y-6">
       <header className="space-y-2 text-text-secondary">
         <h1 className="text-3xl font-semibold text-text-primary">{t('invite:title')}</h1>
         <p>{t('invite:subtitle')}</p>
@@ -43,18 +45,19 @@ export function Invite() {
             onAppeal={() => window.alert(t('history:appealNotice'))}
           />
         </div>
-        <aside className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+        <aside className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
           <h2 className="text-xl font-semibold text-text-primary">{t('invite:withdraw.heading')}</h2>
           <p className="text-sm text-text-secondary">{t('invite:withdraw.description')}</p>
           <div className="rounded-2xl border border-border/60 bg-background/40 p-4 text-sm text-text-secondary">
             <p className="text-2xl font-semibold text-text-primary">{t('invite:withdraw.balance')}</p>
             <p>{t('invite:withdraw.note')}</p>
           </div>
-          <button type="button" onClick={() => window.alert(t('invite:toasts.withdraw'))} className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast">
+          <button type="button" onClick={() => window.alert(t('invite:toasts.withdraw'))} className="w-full rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-transform active:scale-95">
             {t('invite:withdraw.action')}
           </button>
         </aside>
       </section>
-    </main>
+      </div>
+    </PageLayout>
   );
 }

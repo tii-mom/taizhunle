@@ -26,6 +26,16 @@ import enRanking from './locales/en/ranking.json';
 import zhRanking from './locales/zh/ranking.json';
 import enTranslation from './locales/en/translation.json';
 import zhTranslation from './locales/zh/translation.json';
+import enTheme from './locales/en/theme.json';
+import zhTheme from './locales/zh/theme.json';
+import enNav from './locales/en/nav.json';
+import zhNav from './locales/zh/nav.json';
+import enForm from './locales/en/form.json';
+import zhForm from './locales/zh/form.json';
+import enCommon from './locales/en/common.json';
+import zhCommon from './locales/zh/common.json';
+import enBrand from './locales/en/brand.json';
+import zhBrand from './locales/zh/brand.json';
 
 void i18n
   .use(LanguageDetector)
@@ -45,6 +55,11 @@ void i18n
         app: enApp,
         actions: enActions,
         market: enMarket,
+        theme: enTheme,
+        nav: enNav,
+        form: enForm,
+        common: enCommon,
+        brand: enBrand,
       },
       zh: {
         translation: zhTranslation,
@@ -59,9 +74,14 @@ void i18n
         app: zhApp,
         actions: zhActions,
         market: zhMarket,
+        theme: zhTheme,
+        nav: zhNav,
+        form: zhForm,
+        common: zhCommon,
+        brand: zhBrand,
       },
     },
-    ns: ['translation', 'detail', 'create', 'redpacket', 'profile', 'invite', 'history', 'avatar', 'ranking', 'app', 'actions', 'market'],
+    ns: ['translation', 'detail', 'create', 'redpacket', 'profile', 'invite', 'history', 'avatar', 'ranking', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand'],
     defaultNS: 'translation',
     fallbackLng: 'en',
     interpolation: { escapeValue: false },

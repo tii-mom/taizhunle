@@ -1,93 +1,17 @@
 {
-  "app": {
-    "title": "Taizhunle V3",
-    "subtitle": "Predict. Connect. Celebrate.",
-    "theme": { "light": "Light", "dark": "Dark" },
-    "language": { "label": "Language", "english": "English", "chinese": "中文" }
-  },
-  "actions": {
-    "toggleTheme": "Toggle theme",
-    "toggleLanguage": "Switch language",
-    "launch": "Open prediction hub"
-  },
-  "wallet": {
-    "heading": "Wallet status",
-    "connected": "Connected: {{address}}",
-    "disconnected": "No wallet connected",
-    "openModal": "Manage wallet",
-    "signData": "Request signature"
-  },
-  "status": { "ready": "Day zero scaffold ready" },
-  "login": {
-    "badge": "Day-1 access",
-    "heroTitle": "Telegram login & Ton wallet",
-    "heroSubtitle": "Start the mini app session via Telegram and connect a TON wallet in one flow.",
-    "stepsTitle": "Get started",
-    "steps": [
-      "Open Taizhunle Mini App from the Telegram menu.",
-      "Review your Telegram account and confirm the wallet connection.",
-      "Return here anytime to manage your TON identity."
-    ],
-    "telegramTitle": "Telegram account",
-    "telegramConnected": "Signed in as {{name}}",
-    "telegramDisconnected": "Launch from Telegram to finish login.",
-    "telegramCta": "View Telegram guide",
-    "walletTitle": "TON wallet",
-    "walletConnected": "Wallet ready: {{address}}",
-    "walletEmpty": "No wallet detected. Use TonConnect button to link one.",
-    "signAction": "Sign hello packet",
-    "statusTitle": "Deployment status"
-  },
-  "market": {
-    "badge": "Day-2 launch",
-    "heroTitle": "Prediction market overview",
-    "heroSubtitle": "Track live pools, filter opportunities, and watch the whales before taking positions.",
-    "walletConnected": "Trading wallet connected: {{address}}",
-    "walletEmpty": "Connect TonConnect button to sync trading balances.",
-    "filters": ["All", "Live", "Closed", "My bets"],
-    "filterTitle": "Filter predictions",
-    "filterDescription": "Use the toggles to scan active cards by their status.",
-    "empty": "No markets match the filter yet. Try another view.",
-    "badges": { "live": "Live now", "settled": "Settled" },
-    "card": { "oddsLabel": "Odds", "volumeLabel": "Pool volume" },
-    "realtime": {
-      "title": "Live prize pool",
-      "subtitle": "Auto refresh every 3 seconds to mirror the latest matched orders.",
-      "poolBase": "1200000",
-      "poolIncrement": "37",
-      "poolUnit": "TAI",
-      "ticker": [
-        "Whale Amber placed 12,000 TAI on BTC 80k before Friday.",
-        "DeepBlue added 8,500 TAI backing TON TVL all-time high.",
-        "Validator Yun hedged 4,200 TAI on ETH APY softness."
-      ]
+  "loadError": "Failed to load, please try again later",
+  "empty": {
+    "market": {
+      "title": "No Markets",
+      "description": "No prediction markets match your filters. Try adjusting your criteria."
     },
-    "whales": { "title": "Whale alerts", "cta": "Watch whales", "empty": "Whale activity updates every few minutes." },
-    "cta": {
-      "enter": "Enter market",
-      "place": "Place bet",
-      "share": "Share update",
-      "watch": "Watch whales",
-      "create": "Create market",
-      "packets": "Open red packets",
-      "profile": "Profile center",
-      "invite": "Invite rewards",
-      "avatars": "Avatar market",
-      "ranking": "Rankings"
+    "redPacket": {
+      "title": "No Red Packets",
+      "description": "No red packets available right now. Check back later."
     },
-    "cards": [
-      "btc|live|BTC crosses $80k before Friday|Community sentiment aligns with macro catalysts.|Live odds|1.42x|32,406 TAI",
-      "eth|live|ETH staking APY drops under 3%|Validators react to upcoming network upgrades.|Live odds|3.10x|12,887 TAI",
-      "ton|closed|TON TVL hits all-time high|Layer-1 incentives draw whales back to TON.|Settled odds|9.30x|5,204 TAI"
-    ],
-    "shareText": "{{title}} @ {{odds}} | Pool {{volume}}",
-    "shareTitle": "Taizhunle highlight",
-    "shareCopied": "Share text ready to send.",
-    "shareFailed": "Unable to share now. Try again later.",
-    "betSignature": "Taizhunle bet handshake: {{market}}",
-    "betQueued": "Bet request sent to wallet.",
-    "betFailed": "Wallet rejected the bet request.",
-    "betUnavailable": "Connect wallet to place bets.",
-    "watchPrompt": "Whale alerts queued. Keep Telegram notifications on."
+    "profile": {
+      "title": "No Data",
+      "description": "No records found yet. Start your first prediction."
+    }
   }
 }

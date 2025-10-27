@@ -1,0 +1,10 @@
+{
+  "step1": "Basic Info",
+  "step2": "Time Settings",
+  "step3": "Confirm & Publish",
+  "error": "Please check form errors",
+  "success": "Submitted successfully!",
+  "next": "Next",
+  "prev": "Previous",
+  "submit": "Submit"
+}

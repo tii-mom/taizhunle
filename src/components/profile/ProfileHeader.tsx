@@ -8,7 +8,7 @@ type Props = {
 
 export function ProfileHeader({ name, level, exp, nextLevel, streak }: Props) {
   return (
-    <section className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-wide text-text-secondary">{level}</p>

@@ -7,10 +7,13 @@ export default {
       colors: {
         background: 'rgb(var(--color-background) / <alpha-value>)',
         surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        'surface-glass': 'var(--surface-glass)',
         'text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
         'text-secondary': 'rgb(var(--color-text-secondary) / <alpha-value>)',
         border: 'rgb(var(--color-border) / <alpha-value>)',
+        'border-light': 'var(--border-light)',
         accent: 'rgb(var(--color-accent) / <alpha-value>)',
+        'accent-light': 'rgb(var(--color-accent) / 0.8)',
         'accent-contrast': 'rgb(var(--color-accent-contrast) / <alpha-value>)',
         success: 'rgb(var(--color-success) / <alpha-value>)',
         warning: 'rgb(var(--color-warning) / <alpha-value>)',
@@ -21,6 +24,9 @@ export default {
       },
       boxShadow: {
         surface: '0 10px 30px rgb(var(--color-text-primary) / 0.08)',
+      },
+      backdropBlur: {
+        glass: 'var(--backdrop-blur)',
       },
     },
   },

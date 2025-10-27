@@ -10,7 +10,10 @@
   "betUnavailable": "Connect wallet to place bets.",
   "card": {
     "oddsLabel": "Odds",
-    "volumeLabel": "Pool volume"
+    "volumeLabel": "Pool volume",
+    "swipe": "Swipe for more",
+    "longPress": "Long press to quick bet",
+    "quickBet": "Quick Bet"
   },
   "cards": [
     "btc|live|BTC crosses $80k before Friday|Community sentiment aligns with macro catalysts.|Live odds|1.42x|32,406 TAI",

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { Sparkles, Copy } from 'lucide-react';
+
 type Props = {
   heading: string;
   description: string;
@@ -29,7 +31,7 @@ export function RankingShare({ heading, description, seoTitle, seoDescription, g
   };
 
   return (
-    <aside className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <aside className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <header className="space-y-1">
         <h2 className="text-xl font-semibold text-text-primary">{heading}</h2>
         <p className="text-sm text-text-secondary">{description}</p>
@@ -40,10 +42,12 @@ export function RankingShare({ heading, description, seoTitle, seoDescription, g
         <textarea value={payload} onChange={(event) => setPayload(event.target.value)} className="mt-2 h-32 w-full rounded-2xl border border-border bg-background p-3" />
       </div>
       <div className="flex flex-col gap-3">
-        <button type="button" onClick={handleGenerate} className="w-full rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast">
+        <button type="button" onClick={handleGenerate} className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-transform active:scale-95">
+          <Sparkles size={20} />
           {generateLabel}
         </button>
-        <button type="button" onClick={handleCopy} className="w-full rounded-full border border-border px-6 py-3 text-sm text-text-secondary">
+        <button type="button" onClick={handleCopy} className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm text-text-secondary transition-transform active:scale-95">
+          <Copy size={20} className="text-accent" />
           {copyLabel}
         </button>
       </div>

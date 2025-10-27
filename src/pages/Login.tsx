@@ -19,7 +19,7 @@ export function Login() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background px-6 text-center text-text-primary">
-      <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-border bg-surface shadow-surface">
+      <div className="flex h-20 w-20 items-center justify-center rounded-xl border border-light bg-surface-glass shadow-2xl backdrop-blur-lg">
         <WalletIllustration width={48} height={48} className="text-accent" />
       </div>
       <div className="space-y-2">
@@ -39,7 +39,7 @@ export function Login() {
               window.alert(t('signError'));
             }
           }}
-          className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast disabled:opacity-60"
+          className="rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-transform disabled:opacity-60 active:scale-95"
         >
           {t('signTest')}
         </button>

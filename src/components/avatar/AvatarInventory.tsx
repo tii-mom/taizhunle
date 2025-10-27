@@ -14,7 +14,7 @@ type Props = {
 
 export function AvatarInventory({ heading, items, empty }: Props) {
   return (
-    <section className="space-y-4 rounded-3xl border border-border bg-surface p-6 shadow-surface">
+    <section className="space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
       <h2 className="text-xl font-semibold text-text-primary">{heading}</h2>
       {items.length === 0 ? (
         <p className="rounded-2xl border border-border/60 bg-background/40 px-4 py-6 text-center text-sm text-text-secondary">{empty}</p>

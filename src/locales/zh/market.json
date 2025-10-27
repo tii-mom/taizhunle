@@ -10,7 +10,10 @@
   "betUnavailable": "请先连接钱包再下注。",
   "card": {
     "oddsLabel": "赔率",
-    "volumeLabel": "奖池规模"
+    "volumeLabel": "奖池规模",
+    "swipe": "左右滑动查看更多",
+    "longPress": "长按快速下注",
+    "quickBet": "快速下注"
   },
   "cards": [
     "btc|live|BTC 于周五前突破 8 万美元|宏观利好与社区情绪共振，押注者看涨。|实时赔率|1.42x|32,406 TAI",
