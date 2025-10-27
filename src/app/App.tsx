@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { TonConnectButton, useTonWallet } from '@tonconnect/ui-react';
+import { TonConnectButton } from '@tonconnect/ui-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 
 import { useTonSignature } from '../hooks/useTonWallet';
 import { useTheme } from '../providers/ThemeProvider';
@@ -15,12 +15,10 @@ import { EmptyState } from '../components/common/EmptyState';
 import { Logo } from '../components/common/Logo';
 import { PageLayout } from '../components/layout/PageLayout';
 import { useMarketsQuery, type MarketFilter } from '../services/markets';
-import confetti from 'canvas-confetti';
 
 export function App() {
   const { t, i18n } = useTranslation();
   const { mode, toggle } = useTheme();
-  const wallet = useTonWallet();
   useTelegramTheme();
   const { requestSignature, isReady } = useTonSignature();
   const { vibrate } = useHaptic();
@@ -59,138 +57,91 @@ export function App() {
 
   return (
     <PageLayout>
-      <header className="flex flex-col gap-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-4">
-            <Logo size="lg" />
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{t('market.badge')}</p>
-              <h1 className="text-3xl font-semibold">{t('market.heroTitle')}</h1>
-              <p className="text-text-secondary">{t('market.heroSubtitle')}</p>
-              <p className="text-sm text-text-secondary">
-                {wallet ? t('market.walletConnected', { address: wallet.account.address }) : t('market.walletEmpty')}
-              </p>
-            </div>
+      {/* Top Bar: Logo + Wallet + Theme + Language */}
+      <header className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border-light bg-surface-glass/60 p-4 backdrop-blur-md">
+        <Logo size="md" />
+        <div className="flex flex-wrap items-center gap-3">
+          <TonConnectButton />
+          <button
+            type="button"
+            onClick={() => {
+              vibrate();
+              toggle();
+            }}
+            className="rounded-full border border-border bg-background px-4 py-2 text-sm transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
+          >
+            {mode === 'light' ? '🌙' : '☀️'}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              vibrate();
+              handleLanguageSwitch();
+            }}
+            className="rounded-full border border-border bg-background px-4 py-2 text-sm transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
+          >
+            {i18n.language === 'zh' ? 'EN' : '中文'}
+          </button>
+        </div>
+      </header>
+
+      {/* Section 1: Top Aggregate (Pool + Whale Feed) */}
+      {allMarketsQuery.isLoading ? (
+        <article className="animate-pulse space-y-4 rounded-xl border border-border-light bg-surface-glass/60 p-6 backdrop-blur-md">
+          <div className="h-3 w-24 rounded bg-border" />
+          <div className="h-10 w-1/2 rounded bg-border" />
+          <div className="h-3 w-32 rounded bg-border" />
+        </article>
+      ) : allMarketsQuery.isError ? (
+        <article className="rounded-xl border border-border-light bg-surface-glass/60 p-6 text-text-secondary backdrop-blur-md">
+          {t('common.loadError')}
+        </article>
+      ) : (
+        <>
+          <TotalPool markets={allMarketsQuery.data ?? []} onWatch={() => setActiveFilter('live')} />
+          <WhaleFeed />
+        </>
+      )}
+
+      {/* Section 2: Expanded Predictions */}
+      <section className="space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="text-2xl font-extrabold tracking-tight text-text-primary drop-shadow-[0_0_10px_rgba(var(--accent),0.5)]">
+            {t('market.title')}
+          </h2>
+          <FilterToggle value={activeFilter} onChange={setActiveFilter} />
+        </div>
+
+        {marketsQuery.isLoading ? (
+          <div className="space-y-6">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <article
+                key={index}
+                className="animate-pulse space-y-4 rounded-2xl border border-border-light bg-surface-glass/60 p-6 backdrop-blur-md"
+              >
+                <div className="h-6 w-2/3 rounded bg-border" />
+                <div className="h-4 w-full rounded bg-border" />
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="h-32 rounded-xl bg-border" />
+                  <div className="h-32 rounded-xl bg-border" />
+                </div>
+              </article>
+            ))}
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <TonConnectButton />
-            <button
-              type="button"
-              onClick={() => {
-                vibrate();
-                toggle();
-              }}
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
-            >
-              {mode === 'light' ? t('app.theme.dark') : t('app.theme.light')}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                vibrate();
-                handleLanguageSwitch();
-              }}
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
-            >
-              {t('actions.toggleLanguage')}
-            </button>
+        ) : marketsQuery.isError ? (
+          <article className="rounded-2xl border border-border-light bg-surface-glass/60 p-6 text-text-secondary backdrop-blur-md">
+            {t('common.loadError')}
+          </article>
+        ) : cards.length === 0 ? (
+          <EmptyState type="market" />
+        ) : (
+          <div className="space-y-6">
+            {cards.map((card) => (
+              <ExpandedPrediction key={card.id} card={card} onPlaceBet={handlePlaceBet} />
+            ))}
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              to="/create"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:text-text-primary hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 md:hover:shadow-lg"
-            >
-              {t('market.cta.create')}
-            </Link>
-            <Link
-              to="/red-packet"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:text-text-primary hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 md:hover:shadow-lg"
-            >
-              {t('market.cta.packets')}
-            </Link>
-            <Link
-              to="/profile"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:text-text-primary hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 md:hover:shadow-lg"
-            >
-              {t('market.cta.profile')}
-            </Link>
-            <Link
-              to="/invite"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:text-text-primary hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 md:hover:shadow-lg"
-            >
-              {t('market.cta.invite')}
-            </Link>
-            <Link
-              to="/avatars"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:text-text-primary hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 md:hover:shadow-lg"
-            >
-              {t('market.cta.avatars')}
-            </Link>
-            <Link
-              to="/ranking"
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:text-text-primary hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 md:hover:shadow-lg"
-            >
-              {t('market.cta.ranking')}
-            </Link>
-          </div>
-        </header>
-
-        <section className="grid gap-4 md:grid-cols-[2fr,1fr]">
-          {allMarketsQuery.isLoading ? (
-            <article className="animate-pulse space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
-              <div className="h-3 w-24 rounded bg-border" />
-              <div className="h-10 w-1/2 rounded bg-border" />
-              <div className="h-3 w-32 rounded bg-border" />
-              <div className="h-10 w-40 rounded-full bg-border" />
-            </article>
-          ) : allMarketsQuery.isError ? (
-            <article className="rounded-xl border border-light bg-surface-glass p-6 text-text-secondary backdrop-blur-lg shadow-2xl">
-              {t('common.loadError')}
-            </article>
-          ) : (
-            <TotalPool markets={allMarketsQuery.data ?? []} onWatch={() => setActiveFilter('live')} />
-          )}
-        </section>
-
-        <WhaleFeed />
-
-
-
-        <section className="space-y-6 pt-4">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <h2 className="text-2xl font-semibold text-text-primary">{t('market.title')}</h2>
-            <FilterToggle value={activeFilter} onChange={setActiveFilter} />
-          </div>
-          {marketsQuery.isLoading ? (
-            <div className="space-y-4">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <article key={index} className="animate-pulse space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg">
-                  <div className="h-4 w-1/3 rounded bg-border" />
-                  <div className="h-6 w-2/3 rounded bg-border" />
-                  <div className="h-4 w-full rounded bg-border" />
-                  <div className="h-24 w-full rounded-2xl bg-border" />
-                  <div className="flex gap-3">
-                    <div className="h-10 w-24 rounded-full bg-border" />
-                    <div className="h-10 w-24 rounded-full bg-border" />
-                  </div>
-                </article>
-              ))}
-            </div>
-          ) : marketsQuery.isError ? (
-            <p className="rounded-xl border border-light bg-surface-glass p-6 text-text-secondary backdrop-blur-lg shadow-2xl">{t('common.loadError')}</p>
-          ) : cards.length === 0 ? (
-            <EmptyState type="market" />
-          ) : (
-            <div className="space-y-6">
-              {cards.map((card) => (
-                <ExpandedPrediction
-                  key={card.id}
-                  card={card}
-                  onPlaceBet={handlePlaceBet}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        )}
+      </section>
     </PageLayout>
   );
 }

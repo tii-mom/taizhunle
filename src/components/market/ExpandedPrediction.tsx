@@ -46,34 +46,39 @@ export function ExpandedPrediction({ card, onPlaceBet }: Props) {
   };
 
   return (
-    <article className="space-y-6 rounded-xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md">
+    <article className="space-y-6 rounded-2xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md">
       {/* Header */}
       <div className="space-y-3">
         <div className="flex items-start justify-between gap-3">
-          <div className="flex-1">
+          <div className="flex-1 space-y-2">
             <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">
               {card.status}
             </p>
             <Link
               to={`/detail/${card.id}`}
-              className="mt-1 block text-xl font-semibold text-text-primary hover:text-accent"
+              className="block text-2xl font-extrabold tracking-tight text-text-primary drop-shadow-[0_0_10px_rgba(var(--accent),0.5)] hover:text-accent xs:text-3xl"
               title={card.title}
             >
               {truncateText(card.title, 60)}
             </Link>
-            <p className="mt-1 text-sm text-text-secondary" title={card.description}>
+            <p
+              className="text-lg text-text-secondary drop-shadow-[0_0_8px_rgba(var(--accent),0.4)] xs:text-xl"
+              title={card.description}
+            >
               {truncateText(card.description, 120)}
             </p>
           </div>
-          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs text-text-secondary">
+          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-semibold text-text-secondary">
             {card.filter === 'closed' ? t('badges.settled') : t('badges.live')}
           </span>
         </div>
 
         {/* Pool */}
         <div className="rounded-xl border border-accent/30 bg-accent/5 p-4 text-center backdrop-blur-sm">
-          <p className="text-xs uppercase tracking-wide text-text-secondary">{t('pool.label')}</p>
-          <p className="font-mono text-3xl font-semibold text-accent drop-shadow-[0_0_10px_rgba(var(--accent),0.5)]">
+          <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">
+            {t('pool.label')}
+          </p>
+          <p className="font-mono text-3xl font-bold text-accent drop-shadow-[0_0_10px_rgba(var(--accent),0.5)]">
             {formatTAI(animatedPool)} TAI
           </p>
         </div>

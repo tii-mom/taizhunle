@@ -281,3 +281,113 @@ npm run db:push          # 推送 schema 到远程
 **版本**: v3.1.0  
 **状态**: ✅ 生产就绪  
 **交付时间**: 2025-10-27
+
+
+---
+
+# 🎯 展开式预测卡片 - 阶段 4 完成
+
+## ✅ 新增功能（v3.1 → v3.3）
+
+### 📊 统计
+- **49 个文件变更**，新增 **4,755 行代码**
+- **2 个新组件** + **2 个新 Hooks**
+- **去除轮播** + **展开式布局** + **动态赔率**
+
+### ✨ 核心功能
+
+#### 展开式预测卡片
+- ✅ 去除轮播，改为垂直展开式布局
+- ✅ 标题/描述：智能截断 + title 属性
+- ✅ 是/否按钮：玻璃质感 + 发光环 hover
+- ✅ 实时动态赔率（每 3 秒刷新）
+- ✅ 发光文字 + 脉冲动画
+- ✅ 奖池：等宽数字 + useCountUp 滚动
+- ✅ 下注区：玻璃输入框 + 预计收益
+
+#### 动态赔率系统
+- ✅ 公式：`(总奖池 + 本笔) / (对立面 + 本笔)`
+- ✅ 实时刷新：每 3 秒自动更新
+- ✅ 发光变化：`animate-pulse-glow`（2 次循环）
+- ✅ 波动提示：±x.x% 玻璃标签
+- ✅ 预计收益：实时计算显示
+
+#### 实时下注数据
+- ✅ 最新下注：跑马灯动画（20s 循环）
+- ✅ 成交统计：3 个指标（总下注/成交量/参与人数）
+- ✅ useCountUp 滚动动画
+- ✅ 每 5 秒自动刷新
+
+#### 下注流程优化
+- ✅ 触觉反馈：`navigator.vibrate(10)`
+- ✅ 成功礼花：`canvas-confetti`
+- ✅ 错误抖动：`animate-shake`
+- ✅ 按压效果：`active:scale-95`
+
+### 🎨 新增动画
+
+#### Tailwind 配置
+```javascript
+animation: {
+  'marquee': 'marquee 20s linear infinite',
+  'pulse-glow': 'pulse-glow 0.5s ease-in-out 2',
+}
+```
+
+#### 发光效果
+```css
+drop-shadow-[0_0_10px_rgba(var(--accent),0.5)]
+hover:ring-2 hover:ring-accent/50
+```
+
+### 🌐 国际化更新
+
+#### 新增翻译键
+- `yes` / `no` - 是/否
+- `pool.label` - 奖池总额
+- `odds.label` - 实时赔率
+- `bet.*` - 下注相关（金额/确认/提交中/预计收益）
+- `live.*` - 实时数据（总下注/成交量/参与人数/最新下注）
+
+### 📦 新增文件
+
+#### 组件（2 个）
+1. `src/components/market/ExpandedPrediction.tsx` - 展开式预测卡片
+2. `src/components/market/LiveBetting.tsx` - 实时下注数据
+
+#### Hooks（2 个）
+1. `src/hooks/useDynamicOdds.ts` - 动态赔率计算
+2. `src/hooks/useLiveBetting.ts` - 实时下注数据
+
+### 🔄 主要变更
+
+#### 移除
+- ❌ `MarketCardSwiper` - 轮播组件（已弃用）
+- ❌ 横向滑动交互
+- ❌ 长按快速下注
+
+#### 新增
+- ✅ 垂直展开式布局
+- ✅ 是/否二选一交互
+- ✅ 实时赔率计算
+- ✅ 跑马灯最新下注
+
+### ✅ 质量保证
+```bash
+npm run lint   # ✅ 0 error
+npm run build  # ✅ 0 error
+```
+
+### 🏷️ Git Tag
+```bash
+git tag -a ui-final-v3.3 -m "展开式预测完成，动态赔率终锁"
+```
+
+---
+
+## 一句话总结
+**展开式预测完成，动态赔率终锁，去除轮播改为垂直展开，实时刷新，0 error，打 tag ui-final-v3.3！**
+
+**版本**: v3.3.0  
+**状态**: ✅ 生产就绪  
+**交付时间**: 2025-10-27
