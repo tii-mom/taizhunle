@@ -71,5 +71,25 @@
     "empty": "Whale activity updates every few minutes.",
     "entry": "{{user}} placed {{amount}} TAI {{direction}} on {{market}}.",
     "title": "Whale alerts"
+  },
+  "yes": "Yes",
+  "no": "No",
+  "pool": {
+    "label": "Total Pool"
+  },
+  "odds": {
+    "label": "Live Odds"
+  },
+  "bet": {
+    "amountLabel": "Bet Amount (TAI)",
+    "confirm": "Confirm Bet",
+    "submitting": "Submitting...",
+    "projected": "Projected Return"
+  },
+  "live": {
+    "totalBets": "Total Bets",
+    "volume": "Volume",
+    "bettors": "Bettors",
+    "recentBets": "Recent Bets"
   }
 }

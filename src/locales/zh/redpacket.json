@@ -60,5 +60,34 @@
   "toasts": {
     "buy": "购买请求已发送",
     "claim": "领取请求已提交"
+  },
+  "sale": {
+    "title": "红包销售",
+    "subtitle": "限时特惠红包，先到先得",
+    "priceLabel": "当前价格",
+    "countdownLabel": "剩余时间",
+    "accelerateTime": "20:00-24:00",
+    "progressLabel": "销售进度",
+    "soldOut": "已售罄",
+    "buyAlert": "购买功能开发中",
+    "stats": {
+      "base": "基础金额",
+      "max": "最高金额",
+      "split": "裂变系数"
+    }
+  },
+  "official": {
+    "title": "官方雨露",
+    "subtitle": "每日定时发放，活跃用户专享",
+    "amountLabel": "单份金额",
+    "remaining": "剩余 {{count}} 份",
+    "nextLabel": "下轮开始",
+    "ticketLabel": "参与门票",
+    "claimAlert": "领取功能开发中",
+    "notice": "抢完后将在频道置顶通知下轮时间",
+    "requirements": {
+      "purchased": "已购买过红包",
+      "active": "近 3 天频道发言"
+    }
   }
 }

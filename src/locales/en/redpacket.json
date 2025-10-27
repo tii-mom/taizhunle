@@ -60,5 +60,34 @@
   "toasts": {
     "buy": "Bundle request sent",
     "claim": "Claim request queued"
+  },
+  "sale": {
+    "title": "Red Packet Sale",
+    "subtitle": "Limited time offer, first come first served",
+    "priceLabel": "Current Price",
+    "countdownLabel": "Time Remaining",
+    "accelerateTime": "8PM-12AM",
+    "progressLabel": "Sales Progress",
+    "soldOut": "Sold Out",
+    "buyAlert": "Purchase feature in development",
+    "stats": {
+      "base": "Base Amount",
+      "max": "Max Amount",
+      "split": "Split Rate"
+    }
+  },
+  "official": {
+    "title": "Official Rain",
+    "subtitle": "Daily scheduled drops for active users",
+    "amountLabel": "Amount per Share",
+    "remaining": "{{count}} shares remaining",
+    "nextLabel": "Next Round",
+    "ticketLabel": "Entry Ticket",
+    "claimAlert": "Claim feature in development",
+    "notice": "Next round time will be pinned in channel after sold out",
+    "requirements": {
+      "purchased": "Purchased red packet before",
+      "active": "Active in channel (last 3 days)"
+    }
   }
 }

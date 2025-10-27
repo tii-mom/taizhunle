@@ -71,5 +71,25 @@
     "empty": "鲸鱼动态每几分钟更新一次。",
     "entry": "{{user}} 押 {{amount}} TAI {{direction}} {{market}}。",
     "title": "鲸鱼提醒"
+  },
+  "yes": "是",
+  "no": "否",
+  "pool": {
+    "label": "奖池总额"
+  },
+  "odds": {
+    "label": "实时赔率"
+  },
+  "bet": {
+    "amountLabel": "下注金额（TAI）",
+    "confirm": "确认下注",
+    "submitting": "提交中...",
+    "projected": "预计收益"
+  },
+  "live": {
+    "totalBets": "总下注",
+    "volume": "成交量",
+    "bettors": "参与人数",
+    "recentBets": "最新下注"
   }
 }

@@ -10,11 +10,12 @@ import { useTelegramTheme } from '../hooks/useTelegramTheme';
 import { FilterToggle } from '../components/market/FilterToggle';
 import { TotalPool } from '../components/market/TotalPool';
 import { WhaleFeed } from '../components/market/WhaleFeed';
-import { MarketCardSwiper } from '../components/market/MarketCardSwiper';
+import { ExpandedPrediction } from '../components/market/ExpandedPrediction';
 import { EmptyState } from '../components/common/EmptyState';
 import { Logo } from '../components/common/Logo';
 import { PageLayout } from '../components/layout/PageLayout';
-import { useMarketsQuery, type MarketCard, type MarketFilter } from '../services/markets';
+import { useMarketsQuery, type MarketFilter } from '../services/markets';
+import confetti from 'canvas-confetti';
 
 export function App() {
   const { t, i18n } = useTranslation();
@@ -31,43 +32,30 @@ export function App() {
 
   const handleLanguageSwitch = () => void i18n.changeLanguage(i18n.language === 'en' ? 'zh' : 'en');
 
-  const handlePlaceBet = async (card: MarketCard) => {
+  const handlePlaceBet = async (side: 'yes' | 'no', amount: number) => {
     if (!isReady) {
-      window.alert(t('market.bet.unavailable'));
+      window.alert(t('market.betUnavailable'));
       return;
     }
     try {
-      await requestSignature(t('market.bet.signature', { market: card.id }));
-      window.alert(t('market.bet.queued'));
+      vibrate(10);
+      await requestSignature(t('market.betSignature', { market: `${side}-${amount}` }));
+      
+      // Success confetti
+      void confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+      
+      window.alert(t('market.betQueued'));
     } catch (error) {
       console.error(error);
-      window.alert(t('market.bet.failed'));
+      window.alert(t('market.betFailed'));
     }
   };
 
-  const handleShare = async (card: MarketCard) => {
-    const sharePayload = t('market.share.text', {
-      title: card.title,
-      odds: card.odds,
-      volume: card.volume,
-    });
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: t('market.share.title'), text: sharePayload });
-        window.alert(t('market.share.copied'));
-        return;
-      }
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(sharePayload);
-        window.alert(t('market.share.copied'));
-        return;
-      }
-      window.alert(t('market.share.failed'));
-    } catch (error) {
-      console.error(error);
-      window.alert(t('market.share.failed'));
-    }
-  };
+
 
   return (
     <PageLayout>
@@ -192,12 +180,15 @@ export function App() {
           ) : cards.length === 0 ? (
             <EmptyState type="market" />
           ) : (
-            <MarketCardSwiper
-              cards={cards}
-              onPlaceBet={handlePlaceBet}
-              onShare={handleShare}
-              isReady={isReady}
-            />
+            <div className="space-y-6">
+              {cards.map((card) => (
+                <ExpandedPrediction
+                  key={card.id}
+                  card={card}
+                  onPlaceBet={handlePlaceBet}
+                />
+              ))}
+            </div>
           )}
         </section>
     </PageLayout>

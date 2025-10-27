@@ -28,6 +28,20 @@ export default {
       backdropBlur: {
         glass: 'var(--backdrop-blur)',
       },
+      animation: {
+        'marquee': 'marquee 20s linear infinite',
+        'pulse-glow': 'pulse-glow 0.5s ease-in-out 2',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+          '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+        },
+      },
     },
   },
   plugins: [],
