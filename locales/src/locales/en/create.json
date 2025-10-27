@@ -1,0 +1,34 @@
+{
+  "buttons": {
+    "cancel": "Cancel",
+    "cancelled": "Action cancelled",
+    "submit": "Submit"
+  },
+  "errors": {
+    "closesAt": "Select a closing time",
+    "maxStake": "Maximum stake must exceed minimum",
+    "minStake": "Minimum stake must be positive",
+    "title": "Please enter a title"
+  },
+  "fields": {
+    "closesAt": "Closes at",
+    "maxStake": "Maximum stake",
+    "minStake": "Minimum stake",
+    "title": "Title"
+  },
+  "form": {
+    "hint": "Define the market parameters before requesting on-chain approval.",
+    "rangePreview": "Stake window: {{min}} - {{max}} TAI",
+    "submitSuccess": "Prediction draft saved"
+  },
+  "schedule": {
+    "items": [
+      "Define your market question",
+      "Set a closing time",
+      "Publish to Telegram"
+    ],
+    "title": "Timeline"
+  },
+  "subtitle": "Launch a market draft and share it with your Telegram audience.",
+  "title": "Create prediction"
+}

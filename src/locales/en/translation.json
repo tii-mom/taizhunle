@@ -1,0 +1,81 @@
+{
+  "title": "Taizhunle V3",
+  "fallback": {
+    "message": ""
+  },
+  "cards": [
+    "btc|live|BTC crosses $80k before Friday|Community sentiment aligns with macro catalysts.|Live odds|1.42x|32,406 TAI",
+    "eth|live|ETH staking APY drops under 3%|Validators react to upcoming network upgrades.|Live odds|3.10x|12,887 TAI",
+    "ton|closed|TON TVL hits all-time high|Layer-1 incentives draw whales back to TON.|Settled odds|9.30x|5,204 TAI"
+  ],
+  "app": {
+    "theme": {
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "actions": {
+    "toggleLanguage": "Switch language"
+  },
+  "market": {
+    "badge": "Day-2 launch",
+    "heroTitle": "Prediction market overview",
+    "heroSubtitle": "Track live pools, filter opportunities, and watch the whales before taking positions.",
+    "walletConnected": "Trading wallet connected: {{address}}",
+    "walletEmpty": "Connect TonConnect button to sync trading balances.",
+    "filters": ["All", "Live", "Closed", "My bets"],
+    "filterTitle": "Filter predictions",
+    "filterDescription": "Use the toggles to scan active cards by their status.",
+    "empty": "No markets match the filter yet. Try another view.",
+    "badges": {
+      "live": "Live now",
+      "settled": "Settled"
+    },
+    "card": {
+      "oddsLabel": "Odds",
+      "volumeLabel": "Pool volume"
+    },
+    "realtime": {
+      "title": "Live prize pool",
+      "subtitle": "Auto refresh every 3 seconds to mirror the latest matched orders.",
+      "poolBase": "1200000",
+      "poolIncrement": "37",
+      "poolUnit": "TAI",
+      "ticker": [
+        "Whale Amber placed 12,000 TAI on BTC 80k before Friday.",
+        "DeepBlue added 8,500 TAI backing TON TVL all-time high.",
+        "Validator Yun hedged 4,200 TAI on ETH APY softness."
+      ]
+    },
+    "whales": {
+      "title": "Whale alerts",
+      "cta": "Watch whales",
+      "empty": "Whale activity updates every few minutes."
+    },
+    "watchPrompt": "Whale alerts queued. Keep Telegram notifications on.",
+    "cta": {
+      "watch": "Watch whales",
+      "create": "Create market",
+      "packets": "Open red packets",
+      "profile": "Profile center",
+      "invite": "Invite rewards",
+      "avatars": "Avatar market",
+      "ranking": "Rankings",
+      "enter": "Enter market",
+      "place": "Place bet",
+      "share": "Share update"
+    },
+    "bet": {
+      "unavailable": "Connect wallet to place bets.",
+      "signature": "Taizhunle bet handshake: {{market}}",
+      "queued": "Bet request sent to wallet.",
+      "failed": "Wallet rejected the bet request."
+    },
+    "share": {
+      "text": "{{title}} @ {{odds}} | Pool {{volume}}",
+      "title": "Taizhunle highlight",
+      "copied": "Share text ready to send.",
+      "failed": "Unable to share now. Try again later."
+    }
+  }
+}

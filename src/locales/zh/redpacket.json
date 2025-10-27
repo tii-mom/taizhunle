@@ -1,0 +1,64 @@
+{
+  "actions": {
+    "buy": "购买礼包",
+    "claim": "领取所选"
+  },
+  "columns": {
+    "claimed": "已领",
+    "expiry": "有效期",
+    "status": "状态",
+    "value": "总额"
+  },
+  "empty": "暂时还没有红包，下一波活动敬请期待。",
+  "lists": {
+    "community": [
+      {
+        "claimed": "1,680 TAI",
+        "description": "TON 开发者 AMA 参与者共享红包。",
+        "expiry": "6 小时",
+        "id": "com-1",
+        "status": "进行中",
+        "title": "TON Builders",
+        "value": "2,400 TAI"
+      }
+    ],
+    "official": [
+      {
+        "badge": "推荐",
+        "claimed": "3,200 TAI",
+        "description": "面向全球 Telegram 分区的推广红包。",
+        "expiry": "23 小时",
+        "id": "off-1",
+        "status": "进行中",
+        "title": "上线庆典",
+        "value": "5,000 TAI"
+      }
+    ],
+    "personal": [
+      {
+        "claimed": "400 TAI",
+        "description": "连续 7 天预测完成后获得。",
+        "expiry": "12 小时",
+        "id": "per-1",
+        "status": "可领取",
+        "title": "每日连胜",
+        "value": "700 TAI"
+      }
+    ]
+  },
+  "marquee": [
+    "Amber 向观鲸小队发出 1,000 TAI 红包。",
+    "Validator Yun 完成每周连击奖励领取。"
+  ],
+  "subtitle": "官方与社区联合发放庆祝红包，奖励活跃的 TAI 伙伴。",
+  "tabs": {
+    "community": "公共红包",
+    "official": "官方红包",
+    "personal": "我的红包"
+  },
+  "title": "红包中心",
+  "toasts": {
+    "buy": "购买请求已发送",
+    "claim": "领取请求已提交"
+  }
+}

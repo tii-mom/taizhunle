@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "copy": "Copy invite code"
+  },
+  "rewards": {
+    "highlight": "Reward tiers",
+    "note": "Snapshot updates hourly",
+    "tiers": [
+      "Tier 1|5% rebate",
+      "Tier 2|8% rebate",
+      "Tier 3|12% rebate"
+    ]
+  },
+  "subtitle": "Share your code, grow the community, and collect TAI rebates in real time.",
+  "summary": {
+    "code": "TAI-AMBER-88",
+    "stats": [
+      "Referral overview",
+      "Invite & earn",
+      "Invite code",
+      "Share this code with your Telegram friends to unlock rewards.",
+      "Total invites: 128",
+      "Active traders: 64",
+      "Pending bonuses: 420 TAI"
+    ]
+  },
+  "title": "Invite earnings",
+  "toasts": {
+    "copied": "Invite link copied",
+    "withdraw": "Withdrawal request sent"
+  },
+  "withdraw": {
+    "action": "Withdraw now",
+    "balance": "1,280 TAI",
+    "description": "Withdraw confirmed rebates to your connected TON wallet.",
+    "heading": "Claim earnings",
+    "note": "Minimum withdrawal 50 TAI, processing within 24h."
+  }
+}

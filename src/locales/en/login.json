@@ -1,0 +1,5 @@
+{
+  "signTest": "Sign demo",
+  "signSuccess": "Signature accepted",
+  "signError": "Signature failed"
+}

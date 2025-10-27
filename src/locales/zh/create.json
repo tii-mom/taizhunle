@@ -1,0 +1,34 @@
+{
+  "buttons": {
+    "cancel": "取消",
+    "cancelled": "操作取消",
+    "submit": "提交"
+  },
+  "errors": {
+    "closesAt": "请选择封盘时间",
+    "maxStake": "最大下注需不小于最小值",
+    "minStake": "最小下注需大于零",
+    "title": "请输入预测标题"
+  },
+  "fields": {
+    "closesAt": "封盘时间",
+    "maxStake": "最大下注",
+    "minStake": "最小下注",
+    "title": "预测标题"
+  },
+  "form": {
+    "hint": "完善市场参数，稍后可发起链上请求。",
+    "rangePreview": "下注区间：{{min}} - {{max}} TAI",
+    "submitSuccess": "草稿已保存"
+  },
+  "schedule": {
+    "items": [
+      "明确预测问题",
+      "设定封盘时间",
+      "同步到 Telegram"
+    ],
+    "title": "时间规划"
+  },
+  "subtitle": "发布草稿并在 Telegram 社群中分享。",
+  "title": "创建预测"
+}

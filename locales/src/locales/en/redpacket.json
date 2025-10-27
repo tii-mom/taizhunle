@@ -1,0 +1,64 @@
+{
+  "actions": {
+    "buy": "Purchase bundle",
+    "claim": "Claim selected"
+  },
+  "columns": {
+    "claimed": "Claimed",
+    "expiry": "Expires",
+    "status": "Status",
+    "value": "Value"
+  },
+  "empty": "No packets yet. Check back after the next drop.",
+  "lists": {
+    "community": [
+      {
+        "claimed": "1,680 TAI",
+        "description": "Shared packet for TON developer AMA attendees.",
+        "expiry": "6h",
+        "id": "com-1",
+        "status": "Live",
+        "title": "TON builders guild",
+        "value": "2,400 TAI"
+      }
+    ],
+    "official": [
+      {
+        "badge": "Featured",
+        "claimed": "3,200 TAI",
+        "description": "Global promo across Telegram regions.",
+        "expiry": "23h",
+        "id": "off-1",
+        "status": "Live",
+        "title": "Launch celebration",
+        "value": "5,000 TAI"
+      }
+    ],
+    "personal": [
+      {
+        "claimed": "400 TAI",
+        "description": "Earned by completing 7-day prediction streak.",
+        "expiry": "12h",
+        "id": "per-1",
+        "status": "Ready",
+        "title": "My daily streak",
+        "value": "700 TAI"
+      }
+    ]
+  },
+  "marquee": [
+    "Amber gifted 1,000 TAI to the whale watch crew.",
+    "Validator Yun claimed the weekly streak reward."
+  ],
+  "subtitle": "Distribute celebratory TAI packets across official and community campaigns.",
+  "tabs": {
+    "community": "Community",
+    "official": "Official",
+    "personal": "My packets"
+  },
+  "title": "Red packet center",
+  "toasts": {
+    "buy": "Bundle request sent",
+    "claim": "Claim request queued"
+  }
+}

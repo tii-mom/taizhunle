@@ -1,0 +1,50 @@
+{
+  "achievements": {
+    "items": [
+      "Completed 5/5 weekly prediction quests.",
+      "Shared three markets with Telegram community.",
+      "Held streak bonus for 14 days."
+    ]
+  },
+  "blindbox": {
+    "description": "Open a blind box to reveal limited edition avatars and seasonal frames.",
+    "heading": "Avatar blind box",
+    "notice": "Each blind box consumes 50 TAI. Rewards drop into your avatar inventory immediately.",
+    "open": "Open blind box"
+  },
+  "milestones": {
+    "empty": "No achievements yet. Join a prediction to start earning badges.",
+    "heading": "Progress tracker",
+    "labels": [
+      "Progress overview",
+      "Journey milestone",
+      "Completion: {{value}}",
+      "Recent achievements"
+    ],
+    "progress": {
+      "current": "4820",
+      "target": "6000"
+    }
+  },
+  "subtitle": "Track your journey, unlock titles, and open blind boxes for avatar drops.",
+  "title": "Player profile",
+  "titles": {
+    "active": "Active: Market Oracle",
+    "heading": "My titles",
+    "list": [
+      "Market Oracle",
+      "Liquidity Scout",
+      "Telegram Herald",
+      "Whale Whisperer",
+      "DeFi Cartographer",
+      "Prediction Scholar"
+    ]
+  },
+  "user": {
+    "exp": "Experience|4,820 / 6,000",
+    "level": "Level|Legendary tier",
+    "name": "Amber Whale",
+    "nextLevel": "Next unlock|Legendary tier II",
+    "streak": "Streak: 21 days"
+  }
+}

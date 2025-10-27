@@ -1,0 +1,101 @@
+{
+  "cards": [
+    {
+      "change": "+3.4%",
+      "description": "短线能否触及八万？",
+      "id": "btc",
+      "liquidity": "18,500 TAI",
+      "odds": "1.42x",
+      "statusKey": "live",
+      "title": "比特币冲高",
+      "trend": "up",
+      "volume": "32,406 TAI"
+    },
+    {
+      "change": "-1.1%",
+      "description": "APY 是否走低？",
+      "id": "eth",
+      "liquidity": "9,400 TAI",
+      "odds": "2.10x",
+      "statusKey": "live",
+      "title": "以太收益",
+      "trend": "down",
+      "volume": "12,887 TAI"
+    }
+  ],
+  "cta": {
+    "bet": "提交下注",
+    "share": "分享"
+  },
+  "fallback": {
+    "change": "0.0%",
+    "description": "暂时无法加载该盘口。",
+    "id": "fallback",
+    "liquidity": "0 TAI",
+    "odds": "1.00x",
+    "statusKey": "pending",
+    "title": "盘口暂不可用",
+    "trend": "up",
+    "volume": "0 TAI"
+  },
+  "history": "最新下注",
+  "historyColumns": {
+    "amount": "注额",
+    "side": "方向",
+    "time": "时间",
+    "user": "参与者"
+  },
+  "historyEmpty": "暂无下注记录",
+  "metrics": {
+    "change": "当日波动 {{value}}",
+    "liquidity": "流动性 {{value}}",
+    "odds": "赔率 {{value}}",
+    "volume": "成交 {{value}}"
+  },
+  "modal": {
+    "amount": "下注金额",
+    "amountError": "至少投注 1 TAI",
+    "cancel": "取消",
+    "confirm": "确认",
+    "note": "附加备注",
+    "noteError": "备注太长",
+    "success": "下注请求已发送",
+    "title": "确认下注"
+  },
+  "records": {
+    "btc": [
+      {
+        "amount": "2,500 TAI",
+        "side": "多头",
+        "time": "2 分钟",
+        "user": "Amber"
+      },
+      {
+        "amount": "1,100 TAI",
+        "side": "空头",
+        "time": "5 分钟",
+        "user": "Blue"
+      }
+    ],
+    "eth": [
+      {
+        "amount": "800 TAI",
+        "side": "多头",
+        "time": "3 分钟",
+        "user": "Validator"
+      }
+    ],
+    "fallback": []
+  },
+  "sharePrompt": "链接已复制",
+  "status": {
+    "live": "实时",
+    "pending": "加载中",
+    "settled": "已结算"
+  },
+  "title": "盘口详情",
+  "trend": {
+    "down": "热度回落",
+    "up": "热度上升"
+  }
+}

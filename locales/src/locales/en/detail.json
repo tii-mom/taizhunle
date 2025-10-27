@@ -1,0 +1,101 @@
+{
+  "cards": [
+    {
+      "change": "+3.4%",
+      "description": "Will BTC touch 80k?",
+      "id": "btc",
+      "liquidity": "18,500 TAI",
+      "odds": "1.42x",
+      "statusKey": "live",
+      "title": "Bitcoin surge",
+      "trend": "up",
+      "volume": "32,406 TAI"
+    },
+    {
+      "change": "-1.1%",
+      "description": "APY under pressure?",
+      "id": "eth",
+      "liquidity": "9,400 TAI",
+      "odds": "2.10x",
+      "statusKey": "live",
+      "title": "ETH yield",
+      "trend": "down",
+      "volume": "12,887 TAI"
+    }
+  ],
+  "cta": {
+    "bet": "Place bet",
+    "share": "Share"
+  },
+  "fallback": {
+    "change": "0.0%",
+    "description": "We could not load this market.",
+    "id": "fallback",
+    "liquidity": "0 TAI",
+    "odds": "1.00x",
+    "statusKey": "pending",
+    "title": "Market unavailable",
+    "trend": "up",
+    "volume": "0 TAI"
+  },
+  "history": "Latest bets",
+  "historyColumns": {
+    "amount": "Stake",
+    "side": "Side",
+    "time": "When",
+    "user": "Trader"
+  },
+  "historyEmpty": "No bets yet",
+  "metrics": {
+    "change": "{{value}} today",
+    "liquidity": "Liquidity {{value}}",
+    "odds": "Odds {{value}}",
+    "volume": "Volume {{value}}"
+  },
+  "modal": {
+    "amount": "Amount",
+    "amountError": "Enter at least 1 TAI",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "note": "Memo",
+    "noteError": "Memo too long",
+    "success": "Bet queued",
+    "title": "Send bet"
+  },
+  "records": {
+    "btc": [
+      {
+        "amount": "2,500 TAI",
+        "side": "Long",
+        "time": "2m",
+        "user": "Amber"
+      },
+      {
+        "amount": "1,100 TAI",
+        "side": "Short",
+        "time": "5m",
+        "user": "Blue"
+      }
+    ],
+    "eth": [
+      {
+        "amount": "800 TAI",
+        "side": "Long",
+        "time": "3m",
+        "user": "Validator"
+      }
+    ],
+    "fallback": []
+  },
+  "sharePrompt": "Link copied",
+  "status": {
+    "live": "Live",
+    "pending": "Pending",
+    "settled": "Settled"
+  },
+  "title": "Market detail",
+  "trend": {
+    "down": "Cooling",
+    "up": "Rising"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "blindbox": {
+    "claim": "开启盲盒",
+    "description": "必中稀有或传奇头像，开启后立即加入你的库存。",
+    "heading": "赛季盲盒",
+    "history": "查看掉落记录",
+    "logNotice": "盲盒记录将随下次版本一同上线",
+    "pool": "奖池概率：稀有 60% · 传奇 35% · 神话 5%",
+    "price": "消耗：75 TAI",
+    "toast": "盲盒请求已发送"
+  },
+  "filters": {
+    "list": [
+      "市场筛选",
+      "选择特征浏览赛季收藏。",
+      "all|全部",
+      "rare|稀有",
+      "legendary|传奇",
+      "event|活动"
+    ]
+  },
+  "inventory": {
+    "empty": "还没有头像，试着开启盲盒或前往市场交易。",
+    "heading": "我的头像库存",
+    "items": [
+      {
+        "id": "inv-01",
+        "image": "/avatars/avatar-004.png",
+        "name": "Whale Whisperer",
+        "rarity": "传奇"
+      },
+      {
+        "id": "inv-02",
+        "image": "/avatars/avatar-005.png",
+        "name": "DeFi Navigator",
+        "rarity": "稀有"
+      }
+    ]
+  },
+  "market": {
+    "empty": "暂未找到符合筛选的头像，稍后再来看看。",
+    "items": [
+      {
+        "id": "ava-01",
+        "image": "/avatars/avatar-001.png",
+        "name": "Sunrise Pilot",
+        "price": "120 TAI",
+        "rarity": "稀有",
+        "tags": [
+          "all",
+          "rare",
+          "event"
+        ],
+        "tradeLabel": "前往市场交易",
+        "tradeUrl": "https://market.taizhunle/ava-01"
+      },
+      {
+        "id": "ava-02",
+        "image": "/avatars/avatar-002.png",
+        "name": "Neon Diver",
+        "price": "340 TAI",
+        "rarity": "传奇",
+        "tags": [
+          "all",
+          "legendary"
+        ],
+        "tradeLabel": "前往市场交易",
+        "tradeUrl": "https://market.taizhunle/ava-02"
+      },
+      {
+        "id": "ava-03",
+        "image": "/avatars/avatar-003.png",
+        "name": "Telegram Herald",
+        "price": "90 TAI",
+        "rarity": "活动",
+        "tags": [
+          "all",
+          "event"
+        ],
+        "tradeLabel": "前往市场交易",
+        "tradeUrl": "https://market.taizhunle/ava-03"
+      }
+    ]
+  },
+  "subtitle": "收集限量头像，开启盲盒并交易稀有限定。",
+  "title": "头像市场"
+}

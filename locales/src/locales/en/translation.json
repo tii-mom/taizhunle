@@ -1,0 +1,117 @@
+{
+  "actions": {
+    "launch": "Open prediction hub",
+    "toggleLanguage": "Switch language",
+    "toggleTheme": "Toggle theme"
+  },
+  "app": {
+    "language": {
+      "chinese": "中文",
+      "english": "English",
+      "label": "Language"
+    },
+    "subtitle": "Predict. Connect. Celebrate.",
+    "theme": {
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "title": "Taizhunle V3"
+  },
+  "login": {
+    "badge": "Day-1 access",
+    "heroSubtitle": "Start the mini app session via Telegram and connect a TON wallet in one flow.",
+    "heroTitle": "Telegram login & Ton wallet",
+    "signAction": "Sign hello packet",
+    "statusTitle": "Deployment status",
+    "steps": [
+      "Open Taizhunle Mini App from the Telegram menu.",
+      "Review your Telegram account and confirm the wallet connection.",
+      "Return here anytime to manage your TON identity."
+    ],
+    "stepsTitle": "Get started",
+    "telegramConnected": "Signed in as {{name}}",
+    "telegramCta": "View Telegram guide",
+    "telegramDisconnected": "Launch from Telegram to finish login.",
+    "telegramTitle": "Telegram account",
+    "walletConnected": "Wallet ready: {{address}}",
+    "walletEmpty": "No wallet detected. Use TonConnect button to link one.",
+    "walletTitle": "TON wallet"
+  },
+  "market": {
+    "badge": "Day-2 launch",
+    "badges": {
+      "live": "Live now",
+      "settled": "Settled"
+    },
+    "betFailed": "Wallet rejected the bet request.",
+    "betQueued": "Bet request sent to wallet.",
+    "betSignature": "Taizhunle bet handshake: {{market}}",
+    "betUnavailable": "Connect wallet to place bets.",
+    "card": {
+      "oddsLabel": "Odds",
+      "volumeLabel": "Pool volume"
+    },
+    "cards": [
+      "btc|live|BTC crosses $80k before Friday|Community sentiment aligns with macro catalysts.|Live odds|1.42x|32,406 TAI",
+      "eth|live|ETH staking APY drops under 3%|Validators react to upcoming network upgrades.|Live odds|3.10x|12,887 TAI",
+      "ton|closed|TON TVL hits all-time high|Layer-1 incentives draw whales back to TON.|Settled odds|9.30x|5,204 TAI"
+    ],
+    "cta": {
+      "avatars": "Avatar market",
+      "create": "Create market",
+      "enter": "Enter market",
+      "invite": "Invite rewards",
+      "packets": "Open red packets",
+      "place": "Place bet",
+      "profile": "Profile center",
+      "ranking": "Rankings",
+      "share": "Share update",
+      "watch": "Watch whales"
+    },
+    "empty": "No markets match the filter yet. Try another view.",
+    "filterDescription": "Use the toggles to scan active cards by their status.",
+    "filterTitle": "Filter predictions",
+    "filters": [
+      "All",
+      "Live",
+      "Closed",
+      "My bets"
+    ],
+    "heroSubtitle": "Track live pools, filter opportunities, and watch the whales before taking positions.",
+    "heroTitle": "Prediction market overview",
+    "realtime": {
+      "poolBase": "1200000",
+      "poolIncrement": "37",
+      "poolUnit": "TAI",
+      "subtitle": "Auto refresh every 3 seconds to mirror the latest matched orders.",
+      "ticker": [
+        "Whale Amber placed 12,000 TAI on BTC 80k before Friday.",
+        "DeepBlue added 8,500 TAI backing TON TVL all-time high.",
+        "Validator Yun hedged 4,200 TAI on ETH APY softness."
+      ],
+      "title": "Live prize pool"
+    },
+    "shareCopied": "Share text ready to send.",
+    "shareFailed": "Unable to share now. Try again later.",
+    "shareText": "{{title}} @ {{odds}} | Pool {{volume}}",
+    "shareTitle": "Taizhunle highlight",
+    "walletConnected": "Trading wallet connected: {{address}}",
+    "walletEmpty": "Connect TonConnect button to sync trading balances.",
+    "watchPrompt": "Whale alerts queued. Keep Telegram notifications on.",
+    "whales": {
+      "cta": "Watch whales",
+      "empty": "Whale activity updates every few minutes.",
+      "title": "Whale alerts"
+    }
+  },
+  "status": {
+    "ready": "Day zero scaffold ready"
+  },
+  "wallet": {
+    "connected": "Connected: {{address}}",
+    "disconnected": "No wallet connected",
+    "heading": "Wallet status",
+    "openModal": "Manage wallet",
+    "signData": "Request signature"
+  }
+}

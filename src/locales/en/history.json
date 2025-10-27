@@ -1,0 +1,35 @@
+{
+  "appeal": "Submit appeal",
+  "appealNotice": "Support will review your appeal within 24 hours.",
+  "columns": [
+    "Referral",
+    "Volume",
+    "Status",
+    "Date"
+  ],
+  "empty": "No referral history yet. Once friends trade, their stats appear here.",
+  "heading": "Referral history",
+  "records": [
+    {
+      "amount": "2,400 TAI",
+      "date": "2025-10-10",
+      "id": "rec-1",
+      "status": "Confirmed",
+      "title": "Validator Yun"
+    },
+    {
+      "amount": "1,050 TAI",
+      "date": "2025-10-09",
+      "id": "rec-2",
+      "status": "Pending",
+      "title": "Whale Amber"
+    },
+    {
+      "amount": "900 TAI",
+      "date": "2025-10-07",
+      "id": "rec-3",
+      "status": "Rejected",
+      "title": "DeFi Scout"
+    }
+  ]
+}

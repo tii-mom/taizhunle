@@ -1,0 +1,41 @@
+{
+  "live": {
+    "columns": [
+      "#",
+      "玩家",
+      "积分",
+      "变化"
+    ],
+    "empty": "榜单正在加载。",
+    "entries": [
+      "1|Amber Whale|1,820 分|+32",
+      "2|Validator Yun|1,640 分|+20",
+      "3|DeFi Scout|1,505 分|+14",
+      "4|Neon Diver|1,402 分|+11",
+      "5|Sunrise Pilot|1,366 分|-4"
+    ],
+    "heading": "实时榜单",
+    "updatedAt": "每 60 秒刷新"
+  },
+  "share": {
+    "copy": "复制分享文案",
+    "description": "一键生成 SEO 友好文案。",
+    "generate": "生成分享文案",
+    "heading": "分享高光",
+    "seoDescription": "实时更新的预测达人，快来冲刺。",
+    "seoTitle": "太准了排行榜",
+    "template": "太准了排行榜 — 1) Amber Whale 2) Validator Yun 3) DeFi Scout"
+  },
+  "subtitle": "实时追踪顶级玩家、冲刺称谓并一键分享战绩。",
+  "title": "太准了排行榜",
+  "titles": {
+    "description": "完成连胜就能解锁赛季荣誉。",
+    "entries": [
+      "Market Oracle|距 Mythic 还差 72%|奖励：返利 +8%",
+      "Liquidity Scout|距 Elite 还差 54%|奖励：返利 +3%",
+      "Telegram Herald|距 Trailblazer 还差 38%|奖励：分享增幅",
+      "Whale Whisperer|距 Keeper 还差 25%|奖励：盲盒券"
+    ],
+    "heading": "称谓冲榜"
+  }
+}

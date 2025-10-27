@@ -1,0 +1,35 @@
+{
+  "appeal": "提交申诉",
+  "appealNotice": "客服将在 24 小时内反馈申诉结果。",
+  "columns": [
+    "被邀用户",
+    "交易量",
+    "状态",
+    "日期"
+  ],
+  "empty": "暂未产生返利记录，好友完成交易后会展示在此。",
+  "heading": "历史战绩",
+  "records": [
+    {
+      "amount": "2,400 TAI",
+      "date": "2025-10-10",
+      "id": "rec-1",
+      "status": "已确认",
+      "title": "Validator Yun"
+    },
+    {
+      "amount": "1,050 TAI",
+      "date": "2025-10-09",
+      "id": "rec-2",
+      "status": "处理中",
+      "title": "Whale Amber"
+    },
+    {
+      "amount": "900 TAI",
+      "date": "2025-10-07",
+      "id": "rec-3",
+      "status": "已驳回",
+      "title": "DeFi Scout"
+    }
+  ]
+}

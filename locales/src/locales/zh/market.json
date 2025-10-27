@@ -1,0 +1,67 @@
+{
+  "badge": "Day-2 启动",
+  "badges": {
+    "live": "实时",
+    "settled": "已结算"
+  },
+  "betFailed": "钱包拒绝了本次下注。",
+  "betQueued": "下注请求已发送至钱包。",
+  "betSignature": "太准了下注签名：{{market}}",
+  "betUnavailable": "请先连接钱包再下注。",
+  "card": {
+    "oddsLabel": "赔率",
+    "volumeLabel": "奖池规模"
+  },
+  "cards": [
+    "btc|live|BTC 于周五前突破 8 万美元|宏观利好与社区情绪共振，押注者看涨。|实时赔率|1.42x|32,406 TAI",
+    "eth|live|ETH 质押年化低于 3%|网络升级与需求变化影响质押收益。|实时赔率|3.10x|12,887 TAI",
+    "ton|closed|TON TVL 创历史新高|Layer-1 激励计划吸引鲸鱼回流 TON 生态。|已结算赔率|9.30x|5,204 TAI"
+  ],
+  "cta": {
+    "avatars": "头像市场",
+    "create": "创建盘口",
+    "enter": "进入盘口",
+    "invite": "邀请收益",
+    "packets": "打开红包",
+    "place": "提交下注",
+    "profile": "个人中心",
+    "ranking": "排行榜",
+    "share": "分享盘口",
+    "watch": "关注鲸鱼"
+  },
+  "empty": "暂无符合条件的市场，请尝试其他筛选。",
+  "filterDescription": "使用筛选器按状态查看预测卡片。",
+  "filterTitle": "筛选预测市场",
+  "filters": [
+    "全部",
+    "进行中",
+    "已结束",
+    "我的注单"
+  ],
+  "heroSubtitle": "关注实时奖池、过滤机会，并在下单前观察鲸鱼动向。",
+  "heroTitle": "预测市场概览",
+  "realtime": {
+    "poolBase": "1200000",
+    "poolIncrement": "37",
+    "poolUnit": "TAI",
+    "subtitle": "每 3 秒刷新一次，与最新撮合订单同步。",
+    "ticker": [
+      "鲸鱼 Amber 追加 12,000 TAI 押注 BTC 破 8 万。",
+      "DeepBlue 加注 8,500 TAI 支持 TON TVL 新高。",
+      "Validator 云补仓 4,200 TAI 对冲 ETH APY 下滑。"
+    ],
+    "title": "实时奖池"
+  },
+  "shareCopied": "分享文案已就绪。",
+  "shareFailed": "暂时无法分享，请稍后再试。",
+  "shareText": "{{title}} ｜ 赔率 {{odds}} ｜ 奖池 {{volume}}",
+  "shareTitle": "太准了热门盘口",
+  "walletConnected": "交易钱包已连接：{{address}}",
+  "walletEmpty": "请使用 TonConnect 按钮同步交易资产。",
+  "watchPrompt": "鲸鱼提醒已排队，记得保持 Telegram 推送开启。",
+  "whales": {
+    "cta": "关注鲸鱼",
+    "empty": "鲸鱼动态每几分钟更新一次。",
+    "title": "鲸鱼提醒"
+  }
+}
