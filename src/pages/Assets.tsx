@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { PageLayout } from '../components/layout/PageLayout';
 import { AssetHeader } from '../components/assets/AssetHeader';
+import { AssetTrendDashboard } from '../components/assets/AssetTrendDashboard';
 import { FinanceSections } from '../components/assets/FinanceSections';
 import { ActionBar } from '../components/assets/ActionBar';
 
@@ -16,6 +17,7 @@ export function Assets() {
         </header>
 
         <AssetHeader />
+        <AssetTrendDashboard />
         <FinanceSections />
         <ActionBar />
       </div>

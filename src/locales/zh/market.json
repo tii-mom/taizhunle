@@ -15,11 +15,20 @@
     "longPress": "长按快速下注",
     "quickBet": "快速下注"
   },
-  "cards": [
-    "btc|live|BTC 于周五前突破 8 万美元|宏观利好与社区情绪共振，押注者看涨。|实时赔率|1.42x|32,406 TAI",
-    "eth|live|ETH 质押年化低于 3%|网络升级与需求变化影响质押收益。|实时赔率|3.10x|12,887 TAI",
-    "ton|closed|TON TVL 创历史新高|Layer-1 激励计划吸引鲸鱼回流 TON 生态。|已结算赔率|9.30x|5,204 TAI"
-  ],
+  "cards": {
+    "btc": {
+      "title": "BTC 于周五前突破 8 万美元",
+      "description": "宏观利好与社区情绪共振，押注者看涨。"
+    },
+    "eth": {
+      "title": "ETH 质押年化低于 3%",
+      "description": "网络升级与需求变化影响质押收益。"
+    },
+    "ton": {
+      "title": "TON TVL 创历史新高",
+      "description": "Layer-1 激励计划吸引鲸鱼回流 TON 生态。"
+    }
+  },
   "cta": {
     "avatars": "头像市场",
     "create": "创建盘口",
@@ -42,7 +51,8 @@
     "我的注单"
   ],
   "heroSubtitle": "关注实时奖池、过滤机会，并在下单前观察鲸鱼动向。",
-  "heroTitle": "预测市场概览",
+  "heroTitle": "太准了--预测平台",
+  "title": "太准了--预测平台",
   "realtime": {
     "poolBase": "1200000",
     "poolIncrement": "37",
@@ -87,10 +97,11 @@
     "projected": "预计收益"
   },
   "live": {
-    "totalBets": "总下注",
-    "volume": "成交量",
+    "inviteRewards": "邀请收益",
+    "maxSingleBet": "最大单注",
     "bettors": "参与人数",
-    "recentBets": "最新下注"
+    "recentBets": "最新下注",
+    "minutesAgo": "分钟前"
   },
   "balance": {
     "label": "TAI 余额",

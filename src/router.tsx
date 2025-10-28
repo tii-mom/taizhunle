@@ -8,7 +8,6 @@ import { Assets } from './pages/Assets';
 import { RedPacketSale } from './pages/RedPacketSale';
 import { OfficialRain } from './pages/OfficialRain';
 import { Invite } from './pages/Invite';
-import { AvatarMarket } from './pages/AvatarMarket';
 import { Ranking } from './pages/Ranking';
 
 const AppPage = lazy(() => import('./app/App').then((module) => ({ default: module.App })));
@@ -56,7 +55,6 @@ export const router = createBrowserRouter([
       { path: 'assets/official', element: withWalletGuard(<OfficialRain />) },
       { path: 'profile', element: withWalletGuard(<ProfilePage />) },
       { path: 'invite', element: withWalletGuard(<Invite />) },
-      { path: 'avatars', element: withWalletGuard(<AvatarMarket />) },
       { path: 'ranking', element: withWalletGuard(<Ranking />) },
       { path: '*', element: <Navigate to="/" replace /> },
     ],

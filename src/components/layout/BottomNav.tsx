@@ -12,7 +12,7 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { key: 'home', path: '/', icon: Home },
-  { key: 'earnings', path: '/profile', icon: TrendingUp },
+  { key: 'earnings', path: '/invite', icon: TrendingUp },
   { key: 'create', path: '/create', icon: PlusCircle, highlight: true },
   { key: 'ranking', path: '/ranking', icon: Trophy },
   { key: 'assets', path: '/assets', icon: Wallet },

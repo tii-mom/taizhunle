@@ -26,39 +26,42 @@ export function BetModal({ open, title, confirmLabel, cancelLabel, amountLabel, 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { amount: 100, note: '' } });
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-text-primary/40 p-6">
-      <form className="w-full max-w-md space-y-4 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg" onSubmit={handleSubmit(async (values) => { await onSubmit(values); onClose(); })}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-text-primary/40 p-6 backdrop-blur-sm">
+      <form 
+        className="animate-in fade-in slide-in-from-bottom-4 w-full max-w-md space-y-4 rounded-2xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md duration-200" 
+        onSubmit={handleSubmit(async (values) => { await onSubmit(values); onClose(); })}
+      >
         <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
         <label className="block text-sm text-text-secondary">
           {amountLabel}
-          <div className="relative mt-1">
+          <div className="relative mt-2">
             <DollarSign size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-accent" />
             <input
               type="number"
               step="0.01"
-              className={`w-full rounded-xl border py-2 pl-10 pr-3 font-mono transition-all duration-200 focus:ring-2 focus:ring-accent/40 ${errors.amount ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+              className={`w-full rounded-xl border py-3 pl-10 pr-3 font-mono backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 ${errors.amount ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
               {...register('amount', { valueAsNumber: true })}
             />
           </div>
-          {errors.amount ? <span className="text-xs text-danger">{amountError}</span> : null}
+          {errors.amount ? <span className="mt-1 block text-xs text-danger">{amountError}</span> : null}
         </label>
         <label className="block text-sm text-text-secondary">
           {noteLabel}
           <textarea
             rows={2}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 ${errors.note ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+            className={`mt-2 w-full rounded-xl border px-3 py-2 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 ${errors.note ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
             {...register('note')}
           />
-          {errors.note ? <span className="text-xs text-danger">{noteError}</span> : null}
+          {errors.note ? <span className="mt-1 block text-xs text-danger">{noteError}</span> : null}
         </label>
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-end gap-3 pt-2">
           <button
             type="button"
             onClick={() => {
               vibrate();
               onClose();
             }}
-            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-text-secondary transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
+            className="inline-flex items-center gap-2 rounded-xl border border-border-light bg-surface-glass/60 px-4 py-2 text-sm text-text-primary backdrop-blur-md transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
             disabled={isSubmitting}
           >
             <X size={16} className="text-text-secondary" />
@@ -67,7 +70,7 @@ export function BetModal({ open, title, confirmLabel, cancelLabel, amountLabel, 
           <button
             type="submit"
             onClick={() => vibrate()}
-            className="rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-2 text-sm font-semibold text-accent-contrast shadow-lg shadow-accent/30 transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 disabled:opacity-60 md:hover:shadow-lg"
+            className="rounded-xl border border-border-light bg-gradient-to-r from-accent to-accent-light px-6 py-2 text-sm font-semibold text-accent-contrast shadow-lg transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 disabled:opacity-60"
             disabled={isSubmitting}
           >
             {confirmLabel}

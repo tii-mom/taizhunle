@@ -9,8 +9,9 @@ export type LiveBet = {
 };
 
 export type LiveStats = {
-  totalBets: number;
-  totalVolume: number;
+  inviteRewards: number;
+  maxSingleBet: number;
+  maxBetUser: string;
   uniqueBettors: number;
   recentBets: LiveBet[];
 };
@@ -20,30 +21,36 @@ async function fetchLiveBetting(_marketId: string): Promise<LiveStats> {
   // const response = await fetch(`/api/market/${marketId}/live`);
   // return response.json();
 
-  // Mock data
+  // Mock data - 实时更新
+  const baseInviteRewards = 8500 + Math.floor(Math.random() * 200);
+  const maxBetAmount = 12000 + Math.floor(Math.random() * 3000);
+  const maxBetUsers = ['pBlue', 'Validator Yun', 'Amber', 'DeepWhale', 'CryptoKing'];
+  const randomUser = maxBetUsers[Math.floor(Math.random() * maxBetUsers.length)];
+
   return {
-    totalBets: 1247,
-    totalVolume: 1000000,
-    uniqueBettors: 342,
+    inviteRewards: baseInviteRewards,
+    maxSingleBet: maxBetAmount,
+    maxBetUser: randomUser,
+    uniqueBettors: 342 + Math.floor(Math.random() * 10),
     recentBets: [
       {
         id: '1',
-        user: 'Amber',
-        amount: 12000,
-        side: 'yes',
+        user: 'pBlue',
+        amount: 8500,
+        side: 'no',
         timestamp: Date.now() - 1000 * 30,
       },
       {
         id: '2',
-        user: 'DeepBlue',
-        amount: 8500,
-        side: 'no',
+        user: 'Validator Yun',
+        amount: 4200,
+        side: 'yes',
         timestamp: Date.now() - 1000 * 60,
       },
       {
         id: '3',
-        user: 'Validator Yun',
-        amount: 4200,
+        user: 'Amber',
+        amount: 12000,
         side: 'yes',
         timestamp: Date.now() - 1000 * 90,
       },

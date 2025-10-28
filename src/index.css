@@ -103,6 +103,37 @@ select {
   animation: pulse-glow 0.5s ease-in-out 2;
 }
 
+/* Logo animations */
+.logo-live {
+  animation: logoSpin 20s linear infinite, logoBreathe 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.logo-live:hover {
+  animation-duration: 2s, 3s;
+}
+
+@keyframes logoSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes logoBreathe {
+  0%, 100% { 
+    box-shadow: 0 0 4px rgba(var(--color-accent), 0.2); 
+  }
+  50% { 
+    box-shadow: 0 0 12px 2px rgba(var(--color-accent), 0.4); 
+  }
+}
+
+/* Accessibility: disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-live { 
+    animation: none; 
+  }
+}
+
 /* Hide scrollbar */
 .scrollbar-hide {
   -ms-overflow-style: none;

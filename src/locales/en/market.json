@@ -15,11 +15,20 @@
     "longPress": "Long press to quick bet",
     "quickBet": "Quick Bet"
   },
-  "cards": [
-    "btc|live|BTC crosses $80k before Friday|Community sentiment aligns with macro catalysts.|Live odds|1.42x|32,406 TAI",
-    "eth|live|ETH staking APY drops under 3%|Validators react to upcoming network upgrades.|Live odds|3.10x|12,887 TAI",
-    "ton|closed|TON TVL hits all-time high|Layer-1 incentives draw whales back to TON.|Settled odds|9.30x|5,204 TAI"
-  ],
+  "cards": {
+    "btc": {
+      "title": "BTC crosses $80k before Friday",
+      "description": "Community sentiment aligns with macro catalysts."
+    },
+    "eth": {
+      "title": "ETH staking APY drops under 3%",
+      "description": "Validators react to upcoming network upgrades."
+    },
+    "ton": {
+      "title": "TON TVL hits all-time high",
+      "description": "Layer-1 incentives draw whales back to TON."
+    }
+  },
   "cta": {
     "avatars": "Avatar market",
     "create": "Create market",
@@ -42,7 +51,8 @@
     "My bets"
   ],
   "heroSubtitle": "Track live pools, filter opportunities, and watch the whales before taking positions.",
-  "heroTitle": "Prediction market overview",
+  "heroTitle": "Taizhunle--Prediction Platform",
+  "title": "Taizhunle--Prediction Platform",
   "realtime": {
     "poolBase": "1200000",
     "poolIncrement": "37",
@@ -87,10 +97,11 @@
     "projected": "Projected Return"
   },
   "live": {
-    "totalBets": "Total Bets",
-    "volume": "Volume",
+    "inviteRewards": "Invite Rewards",
+    "maxSingleBet": "Max Single Bet",
     "bettors": "Bettors",
-    "recentBets": "Recent Bets"
+    "recentBets": "Recent Bets",
+    "minutesAgo": "min ago"
   },
   "balance": {
     "label": "TAI Balance",

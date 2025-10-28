@@ -197,7 +197,7 @@ export function ExpandedPrediction({ card, onPlaceBet }: Props) {
       )}
 
       {/* Live Stats */}
-      <LiveBetting marketId={card.id} />
+      <LiveBetting marketId={card.id} variant="compact" />
     </article>
   );
 }

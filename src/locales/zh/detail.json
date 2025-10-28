@@ -1,24 +1,24 @@
 {
   "cards": [
     {
-      "change": "+3.4%",
-      "description": "短线能否触及八万？",
+      "change": "+0.6%",
+      "description": "宏观利好与社区情绪共振，押注者看涨。",
       "id": "btc",
       "liquidity": "18,500 TAI",
-      "odds": "1.42x",
+      "odds": "1.67x",
       "statusKey": "live",
-      "title": "比特币冲高",
+      "title": "BTC 于周五前突破 8 万美元",
       "trend": "up",
       "volume": "32,406 TAI"
     },
     {
-      "change": "-1.1%",
-      "description": "APY 是否走低？",
+      "change": "+-0.1%",
+      "description": "网络升级与需求变化影响质押收益。",
       "id": "eth",
       "liquidity": "9,400 TAI",
-      "odds": "2.10x",
+      "odds": "2.45x",
       "statusKey": "live",
-      "title": "以太收益",
+      "title": "ETH 质押年化低于 3%",
       "trend": "down",
       "volume": "12,887 TAI"
     }
@@ -65,24 +65,30 @@
   "records": {
     "btc": [
       {
-        "amount": "2,500 TAI",
-        "side": "多头",
-        "time": "2 分钟",
-        "user": "Amber"
+        "amount": "8,500 TAI",
+        "side": "空头",
+        "time": "3 分钟",
+        "user": "pBlue"
       },
       {
-        "amount": "1,100 TAI",
-        "side": "空头",
+        "amount": "4,200 TAI",
+        "side": "多头",
+        "time": "4 分钟",
+        "user": "Validator Yun"
+      },
+      {
+        "amount": "12,000 TAI",
+        "side": "多头",
         "time": "5 分钟",
-        "user": "Blue"
+        "user": "Amber"
       }
     ],
     "eth": [
       {
-        "amount": "800 TAI",
+        "amount": "14,849 TAI",
         "side": "多头",
         "time": "3 分钟",
-        "user": "Validator"
+        "user": "Validator Yun"
       }
     ],
     "fallback": []

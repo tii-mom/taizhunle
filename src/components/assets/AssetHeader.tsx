@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowUpRight, ArrowDownRight, RefreshCw } from 'lucide-react';
 import { useCountUp } from '../../hooks/useCountUp';
@@ -5,12 +6,16 @@ import { useTAIPrice } from '../../hooks/useTAIPrice';
 import { useAssetData } from '../../hooks/useAssetData';
 import { formatNumber } from '../../utils/format';
 import { useHaptic } from '../../hooks/useHaptic';
+import { TransactionModal } from './TransactionModal';
+
+type TransactionType = 'deposit' | 'withdraw' | 'exchange' | null;
 
 export function AssetHeader() {
   const { t } = useTranslation('assets');
   const { vibrate } = useHaptic();
   const { balance, change24h, isLoading, refetch } = useAssetData();
   const { price: taiPrice, isLoading: isPriceLoading } = useTAIPrice();
+  const [modalType, setModalType] = useState<TransactionType>(null);
 
   const animatedBalance = useCountUp(balance);
   const animatedPrice = useCountUp(taiPrice);
@@ -21,6 +26,17 @@ export function AssetHeader() {
   const handleRefresh = () => {
     vibrate();
     refetch();
+  };
+
+  const handleTransaction = (type: 'deposit' | 'withdraw' | 'exchange') => {
+    vibrate();
+    setModalType(type);
+  };
+
+  const handleTransactionSubmit = async (values: any) => {
+    // 实际项目中应该调用 API
+    console.log('Transaction:', modalType, values);
+    await new Promise(resolve => setTimeout(resolve, 1000));
   };
 
   return (
@@ -76,26 +92,35 @@ export function AssetHeader() {
       <div className="grid grid-cols-3 gap-3">
         <button
           type="button"
-          onClick={() => vibrate()}
+          onClick={() => handleTransaction('deposit')}
           className="group rounded-xl border border-border-light bg-surface-glass/60 px-4 py-3 text-sm font-medium text-text-primary backdrop-blur-md transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
         >
           {t('deposit')}
         </button>
         <button
           type="button"
-          onClick={() => vibrate()}
+          onClick={() => handleTransaction('withdraw')}
           className="group rounded-xl border border-border-light bg-surface-glass/60 px-4 py-3 text-sm font-medium text-text-primary backdrop-blur-md transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
         >
           {t('withdraw')}
         </button>
         <button
           type="button"
-          onClick={() => vibrate()}
+          onClick={() => handleTransaction('exchange')}
           className="group rounded-xl border border-border-light bg-surface-glass/60 px-4 py-3 text-sm font-medium text-text-primary backdrop-blur-md transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
         >
           {t('exchange')}
         </button>
       </div>
+
+      {modalType && (
+        <TransactionModal
+          open={!!modalType}
+          type={modalType}
+          onClose={() => setModalType(null)}
+          onSubmit={handleTransactionSubmit}
+        />
+      )}
     </div>
   );
 }

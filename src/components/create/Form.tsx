@@ -78,7 +78,7 @@ export function CreateForm() {
 
   return (
     <form
-      className="space-y-6 rounded-xl border border-light bg-surface-glass p-6 shadow-2xl backdrop-blur-lg"
+      className="space-y-6 rounded-2xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md"
       onSubmit={handleSubmit(onSubmit)}
     >
       <StepIndicator steps={steps} currentStep={currentStep} onStepClick={handleStepClick} />
@@ -94,13 +94,13 @@ export function CreateForm() {
             className="space-y-4"
           >
             <p className="text-sm text-text-secondary">{t('create:form.hint')}</p>
-            <label className="block text-sm text-text-secondary">
+            <label className="block text-sm font-medium text-text-secondary">
               {t('create:fields.title')}
               <input
-                className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.title ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.title ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
                 {...register('title')}
               />
-              {errors.title ? <span className="text-xs text-danger">{t(`create:errors.${errors.title.message}`)}</span> : null}
+              {errors.title ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.title.message}`)}</span> : null}
             </label>
           </motion.div>
         )}
@@ -114,14 +114,14 @@ export function CreateForm() {
             transition={{ duration: 0.2 }}
             className="space-y-4"
           >
-            <label className="block text-sm text-text-secondary">
+            <label className="block text-sm font-medium text-text-secondary">
               {t('create:fields.closesAt')}
               <input
                 type="datetime-local"
-                className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.closesAt ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.closesAt ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
                 {...register('closesAt')}
               />
-              {errors.closesAt ? <span className="text-xs text-danger">{t(`create:errors.${errors.closesAt.message}`)}</span> : null}
+              {errors.closesAt ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.closesAt.message}`)}</span> : null}
             </label>
           </motion.div>
         )}
@@ -135,27 +135,29 @@ export function CreateForm() {
             transition={{ duration: 0.2 }}
             className="space-y-4"
           >
-            <div className="grid gap-3 md:grid-cols-2">
-              <label className="text-sm text-text-secondary">
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="text-sm font-medium text-text-secondary">
                 {t('create:fields.minStake')}
                 <input
                   type="number"
-                  className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.minStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                  className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.minStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
                   {...register('minStake', { valueAsNumber: true })}
                 />
-                {errors.minStake ? <span className="text-xs text-danger">{t(`create:errors.${errors.minStake.message}`)}</span> : null}
+                {errors.minStake ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.minStake.message}`)}</span> : null}
               </label>
-              <label className="text-sm text-text-secondary">
+              <label className="text-sm font-medium text-text-secondary">
                 {t('create:fields.maxStake')}
                 <input
                   type="number"
-                  className={`mt-1 w-full rounded-xl border px-3 py-2 transition-all duration-200 focus:ring-2 focus:ring-accent/40 hover:ring-2 hover:ring-accent/30 ${errors.maxStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border bg-background'}`}
+                  className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.maxStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
                   {...register('maxStake', { valueAsNumber: true })}
                 />
-                {errors.maxStake ? <span className="text-xs text-danger">{t(`create:errors.${errors.maxStake.message}`)}</span> : null}
+                {errors.maxStake ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.maxStake.message}`)}</span> : null}
               </label>
             </div>
-            <p className="text-xs uppercase tracking-wide text-text-secondary">{rangePreview}</p>
+            <div className="rounded-xl border border-border-light bg-surface-glass/60 p-3 backdrop-blur-md">
+              <p className="text-sm font-medium text-text-primary">{rangePreview}</p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

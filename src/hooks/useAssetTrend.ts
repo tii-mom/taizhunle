@@ -1,0 +1,186 @@
+import { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
+export type TrendGranularity = 'hour' | 'day' | 'week' | 'month';
+
+export type TrendDataPoint = {
+  label: string;
+  value: number | null;
+  timestamp: Date;
+};
+
+export type TrendData = {
+  high: number;
+  low: number;
+  profit: number;
+  data: TrendDataPoint[];
+};
+
+type UseAssetTrendParams = {
+  granularity: TrendGranularity;
+};
+
+// 线性插值函数
+function interpolateValue(prev: number | null, next: number | null, ratio: number): number {
+  if (prev !== null && next !== null) {
+    return prev + (next - prev) * ratio;
+  }
+  if (prev !== null) return prev;
+  if (next !== null) return next;
+  return 12000; // 默认值
+}
+
+// 填充 null 值
+function fillNullValues(data: TrendDataPoint[]): TrendDataPoint[] {
+  const result = [...data];
+  
+  for (let i = 0; i < result.length; i++) {
+    if (result[i].value === null) {
+      // 找到前一个非 null 值
+      let prevIndex = i - 1;
+      while (prevIndex >= 0 && result[prevIndex].value === null) {
+        prevIndex--;
+      }
+      
+      // 找到后一个非 null 值
+      let nextIndex = i + 1;
+      while (nextIndex < result.length && result[nextIndex].value === null) {
+        nextIndex++;
+      }
+      
+      const prevValue = prevIndex >= 0 ? result[prevIndex].value : null;
+      const nextValue = nextIndex < result.length ? result[nextIndex].value : null;
+      
+      const ratio = prevIndex >= 0 && nextIndex < result.length ? 
+        (i - prevIndex) / (nextIndex - prevIndex) : 0.5;
+      
+      result[i].value = interpolateValue(prevValue, nextValue, ratio);
+    }
+  }
+  
+  return result;
+}
+
+export function useAssetTrend({ granularity }: UseAssetTrendParams) {
+  const { i18n } = useTranslation('assets');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // 生成时间标签和数据点
+  const trendData = useMemo((): TrendData => {
+    const now = new Date();
+    const data: TrendDataPoint[] = [];
+
+    switch (granularity) {
+      case 'hour': {
+        // 过去 24 小时，每 4h 1 点 → 6 点（更流畅）
+        for (let i = 5; i >= 0; i--) {
+          const timestamp = new Date(now.getTime() - i * 4 * 60 * 60 * 1000);
+          const hour = timestamp.getHours();
+          
+          data.push({
+            label: `${hour.toString().padStart(2, '0')}:00`,
+            value: 12000 + Math.random() * 500 - 250,
+            timestamp,
+          });
+        }
+        break;
+      }
+
+      case 'day': {
+        // 最近 7 天，每天 1 点 → 7 点
+        const dayNames = i18n.language === 'zh' ? 
+          ['日', '一', '二', '三', '四', '五', '六'] :
+          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        
+        for (let i = 6; i >= 0; i--) {
+          const timestamp = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+          const dayName = dayNames[timestamp.getDay()];
+          
+          data.push({
+            label: dayName,
+            value: 12000 + Math.random() * 800 - 400,
+            timestamp,
+          });
+        }
+        break;
+      }
+
+      case 'week': {
+        // 过去 7 周，每周 1 点 → 7 点
+        for (let i = 6; i >= 0; i--) {
+          const timestamp = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000);
+          const weekNum = i === 0 ? 0 : i;
+          
+          data.push({
+            label: `W${weekNum}`,
+            value: 12000 + Math.random() * 1200 - 600,
+            timestamp,
+          });
+        }
+        break;
+      }
+
+      case 'month': {
+        // 过去 6 个月，每月 1 点 → 6 点
+        const monthNames = i18n.language === 'zh' ? 
+          ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'] :
+          ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        for (let i = 5; i >= 0; i--) {
+          const timestamp = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const monthName = monthNames[timestamp.getMonth()];
+          
+          data.push({
+            label: monthName,
+            value: 12000 + Math.random() * 2000 - 1000,
+            timestamp,
+          });
+        }
+        break;
+      }
+    }
+
+    // 填充 null 值（模拟后端数据不足的情况）
+    const filledData = fillNullValues(data);
+
+    // 计算统计数据
+    const values = filledData.map(d => d.value!).filter(v => v !== null);
+    const high = Math.max(...values);
+    const low = Math.min(...values);
+    const profit = values[values.length - 1] - values[0];
+
+    return {
+      high,
+      low,
+      profit,
+      data: filledData,
+    };
+  }, [granularity, i18n.language]);
+
+  // 模拟数据拉取
+  const refetch = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 自动刷新
+  useEffect(() => {
+    const interval = setInterval(refetch, 30000); // 30s
+    return () => clearInterval(interval);
+  }, [granularity]);
+
+  return {
+    data: trendData,
+    isLoading,
+    error,
+    refetch,
+  };
+}
