@@ -11,6 +11,16 @@
   "myRedPacket": "My Red Packets",
   "redPacketClaimed": "Claimed/Total",
   "claimRedPacket": "Claim Packet",
+  "noRedPacket": "No red packets yet",
+  "redeemAll": "Claim All",
+  "globalPacket": "Global Red Pack Pool",
+  "globalPacketHint": "Refresh · every 5s",
+  "globalPool": "Current Pool",
+  "packetPrice": "Pack Price",
+  "buyers": "Participants",
+  "limit": "Per Wallet Limit",
+  "packs": "packs",
+  "buyNow": "Buy Now",
   "myHistory": "Prediction History",
   "viewHistory": "View History",
   "winRate": "Win Rate",
@@ -60,9 +70,34 @@
   "receive": "Receive",
   "back": "Back",
   "confirm": "Confirm",
+  "next": "Continue",
+  "confirmTitle": "Confirm transaction",
+  "successTitle": "Transaction complete",
+  "successDescription": "Funds will be settled on-chain shortly",
+  "gasNotice": "Single gas fee, platform subsidises the rest",
   "transactionSuccess": "Transaction Successful",
   "transactionProcessing": "Transaction is being processed, please wait...",
   "errors": {
     "amount": "Please enter a valid amount"
+  },
+  "modal": {
+    "gas": "Self-paid gas · one signature",
+    "close": "Close",
+    "selfPay": "Miner fee paid by user",
+    "estimate": "Estimated gas fee",
+    "rate": "Swap rate",
+    "countdown": "Signature valid {{time}}",
+    "charge": {
+      "title": "Deposit TAI",
+      "cta": "Deposit (self-paid gas)"
+    },
+    "withdraw": {
+      "title": "Withdraw TAI",
+      "cta": "Withdraw (self-paid gas)"
+    },
+    "exchange": {
+      "title": "Swap assets",
+      "cta": "Swap (self-paid gas)"
+    }
   }
 }

@@ -25,6 +25,11 @@ export type MarketCard = {
   volume: string;
   pool: number;
   bets: MarketBet[];
+  endsAt: number;
+  targetPool: number;
+  entities: string[];
+  bountyMultiplier: number;
+  juryCount: number;
 };
 
 const MARKET_LIST: MarketCard[] = [
@@ -38,6 +43,11 @@ const MARKET_LIST: MarketCard[] = [
     odds: '1.67x',
     volume: '32,406 TAI',
     pool: 32406,
+    endsAt: Date.now() + 35 * 60 * 1000,
+    targetPool: 50000,
+    entities: ['BTC', 'Derivatives'],
+    bountyMultiplier: 1.8,
+    juryCount: 3,
     bets: [
       { id: 'btc-1', user: 'pBlue', amount: 8500, market: 'btc', direction: 'long', timestamp: 1740200000 },
       { id: 'btc-2', user: 'Validator Yun', amount: 4200, market: 'btc', direction: 'short', timestamp: 1740198000 },
@@ -53,6 +63,11 @@ const MARKET_LIST: MarketCard[] = [
     odds: '2.45x',
     volume: '12,887 TAI',
     pool: 12887,
+    endsAt: Date.now() + 22 * 60 * 1000,
+    targetPool: 30000,
+    entities: ['ETH', 'Staking'],
+    bountyMultiplier: 2.4,
+    juryCount: 5,
     bets: [
       { id: 'eth-1', user: 'Validator Yun', amount: 800, market: 'eth', direction: 'long', timestamp: 1740195000 },
       { id: 'eth-2', user: 'Amber', amount: 4200, market: 'eth', direction: 'long', timestamp: 1740193000 },
@@ -68,6 +83,11 @@ const MARKET_LIST: MarketCard[] = [
     odds: '9.30x',
     volume: '5,204 TAI',
     pool: 5204,
+    endsAt: Date.now() - 15 * 60 * 1000,
+    targetPool: 10000,
+    entities: ['TON', 'TVL'],
+    bountyMultiplier: 3.1,
+    juryCount: 2,
     bets: [
       { id: 'ton-1', user: 'DeepBlue', amount: 2100, market: 'ton', direction: 'long', timestamp: 1740189000 },
       { id: 'ton-2', user: 'Navigator', amount: 600, market: 'ton', direction: 'short', timestamp: 1740184000 },

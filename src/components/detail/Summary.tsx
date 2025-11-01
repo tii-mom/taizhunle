@@ -1,6 +1,10 @@
 import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { TrendingUp, Share2 } from 'lucide-react';
+
+import { useI18n } from '../../hooks/useI18n';
+import { useTheme } from '../../providers/ThemeProvider';
+import { GlassCard } from '../glass/GlassCard';
+import { GoldenHammer } from '../glass/GoldenHammer';
 
 type Props = {
   statusKey: string;
@@ -16,59 +20,73 @@ type Props = {
 };
 
 export function DetailSummary({ statusKey, trend, title, description, odds, change, volume, liquidity, onBet, onShare }: Props) {
-  const { t } = useTranslation('detail');
+  const { t } = useI18n('detail');
+  const { mode } = useTheme();
+
+  const numericVolume = Number(volume.replace(/[^0-9.]/g, '')) || 0;
+  const hammerCount = Math.max(1, Math.round(numericVolume / 5000));
+  const changeTone = trend === 'up' ? 'text-emerald-300' : 'text-rose-400';
+
+  const statusChip = clsx(
+    'rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em]',
+    mode === 'light' ? 'border-white/40 bg-white/30 text-slate-900' : 'border-white/20 bg-white/10 text-white/90',
+  );
+
+  const trendChip = clsx(
+    'rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em]',
+    trend === 'up'
+      ? 'border-emerald-400/60 bg-emerald-400/15 text-emerald-200'
+      : 'border-rose-400/60 bg-rose-400/15 text-rose-200',
+  );
+
   return (
-    <section className="space-y-6 rounded-2xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md">
-      <header className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-200">
-        <div className="flex items-center gap-3 text-xs uppercase tracking-wide">
-          <span className="rounded-full border border-border-light bg-surface-glass/60 px-3 py-1 text-text-primary backdrop-blur-md">{t(`status.${statusKey}`)}</span>
-          <span className={clsx('rounded-full border backdrop-blur-md px-3 py-1', trend === 'up' ? 'border-success/50 bg-success/10 text-success' : 'border-warning/50 bg-warning/10 text-warning')}>
-            {t(`trend.${trend}`)}
-          </span>
+    <GlassCard className="space-y-6 p-6">
+      <header className="space-y-4">
+        <div className="flex flex-wrap items-center gap-3 text-xs">
+          <span className={statusChip}>{t(`status.${statusKey}`)}</span>
+          <span className={trendChip}>{t(`trend.${trend}`)}</span>
+          <GoldenHammer count={hammerCount} level={hammerCount > 8 ? 'gold' : hammerCount > 4 ? 'silver' : 'bronze'} />
         </div>
-        <h1 className="text-3xl font-semibold text-text-primary">{title}</h1>
-        <p className="text-text-secondary">{description}</p>
+        <div>
+          <h1 className="text-3xl font-semibold text-white drop-shadow-[0_0_18px_rgba(251,191,36,0.3)]">{title}</h1>
+          <p className="mt-2 text-sm text-white/70">{description}</p>
+        </div>
       </header>
+
       <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric label={t('metrics.odds', { value: odds })} value={odds} />
-        <Metric label={t('metrics.change', { value: change })} value={change} highlight={trend === 'up' ? 'success' : 'warning'} />
-        <Metric label={t('metrics.volume', { value: volume })} value={volume} />
-        <Metric label={t('metrics.liquidity', { value: liquidity })} value={liquidity} />
+        <Metric label={t('metrics.odds')} value={odds} />
+        <Metric label={t('metrics.change')} value={change} tone={changeTone} />
+        <Metric label={t('metrics.volume')} value={volume} />
+        <Metric label={t('metrics.liquidity')} value={liquidity} />
       </dl>
+
       <div className="flex flex-wrap gap-3">
-        <button 
-          type="button" 
-          onClick={onBet} 
-          className="inline-flex items-center gap-2 rounded-xl border border-border-light bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-lg transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
+        <button
+          type="button"
+          onClick={onBet}
+          className="glass-button-primary inline-flex items-center gap-2"
         >
-          <TrendingUp size={20} />
+          <TrendingUp size={18} />
           {t('cta.bet')}
         </button>
-        <button 
-          type="button" 
-          onClick={onShare} 
-          className="inline-flex items-center gap-2 rounded-xl border border-border-light bg-surface-glass/60 px-6 py-3 text-sm text-text-primary backdrop-blur-md transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95"
+        <button
+          type="button"
+          onClick={onShare}
+          className="glass-button-secondary inline-flex items-center gap-2"
         >
-          <Share2 size={20} className="text-accent" />
+          <Share2 size={18} className="text-amber-200" />
           {t('cta.share')}
         </button>
       </div>
-    </section>
+    </GlassCard>
   );
 }
 
-type MetricProps = {
-  label: string;
-  value: string;
-  highlight?: 'success' | 'warning';
-};
-
-function Metric({ label, value, highlight }: MetricProps) {
-  const tone = highlight === 'success' ? 'text-success' : highlight === 'warning' ? 'text-warning' : 'text-accent';
+function Metric({ label, value, tone }: { label: string; value: string; tone?: string }) {
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-2 space-y-2 rounded-xl border border-border-light bg-surface-glass/60 p-4 backdrop-blur-md duration-200">
-      <dt className="text-xs uppercase tracking-wide text-text-secondary">{label}</dt>
-      <dd className={clsx('font-mono text-lg font-semibold', tone)}>{value}</dd>
+    <div className="glass-card-sm space-y-2 p-4">
+      <dt className="text-xs uppercase tracking-[0.35em] text-white/50">{label}</dt>
+      <dd className={`font-mono text-lg font-semibold ${tone ?? 'text-amber-100'}`}>{value}</dd>
     </div>
   );
 }

@@ -5,22 +5,22 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { useHaptic } from '../../hooks/useHaptic';
 import { StepIndicator } from '../common/StepIndicator';
 import { triggerSuccessConfetti } from '../../utils/confetti';
+import { GlassCard } from '../glass/GlassCard';
 
-const schema = z
-  .object({
-    title: z.string().min(1, 'title'),
-    closesAt: z.string().min(1, 'closesAt'),
-    minStake: z.number().min(1, 'minStake'),
-    maxStake: z.number().min(1, 'maxStake'),
-  })
-  .superRefine((value, ctx) => {
-    if (value.maxStake < value.minStake) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'maxStake', path: ['maxStake'] });
-    }
-  });
+const schema = z.object({
+  title: z.string().min(1, 'title'),
+  closesAt: z.string().min(1, 'closesAt'),
+  minStake: z.number().min(1, 'minStake'),
+  maxStake: z.number().min(1, 'maxStake'),
+}).superRefine((value, ctx) => {
+  if (value.maxStake < value.minStake) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'maxStake', path: ['maxStake'] });
+  }
+});
 
 type FormValues = z.infer<typeof schema>;
 
@@ -28,14 +28,29 @@ export function CreateForm() {
   const { t } = useTranslation(['create', 'form']);
   const { vibrate } = useHaptic();
   const [currentStep, setCurrentStep] = useState(0);
-  const { register, handleSubmit, reset, formState: { errors }, watch, trigger } = useForm<FormValues>({ 
-    resolver: zodResolver(schema), 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    watch,
+    trigger,
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
     defaultValues: { title: '', closesAt: '', minStake: 10, maxStake: 1000 },
-    mode: 'onBlur'
+    mode: 'onBlur',
   });
+
   const minStake = watch('minStake');
   const maxStake = watch('maxStake');
-  const rangePreview = useMemo(() => t('create:form.rangePreview', { min: Number.isFinite(minStake) ? minStake : 0, max: Number.isFinite(maxStake) ? maxStake : 0 }), [minStake, maxStake, t]);
+  const rangePreview = useMemo(
+    () =>
+      t('create:form.rangePreview', {
+        min: Number.isFinite(minStake) ? minStake : 0,
+        max: Number.isFinite(maxStake) ? maxStake : 0,
+      }),
+    [minStake, maxStake, t],
+  );
 
   const steps = useMemo(
     () => [
@@ -53,7 +68,7 @@ export function CreateForm() {
     } else if (currentStep === 1) {
       isValid = await trigger('closesAt');
     }
-    
+
     if (isValid) {
       vibrate();
       setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
@@ -77,120 +92,115 @@ export function CreateForm() {
   };
 
   return (
-    <form
-      className="space-y-6 rounded-2xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <StepIndicator steps={steps} currentStep={currentStep} onStepClick={handleStepClick} />
+    <GlassCard className="p-6">
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <StepIndicator steps={steps} currentStep={currentStep} onStepClick={handleStepClick} />
 
-      <AnimatePresence mode="wait">
-        {currentStep === 0 && (
+        <AnimatePresence mode="wait">
+        {currentStep === 0 ? (
           <motion.div
             key="step1"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="space-y-4"
+            className="space-y-4 text-white/80"
           >
-            <p className="text-sm text-text-secondary">{t('create:form.hint')}</p>
-            <label className="block text-sm font-medium text-text-secondary">
+            <p className="text-sm text-white/60">{t('create:form.hint')}</p>
+            <label className="block text-sm">
               {t('create:fields.title')}
               <input
-                className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.title ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
+                className={`glass-input mt-2 ${errors.title ? 'animate-shake border-rose-400/40 focus:ring-rose-300/40' : ''}`}
                 {...register('title')}
               />
-              {errors.title ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.title.message}`)}</span> : null}
+              {errors.title ? <span className="mt-1 block text-xs text-rose-300">{t(`create:errors.${errors.title.message}`)}</span> : null}
             </label>
           </motion.div>
-        )}
+        ) : null}
 
-        {currentStep === 1 && (
+        {currentStep === 1 ? (
           <motion.div
             key="step2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="space-y-4"
+            className="space-y-4 text-white/80"
           >
-            <label className="block text-sm font-medium text-text-secondary">
+            <label className="block text-sm">
               {t('create:fields.closesAt')}
               <input
                 type="datetime-local"
-                className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.closesAt ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
+                className={`glass-input mt-2 ${errors.closesAt ? 'animate-shake border-rose-400/40 focus:ring-rose-300/40' : ''}`}
                 {...register('closesAt')}
               />
-              {errors.closesAt ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.closesAt.message}`)}</span> : null}
+              {errors.closesAt ? (
+                <span className="mt-1 block text-xs text-rose-300">{t(`create:errors.${errors.closesAt.message}`)}</span>
+              ) : null}
             </label>
           </motion.div>
-        )}
+        ) : null}
 
-        {currentStep === 2 && (
+        {currentStep === 2 ? (
           <motion.div
             key="step3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="space-y-4"
+            className="space-y-4 text-white/80"
           >
             <div className="grid gap-4 md:grid-cols-2">
-              <label className="text-sm font-medium text-text-secondary">
+              <label className="text-sm">
                 {t('create:fields.minStake')}
                 <input
                   type="number"
-                  className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.minStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
+                  className={`glass-input mt-2 ${errors.minStake ? 'animate-shake border-rose-400/40 focus:ring-rose-300/40' : ''}`}
                   {...register('minStake', { valueAsNumber: true })}
                 />
-                {errors.minStake ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.minStake.message}`)}</span> : null}
+                {errors.minStake ? (
+                  <span className="mt-1 block text-xs text-rose-300">{t(`create:errors.${errors.minStake.message}`)}</span>
+                ) : null}
               </label>
-              <label className="text-sm font-medium text-text-secondary">
+              <label className="text-sm">
                 {t('create:fields.maxStake')}
                 <input
                   type="number"
-                  className={`mt-2 w-full rounded-xl border px-4 py-3 backdrop-blur-md transition-all duration-200 focus:ring-2 focus:ring-accent/50 hover:ring-2 hover:ring-accent/30 ${errors.maxStake ? 'animate-shake border-danger ring-2 ring-danger/40' : 'border-border-light bg-surface-glass/60'}`}
+                  className={`glass-input mt-2 ${errors.maxStake ? 'animate-shake border-rose-400/40 focus:ring-rose-300/40' : ''}`}
                   {...register('maxStake', { valueAsNumber: true })}
                 />
-                {errors.maxStake ? <span className="mt-1 block text-xs text-danger">{t(`create:errors.${errors.maxStake.message}`)}</span> : null}
+                {errors.maxStake ? (
+                  <span className="mt-1 block text-xs text-rose-300">{t(`create:errors.${errors.maxStake.message}`)}</span>
+                ) : null}
               </label>
             </div>
-            <div className="rounded-xl border border-border-light bg-surface-glass/60 p-3 backdrop-blur-md">
-              <p className="text-sm font-medium text-text-primary">{rangePreview}</p>
-            </div>
+            <div className="glass-card-sm p-4 text-sm text-white/70">{rangePreview}</div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        ) : null}
+        </AnimatePresence>
 
-      <div className="flex justify-between gap-3">
-        <button
-          type="button"
-          onClick={handlePrev}
-          disabled={currentStep === 0}
-          className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-3 text-sm text-text-secondary transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 disabled:opacity-40 md:hover:shadow-lg"
-        >
-          <ChevronLeft size={16} />
-          {t('form:prev')}
-        </button>
-        {currentStep < steps.length - 1 ? (
+        <div className="flex justify-between gap-3">
           <button
             type="button"
-            onClick={handleNext}
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
+            onClick={handlePrev}
+            disabled={currentStep === 0}
+            className="glass-button-secondary !rounded-full !px-4 !py-2 text-xs disabled:opacity-40"
           >
-            {t('form:next')}
-            <ChevronRight size={16} />
+            <ChevronLeft size={14} />
+            {t('form:prev')}
           </button>
-        ) : (
-          <button
-            type="submit"
-            onClick={() => vibrate()}
-            className="rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
-          >
-            {t('form:submit')}
-          </button>
-        )}
-      </div>
-    </form>
+          {currentStep < steps.length - 1 ? (
+            <button type="button" onClick={handleNext} className="glass-button-primary !rounded-full !px-6 !py-2 text-xs">
+              {t('form:next')}
+              <ChevronRight size={14} />
+            </button>
+          ) : (
+            <button type="submit" onClick={() => vibrate()} className="glass-button-primary !rounded-full !px-6 !py-2 text-xs">
+              {t('form:submit')}
+            </button>
+          )}
+        </div>
+      </form>
+    </GlassCard>
   );
 }

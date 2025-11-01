@@ -17,11 +17,19 @@ type PredictionData = {
   }>;
 };
 
+type GlobalRedPacketData = {
+  totalPool: number;
+  buyers: number;
+  price: number;
+  limit: number;
+};
+
 type AssetData = {
   balance: number;
   change24h: number;
   redPackets: RedPacketData | null;
   predictions: PredictionData | null;
+  globalRedPacket: GlobalRedPacketData;
 };
 
 // Mock data - replace with real API call
@@ -38,6 +46,12 @@ const MOCK_DATA: AssetData = {
     winRate: 68.5,
     totalProfit: 2345.89,
     recentPredictions: [],
+  },
+  globalRedPacket: {
+    totalPool: 512345,
+    buyers: 1820,
+    price: 9.99,
+    limit: 3,
   },
 };
 
@@ -74,6 +88,7 @@ export function useAssetData() {
     change24h: data.change24h,
     redPackets: data.redPackets,
     predictions: data.predictions,
+    globalRedPacket: data.globalRedPacket,
     isLoading,
     error,
     refetch: fetchData,

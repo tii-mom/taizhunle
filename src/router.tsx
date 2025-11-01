@@ -15,6 +15,8 @@ const DetailPage = lazy(() => import('./pages/Detail').then((module) => ({ defau
 const CreatePage = lazy(() => import('./pages/Create').then((module) => ({ default: module.Create })));
 const ProfilePage = lazy(() => import('./pages/Profile').then((module) => ({ default: module.Profile })));
 const LoginPage = lazy(() => import('./pages/Login').then((module) => ({ default: module.Login })));
+const DaoPage = lazy(() => import('./pages/DaoGlass').then((module) => ({ default: module.DaoGlass })));
+const SearchPage = lazy(() => import('./pages/SearchGlass').then((module) => ({ default: module.SearchGlass })));
 
 const withWalletGuard = (element: ReactElement) => {
   const WalletGuard = () => {
@@ -49,7 +51,10 @@ export const router = createBrowserRouter([
       { path: 'login', element: <LoginPage /> },
       { index: true, element: withWalletGuard(<AppPage />) },
       { path: 'detail/:id', element: withWalletGuard(<DetailPage />) },
+      { path: 'market/:id', element: withWalletGuard(<DetailPage />) },
       { path: 'create', element: withWalletGuard(<CreatePage />) },
+      { path: 'search', element: withWalletGuard(<SearchPage />) },
+      { path: 'dao', element: withWalletGuard(<DaoPage />) },
       { path: 'assets', element: withWalletGuard(<Assets />) },
       { path: 'assets/redpacket', element: withWalletGuard(<RedPacketSale />) },
       { path: 'assets/official', element: withWalletGuard(<OfficialRain />) },

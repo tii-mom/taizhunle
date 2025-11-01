@@ -47,10 +47,10 @@
   },
   "historyEmpty": "No bets yet",
   "metrics": {
-    "change": "{{value}} today",
-    "liquidity": "Liquidity {{value}}",
-    "odds": "Odds {{value}}",
-    "volume": "Volume {{value}}"
+    "change": "24h Move",
+    "liquidity": "Liquidity",
+    "odds": "Odds",
+    "volume": "Volume"
   },
   "modal": {
     "amount": "Amount",

@@ -47,10 +47,10 @@
   },
   "historyEmpty": "暂无下注记录",
   "metrics": {
-    "change": "当日波动 {{value}}",
-    "liquidity": "流动性 {{value}}",
-    "odds": "赔率 {{value}}",
-    "volume": "成交 {{value}}"
+    "change": "24h 波动",
+    "liquidity": "流动性",
+    "odds": "实时赔率",
+    "volume": "成交量"
   },
   "modal": {
     "amount": "下注金额",

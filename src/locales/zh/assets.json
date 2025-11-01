@@ -11,6 +11,16 @@
   "myRedPacket": "我的红包",
   "redPacketClaimed": "已领取/总份数",
   "claimRedPacket": "领取红包",
+  "noRedPacket": "暂无红包记录",
+  "redeemAll": "一键领取",
+  "globalPacket": "全局红包池",
+  "globalPacketHint": "实时刷新 · 5 秒",
+  "globalPool": "当前奖池",
+  "packetPrice": "红包价格",
+  "buyers": "参与人数",
+  "limit": "单人限购",
+  "packs": "份",
+  "buyNow": "立即抢购",
   "myHistory": "历史预测",
   "viewHistory": "查看历史",
   "winRate": "胜率",
@@ -60,9 +70,34 @@
   "receive": "接收",
   "back": "返回",
   "confirm": "确认",
+  "next": "继续",
+  "confirmTitle": "请确认交易信息",
+  "successTitle": "交易完成",
+  "successDescription": "资金将在链上确认后自动入账",
+  "gasNotice": "仅需一次 Gas，平台自动补贴",
   "transactionSuccess": "交易成功",
   "transactionProcessing": "交易正在处理中，请稍候...",
   "errors": {
     "amount": "请输入有效金额"
+  },
+  "modal": {
+    "gas": "自付 Gas · 仅一次签名",
+    "close": "关闭",
+    "selfPay": "矿工费由用户自付",
+    "estimate": "预计矿工费",
+    "rate": "兑换汇率",
+    "countdown": "签名有效 {{time}}",
+    "charge": {
+      "title": "充值 TAI",
+      "cta": "充值（自付 Gas）"
+    },
+    "withdraw": {
+      "title": "提现 TAI",
+      "cta": "提现（自付 Gas）"
+    },
+    "exchange": {
+      "title": "兑换资产",
+      "cta": "确认兑换（自付 Gas）"
+    }
   }
 }

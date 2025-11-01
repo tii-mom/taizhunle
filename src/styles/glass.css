@@ -1,0 +1,107 @@
+/* Shared glassmorphism utility classes */
+.glass-surface {
+  @apply border border-white/15 bg-white/[0.07] backdrop-blur-2xl shadow-[0_30px_60px_-40px_rgba(15,23,42,0.8)];
+}
+
+.glass-card {
+  @apply glass-surface relative overflow-hidden rounded-3xl transition-all duration-200;
+}
+
+.glass-card::after {
+  content: '';
+  @apply pointer-events-none absolute inset-x-6 top-0 h-24 rounded-b-[50%] bg-gradient-to-b from-amber-300/10 via-white/5 to-transparent blur-2xl;
+}
+
+.glass-card:hover {
+  @apply border-white/25 shadow-[0_30px_70px_-40px_rgba(251,191,36,0.55)];
+}
+
+.glass-card-sm {
+  @apply glass-surface rounded-2xl border-white/10 bg-white/[0.05];
+}
+
+.glass-tile {
+  @apply glass-surface rounded-xl border-white/10 bg-white/[0.04] transition-all duration-200;
+}
+
+.glass-tile:hover {
+  @apply border-amber-200/40 shadow-[0_20px_40px_-30px_rgba(251,191,36,0.45)];
+}
+
+.glass-section-title {
+  @apply text-lg font-semibold uppercase tracking-[0.2em] text-amber-200/80;
+}
+
+.glass-chip {
+  @apply inline-flex items-center gap-1 rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 text-xs font-medium text-amber-100;
+}
+
+.glass-badge {
+  @apply inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] font-medium text-slate-100;
+}
+
+.glass-progress {
+  @apply h-2 rounded-full bg-white/10;
+}
+
+.glass-progress-value {
+  @apply h-full rounded-full bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400 transition-all duration-500;
+}
+
+.glass-button-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-br from-amber-300 via-amber-400 to-orange-400 px-5 py-3 font-semibold text-slate-900 shadow-lg shadow-amber-400/40 transition-transform duration-150;
+}
+
+.glass-button-primary:disabled {
+  @apply cursor-not-allowed opacity-60 shadow-none;
+}
+
+.glass-button-primary:not(:disabled):active {
+  @apply scale-95;
+}
+
+.glass-button-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/[0.04] px-4 py-3 text-sm font-medium text-white transition-all duration-150 hover:border-amber-200/40 hover:text-amber-100;
+}
+
+.glass-button-secondary:active {
+  @apply scale-95;
+}
+
+.glass-button-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm text-white/70 transition-colors duration-150 hover:text-white;
+}
+
+.glass-input,
+.glass-select,
+.glass-textarea {
+  @apply w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white placeholder:text-slate-300/50 backdrop-blur-xl transition-all duration-150 focus:border-amber-200/40 focus:outline-none focus:ring-2 focus:ring-amber-200/30;
+}
+
+.glass-textarea {
+  @apply min-h-[120px];
+}
+
+.glass-modal {
+  @apply glass-card max-w-xl border-white/10 bg-slate-950/70 p-6 shadow-[0_40px_90px_-45px_rgba(15,23,42,0.9)] max-h-[90vh] overflow-y-auto;
+}
+
+.glass-modal-header {
+  @apply flex items-center justify-between gap-4 border-b border-white/10 pb-4;
+}
+
+.glass-modal-body {
+  @apply space-y-4 pt-4;
+}
+
+.glass-modal-footer {
+  @apply flex flex-wrap items-center justify-end gap-3 pt-4;
+}
+
+.glass-nav {
+  @apply border border-white/10 bg-white/[0.07] backdrop-blur-xl shadow-[0_20px_40px_-28px_rgba(15,23,42,1)];
+}
+
+.glass-marquee {
+  @apply overflow-hidden rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs text-white/70;
+}

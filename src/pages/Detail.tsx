@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+
 import { DetailSummary } from '../components/detail/Summary';
 import { DetailHistory } from '../components/detail/History';
 import { BetModal } from '../components/BetModal';
 import { useDetailData } from '../components/detail/useDetailData';
-import { PageLayout } from '../components/layout/PageLayout';
+import { GlassPageLayout } from '../components/glass/GlassPageLayout';
+import { useI18n } from '../hooks/useI18n';
 
 export function Detail() {
   const { id = '' } = useParams();
-  const { t } = useTranslation('detail');
+  const { t } = useI18n('detail');
   const [open, setOpen] = useState(false);
   const data = useDetailData(id, t);
   const history = useMemo(
@@ -25,34 +26,34 @@ export function Detail() {
   );
 
   return (
-    <PageLayout>
-      <div className="space-y-6">
-      <DetailSummary
-        statusKey={data.statusKey}
-        trend={data.trend}
-        title={data.title}
-        description={data.description}
-        odds={data.odds}
+    <GlassPageLayout>
+      <div className="space-y-6 pb-10">
+        <DetailSummary
+          statusKey={data.statusKey}
+          trend={data.trend}
+          title={data.title}
+          description={data.description}
+          odds={data.odds}
         change={data.change}
         volume={data.volume}
         liquidity={data.liquidity}
         onBet={() => setOpen(true)}
         onShare={() => window.alert(t('sharePrompt'))}
       />
-      <DetailHistory items={history} empty={t('historyEmpty')} />
-      <BetModal
-        open={open}
-        title={t('modal.title')}
-        confirmLabel={t('modal.confirm')}
-        cancelLabel={t('modal.cancel')}
-        amountLabel={t('modal.amount')}
-        amountError={t('modal.amountError')}
-        noteLabel={t('modal.note')}
-        noteError={t('modal.noteError')}
-        onClose={() => setOpen(false)}
-        onSubmit={async () => window.alert(t('modal.success'))}
-      />
+        <DetailHistory items={history} empty={t('historyEmpty')} />
+        <BetModal
+          open={open}
+          title={t('modal.title')}
+          confirmLabel={t('modal.confirm')}
+          cancelLabel={t('modal.cancel')}
+          amountLabel={t('modal.amount')}
+          amountError={t('modal.amountError')}
+          noteLabel={t('modal.note')}
+          noteError={t('modal.noteError')}
+          onClose={() => setOpen(false)}
+          onSubmit={async () => window.alert(t('modal.success'))}
+        />
       </div>
-    </PageLayout>
+    </GlassPageLayout>
   );
 }

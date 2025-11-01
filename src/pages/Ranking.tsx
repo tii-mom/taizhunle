@@ -4,8 +4,8 @@ import { RankingLive } from '../components/ranking/RankingLive';
 import { RankingShare } from '../components/ranking/RankingShare';
 import { RankingHero } from '../components/ranking/RankingHero';
 import { RankingTabs } from '../components/ranking/RankingTabs';
-import { PageLayout } from '../components/layout/PageLayout';
 import { rankingService, type RankingEntry, type RankingType } from '../services/rankingService';
+import { GlassPageLayout } from '../components/glass/GlassPageLayout';
 
 const REFRESH_INTERVAL = 60000; // 60秒
 
@@ -15,7 +15,6 @@ export function Ranking() {
   const [entries, setEntries] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [userRank, setUserRank] = useState<number | null>(null);
-
   // 实时刷新榜单数据
   useEffect(() => {
     const fetchRanking = async () => {
@@ -38,8 +37,8 @@ export function Ranking() {
   }, [activeTab]);
 
   return (
-    <PageLayout>
-      <div className="space-y-6 pb-32 lg:pb-6">
+    <GlassPageLayout>
+      <div className="space-y-6 pb-10">
         <RankingHero 
           title={t('hero.title')}
           subtitle={t('hero.subtitle')}
@@ -72,6 +71,6 @@ export function Ranking() {
           />
         </section>
       </div>
-    </PageLayout>
+    </GlassPageLayout>
   );
 }

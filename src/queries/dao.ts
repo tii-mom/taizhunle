@@ -26,16 +26,27 @@ export const daoBadgeQuery = (betId: string) => ({
 /**
  * 获取 DAO 池总量
  */
+export type DaoPoolCategory = {
+  pending: number;
+  claimed: number;
+  total: number;
+};
+
+export type DaoPoolStats = Record<string, DaoPoolCategory>;
+
 export const daoPoolQuery = () => ({
   queryKey: ['daoPool'],
-  queryFn: async () => {
+  queryFn: async (): Promise<DaoPoolStats> => {
     try {
       const response = await fetch('/api/dao/pool-stats');
       if (!response.ok) throw new Error('Failed to fetch pool');
-      return await response.json();
+      const data = (await response.json()) as DaoPoolStats;
+      return data;
     } catch (error) {
       console.error('DAO pool query error:', error);
-      return { total: 0 };
+      return {
+        global: { pending: 0, claimed: 0, total: 0 },
+      } satisfies DaoPoolStats;
     }
   },
   staleTime: 30_000,
@@ -46,16 +57,58 @@ export const daoPoolQuery = () => ({
  * 获取用户待领取的 DAO 收益
  * @param userId 用户 ID
  */
+export type DaoClaimResponse = {
+  pendingAmount: number;
+};
+
 export const daoClaimQuery = (userId: string) => ({
   queryKey: ['daoClaim', userId],
-  queryFn: async () => {
+  queryFn: async (): Promise<DaoClaimResponse> => {
     try {
       const response = await fetch(`/api/dao/pending/${userId}`);
       if (!response.ok) throw new Error('Failed to fetch claim');
-      return await response.json();
+      const data = (await response.json()) as DaoClaimResponse;
+      return data;
     } catch (error) {
       console.error('DAO claim query error:', error);
-      return { total: 0 };
+      return { pendingAmount: 0 };
+    }
+  },
+  staleTime: 30_000,
+  refetchInterval: 30_000,
+});
+
+export type DaoStatsResponse = {
+  createCount: number;
+  juryCount: number;
+  inviteCount: number;
+  pendingAmount: number;
+  claimedAmount: number;
+  totalAmount: number;
+  lastEarningAt?: string | null;
+  lastClaimAt?: string | null;
+};
+
+export const daoStatsQuery = (userId: string) => ({
+  queryKey: ['daoStats', userId],
+  queryFn: async (): Promise<DaoStatsResponse> => {
+    try {
+      const response = await fetch(`/api/dao/stats/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch stats');
+      const data = (await response.json()) as DaoStatsResponse;
+      return data;
+    } catch (error) {
+      console.error('DAO stats query error:', error);
+      return {
+        createCount: 0,
+        juryCount: 0,
+        inviteCount: 0,
+        pendingAmount: 0,
+        claimedAmount: 0,
+        totalAmount: 0,
+        lastEarningAt: null,
+        lastClaimAt: null,
+      } satisfies DaoStatsResponse;
     }
   },
   staleTime: 30_000,

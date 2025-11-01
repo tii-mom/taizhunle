@@ -61,6 +61,14 @@ function fillNullValues(data: TrendDataPoint[]): TrendDataPoint[] {
   return result;
 }
 
+function getISOWeekNumber(date: Date) {
+  const temp = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = temp.getUTCDay() || 7;
+  temp.setUTCDate(temp.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(temp.getUTCFullYear(), 0, 1));
+  return Math.ceil(((temp.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+}
+
 export function useAssetTrend({ granularity }: UseAssetTrendParams) {
   const { i18n } = useTranslation('assets');
   const [isLoading, setIsLoading] = useState(false);
@@ -70,6 +78,7 @@ export function useAssetTrend({ granularity }: UseAssetTrendParams) {
   const trendData = useMemo((): TrendData => {
     const now = new Date();
     const data: TrendDataPoint[] = [];
+    const isZh = i18n.language.startsWith('zh');
 
     switch (granularity) {
       case 'hour': {
@@ -88,15 +97,13 @@ export function useAssetTrend({ granularity }: UseAssetTrendParams) {
       }
 
       case 'day': {
-        // 最近 7 天，每天 1 点 → 7 点
-        const dayNames = i18n.language === 'zh' ? 
-          ['日', '一', '二', '三', '四', '五', '六'] :
-          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        
+        const dayNames = isZh
+          ? ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+          : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         for (let i = 6; i >= 0; i--) {
           const timestamp = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
           const dayName = dayNames[timestamp.getDay()];
-          
+
           data.push({
             label: dayName,
             value: 12000 + Math.random() * 800 - 400,
@@ -107,13 +114,18 @@ export function useAssetTrend({ granularity }: UseAssetTrendParams) {
       }
 
       case 'week': {
-        // 过去 7 周，每周 1 点 → 7 点
         for (let i = 6; i >= 0; i--) {
           const timestamp = new Date(now.getTime() - i * 7 * 24 * 60 * 60 * 1000);
-          const weekNum = i === 0 ? 0 : i;
-          
+          let label: string;
+
+          if (isZh) {
+            label = i === 0 ? '本周' : i === 1 ? '上周' : `第${getISOWeekNumber(timestamp)}周`;
+          } else {
+            label = i === 0 ? 'This wk' : i === 1 ? 'Last wk' : `W${getISOWeekNumber(timestamp)}`;
+          }
+
           data.push({
-            label: `W${weekNum}`,
+            label,
             value: 12000 + Math.random() * 1200 - 600,
             timestamp,
           });
@@ -122,15 +134,14 @@ export function useAssetTrend({ granularity }: UseAssetTrendParams) {
       }
 
       case 'month': {
-        // 过去 6 个月，每月 1 点 → 6 点
-        const monthNames = i18n.language === 'zh' ? 
-          ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'] :
-          ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        
+        const monthFormatter = new Intl.DateTimeFormat(i18n.language, {
+          month: isZh ? 'numeric' : 'short',
+        });
         for (let i = 5; i >= 0; i--) {
           const timestamp = new Date(now.getFullYear(), now.getMonth() - i, 1);
-          const monthName = monthNames[timestamp.getMonth()];
-          
+          const formatted = monthFormatter.format(timestamp);
+          const monthName = isZh ? (formatted.endsWith('月') ? formatted : `${formatted}月`) : formatted;
+
           data.push({
             label: monthName,
             value: 12000 + Math.random() * 2000 - 1000,

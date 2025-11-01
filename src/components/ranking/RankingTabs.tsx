@@ -22,10 +22,10 @@ export function RankingTabs({ activeTab, onTabChange }: Props) {
           key={tab.key}
           type="button"
           onClick={() => onTabChange(tab.key)}
-          className={`flex-shrink-0 rounded-xl border px-6 py-3 text-sm font-semibold transition-all duration-200 ${
+          className={`glass-button-secondary flex-shrink-0 px-6 py-3 text-sm font-semibold ${
             activeTab === tab.key
-              ? `border-transparent bg-gradient-to-r ${tab.color} text-white shadow-lg`
-              : 'border-border-light bg-surface-glass/60 text-text-secondary hover:text-text-primary backdrop-blur-md'
+              ? `!border-transparent bg-gradient-to-r ${tab.color} text-white shadow-[0_20px_40px_-25px_rgba(251,191,36,0.5)]`
+              : 'text-white/60 hover:text-white'
           }`}
         >
           {tab.label}
