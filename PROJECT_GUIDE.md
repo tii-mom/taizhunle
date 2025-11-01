@@ -2,42 +2,53 @@
 
 ## 📋 项目概述
 
-**Taizhunle（太准了）** 是一个基于 TON 区块链的去中心化预测市场 DApp，用户可以创建和参与各种预测市场，使用 TAI 代币进行下注。
+**Taizhunle（太准了）** 是一个围绕 TON 区块链构建的去中心化预测市场与红包分发平台。仓库包含三个主要子系统：
+- **React 前端**：提供市场浏览、资产看板、红包购买等交互界面，并通过 TonConnect 与链上钱包打通。
+- **Node.js/Express 服务端**：承担红包售卖、TON 支付监听、Supabase 数据存储、Telegram Bot 通知与计划任务。
+- **Tact 智能合约**：定义 TAI 主代币与锁仓释放逻辑，为平台发行与结算提供链上基础。
 
-- **项目类型**：Web3 DApp
-- **区块链**：TON（The Open Network）
-- **代码规模**：约 2,064 行 TypeScript/TSX（44 个源文件）
-- **部署方式**：静态网站部署
+- **当前版本**：v1.0.0
+- **发布日期**：2025-01-31
+- **核心里程碑**：完成红包售卖后端 API、TON 支付监听、Supabase 数据层、智能合约部署校验，以及多语言前端体验。
+- **代码规模**：约 8,900 行 TypeScript（108 个 TS/TSX 文件）+ 2 份 Tact 合约
+- **部署形态**：前端静态站点 + Node 服务（Express）+ TON 智能合约 + Supabase 数据库
 
 ---
 
 ## 🛠 技术栈
 
-### 核心框架
-- **React 19.1.1** - 前端框架
-- **TypeScript 5.9.3** - 类型安全
-- **Vite 7.1.7** - 构建工具
+### 前端
+- **React 19.1.1** / **TypeScript 5.9.3**：单页应用与严格类型支持
+- **Vite 7.1.7**：本地开发与打包
+- **Tailwind CSS 3.4.15**：主题化原子样式
+- **@tanstack/react-query 5.x**：服务端状态缓存
+- **React Router 7.9.4**：路由守卫 + 动画切换
+- **react-hook-form + Zod**：表单与校验
+- **Recharts 3.3.0**：资产趋势图表
+- **TonConnect UI**：钱包接入组件
 
-### UI 与样式
-- **TailwindCSS 3.4.15** - 原子化 CSS
-- **自定义主题系统** - 明暗主题切换
+### 服务端
+- **Node.js + Express 4.21**：REST API（红包、官方雨露、鲸鱼播报等）
+- **node-cron**：红包价格调整 & 加速期调度
+- **node-telegram-bot-api**：管理员/用户 Bot 通知
+- **TON 支付监听器**：`src/server/listeners/tonPayment.ts` 轮询 Toncenter API，生成待签名 BOC
 
-### 区块链集成
-- **@tonconnect/ui-react 2.3.1** - TON 钱包连接
-- **TON SDK** - 链上交互
+### 智能合约
+- **Tact**：`contracts/contracts/` 定义
+  - `t_a_i_master.tact`：TAI 主代币发行与锁仓管理（1 亿总量、9 亿锁仓）
+  - `vesting_contract.tact`：18 轮释放计划，动态配置价格并释放锁仓
+- **@ton/blueprint / @ton/test-utils**：部署与单元测试工具
+- **合约脚本**：`contracts/scripts/` 包含地址生成、单合约部署（TAIMaster/Vesting）、批量部署与校验逻辑
 
-### 状态管理与数据
-- **@tanstack/react-query 5.90.5** - 服务端状态管理
-- **React Hook Form 7.65.0** - 表单管理
-- **Zod 4.1.12** - 数据验证
+### 数据库与后端集成
+- **Supabase**：PostgreSQL + 行级安全
+- **@supabase/supabase-js**：服务端访问（懒加载客户端 `src/server/services/supabaseClient.ts`）
+- **迁移**：`supabase/migrations/` 定义用户、预测、红包、余额等结构
 
-### 国际化
-- **i18next 25.6.0** - 国际化框架
-- **react-i18next 16.2.0** - React 集成
-- **i18next-browser-languagedetector 8.2.0** - 语言自动检测
-
-### 路由
-- **React Router 7.9.4** - 单页应用路由
+### 辅助工具
+- **ESLint 9 / Prettier 3**：代码质量
+- **Concurrently**：前后端一键启动
+- **自定义脚本**：`scripts/setup-env.cjs`、`scripts/check-env.cjs`、`scripts/verifyContracts.js`
 
 ---
 
@@ -45,534 +56,217 @@
 
 ```
 taizhunle/
-├── public/                      # 静态资源
-│   ├── avatars/                # 头像资源（108 个 PNG 文件）
-│   ├── tonconnect-manifest.json # TON 钱包配置
-│   └── vite.svg
+├── contracts/                   # 智能合约工程（Tact）
+│   ├── contracts/               # TAIMaster & Vesting 源码
+│   ├── scripts/                 # 部署、地址生成、验证脚本
+│   ├── build/ | dist/           # 编译输出
+│   └── tests/                   # Tact 合约测试
+├── public/                      # 静态资源（Lottie、TonConnect manifest 等）
 ├── src/
-│   ├── app/                    # 应用主组件
-│   │   └── App.tsx            # 市场首页
-│   ├── pages/                  # 页面组件（8 个页面）
-│   │   ├── Login.tsx          # 登录页（NEW）
-│   │   ├── AvatarMarket.tsx   # 头像市场
-│   │   ├── Create.tsx         # 创建市场
-│   │   ├── Detail.tsx         # 市场详情
-│   │   ├── Invite.tsx         # 邀请页面
-│   │   ├── Profile.tsx        # 个人中心
-│   │   ├── Ranking.tsx        # 排行榜
-│   │   └── RedPacket.tsx      # 红包页面
-│   ├── components/             # 业务组件
-│   │   ├── avatar/            # 头像相关（4 个组件）
-│   │   │   ├── AvatarBlindBox.tsx
-│   │   │   ├── AvatarFilters.tsx
-│   │   │   ├── AvatarGrid.tsx
-│   │   │   └── AvatarInventory.tsx
-│   │   ├── create/            # 市场创建（2 个组件）
-│   │   │   ├── Form.tsx
-│   │   │   └── Schedule.tsx
-│   │   ├── detail/            # 市场详情（3 个）
-│   │   │   ├── History.tsx
-│   │   │   ├── Summary.tsx
-│   │   │   └── useDetailData.ts
-│   │   ├── invite/            # 邀请功能（3 个）
-│   │   │   ├── InviteHistory.tsx
-│   │   │   ├── InviteRewards.tsx
-│   │   │   └── InviteSummary.tsx
-│   │   ├── profile/           # 个人中心（4 个）
-│   │   │   ├── ProfileBlindBox.tsx
-│   │   │   ├── ProfileHeader.tsx
-│   │   │   ├── ProfileMilestones.tsx
-│   │   │   └── ProfileTitles.tsx
-│   │   ├── ranking/           # 排行榜（3 个）
-│   │   │   ├── RankingLive.tsx
-│   │   │   ├── RankingShare.tsx
-│   │   │   └── RankingTitles.tsx
-│   │   ├── redpacket/         # 红包（4 个）
-│   │   │   ├── Actions.tsx
-│   │   │   ├── List.tsx
-│   │   │   ├── Marquee.tsx
-│   │   │   └── Tabs.tsx
-│   │   ├── BetModal.tsx       # 下注弹窗
-│   │   └── market/            # 市场组件（空目录）
-│   ├── hooks/                  # 自定义 Hooks（3 个）
-│   │   ├── useTonWallet.ts    # TON 钱包交互
-│   │   ├── useTonSign.ts      # TON 签名（NEW）
-│   │   └── useTelegramUser.ts # Telegram 用户信息
-│   ├── providers/              # 全局 Provider
-│   │   ├── AppProviders.tsx   # 应用级 Provider 聚合
-│   │   └── ThemeProvider.tsx  # 主题管理
-│   ├── services/               # API 服务层（NEW）
-│   │   └── markets.ts         # 市场数据服务
-│   ├── locales/                # 国际化文件
-│   │   ├── zh/                # 中文翻译（14 个命名空间）
-│   │   │   ├── app.json
-│   │   │   ├── actions.json
-│   │   │   ├── market.json
-│   │   │   ├── detail.json
-│   │   │   ├── create.json
-│   │   │   ├── redpacket.json
-│   │   │   ├── profile.json
-│   │   │   ├── invite.json
-│   │   │   ├── history.json
-│   │   │   ├── avatar.json
-│   │   │   ├── ranking.json
-│   │   │   ├── login.json     # 登录页翻译（NEW）
-│   │   │   ├── translation.json
-│   │   │   └── common.json
-│   │   └── en/                # 英文翻译（同上结构）
-│   ├── assets/                 # 静态资源
-│   │   ├── avatar-config.json # 头像配置
-│   │   └── react.svg
-│   ├── config/                 # 配置文件
-│   │   └── token.ts           # 代币配置
-│   ├── lib/                    # 工具函数库
-│   ├── styles/                 # 样式目录
-│   ├── router.tsx              # 路由配置（含路由守卫）
-│   ├── i18n.ts                 # 国际化配置
-│   ├── main.tsx                # 应用入口
-│   ├── App.tsx                 # App 导出
-│   ├── App.css                 # App 样式
-│   └── index.css               # 全局样式
-├── dist/                        # 构建输出目录
-├── node_modules/                # 依赖包
-├── .git/                        # Git 仓库
-├── package.json                 # 项目配置
-├── vite.config.ts              # Vite 配置
-├── tsconfig.json               # TypeScript 配置
-├── tailwind.config.js          # Tailwind 配置
-├── eslint.config.js            # ESLint 配置
-├── postcss.config.js           # PostCSS 配置
-└── README.md                    # 项目说明
+│   ├── app/                     # App 壳层（懒加载）
+│   ├── assets/                  # 前端静态配置
+│   ├── components/              # 业务组件（资产、红包、邀请、排行榜…）
+│   ├── config/                  # 环境变量加载与校验
+│   ├── hooks/                   # TON、Telegram、资产等自定义 Hook
+│   ├── locales/                 # i18n 文案
+│   ├── pages/                   # 页面入口（Assets、RedPacketSale、OfficialRain…）
+│   ├── providers/               # 全局 Provider（主题、React Query）
+│   ├── router.tsx               # 路由与钱包守卫
+│   ├── services/                # 前端数据层（markets、tonService、userService）
+│   ├── server/
+│   │   ├── routes/              # REST 路由（红包、官方雨露、鲸鱼播报）
+│   │   ├── listeners/           # TON 支付监听器
+│   │   ├── services/            # Supabase & 红包业务逻辑
+│   │   ├── jobs/                # 定时任务（价格调整、加速期）
+│   │   └── utils/ & constants/  # 工具函数与配置常量
+│   ├── utils/ | lib/            # 通用工具、图标
+│   ├── i18n.ts / main.tsx       # 国际化初始化与应用入口
+│   └── styles/                  # 全局样式（App.css / index.css）
+├── supabase/                    # 数据库迁移与种子数据
+├── scripts/                     # 环境检测、合约验证脚本
+├── addresses.json               # 最新部署地址快照
+├── package.json / package-lock.json
+└── PROJECT_GUIDE.md             # 本文档
 ```
 
 ---
 
 ## 🎯 核心功能模块
 
-### 0. 登录页（/login）⭐ NEW
-- ✅ TON 钱包连接界面
-- ✅ 签名测试功能
-- ✅ 连接成功自动跳转
-- ✅ 精美的 UI 设计
+### 1. 红包系统（前后端一体）
+- **API**：`src/server/routes/redpacket.ts` 暴露 `/status`、`/session`、`/signature`、`/complete` 等端点，统一返回开发/生产模式数据。
+- **业务服务**：`src/server/services/redpacketService.ts` 调用 Supabase 管理销售档、购买记录、用户余额；`mockRedpacketService.ts` 为开发模式提供离线数据。
+- **TON 支付流程**：
+  1. 前端向 `/api/redpacket/session` 请求购券信息，返回支付地址、memo、到期时间。
+  2. 用户向平台地址转 TON，并在 memo 中携带订单编码。
+  3. `TonPaymentListener` 轮询 Toncenter API，匹配 memo → 计算 TAI 奖励 → 生成待签名 BOC → 标记订单为 `awaitingSignature`。
+  4. 当签名完成 `/complete` 时，Supabase 记录支付流水并累积用户 TAI。
 
-### 1. 市场首页（/）
-- ✅ 实时奖池展示（TAI 代币，每 3 秒刷新）
-- ✅ 市场卡片列表（支持 4 种筛选：全部/进行中/已结束/我的注单）
-- ✅ 鲸鱼动向实时提醒（轮播展示大额交易）
-- ✅ TonConnect 钱包连接
-- ✅ 主题切换（明暗模式）
-- ✅ 语言切换（中英文）
+### 2. 预测市场与资产中心
+- 实时奖池、鲸鱼播报、下注签名（`useTonSignature`）
+- 资产中心展示余额、趋势、红包领取概览，调用 `useAssetData` & `useRedPacketSale`
 
-### 2. 市场详情（/detail/:id）
-- 查看单个预测市场的详细信息
-- 历史交易记录
-- 参与下注
+### 3. 官方雨露与邀请系统
+- `/assets/official` 基于 Supabase Mock 数据刷新倒计时
+- 邀请页面提供奖励分布，后端路由预留
 
-### 3. 创建市场（/create）
-- 用户自定义创建预测市场
-- 表单验证（React Hook Form + Zod）
-- 市场时间表设置
+### 4. 智能合约支撑
+- `TAIMaster` 管理主供应量、锁仓释放；`TransferLocked` 消息将锁仓额度挪至 Vesting
+- `VestingContract` 支持 18 期价格配置与线性释放，通过 `ConfigurePrice`/`ReleaseRound` 控制
+- `scripts/deployAll.ts` 组合部署，`scripts/contractSetup.cjs` 生成 deterministic 地址，`scripts/verifyContracts.js` 对部署结果做一致性校验
 
-### 4. 红包功能（/red-packet）
-- 发放和领取红包
-- 红包历史记录
-
-### 5. 个人中心（/profile）
-- 用户等级系统（经验值、升级进度）
-- 连续签到天数
-- 称号系统（已获得称号展示）
-- 里程碑成就追踪
-- 盲盒开启功能
-
-### 6. 邀请系统（/invite）
-- 邀请链接生成
-- 邀请奖励统计
-- 邀请历史记录
-
-### 7. 头像市场（/avatars）
-- 头像 NFT 浏览和交易
-- 头像筛选功能（AvatarFilters）
-- 网格展示（AvatarGrid）
-- 盲盒开启（AvatarBlindBox）
-- 库存管理（AvatarInventory）
-- 108 个头像 PNG 资源
-
-### 8. 排行榜（/ranking）
-- 用户排名展示
-- 实时数据更新
-- 分享功能
+### 5. 环境变量体系
+- `.env.example` 列出 115 个核心配置项（当前文件包含 134 条变量，其中 115 项被服务端/前端直接引用），覆盖 TON、Supabase、Telegram、红包参数、Feature Flag、缓存、日志等。
+- `src/config/env.ts`/`loadEnv.ts` 提供分层读取、115 项功能开关、打印摘要与必填项校验。
 
 ---
 
 ## 🌐 国际化（i18n）
 
-### 支持语言
-- 🇨🇳 简体中文（zh）
-- 🇺🇸 英文（en）
-
-### 命名空间
-项目采用模块化 i18n 配置，包含 **14 个命名空间**：
-
-| 命名空间 | 说明 |
-|---------|------|
-| `translation` | 通用翻译 |
-| `app` | 应用级别（主题等） |
-| `actions` | 操作按钮 |
-| `market` | 市场相关 |
-| `detail` | 市场详情 |
-| `create` | 创建市场 |
-| `redpacket` | 红包功能 |
-| `profile` | 个人中心 |
-| `invite` | 邀请系统 |
-| `history` | 历史记录 |
-| `avatar` | 头像市场 |
-| `ranking` | 排行榜 |
-| `login` | 登录页面 ⭐ NEW |
-| `common` | 通用文案 |
-
-### 语言切换逻辑
-1. 自动检测浏览器语言
-2. 支持 URL 参数指定（`?lng=zh`）
-3. 手动切换后存储到 localStorage
-4. 默认回退语言：英文
+- 语言：简体中文（zh）、英文（en）
+- 自动检测顺序：URL → localStorage → 浏览器首选语言
+- 命名空间（18 个）：`translation`, `detail`, `create`, `redpacket`, `assets`, `profile`, `invite`, `history`, `ranking`, `login`, `app`, `actions`, `market`, `theme`, `nav`, `form`, `common`, `brand`
 
 ---
 
-## 🔗 TON 区块链集成
+## 🧠 服务端架构
 
-### 钱包连接
-使用 **TonConnect** 协议实现钱包连接：
-
-```typescript
-// 配置文件位置
-public/tonconnect-manifest.json
-
-// 关键 Hook 1: useTonWallet（钱包状态）
-import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
-
-export function useTonSignature() {
-  const [tonConnectUI] = useTonConnectUI();
-  const wallet = useTonWallet();
-  
-  const requestSignature = async (text: string) => {
-    return tonConnectUI.signData({ type: 'text', text });
-  };
-  
-  return { wallet, isReady: Boolean(wallet), requestSignature };
-}
-
-// 关键 Hook 2: useTonSign（签名功能）⭐ NEW
-export function useTonSign() {
-  const [tonConnectUI] = useTonConnectUI();
-  const [loading, setLoading] = useState(false);
-  
-  const sign = async (message: string) => {
-    setLoading(true);
-    try {
-      const result = await tonConnectUI.signData({
-        type: 'text',
-        text: message,
-      });
-      return result;
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  return { sign, loading };
-}
-```
-
-### 路由守卫 ⭐ NEW
-项目实现了完整的**钱包连接路由守卫**：
-
-```typescript
-// src/router.tsx
-const withWalletGuard = (element: ReactElement) => {
-  const WalletGuard = () => {
-    const wallet = useTonWallet();
-    if (!wallet) {
-      return <Navigate to="/login" replace />;
-    }
-    return element;
-  };
-  return <WalletGuard />;
-};
-
-// 所有页面都受保护，未连接钱包自动跳转到登录页
-export const router = createBrowserRouter([
-  { path: '/login', element: <Login /> },
-  { path: '/', element: withWalletGuard(<App />) },
-  { path: '/detail/:id', element: withWalletGuard(<Detail />) },
-  // ... 其他受保护路由
-]);
-```
-
-### 功能清单
-- ✅ 钱包连接/断开
-- ✅ 账户地址展示
-- ✅ 交易签名请求
-- ✅ 登录页面（/login）
-- ✅ 路由守卫（未连接自动跳转）
-- ✅ 签名测试功能
-- ⏳ 链上交易提交（待对接后端）
-- ⏳ 代币余额查询（待对接后端）
+- **TON 支付监听**：`src/server/listeners/tonPayment.ts` 以 15 秒轮询 Toncenter，跳过历史交易缓存、处理金额校验，生成未签名 BOC 并更新 Supabase。
+- **红包服务层**：`src/server/services/redpacketService.ts` 负责销售档案、订单会话、签名状态、加速期统计、用户余额追踪；在 `config.features.mockData` 为 `true` 时切换到 `mockRedpacketService.ts`。
+- **定时任务**：
+  - `startPriceAdjustJob`（每日 00:00）根据昨日销量自动调整 TON 售价，刷新当日场次。
+  - `startAccelerateJob`（每日 20:00/00:00）控制加速期倍率，后续将结合 Telegram 通知。
+  - `startOfficialCreateJob`（见 `jobs/officialCreate.ts`）预留官方雨露生成。
+- **Mock 开发模式**：当 `.env` 启用 `ENABLE_MOCK_DATA=true`，服务器自动回落到 Mock 服务，便于本地调试无需 Supabase/TON。
 
 ---
 
-## 🎨 主题系统
+## 🗄️ 数据库集成
 
-### 明暗主题
-- **亮色主题**：默认白色背景
-- **暗色主题**：深色背景
-- **自动检测**：跟随系统设置
-- **持久化**：localStorage 存储用户选择
-
-### 主题变量（TailwindCSS）
-```css
-/* 示例：文本颜色变量 */
-.text-text-primary    /* 主要文本 */
-.text-text-secondary  /* 次要文本 */
-.bg-background        /* 背景色 */
-.bg-surface           /* 卡片背景 */
-.text-accent          /* 强调色 */
-```
+- **迁移文件**：`supabase/migrations/` 提供基础 Schema（用户、预测、下注、官方雨露）与红包核心表（`redpacket_sales`、`redpacket_purchases`、`user_balances`）。
+- **关键结构**：
+  - `redpacket_sales`：记录日场价格、基础/最大 TAI、加速倍率、售罄情况。
+  - `redpacket_purchases`：存储每笔订单 memo、TON 金额、奖励区间、签名状态、过期时间。
+  - `user_balances`：维护钱包累计/可用 TAI 以及 TON 支出。
+- **Triggers & Materialized View**：迁移中包含 `update_updated_at()` 触发器与 `redpacket_sale_snapshot` 视图，供 API 快速读取当前场次。
 
 ---
 
-## 🚀 快速开始
+## 🚀 开发与运行
 
-### 环境要求
-- **Node.js**: >= 18.0.0
-- **npm**: >= 9.0.0
-
-### 安装依赖
 ```bash
+# 安装依赖（根目录）
 npm install
-```
 
-### 开发模式
-```bash
+# 一键启动（前端 + 服务端）
 npm run dev
-# 访问 http://localhost:5173
-# 支持局域网访问：http://0.0.0.0:5173
+
+# 独立启动
+npm run dev:client      # 仅前端
+npm run dev:server      # 仅服务端（含 Bot、Cron、TON 监听）
+
+# 构建
+npm run build           # 前端打包 + 服务端编译
+npm run build:client
+npm run build:server
+
+# 合约开发（在 contracts/ 目录）
+npx tact compile                     # 编译 Tact 合约
+npx tact test                        # 运行合约单元测试
+node scripts/deployAll.ts            # 依据 config 部署 TAIMaster + Vesting
+node ../scripts/verifyContracts.js   # 在仓库根目录校验部署结果
+
+# 数据库
+npx supabase db reset --local        # 重建本地 Supabase
+npx supabase db push                 # 执行迁移到远程/本地实例
+
+# 系统校验
+npm run env:check                    # 检查 115 项环境变量配置
+npm run lint                         # 代码风格检查
 ```
 
-### 构建生产版本
-```bash
-npm run build
-# 输出目录：dist/
-```
-
-### 预览生产构建
-```bash
-npm run preview
-```
-
-### 代码检查
-```bash
-npm run lint
-```
+> 推荐先执行 `npm run setup` 生成 `.env.local` 并填入必需配置，再启动服务端以加载 Supabase 与 TON 监听。
 
 ---
 
 ## 📦 部署说明
 
-### 构建产物
-```bash
-npm run build
-```
-生成的 `dist/` 目录包含：
-- `index.html` - 入口 HTML
-- `assets/` - 打包后的 JS/CSS
-- `avatars/` - 头像资源
-- `tonconnect-manifest.json` - TON 配置
+1. **智能合约**
+   - `cd contracts`
+   - `npx tact compile` 生成 `build/` 工件
+   - 使用 `node scripts/deployAll.ts` 或单独的 `deployTAIMaster.ts`、`deployVestingContract.ts` 推送到链上
+   - 将部署结果写入根目录 `addresses.json`，随后运行 `node scripts/verifyContracts.js` 校验 stateInit / 地址一致性
 
-### 部署平台推荐
-- **Vercel**（推荐）
-- **Netlify**
-- **GitHub Pages**
-- **Cloudflare Pages**
-- **IPFS**（去中心化部署）
+2. **数据库迁移**
+   - 使用 Supabase CLI：`npx supabase db push`
+   - 生产环境推荐执行 `supabase db dump` 备份后再迁移
 
-### 环境变量（如需要）
-创建 `.env` 文件：
-```env
-VITE_API_URL=https://api.example.com
-VITE_TON_NETWORK=mainnet
-```
+3. **Telegram Bot**
+   - 在 `.env` 中配置 `TELEGRAM_ADMIN_BOT_TOKEN`、`TELEGRAM_ADMIN_IDS`、`TELEGRAM_CHANNEL_ID`
+   - `src/server/bot/index.ts` 会在服务端启动时自动拉起 bot 并监听通知指令
 
----
+4. **环境变量指南**
+   - `.env.example` 归类 10 余个模块（Server/Ton/Telegram/Supabase/Redpacket/OfficialRain/Whale/Logging 等）
+   - `npm run env:check` 输出缺失键，并在开发模式打印配置摘要
+   - 生产部署需确保 TON API Key、钱包私钥、Supabase Service Key 等敏感信息使用安全秘钥管控
 
-## 🔧 配置文件说明
-
-### vite.config.ts
-Vite 构建配置，使用 React 插件。
-
-### tailwind.config.js
-TailwindCSS 主题配置，包含自定义颜色、字体等。
-
-### tsconfig.json
-TypeScript 编译配置，包含：
-- `tsconfig.app.json` - 应用代码配置
-- `tsconfig.node.json` - Node 脚本配置
-
-### eslint.config.js
-ESLint 代码规范配置，集成：
-- TypeScript 支持
-- React 规则
-- Prettier 兼容
-
-### public/tonconnect-manifest.json
-TON 钱包连接配置：
-```json
-{
-  "url": "https://example.com",
-  "name": "Taizhunle",
-  "iconUrl": "https://example.com/icon.png"
-}
-```
-⚠️ **部署前需要更新为实际域名**
+5. **应用部署**
+   - 前端：`npm run build:client` → 部署 `dist/` 至 Vercel/Netlify/Cloudflare Pages
+   - 服务端：`npm run build:server` 后运行 `node dist/server/main.js`（可托管于 Railway/Fly/自建 VPS）
 
 ---
 
-## 📝 开发规范
+## 🔧 配置与服务清单
 
-### 代码风格
-- 使用 ESLint + Prettier 自动格式化
-- 遵循 Airbnb React 规范
-- 使用 TypeScript 严格模式
-
-### 组件规范
-- 功能组件优先（React Hooks）
-- 组件文件使用 PascalCase 命名
-- 自定义 Hook 以 `use` 开头
-
-### Git 提交规范（建议）
-```
-feat: 新功能
-fix: 修复 bug
-docs: 文档更新
-style: 代码格式调整
-refactor: 重构
-test: 测试相关
-chore: 构建/工具链相关
-```
+- `src/config/env.ts` / `loadEnv.ts`：环境变量读取、功能开关、敏感值检查
+- `src/services/tonService.ts`：TON API 请求、交易监听辅助、支付链接生成工具
+- `src/services/userService.ts`：用户资产数据占位层，待与 Supabase 接口对接
+- `src/server/routes/`：REST API 路由
+- `src/server/services/`：Supabase 客户端、红包服务、Mock 服务
+- `src/server/listeners/tonPayment.ts`：TON 支付轮询器
+- `src/server/jobs/*.ts`：价格调整、加速期、官方雨露创建调度
 
 ---
 
-## 🔒 安全注意事项
+## 🐛 待办与风险
 
-1. **私钥安全**：永远不要在代码中硬编码私钥
-2. **环境变量**：敏感信息使用环境变量
-3. **钱包签名**：所有交易需要用户明确确认
-4. **输入验证**：使用 Zod 进行数据验证
-5. **XSS 防护**：i18next 配置了 `escapeValue: false`，需注意用户输入
+### 近期计划
+- [ ] 将红包前端与 Supabase 后端联通（替换 Mock 数据）
+- [ ] 追加 TON BOC 签名服务，并与链上实发交易打通
+- [ ] 接入用户余额与下注记录真实 API
+- [ ] 统一 Telegram Bot 通知内容（加速期提醒、支付异常）
+- [ ] 为服务端添加集成测试与错误告警
 
----
-
-## 📊 性能优化
-
-- ✅ Vite 构建优化（代码分割、Tree Shaking）
-- ✅ React.lazy 懒加载（可扩展）
-- ✅ TanStack Query 数据缓存
-- ✅ 图片资源优化
-- ⏳ CDN 加速（待配置）
+### 风险评估
+- **链上风险**：TON API 轮询依赖 Toncenter，可考虑自建节点/多端口容灾
+- **安全风险**：钱包私钥、Supabase Service Key 必须使用安全存储；支付监听需校验金额与 memo 防止伪造
+- **性能风险**：红包销量高峰需关注 Supabase TPS、定时任务写入频率与 TON 查询限额
 
 ---
 
-## 📊 数据层架构 ⭐ NEW
+## 📞 支持
 
-### Services 层
-项目新增了 `src/services/` 目录，使用 **TanStack Query** 管理服务端状态：
-
-```typescript
-// src/services/markets.ts
-
-// 类型定义
-export type MarketFilter = 'all' | 'live' | 'closed' | 'my';
-export type MarketCard = {
-  id: string;
-  filter: 'live' | 'closed';
-  isMine?: boolean;
-  title: string;
-  description: string;
-  status: string;
-  odds: string;
-  volume: string;
-  pool: number;
-  bets: MarketBet[];
-};
-
-// 自定义 Hooks
-export const useMarketsQuery = (filter: MarketFilter) => useQuery(...);
-export const useMarketDetailQuery = (id: string) => useQuery(...);
-export const usePlaceBetMutation = () => useMutation(...);
-```
-
-### Mock 数据
-当前使用 **本地 Mock 数据**模拟 API 响应：
-- 3 个预设市场（BTC、ETH、TON）
-- 每个市场包含历史下注记录
-- 模拟 300ms 网络延迟
-
-### 数据流
-```
-Component → Custom Hook (useMarketsQuery) → TanStack Query → Mock API → State
-```
-
----
-
-## 🐛 已知问题与待办
-
-### 待对接后端
-- [ ] 替换 Mock 数据为真实 API
-- [ ] 市场数据实时更新（WebSocket）
-- [ ] 用户余额实时查询
-- [ ] 下注交易链上提交
-- [ ] 排行榜数据接口
-- [ ] 邀请奖励结算逻辑
-- [ ] 红包功能后端集成
-
-### 功能增强
-- [ ] 添加单元测试（Jest + React Testing Library）
-- [ ] 添加 E2E 测试（Playwright）
-- [ ] 完善错误边界处理
-- [ ] 添加 PWA 支持
-- [ ] 优化移动端体验
-
-### 性能优化
-- [ ] 图片懒加载
-- [ ] 虚拟滚动（长列表）
-- [ ] Service Worker 缓存
-
----
-
-## 📞 联系与支持
-
-### 项目维护
-- **开发者**：[待填写]
-- **联系方式**：[待填写]
-
-### 相关链接
-- TON 官网：https://ton.org
-- TonConnect 文档：https://docs.ton.org/develop/dapps/ton-connect
-- React 文档：https://react.dev
-- Vite 文档：https://vitejs.dev
+- **维护者**：待补充
+- **联系渠道**：待补充
+- 参考资料：
+  - TON：https://ton.org
+  - TonConnect：https://docs.ton.org/develop/dapps/ton-connect
+  - Tact：https://docs.tact-lang.org
+  - Supabase：https://supabase.com/docs
+  - React：https://react.dev
+  - Vite：https://vitejs.dev
 
 ---
 
 ## 📄 许可证
 
-[待添加许可证信息]
+待补充
 
 ---
 
-**最后更新**：2025-10-27  
-**版本**：v0.1.0  
+**最后更新**：2025-01-31  
+**版本**：v1.0.0  
 **更新内容**：
-- ✅ 新增登录页面（/login）
-- ✅ 实现钱包路由守卫
-- ✅ 新增 services 数据层
-- ✅ 优化项目结构文档
-- ✅ 更新至 44 个源文件、2064 行代码
+- ✅ 上线红包系统后端 API + TON 支付监听，并完成 Supabase 数据建模
+- ✅ 集成 Tact 智能合约（TAIMaster & Vesting），提供部署与验证脚本
+- ✅ 完成环境变量、部署、开发流程与数据库/服务端架构文档化

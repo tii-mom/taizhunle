@@ -17,9 +17,7 @@
     "eth|live|ETH staking APY drops under 3%|Validators react to upcoming network upgrades.|Live odds|3.10x|12,887 TAI",
     "ton|closed|TON TVL hits all-time high|Layer-1 incentives draw whales back to TON.|Settled odds|9.30x|5,204 TAI"
   ],
-  "cta": {
-    "avatars": "Avatar market",
-    "create": "Create market",
+  "cta": {    "create": "Create market",
     "enter": "Enter market",
     "invite": "Invite rewards",
     "packets": "Open red packets",

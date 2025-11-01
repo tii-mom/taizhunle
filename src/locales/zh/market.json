@@ -29,9 +29,7 @@
       "description": "Layer-1 激励计划吸引鲸鱼回流 TON 生态。"
     }
   },
-  "cta": {
-    "avatars": "头像市场",
-    "create": "创建盘口",
+  "cta": {    "create": "创建盘口",
     "enter": "进入盘口",
     "invite": "邀请收益",
     "packets": "打开红包",

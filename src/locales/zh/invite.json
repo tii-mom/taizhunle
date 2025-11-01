@@ -1,15 +1,18 @@
 {
-  "actions": {
-    "copy": "复制邀请码"
+  "hero": {
+    "title": "邀请 = 永久提款机",
+    "subtitle": "每次好友下注，你都赚 1.5%",
+    "refreshNote": "60 秒实时刷新"
   },
-  "rewards": {
-    "highlight": "返利梯度",
-    "note": "每小时刷新一次",
-    "tiers": [
-      "等级一|5% 返利",
-      "等级二|8% 返利",
-      "等级三|12% 返利"
-    ]
+  "actions": {
+    "copy": "一键分享",
+    "claim": "集中领取",
+    "share": "分享高颜值卡片"
+  },
+  "effect": {
+    "title": "邀请效果",
+    "subtitle": "深度转化可视化",
+    "steps": ["点击", "注册", "下注", "你赚 1.5%"]
   },
   "subtitle": "分享邀请码，壮大社区，实时领取 TAI 返利。",
   "summary": {
@@ -19,21 +22,25 @@
       "邀请赢奖励",
       "邀请码",
       "将此代码分享给 Telegram 好友即可解锁奖励。",
-      "累计邀请：128",
-      "活跃交易：64",
-      "待发返利：420 TAI"
-    ]
+      "累计邀请：{{totalInvites}}",
+      "活跃交易：{{activeTraders}}",
+      "待发返利：{{pendingEarnings}} TAI"
+    ],
+    "realtime": "实时收益",
+    "totalEarnings": "累计收益"
   },
   "title": "邀请收益",
   "toasts": {
-    "copied": "邀请链接已复制",
+    "copied": "SEO 文案已复制 🎉",
+    "claimed": "到账成功 🎉 {{amount}} TAI 已到账",
     "withdraw": "提现请求已提交"
   },
   "withdraw": {
-    "action": "申请提现",
-    "balance": "1,280 TAI",
-    "description": "将确认返利提取至已连接的 TON 钱包。",
+    "action": "集中领取",
+    "balance": "{{balance}} TAI",
+    "description": "请集中领取，仅需支付一次 gas 费",
     "heading": "收益领取",
-    "note": "单次至少提取 50 TAI，预计 24 小时内到账。"
+    "note": "预计 gas 费：{{gasFee}} TON",
+    "gasFeeLabel": "Gas 费"
   }
 }

@@ -6,17 +6,6 @@ type RedPacketData = {
   lastClaimTime?: string;
 };
 
-type TitleData = {
-  current: string;
-  progress: number;
-  next: string;
-};
-
-type AvatarData = {
-  owned: number;
-  total: number;
-};
-
 type PredictionData = {
   total: number;
   winRate: number;
@@ -32,8 +21,6 @@ type AssetData = {
   balance: number;
   change24h: number;
   redPackets: RedPacketData | null;
-  titles: TitleData | null;
-  avatars: AvatarData | null;
   predictions: PredictionData | null;
 };
 
@@ -45,15 +32,6 @@ const MOCK_DATA: AssetData = {
     total: 10,
     claimed: 7,
     lastClaimTime: '2025-10-28T10:30:00Z',
-  },
-  titles: {
-    current: 'Prediction Master',
-    progress: 65,
-    next: 'Oracle',
-  },
-  avatars: {
-    owned: 8,
-    total: 50,
   },
   predictions: {
     total: 42,
@@ -95,8 +73,6 @@ export function useAssetData() {
     balance: data.balance,
     change24h: data.change24h,
     redPackets: data.redPackets,
-    titles: data.titles,
-    avatars: data.avatars,
     predictions: data.predictions,
     isLoading,
     error,

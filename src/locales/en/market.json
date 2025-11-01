@@ -29,9 +29,7 @@
       "description": "Layer-1 incentives draw whales back to TON."
     }
   },
-  "cta": {
-    "avatars": "Avatar market",
-    "create": "Create market",
+  "cta": {    "create": "Create market",
     "enter": "Enter market",
     "invite": "Invite rewards",
     "packets": "Open red packets",

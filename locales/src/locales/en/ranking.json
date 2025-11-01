@@ -26,16 +26,6 @@
     "seoTitle": "Taizhunle leaderboard",
     "template": "Taizhunle leaderboard — 1) Amber Whale 2) Validator Yun 3) DeFi Scout"
   },
-  "subtitle": "Monitor live leaderboards, chase new titles, and share highlights with Telegram.",
-  "title": "Global ranking hub",
-  "titles": {
-    "description": "Complete streaks to unlock seasonal honorifics.",
-    "entries": [
-      "Market Oracle|72% to Mythic|Bonus: +8% rebate",
-      "Liquidity Scout|54% to Elite|Bonus: +3% rebate",
-      "Telegram Herald|38% to Trailblazer|Bonus: Share booster",
-      "Whale Whisperer|25% to Keeper|Bonus: Blind box coupon"
-    ],
-    "heading": "Title sprint"
-  }
+  "subtitle": "Monitor real-time leaders, track earnings, and share the highlights instantly.",
+  "title": "Global ranking hub"
 }

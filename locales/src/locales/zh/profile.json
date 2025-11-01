@@ -3,48 +3,30 @@
     "items": [
       "完成 5/5 周度预测任务。",
       "向 Telegram 社群分享 3 个盘口。",
-      "保持 14 天连续奖励。"
+      "保持 14 天的持续活跃。"
     ]
   },
-  "blindbox": {
-    "description": "开启盲盒即可获得限量头像与赛季头像框。",
-    "heading": "头像盲盒",
-    "notice": "每次盲盒消耗 50 TAI，奖励将立即进入头像仓库。",
-    "open": "开启盲盒"
-  },
   "milestones": {
-    "empty": "暂未解锁成就，参与预测即可开启奖励。",
-    "heading": "称谓进度",
+    "empty": "暂未记录新的活动，完成一笔预测即可刷新列表。",
+    "heading": "进度快照",
     "labels": [
-      "进度概览",
-      "成长里程碑",
+      "当前进度",
+      "年度里程碑",
       "完成度：{{value}}",
-      "最新成就"
+      "最新事件"
     ],
     "progress": {
       "current": "4820",
       "target": "6000"
     }
   },
-  "subtitle": "查看成长路径、解锁称谓，并通过盲盒获取限量头像。",
-  "title": "个人中心",
-  "titles": {
-    "active": "当前称谓：Market Oracle",
-    "heading": "我的称谓",
-    "list": [
-      "Market Oracle",
-      "Liquidity Scout",
-      "Telegram Herald",
-      "Whale Whisperer",
-      "DeFi Cartographer",
-      "Prediction Scholar"
-    ]
-  },
+  "subtitle": "查看钱包状态、交易进度与最新成就。",
+  "title": "账户概览",
   "user": {
-    "exp": "经验值|4,820 / 6,000",
-    "level": "等级|传奇段位",
+    "exp": "总下注|4,820 次",
+    "level": "账户类型|高级账户",
     "name": "Amber Whale",
-    "nextLevel": "下一解锁|传奇段位 II",
-    "streak": "连续登录：21 天"
+    "nextLevel": "累计收益|6,000 TAI",
+    "streak": "最近活跃：21 天内"
   }
 }

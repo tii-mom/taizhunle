@@ -1,0 +1,64 @@
+
+> taizhunle@0.0.0 build
+> tsc -b && vite build && tsc -p tsconfig.server.json
+
+src/hooks/useTelegramWebApp.ts(144,5): error TS2717: Subsequent property declarations must have the same type.  Property 'Telegram' must be of type '{ WebApp?: { themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; } | undefined; } | undefined', but here has type '{ WebApp: TelegramWebApp; } | undefined'.
+src/hooks/useTelegramWebApp.ts(206,17): error TS2345: Argument of type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }' is not assignable to parameter of type 'SetStateAction<TelegramWebApp | null>'.
+  Type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }' is missing the following properties from type 'TelegramWebApp': initData, initDataUnsafe, version, platform, and 25 more.
+src/hooks/useTelegramWebApp.ts(209,10): error TS2339: Property 'ready' does not exist on type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }'.
+src/hooks/useTelegramWebApp.ts(213,15): error TS2339: Property 'isExpanded' does not exist on type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }'.
+src/hooks/useTelegramWebApp.ts(214,12): error TS2339: Property 'expand' does not exist on type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }'.
+src/hooks/useTelegramWebApp.ts(218,21): error TS2339: Property 'version' does not exist on type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }'.
+src/hooks/useTelegramWebApp.ts(219,22): error TS2339: Property 'platform' does not exist on type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }'.
+src/hooks/useTelegramWebApp.ts(220,18): error TS2339: Property 'initDataUnsafe' does not exist on type '{ themeParams?: { accent_color?: string | undefined; bg_color?: string | undefined; text_color?: string | undefined; hint_color?: string | undefined; link_color?: string | undefined; button_color?: string | undefined; button_text_color?: string | undefined; } | undefined; }'.
+src/server/bot/index.ts(2,1): error TS6133: 'config' is declared but its value is never read.
+src/server/bot/mockBot.ts(16,21): error TS6133: 'callback' is declared but its value is never read.
+src/server/jobs/priceAdjust.ts(47,41): error TS2339: Property 'sold_tai' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(60,47): error TS2339: Property 'price_ton' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(64,41): error TS2339: Property 'base_tai' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(65,40): error TS2339: Property 'max_tai' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(66,42): error TS2339: Property 'total_tai' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(93,35): error TS2339: Property 'accelerate_rate' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(96,31): error TS2339: Property 'memo_prefix' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(103,27): error TS2339: Property 'sold_tai' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(110,15): error TS2345: Argument of type '{ sale_code: string; price_ton: number; base_tai: number; max_tai: number; total_tai: number; sold_tai: number; sold_out: boolean; accelerate: boolean; accelerate_rate: any; price_adjustment: number; price_adjusted_at: string; memo_prefix: any; start_at: string; expires_at: string; }' is not assignable to parameter of type 'never'.
+src/server/jobs/priceAdjust.ts(113,26): error TS2339: Property 'id' does not exist on type 'never'.
+src/server/jobs/priceAdjust.ts(125,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "redpacket_sales", never, "POST">', gave the following error.
+    Argument of type '{ sale_code: string; price_ton: number; base_tai: number; max_tai: number; total_tai: number; sold_tai: number; sold_out: boolean; accelerate: boolean; accelerate_rate: any; price_adjustment: number; price_adjusted_at: string; memo_prefix: any; start_at: string; expires_at: string; }' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "redpacket_sales", never, "POST">', gave the following error.
+    Argument of type '{ sale_code: string; price_ton: number; base_tai: number; max_tai: number; total_tai: number; sold_tai: number; sold_out: boolean; accelerate: boolean; accelerate_rate: any; price_adjustment: number; price_adjusted_at: string; memo_prefix: any; start_at: string; expires_at: string; }' is not assignable to parameter of type 'never[]'.
+      Type '{ sale_code: string; price_ton: number; base_tai: number; max_tai: number; total_tai: number; sold_tai: number; sold_out: boolean; accelerate: boolean; accelerate_rate: any; price_adjustment: number; price_adjusted_at: string; memo_prefix: any; start_at: string; expires_at: string; }' is missing the following properties from type 'never[]': length, pop, push, concat, and 29 more.
+src/server/services/mockRedpacketService.ts(115,15): error TS6133: 'memo' is declared but its value is never read.
+src/server/services/redpacketService.ts(170,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "redpacket_sales", never, "POST">', gave the following error.
+    Argument of type 'RedpacketSalesInsert' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "redpacket_sales", never, "POST">', gave the following error.
+    Argument of type 'RedpacketSalesInsert' is not assignable to parameter of type 'never[]'.
+      Type 'RedpacketSalesInsert' is missing the following properties from type 'never[]': length, pop, push, concat, and 29 more.
+src/server/services/redpacketService.ts(200,13): error TS2345: Argument of type '{ sold_tai: number; sold_out: boolean; }' is not assignable to parameter of type 'never'.
+src/server/services/redpacketService.ts(213,13): error TS2345: Argument of type '{ status: "expired"; }' is not assignable to parameter of type 'never'.
+src/server/services/redpacketService.ts(248,15): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "user_balances", never, "POST">', gave the following error.
+    Argument of type 'UserBalanceInsert' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "user_balances", never, "POST">', gave the following error.
+    Argument of type 'UserBalanceInsert' is not assignable to parameter of type 'never[]'.
+      Type 'UserBalanceInsert' is missing the following properties from type 'never[]': length, pop, push, concat, and 29 more.
+src/server/services/redpacketService.ts(265,13): error TS2345: Argument of type '{ total_tai: number; available_tai: number; total_ton: number; }' is not assignable to parameter of type 'never'.
+src/server/services/redpacketService.ts(291,40): error TS2339: Property 'amount_tai' does not exist on type 'never'.
+src/server/services/redpacketService.ts(297,18): error TS2339: Property 'status' does not exist on type 'never'.
+src/server/services/redpacketService.ts(298,18): error TS2339: Property 'status' does not exist on type 'never'.
+src/server/services/redpacketService.ts(383,13): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(values: never, options?: { count?: "exact" | "planned" | "estimated" | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "redpacket_purchases", never, "POST">', gave the following error.
+    Argument of type 'RedpacketPurchaseInsert' is not assignable to parameter of type 'never'.
+  Overload 2 of 2, '(values: never[], options?: { count?: "exact" | "planned" | "estimated" | undefined; defaultToNull?: boolean | undefined; } | undefined): PostgrestFilterBuilder<{ PostgrestVersion: string; }, never, never, null, "redpacket_purchases", never, "POST">', gave the following error.
+    Argument of type 'RedpacketPurchaseInsert' is not assignable to parameter of type 'never[]'.
+      Type 'RedpacketPurchaseInsert' is missing the following properties from type 'never[]': length, pop, push, concat, and 29 more.
+src/server/services/redpacketService.ts(392,22): error TS2339: Property 'id' does not exist on type 'never'.
+src/server/services/redpacketService.ts(455,13): error TS2345: Argument of type '{ status: "awaiting_signature"; amount_tai: number; ton_amount: number; tx_hash: string; unsigned_boc: string; payment_detected_at: string; accelerate: boolean; tai_multiplier: number; }' is not assignable to parameter of type 'never'.
+src/server/services/redpacketService.ts(475,13): error TS2345: Argument of type '{ status: "completed"; signature: string; processed_at: string; }' is not assignable to parameter of type 'never'.
+src/server/services/redpacketService.ts(537,33): error TS2339: Property 'sold_tai' does not exist on type 'never'.
+src/server/services/redpacketService.ts(538,31): error TS2339: Property 'total_tai' does not exist on type 'never'.
+src/server/services/supabaseClient.ts(24,11): error TS2322: Type 'string' is not assignable to type 'undefined'.
+src/server/services/supabaseClient.ts(42,7): error TS6133: 'target' is declared but its value is never read.
+src/services/tonService.ts(248,9): error TS2698: Spread types may only be created from object types.

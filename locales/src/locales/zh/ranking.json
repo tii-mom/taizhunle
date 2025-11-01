@@ -26,16 +26,6 @@
     "seoTitle": "太准了排行榜",
     "template": "太准了排行榜 — 1) Amber Whale 2) Validator Yun 3) DeFi Scout"
   },
-  "subtitle": "实时追踪顶级玩家、冲刺称谓并一键分享战绩。",
-  "title": "太准了排行榜",
-  "titles": {
-    "description": "完成连胜就能解锁赛季荣誉。",
-    "entries": [
-      "Market Oracle|距 Mythic 还差 72%|奖励：返利 +8%",
-      "Liquidity Scout|距 Elite 还差 54%|奖励：返利 +3%",
-      "Telegram Herald|距 Trailblazer 还差 38%|奖励：分享增幅",
-      "Whale Whisperer|距 Keeper 还差 25%|奖励：盲盒券"
-    ],
-    "heading": "称谓冲榜"
-  }
+  "subtitle": "实时追踪顶级玩家，查看收益并快速分享战绩。",
+  "title": "太准了排行榜"
 }

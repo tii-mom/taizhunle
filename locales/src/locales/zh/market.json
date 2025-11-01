@@ -17,9 +17,7 @@
     "eth|live|ETH 质押年化低于 3%|网络升级与需求变化影响质押收益。|实时赔率|3.10x|12,887 TAI",
     "ton|closed|TON TVL 创历史新高|Layer-1 激励计划吸引鲸鱼回流 TON 生态。|已结算赔率|9.30x|5,204 TAI"
   ],
-  "cta": {
-    "avatars": "头像市场",
-    "create": "创建盘口",
+  "cta": {    "create": "创建盘口",
     "enter": "进入盘口",
     "invite": "邀请收益",
     "packets": "打开红包",

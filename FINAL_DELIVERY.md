@@ -375,7 +375,6 @@ font-mono
 ├── /detail/:id            # 市场详情
 ├── /profile               # 个人中心
 ├── /invite                # 邀请好友
-├── /avatars               # 头像市场
 └── /ranking               # 排行榜
 ```
 

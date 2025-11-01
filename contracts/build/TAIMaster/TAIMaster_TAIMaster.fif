@@ -1,0 +1,387 @@
+// automatically generated from `@stdlib/std/stdlib.fc` `/Users/yudeyou/Desktop/666/taizhunle/contracts/build/TAIMaster/TAIMaster_TAIMaster.fc` 
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_dict_get_slice_int
+  DECLPROC __tact_dict_set_slice_int
+  DECLPROC $TAIMaster$_store
+  DECLPROC $TAIMaster$_load
+  DECLPROC $SupplySummary$_to_external
+  DECLPROC $TAIMaster$init$_load
+  DECLPROC $TAIMaster$_contract_init
+  DECLPROC $TAIMaster$_contract_load
+  DECLPROC $TAIMaster$_contract_store
+  DECLPROC $SupplySummary$_constructor_total_locked_circulating_lockedTransferred
+  DECLPROC $TAIMaster$_fun_summary
+  DECLPROC $TAIMaster$_fun_balanceOfInternal
+  DECLPROC $TAIMaster$_fun_balanceOf
+  77650 DECLMETHOD %summary
+  96915 DECLMETHOD %balanceOf
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_dict_get_slice_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+        DICTGET NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_slice_int PROCINLINE:<{
+    OVER
+    ISNULL
+    IF:<{
+      2DROP
+      -ROT
+          DICTDEL
+      DROP
+    }>ELSE<{
+      NEWC
+      SWAP
+      STIX
+      s1 s3 s3 XCHG3
+      DICTSETB
+    }>
+  }>
+  $TAIMaster$_store PROCINLINE:<{
+    s5 s6 XCHG2
+    STSLICE
+    s1 s3 XCHG
+    STSLICE
+    257 PUSHINT
+    STIX
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    1 STI
+    STBREFR
+  }>
+  $TAIMaster$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDDICT
+    1 LDI
+    DROP
+    s3 s6 XCHG
+    s3 s5 XCHG
+    s3 s4 XCHG
+  }>
+  $SupplySummary$_to_external PROCINLINE:<{
+  }>
+  $TAIMaster$init$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    -ROT
+  }>
+  $TAIMaster$_contract_init PROCINLINE:<{
+    OVER
+    100000000000 PUSHINT
+    90000000000 PUSHINT
+    FALSE
+    PUSHNULL
+    267 PUSHINT
+    s0 s2 s4 XC2PU
+    s1 s8 XCHG
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+    s3 s5 XCHG
+    3 ROLL
+  }>
+  $TAIMaster$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $TAIMaster$_load INLINECALLDICT
+      1 6 BLKDROP2
+    }>ELSE<{
+      $TAIMaster$init$_load INLINECALLDICT
+      s0 s2 XCHG
+      ENDS
+      SWAP
+      $TAIMaster$_contract_init INLINECALLDICT
+    }>
+  }>
+  $TAIMaster$_contract_store PROCINLINE:<{
+    NEWC
+    TRUE
+    SWAP
+    1 STI
+    6 -ROLL
+    $TAIMaster$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $SupplySummary$_constructor_total_locked_circulating_lockedTransferred PROCINLINE:<{
+  }>
+  $TAIMaster$_fun_summary PROCREF:<{
+    2OVER
+    SUB
+    s4 s3 s(-2) PU2XC
+    s3 PUSH
+    $SupplySummary$_constructor_total_locked_circulating_lockedTransferred INLINECALLDICT
+  }>
+  $TAIMaster$_fun_balanceOfInternal PROCREF:<{
+    267 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    __tact_not_null INLINECALLDICT
+  }>
+  $TAIMaster$_fun_balanceOf PROCREF:<{
+    $TAIMaster$_fun_balanceOfInternal INLINECALLDICT
+  }>
+  %summary PROC:<{
+    $TAIMaster$_contract_load INLINECALLDICT
+    $TAIMaster$_fun_summary INLINECALLDICT
+    6 4 BLKDROP2
+    $SupplySummary$_to_external INLINECALLDICT
+  }>
+  %balanceOf PROC:<{
+    $TAIMaster$_contract_load INLINECALLDICT
+    6 ROLL
+    $TAIMaster$_fun_balanceOf INLINECALLDICT
+    6 1 BLKDROP2
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $TAIMaster$_contract_load INLINECALLDICT
+    s0 s7 XCHG
+    IFJMP:<{
+      7 BLKDROP
+    }>
+    0 PUSHINT
+    s6 PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 s6 XCHG
+      32 LDU
+      s0 s7 XCHG
+    }>
+    OVER
+    4234368437 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s5 POP
+      47989 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      s5 PUSH
+      SDEQ
+      THROWANYIFNOT
+      26038 PUSHINT
+      s6 PUSH
+      NOT
+      THROWANYIFNOT
+      s3 PUSH
+      s0 s6 XCHG
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      s0 s2 XCHG
+      $TAIMaster$_fun_balanceOfInternal INLINECALLDICT
+      17892 PUSHINT
+      s1 s4 PUSH2
+      GEQ
+      THROWANYIFNOT
+      267 PUSHINT
+      s1 s4 XCPU
+      SUB
+      s7 PUSH
+      s3 s4 XCHG
+      SWAP
+      257 PUSHINT
+      __tact_dict_set_slice_int INLINECALLDICT
+      s1 s4 XCPU
+      $TAIMaster$_fun_balanceOfInternal INLINECALLDICT
+      267 PUSHINT
+      s2 POP
+      s3 PUSH
+      ADD
+      s5 s(-1) PUXC
+      257 PUSHINT
+      __tact_dict_set_slice_int INLINECALLDICT
+      TRUE
+      $TAIMaster$_contract_store INLINECALLDICT
+    }>
+    OVER
+    3690960551 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s5 XCHG
+      LDMSGADDR
+      257 PUSHINT
+      LDIX
+      DROP
+      47989 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      s7 PUSH
+      SDEQ
+      THROWANYIFNOT
+      10849 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      s6 s7 s5 XC2PU
+      $TAIMaster$_fun_balanceOfInternal INLINECALLDICT
+      17892 PUSHINT
+      s1 s9 PUSH2
+      GEQ
+      THROWANYIFNOT
+      267 PUSHINT
+      s1 s9 XCPU
+      SUB
+      s7 PUSH
+      s3 s4 XCHG
+      SWAP
+      257 PUSHINT
+      __tact_dict_set_slice_int INLINECALLDICT
+      s1 s6 XCPU
+      $TAIMaster$_fun_balanceOfInternal INLINECALLDICT
+      267 PUSHINT
+      s0 s9 XCHG
+      ADD
+      s2 s3 XCHG
+      s8 s7 s0 XCHG3
+      257 PUSHINT
+      __tact_dict_set_slice_int INLINECALLDICT
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      s0 s2 XCHG
+      $TAIMaster$_contract_store INLINECALLDICT
+    }>
+    s7 POP
+    0 EQINT
+    s0 s6 XCHG
+    33 LESSINT
+    s1 s6 XCHG
+    AND
+    IFJMP:<{
+      s3 s5 XCHG
+      2 3 BLKSWAP
+      $TAIMaster$_contract_store INLINECALLDICT
+    }>
+    6 BLKDROP
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c

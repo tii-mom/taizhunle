@@ -1,0 +1,453 @@
+// automatically generated from `@stdlib/std/stdlib.fc` `/Users/yudeyou/Desktop/666/taizhunle/contracts/build/VestingContract/VestingContract_VestingContract.fc` 
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_dict_get_int_int
+  DECLPROC __tact_dict_set_int_int
+  DECLPROC $VestingContract$_store
+  DECLPROC $VestingContract$_load
+  DECLPROC $RoundStatus$_to_external
+  DECLPROC $VestingSummary$_to_external
+  DECLPROC $VestingContract$init$_load
+  DECLPROC $VestingContract$_contract_init
+  DECLPROC $VestingContract$_contract_load
+  DECLPROC $VestingContract$_contract_store
+  DECLPROC $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound
+  DECLPROC $VestingContract$_fun_summary
+  DECLPROC $RoundStatus$_constructor_price_configured_released
+  DECLPROC $VestingContract$_fun_roundInfo
+  77650 DECLMETHOD %summary
+  109093 DECLMETHOD %roundInfo
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_dict_get_int_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+    DICTIGET
+    NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_int_int PROCINLINE:<{
+    OVER
+    ISNULL
+    IF:<{
+      2DROP
+      -ROT
+      DICTIDEL
+      DROP
+    }>ELSE<{
+      NEWC
+      SWAP
+      STIX
+      s1 s3 s3 XCHG3
+      DICTISETB
+    }>
+  }>
+  $VestingContract$_store PROCINLINE:<{
+    s6 s7 XCHG2
+    STSLICE
+    s1 s4 XCHG
+    STSLICE
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    STBREFR
+  }>
+  $VestingContract$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDDICT
+    LDDICT
+    257 PUSHINT
+    LDIX
+    DROP
+    s4 s7 XCHG
+    s4 s6 XCHG
+    s4 s5 XCHG
+  }>
+  $RoundStatus$_to_external PROCINLINE:<{
+  }>
+  $VestingSummary$_to_external PROCINLINE:<{
+  }>
+  $VestingContract$init$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    257 PUSHINT
+    LDIX
+    3 -ROLL
+  }>
+  $VestingContract$_contract_init PROCINLINE:<{
+    90000000000 PUSHINT
+    0 PUSHINT
+    PUSHNULL
+    PUSHNULL
+    257 PUSHINT
+    1 PUSHINT
+    s0 s2 s2 XC2PU
+    s1 s7 XCHG
+    __tact_dict_set_int_int INLINECALLDICT
+    257 PUSHINT
+    1 PUSHINT
+    FALSE
+    OVER
+    s4 s7 XCHG
+    __tact_dict_set_int_int INLINECALLDICT
+    s1 s3 s0 XCHG3
+    1 PUSHINT
+  }>
+  $VestingContract$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $VestingContract$_load INLINECALLDICT
+      1 7 BLKDROP2
+    }>ELSE<{
+      $VestingContract$init$_load INLINECALLDICT
+      s0 s3 XCHG
+      ENDS
+      ROT
+      $VestingContract$_contract_init INLINECALLDICT
+    }>
+  }>
+  $VestingContract$_contract_store PROCINLINE:<{
+    NEWC
+    TRUE
+    SWAP
+    1 STI
+    7 -ROLL
+    $VestingContract$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound PROCINLINE:<{
+  }>
+  $VestingContract$_fun_summary PROCREF:<{
+    s4 s3 PUSH2
+    SUB
+    s5 s4 s(-2) PU2XC
+    s3 PUSH
+    $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound INLINECALLDICT
+  }>
+  $RoundStatus$_constructor_price_configured_released PROCINLINE:<{
+  }>
+  $VestingContract$_fun_roundInfo PROCREF:<{
+    257 PUSHINT
+    s4 s(-1) s(-1) PUXCPU
+    s3 s(-1) PUXC
+    __tact_dict_get_int_int INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      2DROP
+      0 PUSHINT
+      FALSE
+      FALSE
+      $RoundStatus$_constructor_price_configured_released INLINECALLDICT
+    }>
+    257 PUSHINT
+    s4 s0 s2 PUXC2
+    1 PUSHINT
+    __tact_dict_get_int_int INLINECALLDICT
+    FALSE
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      DROP
+      __tact_not_null INLINECALLDICT
+    }>ELSE<{
+      NIP
+    }>
+    SWAP
+    __tact_not_null INLINECALLDICT
+    TRUE
+    ROT
+    $RoundStatus$_constructor_price_configured_released INLINECALLDICT
+  }>
+  %summary PROC:<{
+    $VestingContract$_contract_load INLINECALLDICT
+    $VestingContract$_fun_summary INLINECALLDICT
+    7 4 BLKDROP2
+    $VestingSummary$_to_external INLINECALLDICT
+  }>
+  %roundInfo PROC:<{
+    $VestingContract$_contract_load INLINECALLDICT
+    7 ROLL
+    $VestingContract$_fun_roundInfo INLINECALLDICT
+    7 3 BLKDROP2
+    $RoundStatus$_to_external INLINECALLDICT
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $VestingContract$_contract_load INLINECALLDICT
+    s0 s8 XCHG
+    IFJMP:<{
+      8 BLKDROP
+    }>
+    0 PUSHINT
+    s7 PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 s7 XCHG
+      32 LDU
+      s0 s8 XCHG
+    }>
+    OVER
+    2986189982 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      47989 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      s8 PUSH
+      SDEQ
+      THROWANYIFNOT
+      20578 PUSHINT
+      s2 PUSH
+      1 GTINT
+      THROWANYIFNOT
+      26180 PUSHINT
+      s2 PUSH
+      19 LESSINT
+      THROWANYIFNOT
+      33310 PUSHINT
+      s0 s9 XCHG
+      INC
+      s2 s(-1) PUXC
+      EQUAL
+      s1 s9 XCHG
+      THROWANYIFNOT
+      33565 PUSHINT
+      s8 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      257 PUSHINT
+      s1 s1 s0 XCPU2
+      s10 s10 XCHG2
+      __tact_dict_set_int_int INLINECALLDICT
+      s0 s5 XCHG
+      257 PUSHINT
+      s7 PUSH
+      FALSE
+      1 PUSHINT
+      __tact_dict_set_int_int INLINECALLDICT
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      s0 s2 XCHG
+      $VestingContract$_contract_store INLINECALLDICT
+    }>
+    OVER
+    410740867 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      47989 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      s7 PUSH
+      SDEQ
+      THROWANYIFNOT
+      3458 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      26180 PUSHINT
+      OVER
+      19 LESSINT
+      THROWANYIFNOT
+      257 PUSHINT
+      s2 s(-1) s(-1) PUXCPU
+      s3 s(-1) PUXC
+      __tact_dict_get_int_int INLINECALLDICT
+      50600 PUSHINT
+      SWAP
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      s6 PUSH
+      257 PUSHINT
+      s2 PUSH
+      1 PUSHINT
+      __tact_dict_get_int_int INLINECALLDICT
+      DUP
+      ISNULL
+      NOT
+      IF:<{
+        11908 PUSHINT
+        SWAP
+        __tact_not_null INLINECALLDICT
+        0 EQINT
+        THROWANYIFNOT
+      }>ELSE<{
+        DROP
+      }>
+      33507 PUSHINT
+      s3 PUSH
+      5000000000 PUSHINT
+      ADD
+      s5 PUSH
+      LEQ
+      THROWANYIFNOT
+      s0 s2 XCHG
+      5000000000 PUSHINT
+      ADD
+      s1 s6 XCHG
+      257 PUSHINT
+      s0 s3 XCHG2
+      TRUE
+      1 PUSHINT
+      __tact_dict_set_int_int INLINECALLDICT
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      s0 s2 XCHG
+      $VestingContract$_contract_store INLINECALLDICT
+    }>
+    s8 POP
+    0 EQINT
+    s0 s7 XCHG
+    33 LESSINT
+    s1 s7 XCHG
+    AND
+    IFJMP:<{
+      s4 s6 XCHG
+      2 4 BLKSWAP
+      $VestingContract$_contract_store INLINECALLDICT
+    }>
+    7 BLKDROP
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c

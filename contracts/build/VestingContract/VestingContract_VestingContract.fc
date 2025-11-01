@@ -1,0 +1,391 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; VestingContract_VestingContract.headers.fc
+;;
+;; Header files for VestingContract
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_dict_get_int_int
+int __tact_dict_get_int_int(cell d, int kl, int k, int vl) inline;
+
+;; __tact_dict_set_int_int
+(cell, ()) __tact_dict_set_int_int(cell d, int kl, int k, int v, int vl) inline;
+
+;; $VestingContract$_store
+builder $VestingContract$_store(builder build_0, (slice, slice, int, int, cell, cell, int) v) inline;
+
+;; $VestingContract$_load
+(slice, ((slice, slice, int, int, cell, cell, int))) $VestingContract$_load(slice sc_0) inline;
+
+;; $RoundStatus$_to_external
+(int, int, int) $RoundStatus$_to_external(((int, int, int)) v) inline;
+
+;; $VestingSummary$_to_external
+(int, int, int, int) $VestingSummary$_to_external(((int, int, int, int)) v) inline;
+
+;; $VestingContract$init$_load
+(slice, ((slice, slice, int))) $VestingContract$init$_load(slice sc_0) inline;
+
+;; $VestingContract$_contract_init
+(slice, slice, int, int, cell, cell, int) $VestingContract$_contract_init(slice $owner, slice $token, int $firstRoundPrice) impure inline;
+
+;; $VestingContract$_contract_load
+(slice, slice, int, int, cell, cell, int) $VestingContract$_contract_load() impure inline;
+
+;; $VestingContract$_contract_store
+() $VestingContract$_contract_store((slice, slice, int, int, cell, cell, int) v) impure inline;
+
+;; $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound
+((int, int, int, int)) $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound(int $totalLocked, int $released, int $remaining, int $lastConfiguredRound) inline;
+
+;; $VestingContract$_fun_summary
+((slice, slice, int, int, cell, cell, int), (int, int, int, int)) $VestingContract$_fun_summary((slice, slice, int, int, cell, cell, int) $self) impure inline_ref;
+
+;; $RoundStatus$_constructor_price_configured_released
+((int, int, int)) $RoundStatus$_constructor_price_configured_released(int $price, int $configured, int $released) inline;
+
+;; $VestingContract$_fun_roundInfo
+((slice, slice, int, int, cell, cell, int), (int, int, int)) $VestingContract$_fun_roundInfo((slice, slice, int, int, cell, cell, int) $self, int $roundId) impure inline_ref;
+
+
+;; VestingContract_VestingContract.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+int __tact_dict_get_int_int(cell d, int kl, int k, int vl) inline {
+    var (r, ok) = idict_get?(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_int(cell d, int kl, int k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+;; VestingContract_VestingContract.storage.fc
+;;
+;; Type: RoundStatus
+;; TLB: _ price:int257 configured:bool released:bool = RoundStatus
+;;
+
+(int, int, int) $RoundStatus$_to_external(((int, int, int)) v) inline {
+    var (v'price, v'configured, v'released) = v; 
+    return (v'price, v'configured, v'released);
+}
+
+((int, int, int)) $RoundStatus$_constructor_price_configured_released(int $price, int $configured, int $released) inline {
+    return ($price, $configured, $released);
+}
+
+;;
+;; Type: VestingSummary
+;; TLB: _ totalLocked:int257 released:int257 remaining:int257 lastConfiguredRound:int257 = VestingSummary
+;;
+
+(int, int, int, int) $VestingSummary$_to_external(((int, int, int, int)) v) inline {
+    var (v'totalLocked, v'released, v'remaining, v'lastConfiguredRound) = v; 
+    return (v'totalLocked, v'released, v'remaining, v'lastConfiguredRound);
+}
+
+((int, int, int, int)) $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound(int $totalLocked, int $released, int $remaining, int $lastConfiguredRound) inline {
+    return ($totalLocked, $released, $remaining, $lastConfiguredRound);
+}
+
+;;
+;; Type: VestingContract
+;; TLB: _ owner:address token:address totalLocked:int257 released:int257 roundPrices:dict<int, int> roundReleased:dict<int, bool> lastConfiguredRound:int257 = VestingContract
+;;
+
+builder $VestingContract$_store(builder build_0, (slice, slice, int, int, cell, cell, int) v) inline {
+    var (v'owner, v'token, v'totalLocked, v'released, v'roundPrices, v'roundReleased, v'lastConfiguredRound) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'token);
+    build_0 = build_0.store_int(v'totalLocked, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'released, 257);
+    build_1 = build_1.store_dict(v'roundPrices);
+    build_1 = build_1.store_dict(v'roundReleased);
+    build_1 = build_1.store_int(v'lastConfiguredRound, 257);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+(slice, ((slice, slice, int, int, cell, cell, int))) $VestingContract$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'token = sc_0~load_msg_addr();
+    var v'totalLocked = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'released = sc_1~load_int(257);
+    var v'roundPrices = sc_1~load_dict();
+    var v'roundReleased = sc_1~load_dict();
+    var v'lastConfiguredRound = sc_1~load_int(257);
+    return (sc_0, (v'owner, v'token, v'totalLocked, v'released, v'roundPrices, v'roundReleased, v'lastConfiguredRound));
+}
+
+(slice, ((slice, slice, int))) $VestingContract$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'token = sc_0~load_msg_addr();
+    var v'firstRoundPrice = sc_0~load_int(257);
+    return (sc_0, (v'owner, v'token, v'firstRoundPrice));
+}
+
+(slice, slice, int, int, cell, cell, int) $VestingContract$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$VestingContract$_load();
+    }
+    else {
+        (slice $owner, slice $token, int $firstRoundPrice) = $sc~$VestingContract$init$_load();
+        $sc.end_parse();
+        return $VestingContract$_contract_init($owner, $token, $firstRoundPrice);
+    }
+}
+
+() $VestingContract$_contract_store((slice, slice, int, int, cell, cell, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $VestingContract$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract VestingContract functions
+;;
+
+(slice, slice, int, int, cell, cell, int) $VestingContract$_contract_init(slice $owner, slice $token, int $firstRoundPrice) impure inline {
+    var (($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound)) = (null(), null(), null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'token = $token;
+    $self'totalLocked = 90000000000;
+    $self'released = 0;
+    $self'roundPrices = null();
+    $self'roundReleased = null();
+    $self'roundPrices~__tact_dict_set_int_int(257, 1, $firstRoundPrice, 257);
+    $self'roundReleased~__tact_dict_set_int_int(257, 1, false, 1);
+    $self'lastConfiguredRound = 1;
+    return ($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound);
+}
+
+((slice, slice, int, int, cell, cell, int), (int, int, int, int)) $VestingContract$_fun_summary((slice, slice, int, int, cell, cell, int) $self) impure inline_ref {
+    var (($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound)) = $self;
+    int $remaining = ($self'totalLocked - $self'released);
+    var $fresh$ret_4 = $VestingSummary$_constructor_totalLocked_released_remaining_lastConfiguredRound($self'totalLocked, $self'released, $remaining, $self'lastConfiguredRound);
+    return (($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound), $fresh$ret_4);
+}
+
+((slice, slice, int, int, cell, cell, int), (int, int, int)) $VestingContract$_fun_roundInfo((slice, slice, int, int, cell, cell, int) $self, int $roundId) impure inline_ref {
+    var (($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound)) = $self;
+    int $priceOpt = __tact_dict_get_int_int($self'roundPrices, 257, $roundId, 257);
+    if (null?($priceOpt)) {
+        var $fresh$ret_5 = $RoundStatus$_constructor_price_configured_released(0, false, false);
+        return (($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound), $fresh$ret_5);
+    }
+    int $releasedOpt = __tact_dict_get_int_int($self'roundReleased, 257, $roundId, 1);
+    int $isReleased = false;
+    if ((~ null?($releasedOpt))) {
+        $isReleased = __tact_not_null($releasedOpt);
+    }
+    var $fresh$ret_6 = $RoundStatus$_constructor_price_configured_released(__tact_not_null($priceOpt), true, $isReleased);
+    return (($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound), $fresh$ret_6);
+}
+
+;;
+;; Get methods of a Contract VestingContract
+;;
+
+_ %summary() method_id(77650) {
+    var self = $VestingContract$_contract_load();
+    var res = self~$VestingContract$_fun_summary();
+    return $VestingSummary$_to_external(res);
+}
+
+_ %roundInfo(int $roundId) method_id(109093) {
+    int $roundId = $roundId;
+    var self = $VestingContract$_contract_load();
+    var res = self~$VestingContract$_fun_roundInfo($roundId);
+    return $RoundStatus$_to_external(res);
+}
+
+;;
+;; Routing of a Contract VestingContract
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound) = $VestingContract$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive ConfigurePrice message
+    if (op == 2986189982) {
+        var $msg'round = in_msg~load_int(257);
+        var $msg'price = in_msg~load_int(257);
+        throw_unless(47989, ( equal_slices_bits(__tact_context_get_sender(), $self'owner) ));
+        throw_unless(20578, ($msg'round > 1));
+        throw_unless(26180, ($msg'round <= 18));
+        throw_unless(33310, ($msg'round == ($self'lastConfiguredRound + 1)));
+        throw_unless(33565, ($msg'price > 0));
+        $self'roundPrices~__tact_dict_set_int_int(257, $msg'round, $msg'price, 257);
+        $self'roundReleased~__tact_dict_set_int_int(257, $msg'round, false, 1);
+        $self'lastConfiguredRound = $msg'round;
+        $VestingContract$_contract_store(($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound));
+        return ();
+    }
+    
+    ;; Receive ReleaseRound message
+    if (op == 410740867) {
+        var $msg'round = in_msg~load_int(257);
+        throw_unless(47989, ( equal_slices_bits(__tact_context_get_sender(), $self'owner) ));
+        throw_unless(3458, ($msg'round >= 1));
+        throw_unless(26180, ($msg'round <= 18));
+        int $price = __tact_dict_get_int_int($self'roundPrices, 257, $msg'round, 257);
+        throw_unless(50600, (~ null?($price)));
+        int $releasedFlag = __tact_dict_get_int_int($self'roundReleased, 257, $msg'round, 1);
+        if ((~ null?($releasedFlag))) {
+            throw_unless(11908, (__tact_not_null($releasedFlag) == false));
+        }
+        throw_unless(33507, (($self'released + 5000000000) <= $self'totalLocked));
+        $self'released = ($self'released + 5000000000);
+        $self'roundReleased~__tact_dict_set_int_int(257, $msg'round, true, 1);
+        $VestingContract$_contract_store(($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $VestingContract$_contract_store(($self'owner, $self'token, $self'totalLocked, $self'released, $self'roundPrices, $self'roundReleased, $self'lastConfiguredRound));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

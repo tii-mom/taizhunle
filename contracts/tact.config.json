@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tact-lang/tact/main/src/config/configSchema.json",
+  "projects": [
+    {
+      "name": "TAIMaster",
+      "path": "contracts/t_a_i_master.tact",
+      "output": "build/TAIMaster",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "VestingContract",
+      "path": "contracts/vesting_contract.tact",
+      "output": "build/VestingContract",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    }
+  ]
+}

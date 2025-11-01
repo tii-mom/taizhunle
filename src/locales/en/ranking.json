@@ -1,41 +1,35 @@
 {
+  "hero": {
+    "title": "Live Hero Board, You Can Be On Top",
+    "subtitle": "Top 50 visible · 60s refresh"
+  },
+  "tabs": {
+    "invite": "Evangelist 🧙",
+    "whale": "Whale 💰",
+    "prophet": "Prophet 🔮"
+  },
   "live": {
-    "columns": [
-      "#",
-      "Player",
-      "Score",
-      "Δ"
-    ],
+    "columns": {
+      "invite": ["#", "Player", "Invite Earnings", "Δ"],
+      "whale": ["#", "Player", "Prediction Earnings", "Δ"],
+      "prophet": ["#", "Player", "Predictions / Accuracy", "Δ"]
+    },
     "empty": "Leaderboard warming up.",
-    "entries": [
-      "1|Amber Whale|1,820 pts|+32",
-      "2|Validator Yun|1,640 pts|+20",
-      "3|DeFi Scout|1,505 pts|+14",
-      "4|Neon Diver|1,402 pts|+11",
-      "5|Sunrise Pilot|1,366 pts|-4"
-    ],
-    "heading": "Live leaderboard",
-    "updatedAt": "Updated every 60s"
+    "heading": "Live Hero Board",
+    "updatedAt": "Updated every 60s",
+    "refreshing": "Refreshing...",
+    "topBadge": "Top {{rank}}"
   },
   "share": {
-    "copy": "Copy share payload",
+    "copy": "One-Click Copy",
     "description": "Generate SEO-ready copy with one click.",
     "generate": "Generate share copy",
     "heading": "Share spotlight",
     "seoDescription": "Top predictors updating in real time — join the sprint.",
     "seoTitle": "Taizhunle leaderboard",
-    "template": "Taizhunle leaderboard — 1) Amber Whale 2) Validator Yun 3) DeFi Scout"
+    "template": "I ranked {{rank}} on Taizhunle",
+    "myRank": "My rank: #{{rank}}"
   },
-  "subtitle": "Monitor live leaderboards, chase new titles, and share highlights with Telegram.",
-  "title": "Global ranking hub",
-  "titles": {
-    "description": "Complete streaks to unlock seasonal honorifics.",
-    "entries": [
-      "Market Oracle|72% to Mythic|Bonus: +8% rebate",
-      "Liquidity Scout|54% to Elite|Bonus: +3% rebate",
-      "Telegram Herald|38% to Trailblazer|Bonus: Share booster",
-      "Whale Whisperer|25% to Keeper|Bonus: Blind box coupon"
-    ],
-    "heading": "Title sprint"
-  }
+  "subtitle": "Monitor real-time leaders, track earnings, and share the highlights instantly.",
+  "title": "Global ranking hub"
 }

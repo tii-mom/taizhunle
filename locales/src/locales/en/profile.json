@@ -2,49 +2,31 @@
   "achievements": {
     "items": [
       "Completed 5/5 weekly prediction quests.",
-      "Shared three markets with Telegram community.",
-      "Held streak bonus for 14 days."
+      "Shared three markets with the Telegram community.",
+      "Stayed active for 14 consecutive days."
     ]
   },
-  "blindbox": {
-    "description": "Open a blind box to reveal limited edition avatars and seasonal frames.",
-    "heading": "Avatar blind box",
-    "notice": "Each blind box consumes 50 TAI. Rewards drop into your avatar inventory immediately.",
-    "open": "Open blind box"
-  },
   "milestones": {
-    "empty": "No achievements yet. Join a prediction to start earning badges.",
-    "heading": "Progress tracker",
+    "empty": "No new activity yet. Place a prediction to refresh this list.",
+    "heading": "Activity snapshot",
     "labels": [
-      "Progress overview",
-      "Journey milestone",
+      "Current progress",
+      "Yearly milestones",
       "Completion: {{value}}",
-      "Recent achievements"
+      "Latest updates"
     ],
     "progress": {
       "current": "4820",
       "target": "6000"
     }
   },
-  "subtitle": "Track your journey, unlock titles, and open blind boxes for avatar drops.",
-  "title": "Player profile",
-  "titles": {
-    "active": "Active: Market Oracle",
-    "heading": "My titles",
-    "list": [
-      "Market Oracle",
-      "Liquidity Scout",
-      "Telegram Herald",
-      "Whale Whisperer",
-      "DeFi Cartographer",
-      "Prediction Scholar"
-    ]
-  },
+  "subtitle": "Review wallet status, trading progress, and your latest highlights.",
+  "title": "Account overview",
   "user": {
-    "exp": "Experience|4,820 / 6,000",
-    "level": "Level|Legendary tier",
+    "exp": "Total trades|4,820 entries",
+    "level": "Account tier|Advanced",
     "name": "Amber Whale",
-    "nextLevel": "Next unlock|Legendary tier II",
-    "streak": "Streak: 21 days"
+    "nextLevel": "Lifetime profit|6,000 TAI",
+    "streak": "Active in the last 21 days"
   }
 }

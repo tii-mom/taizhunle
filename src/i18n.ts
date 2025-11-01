@@ -22,10 +22,10 @@ import enInvite from './locales/en/invite.json';
 import zhInvite from './locales/zh/invite.json';
 import enHistory from './locales/en/history.json';
 import zhHistory from './locales/zh/history.json';
-import enAvatar from './locales/en/avatar.json';
-import zhAvatar from './locales/zh/avatar.json';
 import enRanking from './locales/en/ranking.json';
 import zhRanking from './locales/zh/ranking.json';
+import enLogin from './locales/en/login.json';
+import zhLogin from './locales/zh/login.json';
 import enTranslation from './locales/en/translation.json';
 import zhTranslation from './locales/zh/translation.json';
 import enTheme from './locales/en/theme.json';
@@ -53,8 +53,8 @@ void i18n
         profile: enProfile,
         invite: enInvite,
         history: enHistory,
-        avatar: enAvatar,
         ranking: enRanking,
+        login: enLogin,
         app: enApp,
         actions: enActions,
         market: enMarket,
@@ -73,8 +73,8 @@ void i18n
         profile: zhProfile,
         invite: zhInvite,
         history: zhHistory,
-        avatar: zhAvatar,
         ranking: zhRanking,
+        login: zhLogin,
         app: zhApp,
         actions: zhActions,
         market: zhMarket,
@@ -85,7 +85,7 @@ void i18n
         brand: zhBrand,
       },
     },
-    ns: ['translation', 'detail', 'create', 'redpacket', 'assets', 'profile', 'invite', 'history', 'avatar', 'ranking', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand'],
+    ns: ['translation', 'detail', 'create', 'redpacket', 'assets', 'profile', 'invite', 'history', 'ranking', 'login', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand'],
     defaultNS: 'translation',
     fallbackLng: 'en',
     interpolation: { escapeValue: false },

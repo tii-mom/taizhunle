@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import lottie, { type AnimationItem } from 'lottie-web';
 
-type EmptyType = 'market' | 'redPacket' | 'profile' | 'avatar';
+type EmptyType = 'market' | 'redPacket' | 'profile';
 
 type Props = {
   type: EmptyType;
@@ -13,7 +13,6 @@ const lottieFiles: Record<EmptyType, string> = {
   market: '/lottie-empty-market.json',
   redPacket: '/lottie-empty-redpacket.json',
   profile: '/lottie-empty-profile.json',
-  avatar: '/lottie-empty-profile.json', // Reuse profile animation for avatar
 };
 
 export function EmptyState({ type, className = '' }: Props) {
