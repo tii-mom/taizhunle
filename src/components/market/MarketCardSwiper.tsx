@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { TrendingUp, Share2, DollarSign } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import type { MarketCard } from '../../services/markets';
 import { useHaptic } from '../../hooks/useHaptic';
-import { BetModal } from '../BetModal';
+import { BetModalGlass } from '../glass/BetModalGlass';
+import { GlassModalGlass } from '../glass/GlassModalGlass';
+import { MarketCardGlass } from '../glass/MarketCardGlass';
+import { GlassButtonGlass } from '../glass/GlassButtonGlass';
+import { betQuery } from '@/queries/bet';
 
 const AUTO_PLAY_INTERVAL = 8000;
 const LONG_PRESS_DURATION = 500;
@@ -22,6 +26,7 @@ export function MarketCardSwiper({ cards, onPlaceBet, onShare, isReady }: Props)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [quickBetCard, setQuickBetCard] = useState<MarketCard | null>(null);
+  const quickBet = useQuery(betQuery(quickBetCard?.id ?? ''));
   const longPressTimerRef = useRef<number | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -65,11 +70,12 @@ export function MarketCardSwiper({ cards, onPlaceBet, onShare, isReady }: Props)
     }
   };
 
-  const handleQuickBet = async (_values: { amount: number; note?: string }) => {
-    if (quickBetCard) {
-      await onPlaceBet(quickBetCard);
-      setQuickBetCard(null);
+  const handleQuickBet = async (_values: { amount: number; note?: string; autoClaim?: boolean }) => {
+    if (!quickBetCard) {
+      return;
     }
+    await onPlaceBet(quickBetCard);
+    setQuickBetCard(null);
   };
 
   const handleScroll = (e: { currentTarget: HTMLDivElement }) => {
@@ -97,80 +103,55 @@ export function MarketCardSwiper({ cards, onPlaceBet, onShare, isReady }: Props)
         onMouseLeave={() => setIsPaused(false)}
       >
         {cards.map((card) => (
-          <article
+          <div
             key={card.id}
-            className="min-w-full snap-start rounded-xl border border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-md"
+            className="min-w-full snap-start space-y-4"
             onTouchStart={() => handleTouchStart(card)}
             onTouchEnd={handleTouchEnd}
             onMouseDown={() => handleTouchStart(card)}
             onMouseUp={handleTouchEnd}
             onMouseLeave={handleTouchEnd}
           >
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary">{card.status}</p>
-                  <Link
-                    to={`/detail/${card.id}`}
-                    className="mt-1 block text-xl font-semibold text-text-primary hover:text-accent"
-                  >
-                    {card.title}
-                  </Link>
-                  <p className="mt-1 text-sm text-text-secondary">{card.description}</p>
-                </div>
-                <span className="rounded-full border border-border bg-background px-3 py-1 text-xs text-text-secondary">
-                  {card.filter === 'closed' ? t('market:badges.settled') : t('market:badges.live')}
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-6 rounded-2xl border border-border/70 bg-background/50 px-4 py-3 text-sm text-text-secondary">
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-200">
-                  <p className="text-xs uppercase tracking-wide text-text-secondary/80">{t('market:card.oddsLabel')}</p>
-                  <p className="font-mono text-lg font-semibold text-accent shadow-accent/30">{card.odds}</p>
-                </div>
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-200">
-                  <p className="text-xs uppercase tracking-wide text-text-secondary/80">{t('market:card.volumeLabel')}</p>
-                  <p className="font-mono text-lg font-semibold text-text-primary">
-                    {numberFormatter.format(parseFloat(card.volume.replace(/[^\d.]/g, '')))}
-                  </p>
-                </div>
+            <MarketCardGlass card={card} />
+            <div className="glass-card-sm flex flex-wrap items-center justify-between gap-3 border-white/10 bg-white/5 px-5 py-4 text-sm text-white/60">
+              <div className="flex items-center gap-4 text-xs uppercase tracking-[0.3em] text-amber-100/70">
+                <span>{card.filter === 'closed' ? t('market:badges.settled') : t('market:badges.live')}</span>
+                <span>{t('market:card.volumeLabel')} · {numberFormatter.format(parseFloat(card.volume.replace(/[^\d.]/g, '')))} TAI</span>
               </div>
               <div className="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-light px-6 py-3 text-sm font-semibold text-accent-contrast shadow-inner transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
-                  onClick={() => {
-                    vibrate();
-                  }}
+                <GlassButtonGlass
+                  onClick={() => vibrate()}
+                  className="!rounded-full !px-5 !py-2 text-xs"
                 >
-                  <TrendingUp size={20} />
+                  <TrendingUp size={18} />
                   {t('market:cta.enter')}
-                </button>
-                <button
-                  type="button"
+                </GlassButtonGlass>
+                <GlassButtonGlass
+                  variant="secondary"
+                  disabled={!isReady}
                   onClick={() => {
                     vibrate();
                     void onPlaceBet(card);
                   }}
-                  disabled={!isReady}
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm text-text-primary transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 disabled:opacity-60 md:hover:shadow-lg"
+                  className="!rounded-full !px-5 !py-2 text-xs"
                 >
-                  <DollarSign size={20} className="text-accent" />
+                  <DollarSign size={18} className="text-amber-200" />
                   {t('market:cta.place')}
-                </button>
-                <button
-                  type="button"
+                </GlassButtonGlass>
+                <GlassButtonGlass
+                  variant="ghost"
                   onClick={() => {
                     vibrate();
                     void onShare(card);
                   }}
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm text-text-secondary transition-all duration-200 hover:ring-2 hover:ring-accent/50 hover:shadow-accent/20 active:scale-95 md:hover:shadow-lg"
+                  className="!rounded-full !px-5 !py-2 text-xs"
                 >
-                  <Share2 size={20} className="text-text-secondary" />
+                  <Share2 size={18} />
                   {t('market:cta.share')}
-                </button>
+                </GlassButtonGlass>
               </div>
             </div>
-          </article>
+          </div>
         ))}
       </div>
 
@@ -198,18 +179,23 @@ export function MarketCardSwiper({ cards, onPlaceBet, onShare, isReady }: Props)
       )}
 
       {/* Quick Bet Modal */}
-      <BetModal
+      <GlassModalGlass
         open={!!quickBetCard}
-        title={t('market:card.quickBet')}
-        confirmLabel={t('detail:cta.bet')}
-        cancelLabel={t('detail:cta.cancel')}
-        amountLabel={t('detail:modal.amountLabel')}
-        amountError={t('detail:modal.amountError')}
-        noteLabel={t('detail:modal.noteLabel')}
-        noteError={t('detail:modal.noteError')}
+        title={quickBet.data?.marketTitle}
         onClose={() => setQuickBetCard(null)}
-        onSubmit={handleQuickBet}
-      />
+      >
+        {quickBet.isPending || !quickBet.data ? (
+          <div className="glass-card h-72 animate-pulse border-white/10 bg-white/5" />
+        ) : (
+          <BetModalGlass
+            data={quickBet.data}
+            submitLabel={t('detail:cta.bet')}
+            cancelLabel={t('detail:cta.cancel')}
+            onSubmit={handleQuickBet}
+            onClose={() => setQuickBetCard(null)}
+          />
+        )}
+      </GlassModalGlass>
     </div>
   );
 }

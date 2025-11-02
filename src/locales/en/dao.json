@@ -1,0 +1,53 @@
+{
+  "header": {
+    "title": "DAO rewards pool",
+    "subtitle": "Homepage revenue, juror rewards, and invite rebates all flow into the DAO pool. Collect once and pay gas only a single time.",
+    "tagline": "Weighted draws · Focus on juror work"
+  },
+  "pool": {
+    "total": "DAO pool"
+  },
+  "claim": {
+    "available": "Claimable rewards",
+    "gas": "gas x1\nPlatform covers",
+    "cta": {
+      "ready": "Claim all",
+      "loading": "Claiming...",
+      "done": "Claimed"
+    }
+  },
+  "console": {
+    "stake": "My stake",
+    "stakeUnit": "TAI",
+    "contribution": "Contributions",
+    "progress": "{{current}} / {{next}} pts · Next tier",
+    "earnings": {
+      "jury": "Juror rewards",
+      "creator": "Creator rewards",
+      "invite": "Invite rewards"
+    },
+    "unit": "TAI",
+    "progressLabel": "One gas payment per withdrawal. Platform covers the rest."
+  },
+  "levels": {
+    "title": "Hammer tiers",
+    "description": "Juror votes, creations, and invites all grant points. Reach the threshold to upgrade automatically.",
+    "items": [
+      "0 - 9 pts: Gray hammer (candidate)",
+      "10 - 49 pts: Bronze hammer (active juror)",
+      "50 - 199 pts: Silver hammer (senior juror)",
+      "200+ pts: Gold hammer (DAO council)"
+    ],
+    "claimed": "Claimed",
+    "pending": "Pending",
+    "total": "Total rewards"
+  },
+  "jury": {
+    "title": "GameDAO juror",
+    "description": "Stake ≥ 1,000 TAI to join the juror pool. Weight = (points + 10) × stake · Max 4 draws per day.",
+    "note": "Align with the majority to earn 1% of the pool + creator bounty. Minority votes burn 10% of the stake.",
+    "cta": "Become a juror",
+    "comingSoon": "Staking flow launches on mainnet. Stay tuned."
+  },
+  "autoClaim": "Auto-claim juror rewards"
+}

@@ -8,6 +8,23 @@
   "betQueued": "下注请求已发送至钱包。",
   "betSignature": "太准了下注签名：{{market}}",
   "betUnavailable": "请先连接钱包再下注。",
+  "glass": {
+    "badge": "GLASS 市场",
+    "odds": "实时赔率",
+    "pool": "奖池规模",
+    "participants": "参与人数",
+    "countdown": "终局倒计时",
+    "liquidity": "流动性",
+    "volume": "24h 成交",
+    "bounty": "赏金倍数"
+  },
+  "quickBet": {
+    "title": "即时下注",
+    "range": "可下注范围 {{min}} - {{max}} {{currency}}",
+    "placeholder": "输入你的策略、情绪或对冲计划",
+    "submit": "立即下注",
+    "cancel": "取消"
+  },
   "card": {
     "oddsLabel": "赔率",
     "volumeLabel": "奖池规模"

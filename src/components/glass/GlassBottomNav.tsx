@@ -6,16 +6,23 @@ import { useI18n } from '../../hooks/useI18n';
 import { useTheme } from '../../providers/ThemeProvider';
 import { BOTTOM_NAV_ITEMS } from './navConfig';
 
-const ACTIVE_RING_LIGHT = 'shadow-[0_0_18px_rgba(251,191,36,0.45)] text-amber-200';
-const ACTIVE_RING_DARK = 'shadow-[0_0_12px_rgba(251,191,36,0.75)] text-amber-100';
-const INACTIVE_TEXT = 'text-slate-300/70 hover:text-slate-100';
-
 export function GlassBottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const { vibrate } = useHaptic();
   const { t } = useI18n('nav');
   const { mode } = useTheme();
+  const isLight = mode === 'light';
+
+  const activeRing = isLight
+    ? 'shadow-[0_0_18px_rgba(251,191,36,0.38)] text-amber-500'
+    : 'shadow-[0_0_12px_rgba(251,191,36,0.75)] text-amber-100';
+  const inactiveText = isLight
+    ? 'text-slate-500 hover:text-slate-900'
+    : 'text-slate-300/70 hover:text-slate-100';
+  const containerTone = isLight
+    ? 'border border-slate-900/12 bg-white/90 text-slate-900 shadow-[0_26px_60px_-42px_rgba(15,23,42,0.28)]'
+    : 'border border-white/10 bg-white/5 text-white';
 
   const activeKey = useMemo(() => {
     const [root] = location.pathname.split('/').filter(Boolean);
@@ -40,7 +47,7 @@ export function GlassBottomNav() {
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 flex justify-center pb-4">
-      <div className="glass-nav mx-auto flex w-[min(440px,94%)] items-center justify-around rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-xl">
+      <div className={`glass-nav mx-auto flex w-[min(440px,94%)] items-center justify-around rounded-2xl px-4 py-3 backdrop-blur-xl ${containerTone}`}>
         {BOTTOM_NAV_ITEMS.map(({ key, labelKey, icon: Icon, path, highlight }) => {
           const isActive = key === activeKey;
           const label = t(labelKey);
@@ -68,15 +75,15 @@ export function GlassBottomNav() {
               aria-label={label}
             >
               <Icon
-                className={`h-5 w-5 ${
-                  isActive
-                    ? mode === 'light'
-                      ? ACTIVE_RING_LIGHT
-                      : ACTIVE_RING_DARK
-                    : INACTIVE_TEXT
-                }`}
+                className={`h-5 w-5 ${isActive ? activeRing : inactiveText}`}
               />
-              <span className={`text-xs font-medium ${isActive ? 'text-amber-200' : 'text-slate-300/60'}`}>{label}</span>
+              <span
+                className={`text-xs font-medium ${
+                  isActive ? (isLight ? 'text-amber-500' : 'text-amber-200') : isLight ? 'text-slate-500' : 'text-slate-300/60'
+                }`}
+              >
+                {label}
+              </span>
             </button>
           );
         })}

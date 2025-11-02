@@ -38,6 +38,10 @@ import enCommon from './locales/en/common.json';
 import zhCommon from './locales/zh/common.json';
 import enBrand from './locales/en/brand.json';
 import zhBrand from './locales/zh/brand.json';
+import enHome from './locales/en/home.json';
+import zhHome from './locales/zh/home.json';
+import enDao from './locales/en/dao.json';
+import zhDao from './locales/zh/dao.json';
 
 void i18n
   .use(LanguageDetector)
@@ -63,6 +67,8 @@ void i18n
         form: enForm,
         common: enCommon,
         brand: enBrand,
+        home: enHome,
+        dao: enDao,
       },
       zh: {
         translation: zhTranslation,
@@ -83,9 +89,11 @@ void i18n
         form: zhForm,
         common: zhCommon,
         brand: zhBrand,
+        home: zhHome,
+        dao: zhDao,
       },
     },
-    ns: ['translation', 'detail', 'create', 'redpacket', 'assets', 'profile', 'invite', 'history', 'ranking', 'login', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand'],
+    ns: ['translation', 'detail', 'create', 'redpacket', 'assets', 'profile', 'invite', 'history', 'ranking', 'login', 'app', 'actions', 'market', 'theme', 'nav', 'form', 'common', 'brand', 'home', 'dao'],
     defaultNS: 'translation',
     fallbackLng: 'en',
     interpolation: { escapeValue: false },

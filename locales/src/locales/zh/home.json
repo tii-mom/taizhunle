@@ -1,0 +1,69 @@
+{
+  "search": {
+    "open": "搜索话题、实体或模板",
+    "title": "深度搜索",
+    "placeholder": "输入标题或实体名称",
+    "clear": "清空",
+    "close": "关闭",
+    "empty": "暂无匹配结果，试试其他关键词"
+  },
+  "filters": {
+    "sort": {
+      "latest": "最新",
+      "hot": "最热",
+      "closing": "即将截止",
+      "bounty": "高赏金",
+      "following": "我的关注 ({{count}})"
+    },
+    "status": {
+      "all": "全部状态",
+      "live": "进行中",
+      "closing": "1 小时内截止",
+      "closed": "已结束"
+    },
+    "pool": {
+      "any": "全部奖池",
+      "under10k": "< 10K",
+      "mid": "10K - 50K",
+      "over50k": "> 50K"
+    },
+    "template": {
+      "any": "全部模板",
+      "coin": "币价",
+      "macro": "宏观",
+      "sports": "赛事",
+      "event": "其他"
+    },
+    "pagingNote": "轻量化同步 · 每页 {{count}} 条 · 深度数据点击卡片加载"
+  },
+  "buttons": {
+    "create": "创建",
+    "loadMore": "加载更多 {{count}} 条",
+    "loading": "加载中..."
+  },
+  "hammer": {
+    "gold": "金锤",
+    "silver": "银锤",
+    "bronze": "铜锤",
+    "gray": "灰锤",
+    "level": "Lv.{{level}} · {{points}} pts"
+  },
+  "card": {
+    "closing": "即将截止",
+    "follow": "关注",
+    "pool": "奖池",
+    "odds": "实时赔率",
+    "target": "目标 {{value}} TAI",
+    "participants": "{{value}} 人参与",
+    "countdown": "终局倒计时",
+    "bounty": "高赏金",
+    "ended": "已结束"
+  },
+  "dao": {
+    "total": "DAO 总池"
+  },
+  "errors": {
+    "missingMarket": "未找到对应的市场 ID",
+    "missingBet": "未找到下注市场"
+  }
+}

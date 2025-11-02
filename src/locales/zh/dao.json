@@ -1,0 +1,53 @@
+{
+  "header": {
+    "title": "DAO 收益池",
+    "subtitle": "首页收益、陪审奖励、邀请返利全部回流 DAO 池，集中领取仅付一次 Gas",
+    "tagline": "统一抽签 · 专注陪审"
+  },
+  "pool": {
+    "total": "DAO 总池"
+  },
+  "claim": {
+    "available": "可领取收益",
+    "gas": "gas x1\n平台代付",
+    "cta": {
+      "ready": "一键领取",
+      "loading": "领取中...",
+      "done": "已领取"
+    }
+  },
+  "console": {
+    "stake": "我的质押",
+    "stakeUnit": "TAI",
+    "contribution": "贡献次数",
+    "progress": "{{current}} / {{next}} 点 · 下一等级",
+    "earnings": {
+      "jury": "陪审收益",
+      "creator": "创建收益",
+      "invite": "邀请收益"
+    },
+    "unit": "TAI",
+    "progressLabel": "领取后 1 次 Gas，平台后付"
+  },
+  "levels": {
+    "title": "等级体系",
+    "description": "陪审、创建、邀请均可累积点数，达成即自动升级。",
+    "items": [
+      "0 - 9 点：灰色锤（陪审候选）",
+      "10 - 49 点：铜色锤（陪审正式）",
+      "50 - 199 点：银色锤（高级陪审）",
+      "200 点以上：金色锤（DAO 委员）"
+    ],
+    "claimed": "已经领取",
+    "pending": "待领取",
+    "total": "总收益"
+  },
+  "jury": {
+    "title": "GameDAO 陪审员",
+    "description": "质押 ≥ 1000 TAI 即可加入陪审团，权重 = (点数 + 10) × 质押额 · 每日抽签上限 4 次。",
+    "note": "与多数同侧分享奖池 1% + 创建赏金，异侧将销毁 10% 质押。",
+    "cta": "成为陪审员",
+    "comingSoon": "质押流程将在主网发布时开放，敬请期待。"
+  },
+  "autoClaim": "自动领取陪审团奖励"
+}

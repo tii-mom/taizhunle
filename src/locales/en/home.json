@@ -1,0 +1,73 @@
+{
+  "search": {
+    "open": "Search topics, entities, or templates",
+    "title": "Deep search",
+    "placeholder": "Type a title or entity name",
+    "clear": "Clear",
+    "close": "Close",
+    "empty": "No matches yet. Try different keywords."
+  },
+  "filters": {
+    "sort": {
+      "latest": "Latest",
+      "hot": "Trending",
+      "closing": "Closing soon",
+      "bounty": "High bounty",
+      "following": "My favorites ({{count}})"
+    },
+    "status": {
+      "all": "All statuses",
+      "live": "Live",
+      "closing": "Closing within 1h",
+      "closed": "Closed"
+    },
+    "pool": {
+      "any": "All pools",
+      "under10k": "< 10K",
+      "mid": "10K - 50K",
+      "over50k": "> 50K"
+    },
+    "template": {
+      "any": "All templates",
+      "coin": "Token price",
+      "macro": "Macro",
+      "sports": "Sports",
+      "event": "Other"
+    },
+    "pagingNote": "Lightweight sync · {{count}} per page · Load details inside the card"
+  },
+  "buttons": {
+    "create": "Create",
+    "loadMore": "Load next {{count}}",
+    "loading": "Loading...",
+    "languageZh": "中文",
+    "languageEn": "English",
+    "themeLight": "Light",
+    "themeDark": "Dark"
+  },
+  "hammer": {
+    "gold": "Gold hammer",
+    "silver": "Silver hammer",
+    "bronze": "Bronze hammer",
+    "gray": "Gray hammer",
+    "level": "Lv.{{level}} · {{points}} pts"
+  },
+  "card": {
+    "closing": "Closing soon",
+    "follow": "Follow",
+    "pool": "Pool",
+    "odds": "Live odds",
+    "target": "Target {{value}} TAI",
+    "participants": "{{value}} participants",
+    "countdown": "Countdown",
+    "bounty": "Bounty boost",
+    "ended": "Ended"
+  },
+  "dao": {
+    "total": "DAO pool"
+  },
+  "errors": {
+    "missingMarket": "Market ID not found",
+    "missingBet": "Bet market not found"
+  }
+}

@@ -11,7 +11,10 @@ import { Invite } from './pages/Invite';
 import { Ranking } from './pages/Ranking';
 
 const AppPage = lazy(() => import('./app/App').then((module) => ({ default: module.App })));
-const DetailPage = lazy(() => import('./pages/Detail').then((module) => ({ default: module.Detail })));
+const MarketDetailPage = lazy(() =>
+  import('./web/pages/MarketDetailGlass').then((module) => ({ default: module.MarketDetailGlass })),
+);
+const BetPage = lazy(() => import('./web/pages/BetGlass').then((module) => ({ default: module.BetGlass })));
 const CreatePage = lazy(() => import('./pages/Create').then((module) => ({ default: module.Create })));
 const ProfilePage = lazy(() => import('./pages/Profile').then((module) => ({ default: module.Profile })));
 const LoginPage = lazy(() => import('./pages/Login').then((module) => ({ default: module.Login })));
@@ -50,8 +53,9 @@ export const router = createBrowserRouter([
     children: [
       { path: 'login', element: <LoginPage /> },
       { index: true, element: withWalletGuard(<AppPage />) },
-      { path: 'detail/:id', element: withWalletGuard(<DetailPage />) },
-      { path: 'market/:id', element: withWalletGuard(<DetailPage />) },
+      { path: 'detail/:id', element: withWalletGuard(<MarketDetailPage />) },
+      { path: 'market/:id', element: withWalletGuard(<MarketDetailPage />) },
+      { path: 'bet/:id', element: withWalletGuard(<BetPage />) },
       { path: 'create', element: withWalletGuard(<CreatePage />) },
       { path: 'search', element: withWalletGuard(<SearchPage />) },
       { path: 'dao', element: withWalletGuard(<DaoPage />) },

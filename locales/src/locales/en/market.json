@@ -8,6 +8,23 @@
   "betQueued": "Bet request sent to wallet.",
   "betSignature": "Taizhunle bet handshake: {{market}}",
   "betUnavailable": "Connect wallet to place bets.",
+  "glass": {
+    "badge": "GLASS MARKET",
+    "odds": "Live odds",
+    "pool": "Pool size",
+    "participants": "Participants",
+    "countdown": "Countdown",
+    "liquidity": "Liquidity",
+    "volume": "24h volume",
+    "bounty": "Bounty multiplier"
+  },
+  "quickBet": {
+    "title": "Instant bet",
+    "range": "Range {{min}} - {{max}} {{currency}}",
+    "placeholder": "Share your strategy, emotion, or hedge plan",
+    "submit": "Place bet",
+    "cancel": "Cancel"
+  },
   "card": {
     "oddsLabel": "Odds",
     "volumeLabel": "Pool volume"

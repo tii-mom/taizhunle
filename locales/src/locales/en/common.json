@@ -13,5 +13,9 @@
       "title": "No Data",
       "description": "No records found yet. Start your first prediction."
     }
-  }
+  },
+  "countdown": {
+    "ended": "Ended"
+  },
+  "close": "Close"
 }

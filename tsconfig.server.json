@@ -12,7 +12,11 @@
     "strict": true,
     "resolveJsonModule": true,
     "declaration": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/server/**/*"],
   "exclude": ["node_modules", "dist", "src/components", "src/pages", "src/hooks"]

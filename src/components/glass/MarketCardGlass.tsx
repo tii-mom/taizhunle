@@ -1,83 +1,203 @@
-/**
- * 玻璃质感市场卡片
- */
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GlassCard } from './GlassCard';
+import { Flame, Star } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { useI18n } from '@/hooks/useI18n';
+import { useTheme } from '@/providers/ThemeProvider';
+
 import { CountUp } from './CountUp';
 import { CountDown } from './CountDown';
 import { GoldenHammer } from './GoldenHammer';
-import type { MarketCard } from '../../services/markets';
+import { Confetti } from './Confetti';
+import { marketCardQuery } from '@/queries/marketCard';
+import type { MarketCard } from '@/services/markets';
+
+const hammerLevel = (count: number) => {
+  if (count >= 5) return 'gold' as const;
+  if (count >= 3) return 'silver' as const;
+  if (count > 0) return 'bronze' as const;
+  return 'gray' as const;
+};
 
 type MarketCardGlassProps = {
   card: MarketCard;
+  onFavoriteToggle?: (id: string, next: boolean) => void;
 };
 
-export function MarketCardGlass({ card }: MarketCardGlassProps) {
+export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps) {
   const navigate = useNavigate();
-  const participants = card.bets.length;
-  const progress = Math.min((card.pool / card.targetPool) * 100, 100);
-  const showEntities = card.entities.slice(0, 3);
-  const isLive = card.filter === 'live';
-  const hammerLevel = card.juryCount >= 5 ? 'gold' : card.juryCount >= 3 ? 'silver' : card.juryCount > 0 ? 'bronze' : 'gray';
+  const { data } = useQuery(marketCardQuery(card.id));
+  const [celebrate, setCelebrate] = useState(false);
+  const [isFavorite, setIsFavorite] = useState<boolean>(Boolean(card.isFavorite));
+  const { t, locale } = useI18n(['home', 'market']);
+  const { mode } = useTheme();
+  const isLight = mode === 'light';
+
+  const snapshot = data ?? {
+    id: card.id,
+    pool: card.pool,
+    participants: card.bets.length,
+    endTime: card.endsAt,
+    juryCount: card.juryCount,
+    targetPool: card.targetPool,
+  };
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    if (data.pool > card.pool) {
+      setCelebrate(true);
+    }
+  }, [card.pool, data]);
+
+  useEffect(() => {
+    if (!celebrate) {
+      return undefined;
+    }
+    const timer = window.setTimeout(() => setCelebrate(false), 800);
+    return () => window.clearTimeout(timer);
+  }, [celebrate]);
+
+  useEffect(() => {
+    setIsFavorite(Boolean(card.isFavorite));
+  }, [card.isFavorite]);
+
+  const handleFavorite = (event: { stopPropagation: () => void }) => {
+    event.stopPropagation();
+    setIsFavorite((prev) => {
+      const next = !prev;
+      onFavoriteToggle?.(card.id, next);
+      return next;
+    });
+  };
+
+  const progress = useMemo(() => Math.min((snapshot.pool / snapshot.targetPool) * 100, 100), [snapshot.pool, snapshot.targetPool]);
+  const endingSoon = useMemo(() => snapshot.endTime - Date.now() < 45 * 60 * 1000, [snapshot.endTime]);
+  const numberFormatter = useMemo(
+    () => new Intl.NumberFormat(locale === 'zh' ? 'zh-CN' : 'en-US'),
+    [locale],
+  );
+
+  const tagStyle = isLight
+    ? 'border-amber-400/50 bg-amber-100/90 text-amber-700 shadow-[0_12px_20px_-18px_rgba(217,119,6,0.55)]'
+    : 'border-amber-300/35 bg-amber-400/10 text-amber-100';
+  const closingBadge = isLight
+    ? 'border-rose-400/50 bg-rose-100/85 text-rose-700'
+    : 'border-rose-400/30 bg-rose-400/10 text-rose-100';
+  const panelStyle = isLight
+    ? 'border-slate-200/80 bg-white/85 text-slate-800 shadow-[0_20px_36px_-28px_rgba(15,23,42,0.3)]'
+    : 'border-white/10 bg-white/5 text-slate-200/80';
+  const metaText = isLight ? 'text-slate-600' : 'text-slate-200/60';
+  const valueText = isLight ? 'text-slate-800' : 'text-slate-200/80';
+  const chipBase = isLight
+    ? 'border-slate-300/70 text-slate-700 hover:border-slate-500/80 hover:text-slate-900'
+    : 'border-white/10 text-slate-200/60 hover:border-white/20 hover:text-white';
+  const oddsTone = isLight ? 'text-emerald-600' : 'text-emerald-200';
+  const countdownTone = isLight ? 'text-amber-600' : 'text-amber-100';
+  const bountyTone = isLight ? 'text-amber-700' : 'text-amber-100';
 
   return (
-    <GlassCard
-      onClick={() => navigate(`/detail/${card.id}`)}
-      className="p-5"
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={() => navigate(`/market/${card.id}`)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          navigate(`/market/${card.id}`);
+        }
+      }}
+      className="glass-card cursor-pointer select-none p-5 transition-transform duration-150 hover:-translate-y-1 hover:shadow-[0_30px_60px_-48px_rgba(251,191,36,0.75)]"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            {showEntities.map((entity) => (
-              <span key={entity} className="glass-chip">
+          <div
+            className={`flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.25em] ${
+              isLight ? 'text-amber-700/80' : 'text-amber-200/70'
+            }`}
+          >
+            {card.entities.slice(0, 3).map((entity) => (
+              <span key={entity} className={`rounded-full px-3 py-1 text-[11px] ${tagStyle}`}>
                 {entity}
               </span>
             ))}
-            <span className="glass-badge uppercase text-amber-100/70">{isLive ? 'Live' : 'Settled'}</span>
+            {endingSoon ? (
+              <span className={`flex items-center gap-1 rounded-full px-3 py-1 text-[11px] ${closingBadge}`}>
+                <Flame className="h-3 w-3" /> {t('home:card.closing')}
+              </span>
+            ) : null}
           </div>
-          <h3 className="line-clamp-1 text-xl font-semibold tracking-wide text-amber-100 drop-shadow-[0_0_16px_rgba(251,191,36,0.35)]">
+          <h3
+            className={`text-xl font-semibold ${
+              isLight ? 'text-slate-900' : 'text-white'
+            } drop-shadow-[0_0_18px_rgba(251,191,36,0.25)]`}
+          >
             {card.title}
           </h3>
         </div>
-        <GoldenHammer count={card.juryCount} level={hammerLevel} />
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleFavorite}
+            className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.35em] transition-all ${
+              isFavorite
+                ? 'border-amber-300/50 bg-amber-400/20 text-amber-100'
+                : chipBase
+            }`}
+          >
+            <span className="flex items-center gap-1">
+              <Star className={`h-3.5 w-3.5 ${isFavorite ? 'fill-amber-300 text-amber-300' : 'text-slate-300/50'}`} />
+              {t('home:card.follow')}
+            </span>
+          </button>
+          <GoldenHammer count={snapshot.juryCount} level={hammerLevel(snapshot.juryCount)} />
+        </div>
       </div>
 
-      <div className="mt-4 grid gap-4 text-sm text-slate-200 sm:grid-cols-[1fr_auto]">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
+      <div className="mt-5 grid gap-4 md:grid-cols-[2fr_1fr]">
+        <div className="space-y-4">
+          <div className={`grid grid-cols-2 gap-4 text-sm ${valueText}`}>
             <div>
-              <span className="text-[11px] uppercase tracking-[0.35em] text-slate-300/60">奖池</span>
-              <div className="flex items-end gap-1">
-                <CountUp end={card.pool} className="font-mono text-2xl font-semibold text-amber-200" />
-                <span className="pb-1 text-sm text-amber-100/80">TAI</span>
+              <p className={`text-[11px] uppercase tracking-[0.3em] ${metaText}`}>{t('home:card.pool')}</p>
+              <div className="mt-2 flex items-end gap-2">
+                <CountUp
+                  end={snapshot.pool}
+                  duration={800}
+                  className={`font-mono text-2xl ${isLight ? 'text-amber-500' : 'text-amber-100'}`}
+                />
+                <span className={`pb-1 text-xs ${isLight ? 'text-amber-500' : 'text-amber-200/80'}`}>TAI</span>
               </div>
             </div>
             <div className="text-right">
-              <span className="text-[11px] uppercase tracking-[0.35em] text-slate-300/60">实时赔率</span>
-              <p className="font-mono text-xl font-semibold text-emerald-200">{card.odds}</p>
+              <p className={`text-[11px] uppercase tracking-[0.3em] ${metaText}`}>{t('home:card.odds')}</p>
+              <span className={`mt-2 block font-mono text-xl font-semibold ${oddsTone}`}>{card.odds}</span>
             </div>
           </div>
           <div>
             <div className="glass-progress">
               <div className="glass-progress-value" style={{ width: `${progress}%` }} />
             </div>
-            <div className="mt-1 flex items-center justify-between text-[11px] uppercase tracking-widest text-slate-300/60">
-              <span>奖池目标 {card.targetPool.toLocaleString()} TAI</span>
-              <span>{participants} 人参与</span>
+            <div className={`mt-2 flex items-center justify-between text-[11px] uppercase tracking-[0.35em] ${metaText}`}>
+              <span>{t('home:card.target', { value: numberFormatter.format(snapshot.targetPool) })}</span>
+              <span>{t('home:card.participants', { value: numberFormatter.format(snapshot.participants) })}</span>
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-end justify-between gap-3">
-          <div className="text-right">
-            <span className="text-[11px] uppercase tracking-[0.35em] text-slate-300/60">终局倒计时</span>
-            <CountDown endTime={card.endsAt} className="text-base" />
+
+        <div className={`flex flex-col justify-between gap-4 text-sm ${valueText}`}>
+          <div className={`rounded-2xl px-3 py-2 text-right ${panelStyle}`}>
+            <p className={`text-[11px] uppercase tracking-[0.3em] ${metaText}`}>{t('home:card.countdown')}</p>
+            <CountDown endTime={snapshot.endTime} className={`font-mono text-base ${countdownTone}`} />
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-right text-xs">
-            <p className="font-semibold text-amber-200">高赏金 x{card.bountyMultiplier.toFixed(1)}</p>
-            <p className="text-[11px] uppercase tracking-[0.35em] text-slate-200/60">glass dao pool</p>
+          <div className={`rounded-2xl px-3 py-2 text-right ${panelStyle}`}>
+            <p className={`text-[11px] uppercase tracking-[0.3em] ${metaText}`}>{t('home:card.bounty')}</p>
+            <span className={`font-mono text-xl ${bountyTone}`}>x{card.bountyMultiplier.toFixed(1)}</span>
           </div>
         </div>
       </div>
-    </GlassCard>
+
+      <Confetti active={celebrate} delayMs={100} />
+    </article>
   );
 }
