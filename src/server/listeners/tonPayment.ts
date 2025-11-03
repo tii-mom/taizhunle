@@ -5,8 +5,10 @@ import {
   loadSaleById,
   markPurchaseAwaitingSignature,
   recordPurchasePayout,
+  markPurchaseError,
 } from '../services/redpacketService.js';
 import { normalizeTonAddress } from '../utils/ton.js';
+import { notifyAdmins } from '../services/telegramService.js';
 import { Address, beginCell } from '@ton/core';
 
 interface ToncenterTransaction {
@@ -98,7 +100,7 @@ function extractMemo(tx: ToncenterTransaction): string | null {
 }
 
 class TonPaymentListener {
-  private timer?: NodeJS.Timeout;
+  private timer?: ReturnType<typeof setInterval>;
   private processedHashes = new Set<string>();
   private initialised = false;
 
@@ -138,6 +140,7 @@ class TonPaymentListener {
 
       if (!response.ok) {
         console.error('TON payment listener error:', response.error ?? 'Unknown error');
+        await notifyAdmins(`⚠️ TON 监听失败: ${response.error ?? 'Unknown error'}`);
         return;
       }
 
@@ -157,11 +160,14 @@ class TonPaymentListener {
           continue;
         }
 
-        await this.processTransaction(tx);
-        this.cacheHash(id);
+        const processed = await this.processTransaction(tx);
+        if (processed) {
+          this.cacheHash(id);
+        }
       }
     } catch (error) {
       console.error('TON payment poll failed:', error);
+      await notifyAdmins(`⚠️ TON 监听异常: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -186,26 +192,32 @@ class TonPaymentListener {
     return data;
   }
 
-  private async processTransaction(tx: ToncenterTransaction) {
+  private async processTransaction(tx: ToncenterTransaction): Promise<boolean> {
     const memo = extractMemo(tx);
     if (!memo) {
-      return;
+      return false;
     }
 
     const purchase = await findPurchaseByMemo(memo);
-    if (!purchase || purchase.status !== PURCHASE_STATUS.pending) {
-      return;
+    if (!purchase) {
+      return false;
+    }
+
+    if (purchase.status !== PURCHASE_STATUS.pending) {
+      return false;
     }
 
     if (!purchase.sale_id) {
       console.error('Purchase missing sale_id for memo', memo);
-      return;
+      await markPurchaseError(purchase.id, 'missing-sale-id');
+      return false;
     }
 
     const sale = await loadSaleById(purchase.sale_id);
     if (!sale) {
       console.error('Sale not found for purchase', purchase.id);
-      return;
+      await markPurchaseError(purchase.id, 'sale-not-found');
+      return false;
     }
 
     const tonPaid = toTonAmount(tx.in_msg?.value);
@@ -213,7 +225,8 @@ class TonPaymentListener {
 
     if (Math.abs(tonPaid - expectedTon) > 0.000001) {
       console.warn(`Payment amount mismatch for memo ${memo}: expected ${expectedTon}, got ${tonPaid}`);
-      return;
+      await markPurchaseError(purchase.id, `amount-mismatch:${tonPaid}`);
+      return false;
     }
 
     const accelerate = purchase.accelerate ?? sale.accelerate;
@@ -228,15 +241,20 @@ class TonPaymentListener {
       txHash: tx.transaction_id.hash,
     });
 
-    await markPurchaseAwaitingSignature({
-      purchaseId: purchase.id,
-      amountTai: taiAmount,
-      tonAmount: expectedTon,
-      txHash: tx.transaction_id.hash,
-      unsignedBoc,
-      accelerate: Boolean(accelerate),
-      multiplier,
-    });
+    try {
+      await markPurchaseAwaitingSignature({
+        purchaseId: purchase.id,
+        amountTai: taiAmount,
+        tonAmount: expectedTon,
+        txHash: tx.transaction_id.hash,
+        unsignedBoc,
+        accelerate: Boolean(accelerate),
+        multiplier,
+      });
+    } catch (error) {
+      await markPurchaseError(purchase.id, `awaiting-signature-failed:${error instanceof Error ? error.message : String(error)}`);
+      throw error;
+    }
 
     await recordPurchasePayout({
       saleId: sale.id,
@@ -246,6 +264,10 @@ class TonPaymentListener {
     });
 
     console.log(`✅ TON payment processed for memo ${memo}, purchase ${purchase.id}`);
+    await notifyAdmins(
+      `✅ 红包支付已确认\n• Memo: ${memo}\n• 钱包: ${purchase.wallet_address}\n• 金额: ${taiAmount.toLocaleString()} TAI`,
+    );
+    return true;
   }
 
   private cacheHash(hash: string) {

@@ -1,5 +1,4 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { config } from '../../config/env.js';
 import { createMockBot, MockTelegramBot } from './mockBot.js';
 
 let bot: TelegramBot | MockTelegramBot | null = null;

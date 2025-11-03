@@ -178,7 +178,7 @@ async function createDefaultSale(): Promise<RedpacketSale> {
   return mapSale(data);
 }
 
-async function ensureSaleRecord(): Promise<RedpacketSale> {
+export async function ensureSaleRecord(): Promise<RedpacketSale> {
   const latest = await fetchLatestSale();
 
   if (!latest) {
@@ -470,17 +470,29 @@ export async function markPurchaseAwaitingSignature(args: {
 }
 
 export async function markPurchaseCompleted(purchaseId: string, signature: string): Promise<void> {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('redpacket_purchases')
     .update({
       status: PURCHASE_STATUS.completed,
+      payment_detected_at: new Date().toISOString(),
       signature,
       processed_at: new Date().toISOString(),
     })
-    .eq('id', purchaseId);
+    .eq('id', purchaseId)
+    .eq('status', PURCHASE_STATUS.awaitingSignature)
+    .select('id')
+    .maybeSingle();
 
   if (error) {
     throw new Error(`Failed to mark purchase completed: ${error.message}`);
+  }
+
+  if (!data) {
+    await supabase
+      .from('redpacket_purchases')
+      .update({ signature, processed_at: new Date().toISOString() })
+      .eq('id', purchaseId)
+      .eq('status', PURCHASE_STATUS.completed);
   }
 }
 
@@ -492,6 +504,13 @@ export async function recordPurchasePayout(args: {
 }): Promise<void> {
   await upsertUserBalance(args.wallet, args.taiAmount, args.tonAmount);
   await updateSaleSoldTai(args.saleId, args.taiAmount);
+}
+
+export async function markPurchaseError(purchaseId: string, reason: string): Promise<void> {
+  await supabase
+    .from('redpacket_purchases')
+    .update({ error_reason: reason, updated_at: new Date().toISOString() })
+    .eq('id', purchaseId);
 }
 
 export async function findPurchaseByMemo(memo: string): Promise<RedpacketPurchaseRow | null> {
@@ -540,6 +559,72 @@ export async function updateSaleSoldTai(saleId: string, deltaTai: number): Promi
   await updateSaleTotals(saleId, newSold, newSold >= total);
 }
 
+export async function setSaleAccelerationState(params: {
+  saleId: string;
+  active: boolean;
+  accelerateRate: number;
+}): Promise<RedpacketSale> {
+  const { saleId, active, accelerateRate } = params;
+
+  const { data, error } = await supabase
+    .from('redpacket_sales')
+    .update({
+      accelerate: active,
+      accelerate_rate: accelerateRate,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', saleId)
+    .select('*')
+    .single();
+
+  if (error || !data) {
+    throw new Error(`Failed to update sale acceleration state: ${error?.message ?? 'Unknown error'}`);
+  }
+
+  return mapSale(data as RedpacketSalesRow);
+}
+
 export function getPaymentAddress(): string {
   return REDPACKET_PAYMENT_ADDRESS;
+}
+
+export function schedulePurchaseReconciliation(purchaseId: string): void {
+  setTimeout(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('redpacket_purchases')
+        .select('wallet_address, amount_tai, ton_amount, sale_id, status, payment_detected_at')
+        .eq('id', purchaseId)
+        .single();
+
+      if (error || !data) {
+        console.warn('🔍 Redpacket reconciliation skipped: purchase not found', purchaseId, error?.message);
+        return;
+      }
+
+      if (data.status !== PURCHASE_STATUS.completed) {
+        console.log('🔍 Redpacket reconciliation deferred: purchase not completed yet', purchaseId);
+        return;
+      }
+
+      if (!data.payment_detected_at && data.sale_id && data.wallet_address) {
+        try {
+          await recordPurchasePayout({
+            saleId: data.sale_id,
+            wallet: data.wallet_address,
+            taiAmount: toNumber(data.amount_tai),
+            tonAmount: toNumber(data.ton_amount),
+          });
+        } catch (payoutError) {
+          console.error('❌ Failed to finalize payout during reconciliation', payoutError);
+        }
+      }
+
+      console.log(
+        `✅ Redpacket purchase ${purchaseId} completed for ${data.wallet_address}, amount ${toNumber(data.amount_tai)} TAI`,
+      );
+    } catch (reconcileError) {
+      console.error('❌ Failed to reconcile redpacket purchase', reconcileError);
+    }
+  }, 5000);
 }

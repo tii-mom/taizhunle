@@ -1,46 +1,42 @@
 import { Router, type Request, type Response } from 'express';
+import { claimOfficialRain, getNextOfficialRain } from '../services/officialRainService.js';
 
 const router = Router();
 
-// GET /api/official/next
 router.get('/next', async (_req: Request, res: Response) => {
   try {
-    // TODO: Fetch from database
-    const nextRound = {
-      nextAt: Date.now() + 1000 * 60 * 60 * 2,
-      remaining: 50,
-      qualify: true,
-      ticketPrice: 0.3,
-      amountTAI: 10000000,
-    };
-
-    res.json(nextRound);
+    const next = await getNextOfficialRain();
+    if (!next) {
+      res.status(404).json({ error: 'No scheduled rain' });
+      return;
+    }
+    res.json(next);
   } catch (error) {
     console.error('Error fetching official rain:', error);
     res.status(500).json({ error: 'Failed to fetch official rain' });
   }
 });
 
-// POST /api/official/claim
 router.post('/claim', async (req: Request, res: Response) => {
   try {
-    const { wallet, tgId } = req.body;
+    const wallet = typeof req.body?.wallet === 'string' ? req.body.wallet.trim() : '';
+    const telegramId = req.body?.telegramId ? Number(req.body.telegramId) : undefined;
+    const telegramUsername = typeof req.body?.telegramUsername === 'string' ? req.body.telegramUsername : undefined;
 
-    if (!wallet || !tgId) {
-      return res.status(400).json({ error: 'Wallet and tgId required' });
+    if (!wallet) {
+      res.status(400).json({ error: 'Wallet is required' });
+      return;
     }
 
-    // TODO: Verify qualification and generate unsigned BOC
-    const result = {
-      unsignedBoc: 'te6cc...mock',
-      amount: 10000000,
-      qualified: true,
-    };
-
+    const result = await claimOfficialRain({
+      wallet,
+      telegramId,
+      telegramUsername,
+    });
     res.json(result);
   } catch (error) {
     console.error('Error claiming official rain:', error);
-    res.status(500).json({ error: 'Failed to claim official rain' });
+    res.status(400).json({ error: error instanceof Error ? error.message : 'Failed to claim official rain' });
   }
 });
 

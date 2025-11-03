@@ -1,7 +1,7 @@
 import type { QueryFunctionContext } from '@tanstack/react-query';
 
 import type { MarketCard, MarketSortKey } from '../services/markets';
-import { getDaoPoolTotal, loadMarketFeed } from '../services/markets';
+import { loadMarketFeed } from '../services/markets';
 
 export type HomeFeedPage = {
   daoPool: number;
@@ -19,7 +19,7 @@ export const homePageQuery = (sort: MarketSortKey) => ({
   queryFn: async ({ pageParam }: QueryFunctionContext<HomeQueryKey, string | undefined>) => {
     const feed = await loadMarketFeed({ sort, cursor: pageParam, limit: HOME_PAGE_LIMIT });
     return {
-      daoPool: getDaoPoolTotal(),
+      daoPool: feed.daoPool ?? feed.items.reduce((sum, market) => sum + market.pool, 0),
       items: feed.items,
       nextCursor: feed.nextCursor,
     } satisfies HomeFeedPage;

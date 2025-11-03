@@ -16,52 +16,23 @@ export type LiveStats = {
   recentBets: LiveBet[];
 };
 
-async function fetchLiveBetting(_marketId: string): Promise<LiveStats> {
-  // TODO: Replace with real API call
-  // const response = await fetch(`/api/market/${marketId}/live`);
-  // return response.json();
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
 
-  // Mock data - 实时更新
-  const baseInviteRewards = 8500 + Math.floor(Math.random() * 200);
-  const maxBetAmount = 12000 + Math.floor(Math.random() * 3000);
-  const maxBetUsers = ['pBlue', 'Validator Yun', 'Amber', 'DeepWhale', 'CryptoKing'];
-  const randomUser = maxBetUsers[Math.floor(Math.random() * maxBetUsers.length)];
+async function fetchLiveBetting(marketId: string): Promise<LiveStats> {
+  const response = await fetch(`${API_BASE_URL}/markets/${marketId}/live`);
 
-  return {
-    inviteRewards: baseInviteRewards,
-    maxSingleBet: maxBetAmount,
-    maxBetUser: randomUser,
-    uniqueBettors: 342 + Math.floor(Math.random() * 10),
-    recentBets: [
-      {
-        id: '1',
-        user: 'pBlue',
-        amount: 8500,
-        side: 'no',
-        timestamp: Date.now() - 1000 * 30,
-      },
-      {
-        id: '2',
-        user: 'Validator Yun',
-        amount: 4200,
-        side: 'yes',
-        timestamp: Date.now() - 1000 * 60,
-      },
-      {
-        id: '3',
-        user: 'Amber',
-        amount: 12000,
-        side: 'yes',
-        timestamp: Date.now() - 1000 * 90,
-      },
-    ],
-  };
+  if (!response.ok) {
+    throw new Error('Failed to load live betting data');
+  }
+
+  return (await response.json()) as LiveStats;
 }
 
 export function useLiveBetting(marketId: string) {
   return useQuery({
     queryKey: ['market', marketId, 'live'],
     queryFn: () => fetchLiveBetting(marketId),
+    enabled: Boolean(marketId),
     refetchInterval: 5000,
   });
 }

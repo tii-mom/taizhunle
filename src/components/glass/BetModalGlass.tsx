@@ -10,6 +10,7 @@ import { Confetti } from './Confetti';
 import type { BetModalData } from '@/queries/bet';
 import { useI18n } from '@/hooks/useI18n';
 import { useTheme } from '@/providers/ThemeProvider';
+import { useBetExecutor } from '@/hooks/useBetExecutor';
 
 const createBetSchema = (t: TFunction) =>
   z.object({
@@ -17,6 +18,10 @@ const createBetSchema = (t: TFunction) =>
       .number({ invalid_type_error: t('detail:modal.amountError') })
       .min(1, t('detail:modal.amountError')),
     note: z.string().max(80, t('detail:modal.noteError')).optional(),
+    side: z.enum(['yes', 'no'], {
+      invalid_type_error: t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
+      required_error: t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
+    }),
     autoClaim: z.boolean().optional(),
   });
 
@@ -32,12 +37,14 @@ type BetModalGlassProps = {
 
 export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClose }: BetModalGlassProps) {
   const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const { t, locale } = useI18n(['market', 'detail', 'dao', 'common']);
   const { mode } = useTheme();
   const schema = useMemo(() => createBetSchema(t), [t]);
+  const { execute, isPending } = useBetExecutor();
 
   const defaultValues = useMemo(
-    () => ({ amount: data.amount, note: '', autoClaim: true }) satisfies BetFormValues,
+    () => ({ amount: data.amount, note: '', side: 'yes', autoClaim: true }) satisfies BetFormValues,
     [data.amount],
   );
 
@@ -68,16 +75,46 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
+    watch,
   } = useForm<BetFormValues>({
     resolver: zodResolver(schema),
     defaultValues,
   });
 
+  const selectedSide = watch('side', 'yes');
+
+  const handleSelectSide = useCallback(
+    (next: 'yes' | 'no') => {
+      setValue('side', next, { shouldDirty: true, shouldTouch: true });
+    },
+    [setValue],
+  );
+
   const handleSuccess = useCallback(async (values: BetFormValues) => {
-    await onSubmit?.(values);
-    setSuccess(true);
-    reset({ ...defaultValues, amount: values.amount });
-  }, [defaultValues, onSubmit, reset]);
+    setSubmitError(null);
+    try {
+      if (onSubmit) {
+        await onSubmit(values);
+      } else {
+        await execute({
+          marketId: data.marketId,
+          amount: values.amount,
+          side: values.side,
+          note: values.note,
+        });
+      }
+      setSuccess(true);
+      reset({ ...defaultValues, amount: values.amount, side: values.side });
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : t('detail:modal.genericError', { defaultValue: '提交失败，请稍后重试' });
+      setSubmitError(message);
+      throw error;
+    }
+  }, [data.marketId, defaultValues, execute, onSubmit, reset, t]);
 
   useEffect(() => {
     if (!success) {
@@ -129,6 +166,41 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
         {errors.amount ? <span className="mt-1 block text-xs text-rose-300">{errors.amount.message}</span> : null}
       </label>
 
+      <div className="space-y-2 text-sm">
+        <span className={`text-xs uppercase tracking-[0.25em] ${textMutedSecondary}`}>
+          {t('market:quickBet.chooseSide', { defaultValue: '选择投注方向' })}
+        </span>
+        <div className="grid grid-cols-2 gap-3">
+          {(['yes', 'no'] as const).map((side) => {
+            const isActive = selectedSide === side;
+            return (
+              <button
+                key={side}
+                type="button"
+                onClick={() => handleSelectSide(side)}
+                className={`rounded-xl border px-4 py-3 text-sm font-semibold transition-all ${
+                  isActive
+                    ? side === 'yes'
+                      ? 'border-emerald-400/60 bg-emerald-500/15 text-emerald-100 shadow-[0_0_18px_rgba(34,197,94,0.25)]'
+                      : 'border-rose-400/60 bg-rose-500/15 text-rose-100 shadow-[0_0_18px_rgba(244,63,94,0.25)]'
+                    : isLight
+                      ? 'border-slate-200/80 bg-white/60 text-slate-500 hover:border-slate-400/70 hover:text-slate-700'
+                      : 'border-white/10 bg-white/5 text-slate-300 hover:border-white/20 hover:text-white'
+                }`}
+              >
+                {side === 'yes' ? t('market:yes') : t('market:no')}
+              </button>
+            );
+          })}
+        </div>
+        <input type="hidden" value={selectedSide} {...register('side')} />
+        {errors.side ? (
+          <span className="mt-1 block text-xs text-rose-300">
+            {errors.side.message ?? t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' })}
+          </span>
+        ) : null}
+      </div>
+
       <label className={`block text-sm ${textMuted}`}>
         <span className={`text-xs uppercase tracking-[0.25em] ${textMutedSecondary}`}>{t('detail:modal.note')}</span>
         <textarea
@@ -161,16 +233,20 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
           <GlassButtonGlass
             type="button"
             variant="secondary"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isPending}
             onClick={onClose}
           >
             {resolvedCancelLabel}
           </GlassButtonGlass>
         ) : null}
-        <GlassButtonGlass type="submit" disabled={isSubmitting}>
+        <GlassButtonGlass type="submit" disabled={isSubmitting || isPending}>
           {resolvedSubmitLabel}
         </GlassButtonGlass>
       </div>
+
+      {submitError ? (
+        <p className="text-center text-xs text-rose-300">{submitError}</p>
+      ) : null}
 
       <Confetti active={success} delayMs={120} />
     </form>

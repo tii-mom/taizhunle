@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
-  globalIgnores(['dist', 'coverage']),
+  globalIgnores(['dist', 'coverage', 'contracts', 'contracts/**', 'supabase']),
   {
     files: ['**/*.{ts,tsx}'],
     ignores: ['node_modules', 'src/server/**'],
@@ -46,7 +46,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/server/**/*.ts'],
+    files: ['src/server/**/*.ts', 'src/config/**/*.ts', 'scripts/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

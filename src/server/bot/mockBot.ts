@@ -8,12 +8,12 @@ export class MockTelegramBot {
   }
 
   onText(pattern: RegExp, callback: Function) {
-    const command = pattern.source.replace(/[\/\\]/g, '').replace(/\$.*/, '');
+    const command = pattern.source.replace(/[\\/]/g, '').replace(/\$.*/, '');
     this.commands.set(command, callback);
     console.log(`📝 Mock bot registered command: /${command}`);
   }
 
-  on(event: string, callback: Function) {
+  on(event: string, _callback: Function) {
     console.log(`📝 Mock bot registered event: ${event}`);
   }
 

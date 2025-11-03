@@ -69,11 +69,22 @@
     "accelerateTime": "20:00-24:00",
     "progressLabel": "销售进度",
     "soldOut": "已售罄",
-    "buyAlert": "购买功能开发中",
+    "buyError": "购买失败，请稍后重试",
+    "purchaseTimeout": "支付尚未确认，请稍后刷新或联系管理员",
     "stats": {
       "base": "基础金额",
       "max": "最高金额",
       "split": "裂变系数"
+    },
+    "status": {
+      "idle": "准备就绪，立即下单抢购",
+      "preparing": "正在创建购买会话…",
+      "awaitingWallet": "请在钱包中确认 TON 支付",
+      "waitingConfirmation": "链上确认中，Memo: {{memo}}",
+      "awaitingDistribution": "支付完成，奖励派发中（预计到账 {{amount}}）",
+      "completed": "领取成功，奖励到账 {{amount}}",
+      "error": "购买失败，请稍后重试",
+      "amount": "{{amount}} TAI"
     }
   },
   "official": {
@@ -83,7 +94,11 @@
     "remaining": "剩余 {{count}} 份",
     "nextLabel": "下轮开始",
     "ticketLabel": "参与门票",
-    "claimAlert": "领取功能开发中",
+    "claiming": "领取中…",
+    "claimSuccess": "领取成功！到账 {{amount}} TAI",
+    "claimSuccessLimited": "领取成功！到账 {{amount}} TAI，资格将在下一轮刷新",
+    "claimError": "领取失败，请稍后再试",
+    "connectWallet": "请先连接 TON 钱包再领取",
     "notice": "抢完后将在频道置顶通知下轮时间",
     "requirements": {
       "purchased": "已购买过红包",

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { TonConnectButton } from '@tonconnect/ui-react';
 import { PageLayout } from '../components/layout/PageLayout';
 import { useRedPacketSale } from '../hooks/useRedPacketSale';
 import { PriceButton } from '../components/redpacket/PriceButton';
@@ -7,14 +8,34 @@ import { AccelerateBadge } from '../components/redpacket/AccelerateBadge';
 import { PriceAdjustmentBanner } from '../components/redpacket/PriceAdjustmentBanner';
 import { SoldOutOverlay } from '../components/redpacket/SoldOutOverlay';
 import { ProgressStats } from '../components/redpacket/ProgressStats';
+import { useRedPacketPurchase } from '../hooks/useRedPacketPurchase';
+import { formatTAI } from '../utils/format';
 
 export function RedPacketSale() {
   const { t } = useTranslation('redpacket');
   const { data: saleStatus, isLoading } = useRedPacketSale();
+  const {
+    phase,
+    error,
+    result,
+    isProcessing,
+    startPurchase,
+    wallet,
+    openWalletModal,
+    sessionMemo,
+  } = useRedPacketPurchase();
 
   const handleBuy = () => {
-    // TODO: Implement buy logic
-    window.alert(t('sale.buyAlert'));
+    if (!wallet?.account?.address) {
+      openWalletModal();
+    }
+
+    void startPurchase().catch(err => {
+      if (err instanceof Error) {
+        const key = err.message === 'payment-timeout' ? 'sale.purchaseTimeout' : 'sale.buyError';
+        window.alert(t(key));
+      }
+    });
   };
 
   if (isLoading || !saleStatus) {
@@ -38,12 +59,15 @@ export function RedPacketSale() {
         <div className="relative space-y-6 rounded-xl border border-border-light bg-surface-glass/60 p-6 shadow-2xl backdrop-blur-lg">
           <SoldOutOverlay visible={saleStatus.soldOut} message={t('sale.soldOut')} />
 
-          <PriceButton
-            priceTON={saleStatus.priceTON}
-            label={t('sale.priceLabel')}
-            disabled={saleStatus.soldOut}
-            onClick={handleBuy}
-          />
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <TonConnectButton className="md:w-auto" />
+            <PriceButton
+              priceTON={saleStatus.priceTON}
+              label={t('sale.priceLabel')}
+              disabled={saleStatus.soldOut || isProcessing}
+              onClick={handleBuy}
+            />
+          </div>
 
           <CountdownBar
             targetTimestamp={saleStatus.countdown}
@@ -90,6 +114,29 @@ export function RedPacketSale() {
                 {saleStatus.accelerate ? '10%' : '5%'}
               </p>
             </div>
+          </div>
+
+          <div className="rounded-xl border border-border-light bg-background/60 p-4 text-sm text-text-secondary">
+            <p>
+              {phase === 'preparing' && t('sale.status.preparing')}
+              {phase === 'awaitingWallet' && t('sale.status.awaitingWallet')}
+              {phase === 'waitingConfirmation' &&
+                t('sale.status.waitingConfirmation', { memo: sessionMemo ?? '-' })}
+              {phase === 'awaitingDistribution' &&
+                t('sale.status.awaitingDistribution', {
+                  amount: result
+                    ? t('sale.status.amount', { amount: formatTAI(result.amountTAI) })
+                    : '--',
+                })}
+              {phase === 'completed' &&
+                t('sale.status.completed', {
+                  amount: result
+                    ? t('sale.status.amount', { amount: formatTAI(result.amountTAI) })
+                    : '--',
+                })}
+              {phase === 'error' && (error ? error : t('sale.status.error'))}
+              {phase === 'idle' && t('sale.status.idle')}
+            </p>
           </div>
         </div>
       </div>

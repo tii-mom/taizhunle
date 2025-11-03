@@ -158,6 +158,70 @@ async function testDatabase() {
   }
 }
 
+async function testTonConnectivity() {
+  console.log('\n5️⃣ 测试 TON API 连通性...');
+
+  const endpoint = process.env.TON_API_ENDPOINT;
+  const apiKey = process.env.TON_API_KEY;
+  const paymentAddress = process.env.REDPACKET_WALLET_ADDRESS || process.env.PLATFORM_WALLET_ADDRESS;
+
+  if (!endpoint || !apiKey) {
+    console.log('   ⚠️ TON API 配置缺失 (TON_API_ENDPOINT / TON_API_KEY)');
+    return;
+  }
+
+  if (!paymentAddress) {
+    console.log('   ⚠️ REDPACKET_WALLET_ADDRESS 未配置，无法执行连通性测试');
+    return;
+  }
+
+  try {
+    const url = new URL('getAddressInformation', endpoint);
+    url.searchParams.set('address', paymentAddress);
+    const response = await fetch(url, {
+      headers: {
+        'X-API-Key': apiKey,
+        Accept: 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      console.log('   ✅ TON API 连通性正常');
+    } else {
+      console.log(`   ❌ TON API 返回状态 ${response.status}`);
+    }
+  } catch (error) {
+    console.log('   ❌ 无法连接 TON API (请检查网络或凭证)');
+  }
+}
+
+async function testTelegramBot() {
+  console.log('\n6️⃣ 测试 Telegram Bot...');
+
+  const token = process.env.TELEGRAM_ADMIN_BOT_TOKEN;
+
+  if (!token) {
+    console.log('   ⚠️ TELEGRAM_ADMIN_BOT_TOKEN 未配置');
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+    if (response.ok) {
+      const data = await response.json();
+      if (data?.ok) {
+        console.log(`   ✅ Telegram Bot 已连接 (username: @${data.result.username})`);
+      } else {
+        console.log('   ❌ Telegram Bot 返回错误');
+      }
+    } else {
+      console.log(`   ❌ Telegram Bot 调用失败 (${response.status})`);
+    }
+  } catch (error) {
+    console.log('   ❌ 无法连接 Telegram API (请检查网络或 Token)');
+  }
+}
+
 // 生成测试报告
 function generateReport() {
   console.log('\n📊 测试报告:');
@@ -181,6 +245,8 @@ async function runTests() {
   await testServer();
   await testAPI();
   await testDatabase();
+  await testTonConnectivity();
+  await testTelegramBot();
   generateReport();
 }
 

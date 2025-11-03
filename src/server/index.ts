@@ -5,6 +5,10 @@ import { config, checkRequiredEnv, printConfig } from '../config/env.js';
 import { redpacketRouter } from './routes/redpacket.js';
 import { officialRouter } from './routes/official.js';
 import { whaleRouter } from './routes/whale.js';
+import { marketsRouter } from './routes/markets.js';
+import daoRouter from './routes/dao.js';
+import inviteRouter from './routes/invite.js';
+import rankingRouter from './routes/ranking.js';
 
 // 检查环境变量
 if (!checkRequiredEnv()) {
@@ -83,6 +87,10 @@ if (config.server.isDevelopment) {
 app.use('/api/redpacket', redpacketRouter);
 app.use('/api/official', officialRouter);
 app.use('/api/whale', whaleRouter);
+app.use('/api/markets', marketsRouter);
+app.use('/api/dao', daoRouter);
+app.use('/api/invite', inviteRouter);
+app.use('/api/ranking', rankingRouter);
 
 // 错误处理中间件
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

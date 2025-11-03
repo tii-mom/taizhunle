@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate, Outlet, useLocation } from 'react-router-dom';
-import { lazy, Suspense, type ReactElement } from 'react';
+import { lazy, Suspense, type ReactElement, useEffect } from 'react';
 import { useTonWallet } from '@tonconnect/ui-react';
 
 import { PageSkeleton } from './components/common/PageSkeleton';
@@ -36,6 +36,13 @@ const withWalletGuard = (element: ReactElement) => {
 
 const TransitionLayout = () => {
   const location = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get('ref') ?? params.get('inviter');
+    if (ref) {
+      localStorage.setItem('taizhunle:referrerWallet', ref);
+    }
+  }, [location.search]);
 
   return (
     <PageTransition routeKey={`${location.pathname}${location.search}`}>

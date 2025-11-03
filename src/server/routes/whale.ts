@@ -1,26 +1,11 @@
 import { Router, type Request, type Response } from 'express';
+import { fetchWhaleRankings } from '../services/whaleService.js';
 
 const router = Router();
 
-// GET /api/whale
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    // TODO: Fetch from database
-    const whales = [
-      {
-        rank: 1,
-        wallet: 'EQD...abc',
-        amount: 5000000,
-        timestamp: Date.now() - 1000 * 60 * 30,
-      },
-      {
-        rank: 2,
-        wallet: 'EQD...def',
-        amount: 3500000,
-        timestamp: Date.now() - 1000 * 60 * 45,
-      },
-    ];
-
+    const whales = await fetchWhaleRankings();
     res.json(whales);
   } catch (error) {
     console.error('Error fetching whale list:', error);

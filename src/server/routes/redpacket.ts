@@ -4,6 +4,7 @@ import {
   getCurrentSaleStatus,
   getPurchaseForWallet,
   markPurchaseCompleted,
+  schedulePurchaseReconciliation,
 } from '../services/redpacketService.js';
 import * as mockRedpacketService from '../services/mockRedpacketService.js';
 import { isValidTonAddress, normalizeTonAddress } from '../utils/ton.js';
@@ -100,6 +101,9 @@ router.post('/purchase', async (req: Request, res: Response) => {
         await mockRedpacketService.markPurchaseCompleted(purchase.purchaseId, signature);
       } else {
         await markPurchaseCompleted(purchase.purchaseId, signature);
+        schedulePurchaseReconciliation(purchase.purchaseId).catch(error => {
+          console.error('Failed to schedule purchase reconciliation', error);
+        });
       }
       return res.json({ success: true });
     }

@@ -18,6 +18,17 @@ function getEnvBoolean(key: string, defaultValue: boolean): boolean {
   return value ? value === 'true' : defaultValue;
 }
 
+function parseNumberList(value: string | undefined): number[] {
+  if (!value) {
+    return [];
+  }
+
+  return value
+    .split(',')
+    .map(entry => Number.parseInt(entry.trim(), 10))
+    .filter(entry => Number.isFinite(entry));
+}
+
 // 导出环境变量对象
 export const env = {
   // 基础配置
@@ -105,7 +116,7 @@ export const config = {
     channel: {
       id: env.TELEGRAM_CHANNEL_ID,
     },
-    adminIds: env.TELEGRAM_ADMIN_IDS.split(',').map(id => parseInt(id.trim())),
+    adminIds: parseNumberList(env.TELEGRAM_ADMIN_IDS),
     webhook: {
       url: env.TELEGRAM_WEBHOOK_URL,
       secret: env.TELEGRAM_WEBHOOK_SECRET,

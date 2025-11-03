@@ -1,245 +1,232 @@
 # Taizhunle（太准了）项目说明
 
 ## 📋 项目概述
-**Taizhunle（太准了）** 聚焦于 TON 区块链的预测市场与红包分发场景，仓库同时维护：
-- **React 前端**：玻璃拟态（Glass）界面、国际化、TonConnect 钱包接入与预测市场交互体验。
-- **Node.js/Express 服务端**：负责红包购买流程、TON 支付监听、Supabase 数据存储、Telegram Bot 与定时任务。
-- **Tact 智能合约**：实现 TAI 主代币与锁仓/释放逻辑，配套脚本用于部署与一致性校验。
+**Taizhunle（太准了）** 聚焦于 TON 区块链的预测市场、红包分发与 Telegram 社群运营，仓库同时维护：
+- **React/Vite 前端**：玻璃拟态界面、React Query 数据层、TonConnect 钱包集成、多语言支持。
+- **Node.js/Express 服务端**：Supabase 数据访问、预测市场/红包/官方雨露 API、TON 支付监听、Telegram Bot 及定时任务。
+- **Tact 智能合约**：TAI 主代币与锁仓逻辑，配套部署/验证脚本与地址快照。
 
 **当前源码状态**
 - 源码版本：`package.json` → `0.0.0`
-- 健康检查默认版本号：`src/server/index.ts:50` → `1.0.0`
-- 最近主要更新：2025-11-01（见 `CHANGELOG.md`）
-- 代码规模：约 13,484 行 TypeScript（151 个 TS/TSX 文件）+ 191 行 Tact（2 份合约）
-- 运行拓扑：Vite 前端静态资源 + Express 服务 + TON 智能合约 + Supabase/Postgres
+- 健康检查版本：`src/server/index.ts` → `1.0.0`
+- 最近主要提交：2025-11-02 `2f02d4f`（chore: Remove sensitive files from git tracking）
+- 最新里程碑：`CHANGELOG.md` → `3.0.0 / 2025-10-27`
+- 代码规模：14,558 行 TypeScript（156 个 TS/TSX 文件）+ 191 行 Tact 合约
+- 运行拓扑：Vite SPA → Express API → Supabase/Postgres → TON 合约 & Telegram Bot
 
 ---
-
 ## 🛠 技术栈
 
 ### 前端
-- **React 19.1.1** / **TypeScript 5.9.3**
-- **Vite 7.1.7** + **Tailwind CSS 3.4.15** + **PostCSS/Autoprefixer**
-- **@tanstack/react-query 5.90.5**：服务端状态与无限加载
-- **React Router 7.9.4**：前端路由与导航守卫
-- **react-hook-form 7.65.0** + **Zod 4.1.12**：表单和校验
-- **i18next 25.6.0** / `react-i18next`：18 个命名空间的中英双语
-- **@tonconnect/ui-react 2.3.1**：TonConnect 钱包集成
-- **Framer Motion 12.23.24** / **lucide-react**：动画与图标
+- **React 19.1.1** / **TypeScript 5.9.3** / **Vite 7.1.7**
+- **Tailwind CSS 3.4.15** + **PostCSS/Autoprefixer**
+- **@tanstack/react-query 5.90.5**：数据获取与缓存
+- **react-router-dom 7.9.4**：路由与守卫
+- **react-hook-form 7.65.0** + **Zod 4.1.12**：表单 & 校验
+- **i18next 25.6.0** + **react-i18next 16.2.0**：多语言
+- **@tonconnect/ui-react 2.3.1**：TonConnect 钱包
+- **Framer Motion 12.23.24** / **lucide-react 0.548.0**：动画与图标
 
 ### 服务端
-- **Node.js 20+ / Express 4.21.2**（`src/server/index.ts`）
-- **Supabase JS 2.76.1**：数据库访问（懒加载客户端 `src/server/services/supabaseClient.ts`）
-- **node-cron 3.0.3**：价格调整、加速期、官方雨露任务（`src/server/jobs/`）
-- **node-telegram-bot-api 0.66.0**：管理员 & 用户 Bot（支持 Mock）
-- **dotenv 17.2.3**：环境变量加载（结合自定义 `loadEnv`）
-- **Helmet / CORS / Express JSON**：服务端基础中间件
+- **Node.js 20+ / Express 4.21.2**
+- **@supabase/supabase-js 2.76.1**：数据库访问（`src/server/services/supabaseClient.ts` 延迟初始化）
+- **marketService / officialRainService / userService / telegramService**：预测市场、官方雨露、用户档案与通知逻辑
+- **node-cron 3.0.3**：定时任务（价格调整、加速期、官方雨露）
+- **node-telegram-bot-api 0.66.0**：管理员 & 用户 Bot
+- **helmet 8.1.0** / **cors 2.8.5** / 原生 JSON 解析中间件
 
 ### 智能合约与 TON
-- **Tact**：`contracts/contracts/t_a_i_master.tact`、`vesting_contract.tact`
-- **@ton/core 0.62.0**：监听器与 BOC 构建
-- **@ton/blueprint / @ton/test-utils / @ton-community/func-js**：部署、测试与编译
-- **仓库脚本**：`contracts/scripts/deployAll.ts`、`scripts/verifyContracts.js`
+- **Tact**：`contracts/contracts/t_a_i_master.tact`, `vesting_contract.tact`
+- **@ton/core 0.62.0**：BOC 生成与监听
+- **@tonconnect/ui-react**：前端钱包连接
+- **Ton 支付监听器**：`src/server/listeners/tonPayment.ts` 轮询 toncenter API
 
 ### 工具链与规范
 - **ESLint 9.38.0** + **@typescript-eslint 8.46.2** + **Prettier 3.6.2**
-- **Tailwind / PostCSS 配置**：`tailwind.config.js`, `postcss.config.js`
-- **Concurrently / tsx**：双端启动、TS 编译执行
-- **自定义脚本**：`scripts/setup-env.cjs`, `scripts/check-env.cjs`
+- **tsx 4.20.6** / **concurrently 9.2.1**：服务端热重载与并行启动
+- **脚本**：`scripts/setup-env.cjs`, `scripts/check-env.cjs`, `scripts/run-migration.js`, `scripts/test-system.js`, `scripts/verifyContracts.js`
 
 ---
-
 ## 📁 项目结构
 
 ```
 taizhunle/
 ├── src/
-│   ├── app/                     # 应用壳层（App.tsx 等）
-│   ├── web/pages/               # 玻璃拟态首页、详情页（HomeGlass 等）
+│   ├── app/                     # 应用壳层（App.tsx -> HomeGlass）
+│   ├── pages/                   # 资产、DAO、邀请、搜索等页面
+│   ├── web/pages/               # 玻璃拟态主屏（HomeGlass、BetGlass、MarketDetailGlass 等）
 │   ├── components/
-│   │   ├── glass/               # Glass UI 组件（MarketCardGlass 等）
-│   │   └── common/              # 通用展示组件
-│   ├── hooks/                   # 自定义 Hook（useRedPacketSale, useTonWallet 等）
-│   ├── queries/                 # React Query 查询配置（homePageQuery 等）
-│   ├── services/                # 前端数据层（markets mock、userService 占位）
+│   │   ├── glass/               # Glass UI 组件
+│   │   └── common/              # 通用 UI（Skeleton、Transitions）
+│   ├── hooks/                   # useDynamicOdds、useRedPacketSale、useOfficialRain 等
+│   ├── queries/                 # React Query 查询定义
+│   ├── services/                # 前端数据访问封装（markets、ranking、tonService 等）
+│   ├── providers/               # 全局 Provider（TonConnect、React Query、I18n）
 │   ├── config/                  # 环境变量封装（env.ts）
-│   ├── providers/               # 全局 Provider（React Query、TonConnect）
-│   ├── server/                  # Node/Express 服务端
-│   │   ├── routes/              # REST 路由（redpacket、official、whale、dao*）
-│   │   ├── services/            # Supabase 访问、红包逻辑、feeDistributor 等
-│   │   ├── listeners/           # TON 支付监听（tonPayment.ts）
-│   │   ├── jobs/                # 定时任务（priceAdjust/accelerate/officialCreate）
-│   │   ├── bot/                 # Telegram Bot（真实 + Mock）
-│   │   └── utils/constants      # 工具与常量
-│   ├── locales/                 # i18n 资源
-│   ├── utils/ | lib/            # 工具函数与图标封装
-│   └── styles/                  # 全局样式
-├── contracts/                   # Tact 合约工程（需单独安装依赖）
-│   ├── contracts/               # t_a_i_master.tact / vesting_contract.tact
-│   ├── scripts/                 # 地址推导、部署、验证脚本
-│   └── tests/                   # 合约测试样例
-├── supabase/                    # 数据库迁移与 Schema（PostgreSQL）
-├── docs/                        # 项目文档（ENVIRONMENT、CURRENT_STATUS 等）
-├── scripts/                     # 环境变量工具、合约校验
-├── addresses.json               # 最新合约地址与配置快照
+│   ├── server/                  # Express 服务端
+│   │   ├── routes/              # redpacket、official、markets、dao、whale
+│   │   ├── services/            # Supabase、预测市场、官方雨露、Telegram、DAO 等
+│   │   ├── jobs/                # priceAdjust / accelerate / officialCreate
+│   │   ├── listeners/           # TON 支付轮询
+│   │   ├── bot/                 # Telegram Bot 实现
+│   │   ├── constants/           # 业务常量
+│   │   ├── types/               # Supabase 类型定义
+│   │   └── utils/               # TON 地址、日志等工具
+│   ├── locales/                 # i18n 资源包
+│   ├── lib/ | utils/ | styles/  # 通用库、工具函数、全局样式
+│   └── router.tsx / i18n.ts     # 路由与国际化入口
+├── contracts/                   # Tact 合约工程（contracts / scripts / tests）
+├── supabase/                    # SQL 迁移与种子文件
+├── scripts/                     # 环境、数据库、验证与系统测试脚本
+├── docs/                        # ENVIRONMENT、CURRENT_STATUS、TELEGRAM_BOT_SETUP 等
+├── addresses.json               # 合约地址快照
 ├── Dockerfile / docker-compose.yml / vercel.json / railway.toml
 └── README.md / PROJECT_GUIDE.md / DEPLOYMENT.md 等
 ```
 
 ---
-
 ## 🎯 核心模块
 
-### 1. Glass 前端体验
-- `src/web/pages/HomeGlass.tsx` 结合 `react-query` 无限滚动（`src/queries/homePage.ts`）与本地 mock 源（`src/services/markets.ts`），实现排序、筛选、收藏、追踪池等交互。
-- 玻璃拟态组件位于 `src/components/glass/`，配合 Tailwind 主题在 `src/providers/ThemeProvider.tsx` 中切换暗/亮模式。
-- TonConnect 钱包在 `src/providers/AppProviders.tsx` 初始化，自动传入国际化语言与主题；表单、动画、手势均使用 Hooks（`useTonSign`, `useCountDown`, `usePulseGlow` 等）。
+### 1. Glass 预测市场体验
+- `src/web/pages/HomeGlass.tsx` 聚合市场卡片、动态动画与无限滚动（依赖 `src/queries/homePage.ts` 和 React Query）。
+- `src/router.tsx` 使用 TonConnect 钱包守卫，结合 `PageTransition` 与 `PageSkeleton` 实现路由动画与懒加载，并可从 `?ref=`/`?inviter=` URL 参数写入推荐人缓存。
+- `src/components/glass/BetModalGlass.tsx` 引入 `useBetExecutor`（`src/hooks/useBetExecutor.ts`），下注默认调用 `/api/markets/:id/bets`，自动附带 TonConnect 钱包地址与本地推荐人信息，同时提供 YES/NO 切换、错误提示与提交态管理。
+- `src/web/pages/MarketDetailGlass.tsx`、`BetGlass.tsx` 展示市场详情与弹窗，搭配 `useMarketDetailQuery` 等真实 API 查询。
 
-### 2. 红包系统（服务端 + 前端）
-- REST 路由 `src/server/routes/redpacket.ts` 暴露：
-  - `GET /api/redpacket/status`
-  - `POST /api/redpacket/create`
-  - `POST /api/redpacket/purchase`
-  在开发模式且 `ENABLE_MOCK_DATA=true` 时自动切换为 `src/server/services/mockRedpacketService.ts`。
-- 真实服务 `src/server/services/redpacketService.ts` 基于 Supabase 表 `redpacket_sales`、`redpacket_purchases`、`user_balances`，生成 memo、会话与 BOC 签名 payload，并汇总销量统计。
-- TON 支付流程通过 `src/server/listeners/tonPayment.ts` 轮询 Toncenter：提取 memo → 校验 TON 金额 → 生成 base64 unsigned BOC → 标记 Supabase 状态为 `awaiting_signature`。
-- 前端 Hooks `src/hooks/useRedPacketSale.ts`、`src/hooks/useTonSign.ts`、页面 `src/pages/RedPacketSale.tsx` 提供倒计时、加速期徽章与购买弹窗等体验。
+### 2. 资产与发放模块
+- `src/pages/Assets.tsx` 作为资产中心，聚合红包销售 (`RedPacketSale`)、官方雨露 (`OfficialRain`) 等子模块。
+- `src/hooks/useRedPacketSale.ts` 与 `src/server/routes/redpacket.ts` 组合 Supabase 数据与本地 Mock 回退，保障开发态可演练。
+- `src/hooks/useOfficialRain.ts` 对接 `src/server/services/officialRainService.ts`，实时显示下一轮雨露与领取状态。
 
-### 3. 官方雨露与鲸鱼播报
-- `src/server/routes/official.ts` 当前返回 stub 数据并校验参数；配套 Hook `useOfficialRain` 与页面 `src/pages/OfficialRain.tsx` 展示倒计时、资格徽章、门票价格。
-- `src/server/routes/whale.ts` 提供鲸鱼榜样例数据；前端排行榜组件位于 `src/components/market/` 与 `src/pages/Ranking.tsx`。
-- 定时任务 `src/server/jobs/officialCreate.ts` 拟定每日 4 次的雨露生成流程，后续需补充数据库写入与通知。
+### 3. DAO 与收益分配
+- `src/pages/DaoGlass.tsx` 读取用户 DAO 待领取、统计与排行榜。
+- 服务端 `src/server/routes/dao.ts` + `src/server/services/feeDistributor.ts` / `getUserDaoStats` / `claimDaoPool` 负责 DAO 池入账与提现。
+- Supabase 侧依赖 `dao_pool`、`official_rain_claims`、`mv_user_dao_stats` 等表/视图维持收益数据。
 
-### 4. DAO 分润与预测市场
-- 服务端 `src/server/services/feeDistributor.ts` 定义 DAO 池拆账比例、Supabase 插入逻辑，以及 `/api/dao/*` 路由（`src/server/routes/dao.ts`）。目前 DAO 路由未在 `src/server/index.ts` 挂载，需要手动接入。
-- 数据层依赖视图 `mv_user_dao_stats` 与表 `dao_pool`（见 `supabase/migrations/20251101_dao_pool.sql`）。
-- 前端预测市场仍基于 mock 数据，后续需对接真实 API 及 DAO 分润接口。
+### 4. 服务端与数据层
+- `src/server/services/marketService.ts` 提供市场列表/详情/赔率/实时投注/下注写入，统一封装格式化、Supabase 交互与 Telegram 通知。
+- `src/server/services/userService.ts` / `telegramService.ts` / `officialRainService.ts` 处理用户画像、管理员推送、官方雨露资格判定与发放。
+- `src/server/services/supabaseClient.ts` 延迟创建 Supabase Service Key 客户端，避免开发环境重复初始化。
+- 所有路由集中在 `src/server/index.ts`，已挂载 `/api/markets`、`/api/redpacket`、`/api/official`、`/api/dao`、`/api/whale`。
 
-### 5. TON 集成
-- TON 配置集中在 `src/config/env.ts`，可切换网络/合约地址/平台钱包。
-- 红包支付监听 `src/server/listeners/tonPayment.ts` 使用 `@ton/core` 组装 `RPAY` payload，并调用 `markPurchaseAwaitingSignature`、`recordPurchasePayout` 更新 Supabase。
-- 合约部署脚本 `contracts/scripts/deployAll.ts` + `scripts/verifyContracts.js` 用于推导 deterministic 地址、核验 `addresses.json` 中的 stateInit/供应量。
-
-### 6. Telegram Bot
-- `src/server/bot/index.ts` 根据环境决定使用真实 Bot 或 `mockBot`。提供 `/status`、`/soldout`、`/next` 等用户命令以及管理员命令（`/price`, `/accelerate`, `/approve`, `/reject`, `/settle`）。
-- 权限由 `TELEGRAM_ADMIN_IDS` 控制，频道成员校验通过 `getChatMember`；正式环境需补充 Webhook 配置（见 `docs/TELEGRAM_BOT_SETUP.md`）。
+### 5. 后台任务与监听
+- 定时任务：`src/server/jobs/priceAdjust.ts`, `accelerate.ts`, `officialCreate.ts` 根据配置启停。
+- TON 支付监听：`src/server/listeners/tonPayment.ts` 轮询 toncenter API，按 Memo 匹配红包订单并生成 BOC。
+- Telegram Bot：`src/server/bot/` 保留管理员命令、Mock 适配与自动通知能力。
 
 ---
-
 ## 📡 API 速览
-- `GET /health`：健康检查，返回版本、环境、特性开关。
-- `GET /api/config`（仅开发）：打印当前配置摘要。
-- `GET /api/redpacket/status`：返回价格、销量、是否加速期等。
-- `POST /api/redpacket/create`：校验 TON 地址并生成购买会话（地址、memo、到期时间）。
-- `POST /api/redpacket/purchase`：查询 Memo 对应订单，返回未签名 BOC，或提交签名完成订单。
-- `GET /api/official/next` / `POST /api/official/claim`：官方雨露时间与领取占位实现。
-- `GET /api/whale`：鲸鱼榜示例数据。
-- `/api/dao/*` 路由已实现但尚未在服务器入口注册，接入后可提供 DAO 待领取金额/统计/提现。
+- `GET /health`：健康检查（版本、环境、功能开关）。
+- `GET /api/config`（开发模式）：输出当前配置摘要与关键开关。
+- `GET /api/markets`：预测市场列表，支持 `sort`/`filter`/`cursor`/`limit`；返回 `items`+`nextCursor`。
+- `GET /api/markets/:id` / `:id/snapshot` / `:id/odds` / `:id/live`：市场详情、下注快照、赔率与实时投注。
+- `POST /api/markets/:id/bets`：下注下单，写入 Supabase、分润 DAO、推送 Telegram。
+- `GET /api/redpacket/status`：红包销售状态，自动回退 Mock。
+- `POST /api/redpacket/create`：校验 TON 地址并创建购买会话；`POST /api/redpacket/purchase` 完成签名或返回待签名 BOC。
+- `GET /api/official/next` / `POST /api/official/claim`：官方雨露下一轮与领取。
+- `GET /api/dao/stats/:userId` / `pending/:userId` / `pool-stats` / `POST /api/dao/claim`：DAO 统计、待领取金额、池子汇总与提现。
+- `GET /api/whale`：鲸鱼榜样例数据。
 
 ---
-
 ## 🔧 环境变量与配置
-- `.env.example` 提供 299 行模板，`npm run setup`（`scripts/setup-env.cjs`）支持交互式写入关键变量。
-- 必填项（`scripts/check-env.cjs` 与 `src/server/main.ts` 会校验）：
-  - `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_KEY`
-  - `TELEGRAM_ADMIN_BOT_TOKEN` / `TELEGRAM_ADMIN_IDS` / `TELEGRAM_CHANNEL_ID`
-  - `TON_API_KEY` / `TON_NETWORK` / `TON_API_ENDPOINT`
-  - `JWT_SECRET` / `ENCRYPTION_KEY`
-- 业务参数：`REDPACKET_PRICE_TON`, `REDPACKET_BASE_AMOUNT`, `REDPACKET_MAX_AMOUNT`, `ENABLE_MOCK_DATA`, `ENABLE_PRICE_ADJUSTMENT`, `ENABLE_ACCELERATE_PERIOD`, `ENABLE_OFFICIAL_RAIN_CREATION` 等。
+- `.env.example` 提供 299 行模板，可通过 `npm run setup`（`scripts/setup-env.cjs`）交互式写入基础变量。
+- 关键校验脚本：`npm run env:check` / `npm run env:validate`（`scripts/check-env.cjs`），`node scripts/test-system.js` 可一键验证本地服务与 Supabase 连接。
+- 必填变量（生产环境会严格检查）：`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_KEY`, `TON_API_KEY`, `JWT_SECRET`, `TELEGRAM_ADMIN_BOT_TOKEN`, `TELEGRAM_ADMIN_IDS`。
+- 业务配置：`REDPACKET_PRICE_TON`, `REDPACKET_BASE_AMOUNT`, `REDPACKET_MAX_AMOUNT`, `PREDICTION_FEE_RATE`, `ENABLE_MOCK_DATA`, `ENABLE_PRICE_ADJUSTMENT`, `ENABLE_ACCELERATE_PERIOD`, `ENABLE_OFFICIAL_RAIN_CREATION` 等。
 - 推荐流程：
-  1. `npm run setup` 生成 `.env`
-  2. 根据需求补充 `.env.example` 中其他功能开关
-  3. `npm run env:check` 验证必填项与格式
-  4. 启动服务端前确认 Supabase、TON、Telegram 凭证均已配置
+  1. `npm run setup` 生成 `.env` 基本面；
+  2. 根据 `.env.example` 补充 TON/Telegram/Supabase 真实凭证；
+  3. 运行 `npm run env:check` + `node scripts/test-system.js` 验证配置；
+  4. 启动服务前确认 Supabase Service Key、Ton API Key 与 Telegram Bot 均有效。
 
 ---
-
-## 🗄️ 数据库（Supabase / PostgreSQL）
+## 🗄️ 数据库（Supabase/PostgreSQL）
 - 迁移位于 `supabase/migrations/`：
-  - `001_initial_schema.sql`：`users`, `predictions`, `bets`, `redpacket_*`, `official_rain` 等核心表
-  - `20251030_redpacket.sql` 及后续文件：补充红包销售、DAO 池与日常修正
-- 主要结构：
-  - `redpacket_sales` / `redpacket_purchases` / `user_balances`：红包销售流水与用户余额
-  - `dao_pool` / `mv_user_dao_stats`：DAO 分润明细与物化视图
-  - `official_rain` / `official_rain_claims`：官方雨露（待完善）
-- `scripts/check-env.cjs` 与服务端启动会在缺少关键连接参数时直接退出。
+  - `001_initial_schema.sql`：`users`, `predictions`, `bets`, `redpacket_*`, `official_rain` 等基础表。
+  - `20251030_redpacket.sql`：补充红包销售流水。
+  - `20251101_dao_pool.sql` / `20251101_day1_redpacket.sql` / `20251101_day1_redpacket_fix.sql`：DAO 池、雨露修正与首日补丁。
+- 关键结构：
+  - `predictions` / `bets`：预测市场主体与下注记录。
+  - `redpacket_sales` / `redpacket_purchases`：红包销售与支付流水。
+  - `official_rain` / `official_rain_claims`：官方雨露排期与领取。
+  - `dao_pool` / `mv_user_dao_stats`：DAO 分润明细与用户物化视图。
+  - `increment_user_bets` RPC（可选）：支撑下注次数、金额统计。
+- Supabase Service Key 由 `src/server/services/supabaseClient.ts` 创建单实例客户端，所有服务端查询/写入需依赖该配置。
 
 ---
-
 ## 🚀 开发与运行
 ```bash
-# 安装依赖（根目录）
+# 安装依赖
 npm install
 
-# 一键启动前端 + 服务端
+# 前后端同时启动（Vite 5173 + Express 3000）
 npm run dev
 
 # 独立启动
-npm run dev:client      # Vite 开发服务器 (默认 5173)
-npm run dev:server      # tsx + Express + Bot + 定时任务 (默认 3000)
+npm run dev:client           # Vite
+npm run dev:server           # tsx 监视 src/server/main.ts
 
-# 构建与产物
-npm run build           # tsc -b + vite build + server tsc
+# 构建与运行
+npm run build                # tsc -b + vite build + server TS 编译
 npm run build:client
 npm run build:server
+npm start                    # node dist/server/main.js
 
 # 工具
-npm run env:check       # 检查必填环境变量
-npm run lint            # ESLint 校验
+npm run env:check            # 校验必填环境变量
+npm run lint                 # ESLint
+node scripts/test-system.js  # 本地环境巡检
+npx tsx scripts/seed-predictions.ts # 向 Supabase 写入示例预测/下注数据
+npm run db:reset             # supabase db reset --local
+npm run db:push              # 同步最新迁移
 ```
 
 ---
-
 ## 🧾 智能合约工作流
 ```bash
 cd contracts
-npm install                     # 首次需安装合约依赖
-npx tact compile                # 编译 TAI Master / Vesting 合约
-npx tact test                   # 运行 Tact 测试
-node scripts/deployAll.ts       # 部署 TAIMaster + Vesting（需配置密钥）
-node ../scripts/verifyContracts.js  # 回到仓库根目录验证 addresses.json
+npm install                        # 首次安装合约依赖
+npx tact compile                   # 编译 TAI Master / Vesting
+npx tact test                      # 运行 Tact 测试
+node scripts/deployAll.ts          # 部署 TAIMaster + Vesting（需配置私钥）
+node ../scripts/verifyContracts.js # 在仓库根校验 addresses.json
 ```
-- 部署成功后更新 `addresses.json` 并提交审计记录。
-- `scripts/verifyContracts.js` 会对管理地址、stateInit、供应量与首轮价格做一致性检查。
+- 部署后更新 `addresses.json` 并同步审计记录。
+- `scripts/verifyContracts.js` 会校验管理地址、stateInit、供应量与初始价格。
 
 ---
-
 ## 📦 部署参考
-- 详见 `DEPLOYMENT.md` / `docs/ENVIRONMENT.md`。
-- 前端可部署到 Vercel/Netlify/Cloudflare Pages，后端可运行于 Railway/Fly/自建 VPS 或 Docker Compose。
-- 生产环境务必：
-  - 关闭 `ENABLE_MOCK_DATA`
-  - 为 Telegram Bot 配置 Webhook（或持久化轮询）
-  - 提供 Supabase Service Key、TON 钱包私钥等安全存储
-  - 运行 `npm run build && npm start` 或 `node dist/server/main.js`
+- 详细说明见 `DEPLOYMENT.md`、`docs/ENVIRONMENT.md`、`docs/TELEGRAM_BOT_SETUP.md`。
+- 前端可部署到 Vercel/Netlify/Cloudflare Pages；服务端可运行于 Railway/Fly/VPS 或 Docker Compose。
+- 生产注意事项：
+  - 禁用 `ENABLE_MOCK_DATA`，确保使用真实 Supabase/TON 凭证。
+  - Telegram Bot 建议配置 Webhook 或持久化轮询，管理员/频道 ID 须匹配生产群。
+  - 执行 `npm run build && npm start` 或以 Docker/PM2 方式托管。
+  - 将 Service Key、私钥、安全密钥存放于密钥管理服务。
 
 ---
-
 ## 📌 当前状态与后续任务
-- [ ] 将前端预测市场与 DAO 模块接入真实后端/数据库接口，替换 mock 数据。
-- [ ] 在 `src/server/index.ts` 挂载 `/api/dao` 路由并补齐 Supabase 读写与校验。
-- [ ] 为红包、官方雨露、TON 监听编写集成测试与错误告警。
-- [ ] 完成定时任务（priceAdjust/accelerate/officialCreate）对 Supabase 的实际读写与 Telegram 推送。
-- [ ] 梳理 `.env.example` 与真实依赖项，去除冗余字段并补充文档说明。
-- [ ] 明确许可证与维护人信息，完善 CI/CD（当前仓库未附带工作流脚本）。
+- [ ] 将预测市场下注流程接入链上合约/签名流程，替换纯数据库记账与 Telegram 通知。
+- [ ] 为官方雨露领取提供真实转账或分发机制，替换随机 BOC & bonus 生成逻辑并校验额度。
+- [ ] 在 Supabase 启用 RLS/Edge Functions，并补全 `increment_user_bets` 等 RPC，避免服务端警告。
+- [ ] 为红包、官方雨露、预测市场撰写端到端测试与错误告警，覆盖关键 happy-path 与异常路径。
+- [ ] 梳理 `.env.example` 与文档，提供最小生产配置清单与示例值。
+- [ ] 建立 CI（lint/build/API 冒烟）与部署后回归检查，确保主分支始终可发布。
 
 ---
-
 ## 📞 支持与协作
 - 维护者：待补充
-- 联系方式：待补充（可参考仓库 Issue / Telegram 群）
-- 参考文档：`docs/ENVIRONMENT.md`, `docs/TELEGRAM_BOT_SETUP.md`, `DEPLOYMENT.md`
+- 联系方式：待补充（可通过仓库 Issue 或 Telegram 群）
+- 参考文档：`docs/ENVIRONMENT.md`, `docs/TELEGRAM_BOT_SETUP.md`, `DEPLOYMENT.md`, `FINAL_DELIVERY.md`
 
 ---
-
 ## 📄 许可证
-尚未在仓库中声明，请在发布前补充。
+尚未声明，请在正式发布前补充。
 
 ---
-
-**最后更新**：2025-11-01  
-**对应版本**：源码 `0.0.0`（健康检查输出 `1.0.0`）  
+**最后更新**：2025-11-02  
+**对应版本**：源码 `0.0.0`（健康检查返回 `1.0.0`）  
 **本次更新要点**：
-- 对齐真实端点（`/api/redpacket/*`、`/api/official/*` 等）与 Supabase 工作流。
-- 补充 Glass 前端、TON 监听、Telegram Bot、DAO 服务等模块说明。
-- 更新环境变量、数据库、部署与后续计划，清理过时数字与流程描述。
+- 同步 `/api/markets`、`officialRainService`、`marketService` 等最新后端实现说明。
+- 更新项目结构与核心模块，纳入 DAO/雨露/下注流程的新代码。
+- 重写环境变量、数据库与后续任务，标记仍需落实的链上与生产化工作。

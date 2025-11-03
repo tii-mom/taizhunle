@@ -6,12 +6,9 @@
 import { DaoPoolCard } from '../components/dao/DaoPoolCard';
 import { FeeBreakdown } from '../components/dao/FeeBreakdown';
 import { PageLayout } from '../components/layout/PageLayout';
-import { useTranslation } from 'react-i18next';
 import { Award, TrendingUp, Users, Info } from 'lucide-react';
 
 export function Dao() {
-  const { t } = useTranslation();
-
   // 模拟用户 ID（实际应该从认证系统获取）
   const userId = 'current_user';
 

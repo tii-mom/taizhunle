@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 export type OfficialRainStatus = {
+  id: string;
   nextAt: number;
   remaining: number;
   qualify: boolean;
@@ -8,19 +9,16 @@ export type OfficialRainStatus = {
   amountTAI: number;
 };
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+
 async function fetchOfficialRain(): Promise<OfficialRainStatus> {
-  // TODO: Replace with real API call
-  // const response = await fetch('/api/official/next');
-  // return response.json();
-  
-  // Mock data for development
-  return {
-    nextAt: Date.now() + 1000 * 60 * 60 * 2,
-    remaining: 50,
-    qualify: true,
-    ticketPrice: 0.3,
-    amountTAI: 10000000,
-  };
+  const response = await fetch(`${API_BASE_URL}/official/next`);
+
+  if (!response.ok) {
+    throw new Error('Failed to load official rain schedule');
+  }
+
+  return (await response.json()) as OfficialRainStatus;
 }
 
 export function useOfficialRain() {

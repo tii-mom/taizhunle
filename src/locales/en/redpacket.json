@@ -69,11 +69,22 @@
     "accelerateTime": "8PM-12AM",
     "progressLabel": "Sales Progress",
     "soldOut": "Sold Out",
-    "buyAlert": "Purchase feature in development",
+    "buyError": "Purchase failed. Please try again shortly.",
+    "purchaseTimeout": "Payment not yet confirmed. Please refresh later or contact support.",
     "stats": {
       "base": "Base Amount",
       "max": "Max Amount",
       "split": "Split Rate"
+    },
+    "status": {
+      "idle": "Ready to purchase. Limited supply, act fast!",
+      "preparing": "Preparing purchase session…",
+      "awaitingWallet": "Confirm the TON payment in your wallet.",
+      "waitingConfirmation": "Awaiting on-chain confirmation. Memo: {{memo}}",
+      "awaitingDistribution": "Payment received. TAI reward on the way ({{amount}})",
+      "completed": "Success! Reward delivered ({{amount}})",
+      "error": "We couldn't complete the purchase. Please retry.",
+      "amount": "{{amount}} TAI"
     }
   },
   "official": {
@@ -83,7 +94,11 @@
     "remaining": "{{count}} shares remaining",
     "nextLabel": "Next Round",
     "ticketLabel": "Entry Ticket",
-    "claimAlert": "Claim feature in development",
+    "claiming": "Claiming…",
+    "claimSuccess": "Success! {{amount}} TAI has been queued for payout",
+    "claimSuccessLimited": "Success! {{amount}} TAI queued. Qualification will refresh next round.",
+    "claimError": "Unable to process claim. Please try again shortly.",
+    "connectWallet": "Connect your TON wallet to continue",
     "notice": "Next round time will be pinned in channel after sold out",
     "requirements": {
       "purchased": "Purchased red packet before",

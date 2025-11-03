@@ -112,7 +112,7 @@ export async function markPurchaseCompleted(purchaseId: string, signature: strin
   console.log('📦 标记 Mock 购买完成:', purchaseId, signature);
   
   // 更新 mock 数据
-  for (const [memo, purchase] of mockPurchases.entries()) {
+  for (const purchase of mockPurchases.values()) {
     if (purchase.purchaseId === purchaseId) {
       purchase.status = 'completed';
       purchase.signature = signature;

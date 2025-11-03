@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useRef, useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 export type OddsData = {
   yesOdds: number;
@@ -9,66 +10,75 @@ export type OddsData = {
   fluctuation: number;
 };
 
-export function useDynamicOdds(marketId: string, betAmount: number = 0, betSide: 'yes' | 'no' | null = null) {
-  const [odds, setOdds] = useState<OddsData>({
-    yesOdds: 1.5,
-    noOdds: 2.5,
-    yesPool: 600000,
-    noPool: 400000,
-    totalPool: 1000000,
-    fluctuation: 0,
+const DEFAULT_ODDS: OddsData = {
+  yesOdds: 1.5,
+  noOdds: 1.5,
+  yesPool: 0,
+  noPool: 0,
+  totalPool: 0,
+  fluctuation: 0,
+};
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+
+async function fetchOdds(marketId: string): Promise<OddsData> {
+  const response = await fetch(`${API_BASE_URL}/markets/${marketId}/odds`);
+
+  if (!response.ok) {
+    throw new Error('Failed to load odds');
+  }
+
+  return (await response.json()) as OddsData;
+}
+
+export function useDynamicOdds(
+  marketId: string,
+  betAmount: number = 0,
+  betSide: 'yes' | 'no' | null = null,
+) {
+  const previousRef = useRef<OddsData | null>(null);
+
+  const { data: odds = DEFAULT_ODDS } = useQuery<OddsData>({
+    queryKey: ['market', marketId, 'odds'],
+    queryFn: () => fetchOdds(marketId),
+    enabled: Boolean(marketId),
+    refetchInterval: 3000,
   });
 
-  const [prevOdds, setPrevOdds] = useState<OddsData>(odds);
+  const hasChanged = useMemo(() => {
+    if (!previousRef.current) {
+      previousRef.current = odds;
+      return false;
+    }
 
-  useEffect(() => {
-    // TODO: Replace with real API call
-    // const fetchOdds = async () => {
-    //   const response = await fetch(`/api/market/${marketId}/odds`);
-    //   const data = await response.json();
-    //   setOdds(data);
-    // };
-    // fetchOdds();
+    const changed =
+      previousRef.current.yesOdds !== odds.yesOdds || previousRef.current.noOdds !== odds.noOdds;
 
-    // Mock: Simulate odds changes every 3 seconds
-    const interval = setInterval(() => {
-      setOdds((current) => {
-        const newYesPool = current.yesPool + Math.random() * 10000 - 5000;
-        const newNoPool = current.noPool + Math.random() * 10000 - 5000;
-        const newTotalPool = newYesPool + newNoPool;
-        
-        const newYesOdds = newTotalPool / newYesPool;
-        const newNoOdds = newTotalPool / newNoPool;
-        
-        const fluctuation = ((newYesOdds - current.yesOdds) / current.yesOdds) * 100;
+    previousRef.current = odds;
+    return changed;
+  }, [odds]);
 
-        setPrevOdds(current);
+  const projectedOdds = useMemo(() => {
+    if (!betSide || betAmount <= 0) {
+      return null;
+    }
 
-        return {
-          yesOdds: newYesOdds,
-          noOdds: newNoOdds,
-          yesPool: newYesPool,
-          noPool: newNoPool,
-          totalPool: newTotalPool,
-          fluctuation,
-        };
-      });
-    }, 3000);
+    const totalPool = odds.totalPool + betAmount;
+    const yesPool = betSide === 'yes' ? odds.yesPool + betAmount : odds.yesPool;
+    const noPool = betSide === 'no' ? odds.noPool + betAmount : odds.noPool;
 
-    return () => clearInterval(interval);
-  }, [marketId]);
+    const compute = (pool: number) => {
+      if (pool <= 0) {
+        return 1.5;
+      }
+      return Number(Math.max(1.01, totalPool / pool).toFixed(2));
+    };
 
-  // Calculate projected odds with bet amount
-  const projectedOdds = betAmount > 0 && betSide ? {
-    yesOdds: betSide === 'yes' 
-      ? (odds.totalPool + betAmount) / (odds.yesPool + betAmount)
-      : (odds.totalPool + betAmount) / odds.yesPool,
-    noOdds: betSide === 'no'
-      ? (odds.totalPool + betAmount) / (odds.noPool + betAmount)
-      : (odds.totalPool + betAmount) / odds.noPool,
-  } : null;
-
-  const hasChanged = odds.yesOdds !== prevOdds.yesOdds || odds.noOdds !== prevOdds.noOdds;
+    return {
+      yesOdds: compute(yesPool),
+      noOdds: compute(noPool),
+    };
+  }, [betAmount, betSide, odds]);
 
   return {
     odds,
