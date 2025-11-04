@@ -12,7 +12,7 @@ export const GlassButtonGlass = forwardRef<HTMLButtonElement, GlassButtonGlassPr
     const isLight = mode === 'light';
 
     const variantClass = useMemo(() => {
-      const base = 'glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200';
+      const base = 'glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200 disabled:cursor-not-allowed disabled:opacity-50';
       if (variant === 'primary') {
         return `${base} glass-button-primary rounded-2xl px-5 py-3 text-sm ${
           isLight ? 'text-slate-900' : 'text-slate-900'

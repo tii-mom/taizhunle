@@ -1,59 +1,59 @@
+import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Search, Sparkles, Star } from 'lucide-react';
+import { ChevronDown, ChevronUp, Search, Star } from 'lucide-react';
 
 import { GlassPageLayout } from '@/components/glass/GlassPageLayout';
 import { MarketCardGlass } from '@/components/glass/MarketCardGlass';
 import { CreateFloatingGlass } from '@/components/glass/CreateFloatingGlass';
 import { RealtimeProfitBar } from '@/components/glass/RealtimeProfitBar';
 import { EmptyState } from '@/components/common/EmptyState';
-import { GoldenHammer } from '@/components/glass/GoldenHammer';
 import { GlassButtonGlass } from '@/components/glass/GlassButtonGlass';
 import type { MarketCard, MarketSortKey } from '@/services/markets';
 import { useMarketsQuery } from '@/services/markets';
 import { HOME_PAGE_LIMIT, homePageQuery, type HomeFeedPage } from '@/queries/homePage';
 import { useI18n } from '@/hooks/useI18n';
 import { useTheme } from '@/providers/ThemeProvider';
+import { AuroraPanel } from '@/components/glass/AuroraPanel';
+import { HomeTopBar } from '@/components/home/HomeTopBar';
 
 type StatusFilterKey = 'all' | 'live' | 'closing' | 'closed';
 type PoolFilterKey = 'any' | 'under10k' | 'mid' | 'over50k';
-type TemplateFilterKey = 'any' | 'coin' | 'macro' | 'sports' | 'event';
+type TemplateFilterKey = 'any' | 'coin' | 'macro' | 'sports';
 
-type SortOption = { key: MarketSortKey; labelKey: string; withCount?: boolean };
-type FilterOption<K> = { key: K; labelKey: string };
+type DualLabel = { zh: string; en: string };
+
+const SORT_COMPACT_LABELS: Record<MarketSortKey, DualLabel> = {
+  latest: { zh: '最新', en: 'Latest' },
+  hot: { zh: '最热', en: 'Hot' },
+  closing: { zh: '即将', en: 'Soon' },
+  bounty: { zh: '高赏', en: 'Bounty' },
+  following: { zh: '我的', en: 'My' },
+};
+
+const STATUS_COMPACT_LABELS: Record<StatusFilterKey, DualLabel> = {
+  all: { zh: '全部', en: 'All' },
+  live: { zh: '进行', en: 'Live' },
+  closing: { zh: '1小时', en: '1h' },
+  closed: { zh: '已结', en: 'Closed' },
+};
+
+const POOL_COMPACT_LABELS: Record<PoolFilterKey, DualLabel> = {
+  any: { zh: '全部', en: 'All' },
+  under10k: { zh: '<10K', en: '<10K' },
+  mid: { zh: '10-50K', en: '10-50K' },
+  over50k: { zh: '>50K', en: '>50K' },
+};
+
+const TEMPLATE_COMPACT_LABELS: Record<TemplateFilterKey, DualLabel> = {
+  any: { zh: '全部', en: 'All' },
+  coin: { zh: '币价', en: 'Token' },
+  macro: { zh: '宏观', en: 'Macro' },
+  sports: { zh: '赛事', en: 'Sports' },
+};
 
 type TemplateMatcher = (card: MarketCard) => TemplateFilterKey;
-
-const FEED_SORTS: SortOption[] = [
-  { key: 'latest', labelKey: 'home:filters.sort.latest' },
-  { key: 'hot', labelKey: 'home:filters.sort.hot' },
-  { key: 'closing', labelKey: 'home:filters.sort.closing' },
-  { key: 'bounty', labelKey: 'home:filters.sort.bounty' },
-  { key: 'following', labelKey: 'home:filters.sort.following', withCount: true },
-];
-
-const STATUS_FILTERS: FilterOption<StatusFilterKey>[] = [
-  { key: 'all', labelKey: 'home:filters.status.all' },
-  { key: 'live', labelKey: 'home:filters.status.live' },
-  { key: 'closing', labelKey: 'home:filters.status.closing' },
-  { key: 'closed', labelKey: 'home:filters.status.closed' },
-];
-
-const POOL_FILTERS: FilterOption<PoolFilterKey>[] = [
-  { key: 'any', labelKey: 'home:filters.pool.any' },
-  { key: 'under10k', labelKey: 'home:filters.pool.under10k' },
-  { key: 'mid', labelKey: 'home:filters.pool.mid' },
-  { key: 'over50k', labelKey: 'home:filters.pool.over50k' },
-];
-
-const TEMPLATE_FILTERS: FilterOption<TemplateFilterKey>[] = [
-  { key: 'any', labelKey: 'home:filters.template.any' },
-  { key: 'coin', labelKey: 'home:filters.template.coin' },
-  { key: 'macro', labelKey: 'home:filters.template.macro' },
-  { key: 'sports', labelKey: 'home:filters.template.sports' },
-  { key: 'event', labelKey: 'home:filters.template.event' },
-];
 
 const resolveTemplateType: TemplateMatcher = (card) => {
   const tags = card.entities.map((entity) => entity.toLowerCase());
@@ -65,8 +65,8 @@ const resolveTemplateType: TemplateMatcher = (card) => {
 
 export function HomeGlass() {
   const navigate = useNavigate();
-  const { t, locale, changeLanguage } = useI18n(['home', 'market']);
-  const { mode, toggle } = useTheme();
+  const { t, locale } = useI18n(['home', 'market']);
+  const { mode } = useTheme();
   const isLight = mode === 'light';
 
   const [activeSort, setActiveSort] = useState<MarketSortKey>('latest');
@@ -76,6 +76,7 @@ export function HomeGlass() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
+  const [showFilterDrawer, setShowFilterDrawer] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const catalogQuery = useMarketsQuery('all');
@@ -183,21 +184,6 @@ export function HomeGlass() {
     return { value, intervalLabel: '24h' } as const;
   }, [enrichedFeedCards]);
 
-  const hammerPoints = useMemo(
-    () => enrichedCatalog.reduce((sum, card) => sum + card.juryCount * 12, 0),
-    [enrichedCatalog],
-  );
-  const hammerLevel = hammerPoints >= 200 ? 'gold' : hammerPoints >= 50 ? 'silver' : hammerPoints >= 10 ? 'bronze' : 'gray';
-  const hammerLevelText = t(`home:hammer.${hammerLevel}`);
-  const hammerLevelLabel = t('home:hammer.level', {
-    level: Math.max(1, Math.floor(hammerPoints / 25)),
-    points: hammerPoints,
-  });
-  const activeHammerCount = useMemo(
-    () => enrichedCatalog.filter((card) => card.juryCount > 0).length,
-    [enrichedCatalog],
-  );
-
   const searchResults = useMemo(() => {
     const keyword = searchText.trim().toLowerCase();
     if (!keyword) {
@@ -229,151 +215,148 @@ export function HomeGlass() {
     }
   };
 
-  const textMuted = isLight ? 'text-slate-700' : 'text-slate-200/70';
   const textMutedSecondary = isLight ? 'text-slate-600' : 'text-slate-200/60';
   const borderSoft = isLight ? 'border-slate-300/70' : 'border-white/10';
-  const borderHover = isLight ? 'hover:border-slate-500/80' : 'hover:border-white/20';
   const bgSoft = isLight ? 'bg-white/90' : 'bg-white/5';
-  const chipInactive = isLight
-    ? 'text-slate-700 font-medium hover:text-slate-900'
-    : 'text-slate-200/60 hover:text-white';
-  const chipBorder = isLight ? 'border-slate-300/80' : 'border-white/10';
-  const searchHover = isLight ? 'hover:text-slate-900' : 'hover:text-white';
-  const badgeBorder = isLight ? 'border-slate-300/80' : 'border-white/10';
-
   const numberFormatter = useMemo(
     () => new Intl.NumberFormat(locale === 'zh' ? 'zh-CN' : 'en-US'),
     [locale],
   );
-  const nextLocale = locale.startsWith('zh') ? 'en' : 'zh';
-  const languageLabel = locale.startsWith('zh')
-    ? t('home:buttons.languageEn')
-    : t('home:buttons.languageZh');
-  const themeLabel = mode === 'light' ? t('home:buttons.themeDark') : t('home:buttons.themeLight');
+
+  const sliderBase = 'flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-3xl border px-4 py-3 text-xs transition-all duration-150';
+  const sliderActive = isLight
+    ? 'border-amber-300/80 bg-amber-200/50 text-amber-900 shadow-[0_16px_36px_-24px_rgba(251,191,36,0.45)]'
+    : 'border-amber-300/40 bg-amber-300/15 text-amber-100 shadow-[0_0_28px_rgba(251,191,36,0.55)]';
+  const sliderInactive = isLight
+    ? 'border-white/65 bg-white/70 text-slate-700 hover:border-amber-200/60 hover:text-amber-600'
+    : 'border-white/12 bg-white/10 text-white/70 hover:border-emerald-300/40 hover:text-white';
+  const secondaryLabelTone = isLight ? 'text-slate-500' : 'text-white/60';
+
+  const renderCompactLabel = (label: DualLabel, extra?: string) => (
+    <span className="flex flex-col items-center leading-tight">
+      <span className="text-[13px] font-semibold">{label.zh}</span>
+      <span className={clsx('text-[10px] uppercase tracking-[0.35em]', secondaryLabelTone)}>
+        {label.en}
+        {extra ? ` ${extra}` : ''}
+      </span>
+    </span>
+  );
+
+  const handleStatusSelect = (key: StatusFilterKey) => {
+    setStatusFilter(key);
+    setShowFilterDrawer(false);
+  };
+
+  const handlePoolSelect = (key: PoolFilterKey) => {
+    setPoolFilter(key);
+    setShowFilterDrawer(false);
+  };
+
+  const handleTemplateSelect = (key: TemplateFilterKey) => {
+    setTemplateFilter(key);
+    setShowFilterDrawer(false);
+  };
 
   return (
     <GlassPageLayout>
       <div className="space-y-6 pb-16">
-        <header className={`glass-card flex items-center justify-between gap-4 p-4 ${isLight ? 'text-slate-900' : 'text-white'}`}>
-          <button
-            type="button"
-            onClick={() => setSearchOpen(true)}
-            className={`flex flex-1 items-center gap-3 rounded-2xl border ${borderSoft} ${bgSoft} px-4 py-2 text-left text-sm ${textMuted} transition-colors duration-150 ${borderHover} ${searchHover}`}
-          >
-            <Search className="h-4 w-4 text-amber-200/80" />
-            <span className="truncate">{t('home:search.open')}</span>
-          </button>
-          <GlassButtonGlass
-            onClick={() => navigate('/create')}
-            className="!rounded-2xl !px-4 !py-2 text-xs uppercase tracking-[0.3em]"
-          >
-            <Sparkles className="h-4 w-4" />
-            {t('home:buttons.create')}
-          </GlassButtonGlass>
-          <div className="flex items-center gap-2">
-            <GlassButtonGlass
-              variant="ghost"
-              onClick={() => {
-                void changeLanguage(nextLocale);
-              }}
-              className="!rounded-2xl !px-3 !py-2 text-xs uppercase tracking-[0.3em]"
-            >
-              {languageLabel}
-            </GlassButtonGlass>
-            <GlassButtonGlass
-              variant="ghost"
-              onClick={toggle}
-              className="!rounded-2xl !px-3 !py-2 text-xs uppercase tracking-[0.3em]"
-            >
-              {themeLabel}
-            </GlassButtonGlass>
-          </div>
-          <div
-            className={`flex items-center gap-3 rounded-2xl border ${badgeBorder} ${bgSoft} px-3 py-2 ${textMuted}`}
-          >
-            <GoldenHammer count={activeHammerCount} level={hammerLevel} />
-            <div>
-              <p className="text-xs font-semibold text-amber-100/80 uppercase tracking-[0.2em]">{hammerLevelText}</p>
-              <p className="text-[11px]">
-                {hammerLevelLabel}
-              </p>
-            </div>
-          </div>
-        </header>
+        <HomeTopBar onSearchOpen={() => setSearchOpen(true)} />
 
         <RealtimeProfitBar total={daoPool} delta={daoDelta} label={t('home:dao.total')} />
 
-        <section className={`glass-card flex flex-col gap-4 p-4 ${isLight ? 'text-slate-900' : ''}`}>
-          <div className="flex flex-wrap items-center gap-2">
-            {FEED_SORTS.map((option) => (
+        <AuroraPanel
+          variant="neutral"
+          className={clsx('space-y-3 rounded-[28px] border px-4 py-4 sm:px-6 sm:py-5', isLight ? 'text-slate-800' : 'text-white/80')}
+        >
+          <div className="grid gap-2 sm:grid-cols-[repeat(4,minmax(78px,1fr))_auto]">
+            {(['latest', 'hot', 'closing'] as MarketSortKey[]).map((key) => (
               <button
-                key={option.key}
+                key={key}
                 type="button"
-                onClick={() => setActiveSort(option.key)}
-                className={`rounded-2xl px-3 py-1 text-xs font-medium uppercase tracking-widest transition-all duration-150 ${
-                  activeSort === option.key
-                    ? 'bg-amber-300/20 text-amber-100 shadow-[0_0_12px_rgba(251,191,36,0.4)]'
-                    : chipInactive
-                }`}
+                onClick={() => setActiveSort(key)}
+                className={clsx(sliderBase, 'w-full min-h-[64px]', activeSort === key ? sliderActive : sliderInactive)}
               >
-                {t(option.labelKey, option.withCount ? { count: numberFormatter.format(favoriteIds.size) } : {})}
+                {renderCompactLabel(SORT_COMPACT_LABELS[key])}
               </button>
             ))}
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {STATUS_FILTERS.map((option) => (
+            <div className="flex items-center justify-end gap-2">
               <button
-                key={option.key}
                 type="button"
-                onClick={() => setStatusFilter(option.key)}
-                className={`rounded-2xl border px-3 py-1 text-xs uppercase tracking-[0.35em] transition-all ${
-                  statusFilter === option.key
-                    ? 'border-amber-300/40 bg-amber-300/15 text-amber-100'
-                    : `${chipBorder} ${chipInactive}`
-                }`}
+                onClick={() => setActiveSort('following')}
+                className={clsx(
+                  sliderBase,
+                  'min-w-[96px] shrink-0',
+                  activeSort === 'following' ? sliderActive : sliderInactive,
+                )}
               >
-                {t(option.labelKey)}
+                {renderCompactLabel(SORT_COMPACT_LABELS.following, `(${numberFormatter.format(favoriteIds.size)})`)}
               </button>
-            ))}
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="flex flex-wrap items-center gap-2">
-              {POOL_FILTERS.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  onClick={() => setPoolFilter(option.key)}
-                  className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.35em] transition-all ${
-                    poolFilter === option.key
-                      ? 'border-amber-300/40 bg-amber-400/20 text-amber-50'
-                      : `${chipBorder} ${chipInactive}`
-                  }`}
-                >
-                  {t(option.labelKey)}
-                </button>
-              ))}
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              {TEMPLATE_FILTERS.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  onClick={() => setTemplateFilter(option.key)}
-                  className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.35em] transition-all ${
-                    templateFilter === option.key
-                      ? 'border-emerald-300/40 bg-emerald-400/15 text-emerald-50'
-                      : `${chipBorder} ${chipInactive}`
-                  }`}
-                >
-                  {t(option.labelKey)}
-                </button>
-              ))}
+              <button
+                type="button"
+                onClick={() => setShowFilterDrawer((prev) => !prev)}
+                className={clsx(
+                  sliderBase,
+                  'min-w-[84px] shrink-0 flex-row gap-1 text-xs font-semibold',
+                  showFilterDrawer ? sliderActive : sliderInactive,
+                )}
+              >
+                {renderCompactLabel({ zh: '全部', en: 'ALL' })}
+                {showFilterDrawer ? (
+                  <ChevronUp className="h-4 w-4" />
+                ) : (
+                  <ChevronDown className="h-4 w-4" />
+                )}
+              </button>
             </div>
           </div>
-            <p className={`text-[11px] uppercase tracking-[0.35em] ${textMutedSecondary}`}>
-              {t('home:filters.pagingNote', { count: HOME_PAGE_LIMIT })}
-            </p>
-        </section>
+
+          {showFilterDrawer ? (
+            <div className="space-y-3 rounded-[24px] border border-white/12 bg-white/5 px-4 py-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={clsx('text-[10px] uppercase tracking-[0.4em]', secondaryLabelTone)}>状态 Status</span>
+                {(['live', 'closing', 'closed', 'all'] as StatusFilterKey[]).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => handleStatusSelect(key)}
+                    className={clsx(sliderBase, 'min-w-[80px]', statusFilter === key ? sliderActive : sliderInactive)}
+                  >
+                    {renderCompactLabel(STATUS_COMPACT_LABELS[key])}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={clsx('text-[10px] uppercase tracking-[0.4em]', secondaryLabelTone)}>奖池 Pool</span>
+                {(['any', 'mid', 'over50k'] as PoolFilterKey[]).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => handlePoolSelect(key)}
+                    className={clsx(sliderBase, 'min-w-[90px]', poolFilter === key ? sliderActive : sliderInactive)}
+                  >
+                    {renderCompactLabel(POOL_COMPACT_LABELS[key])}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={clsx('text-[10px] uppercase tracking-[0.4em]', secondaryLabelTone)}>模板 Template</span>
+                {(['any', 'coin', 'macro', 'sports'] as TemplateFilterKey[]).map((key) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => handleTemplateSelect(key)}
+                    className={clsx(sliderBase, 'min-w-[90px]', templateFilter === key ? sliderActive : sliderInactive)}
+                  >
+                    {renderCompactLabel(TEMPLATE_COMPACT_LABELS[key])}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+        </AuroraPanel>
 
         {isInitialLoading ? (
           <div className="space-y-4">

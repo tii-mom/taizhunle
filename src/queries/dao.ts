@@ -32,7 +32,18 @@ export type DaoPoolCategory = {
   total: number;
 };
 
-export type DaoPoolStats = Record<string, DaoPoolCategory>;
+export type DaoPoolSummary = DaoPoolCategory & {
+  today: number;
+  last7Days: number;
+};
+
+export type DaoPoolStats = {
+  create: DaoPoolCategory;
+  jury: DaoPoolCategory;
+  invite: DaoPoolCategory;
+  platform: DaoPoolCategory;
+  summary: DaoPoolSummary;
+};
 
 export const daoPoolQuery = () => ({
   queryKey: ['daoPool'],
@@ -45,7 +56,11 @@ export const daoPoolQuery = () => ({
     } catch (error) {
       console.error('DAO pool query error:', error);
       return {
-        global: { pending: 0, claimed: 0, total: 0 },
+        create: { pending: 0, claimed: 0, total: 0 },
+        jury: { pending: 0, claimed: 0, total: 0 },
+        invite: { pending: 0, claimed: 0, total: 0 },
+        platform: { pending: 0, claimed: 0, total: 0 },
+        summary: { pending: 0, claimed: 0, total: 0, today: 0, last7Days: 0 },
       } satisfies DaoPoolStats;
     }
   },
@@ -109,6 +124,53 @@ export const daoStatsQuery = (userId: string) => ({
         lastEarningAt: null,
         lastClaimAt: null,
       } satisfies DaoStatsResponse;
+    }
+  },
+  staleTime: 30_000,
+  refetchInterval: 30_000,
+});
+
+export type DaoProfileResponse = {
+  userId: string;
+  walletAddress: string | null;
+  daoPoints: number;
+  isJuror: boolean;
+  totalMarketsCreated: number;
+  totalCreationFeeTai: number;
+  winRate: number;
+  lastMarketCreatedAt?: string | null;
+  balance: {
+    totalTai: number;
+    availableTai: number;
+    lockedTai: number;
+  };
+};
+
+export const daoProfileQuery = (userId: string) => ({
+  queryKey: ['daoProfile', userId],
+  queryFn: async (): Promise<DaoProfileResponse> => {
+    try {
+      const response = await fetch(`/api/dao/profile/${userId}`);
+      if (!response.ok) throw new Error('Failed to fetch profile');
+      const data = (await response.json()) as DaoProfileResponse;
+      return data;
+    } catch (error) {
+      console.error('DAO profile query error:', error);
+      return {
+        userId,
+        walletAddress: null,
+        daoPoints: 0,
+        isJuror: false,
+        totalMarketsCreated: 0,
+        totalCreationFeeTai: 0,
+        winRate: 0,
+        lastMarketCreatedAt: null,
+        balance: {
+          totalTai: 0,
+          availableTai: 0,
+          lockedTai: 0,
+        },
+      } satisfies DaoProfileResponse;
     }
   },
   staleTime: 30_000,

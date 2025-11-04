@@ -11,7 +11,8 @@ type DaoConsoleGlassProps = {
   contributions: number;
   points: number;
   nextLevelPoints: number;
-  level: 'gray' | 'bronze' | 'silver' | 'gold';
+  level: number;
+  dailyLimit: number;
   earnings: {
     jury: number;
     creator: number;
@@ -19,20 +20,28 @@ type DaoConsoleGlassProps = {
   };
 };
 
-export function DaoConsoleGlass({ staked, contributions, points, nextLevelPoints, level, earnings }: DaoConsoleGlassProps) {
-  const progress = Math.min((points / Math.max(nextLevelPoints, 1)) * 100, 100);
+export function DaoConsoleGlass({
+  staked,
+  contributions,
+  points,
+  nextLevelPoints,
+  level,
+  dailyLimit,
+  earnings,
+}: DaoConsoleGlassProps) {
   const { t } = useI18n('dao');
+  const progress = Math.min((points / Math.max(nextLevelPoints, 1)) * 100, 100);
 
   return (
     <div className="space-y-5">
       <GlassCard className="space-y-4 p-5">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="space-y-1">
             <p className="text-xs uppercase tracking-[0.35em] text-slate-200/60">{t('console.stake')}</p>
             <CountUp end={staked} className="font-mono text-3xl font-semibold text-amber-200 drop-shadow-[0_0_12px_rgba(251,191,36,0.35)]" />
             <p className="text-sm text-slate-200/70">{t('console.stakeUnit')}</p>
           </div>
-          <GoldenHammer count={contributions} level={level} />
+          <GoldenHammer count={contributions} level={level as 1 | 2 | 3 | 4} />
         </div>
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
           <div className="flex items-center justify-between text-sm text-slate-200/70">
@@ -45,6 +54,12 @@ export function DaoConsoleGlass({ staked, contributions, points, nextLevelPoints
           <p className="mt-2 text-[11px] uppercase tracking-[0.35em] text-slate-200/60">
             {t('console.progress', { current: points, next: nextLevelPoints })}
           </p>
+          <div className="mt-3 flex items-center justify-between text-xs text-slate-200/60">
+            <span>每日限制</span>
+            <span className="font-mono font-semibold text-amber-100">
+              {dailyLimit === Infinity ? '无限制' : `${dailyLimit} 次/天`}
+            </span>
+          </div>
         </div>
       </GlassCard>
 

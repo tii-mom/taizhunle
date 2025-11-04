@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTonWallet } from '@tonconnect/ui-react';
 
 import { usePlaceBetMutation } from '@/services/markets';
@@ -15,10 +15,27 @@ const REFERRER_STORAGE_KEY = 'taizhunle:referrerWallet';
 export function useBetExecutor() {
   const wallet = useTonWallet();
   const mutation = usePlaceBetMutation();
+  const mockEnabled = import.meta.env.VITE_ENABLE_MOCK_DATA === 'true';
+  const fallbackWallet = useMemo(() => {
+    if (wallet?.account?.address) {
+      return wallet.account.address;
+    }
+
+    const explicit = import.meta.env.VITE_DEV_WALLET_ADDRESS;
+    if (explicit && explicit.trim().length > 0) {
+      return explicit.trim();
+    }
+
+    if (mockEnabled) {
+      return 'EQD_mock_wallet_address_for_dev_mode';
+    }
+
+    return undefined;
+  }, [wallet?.account?.address, mockEnabled]);
 
   const execute = useCallback(
     async ({ marketId, amount, side, note }: ExecuteBetParams) => {
-      const walletAddress = wallet?.account?.address;
+      const walletAddress = fallbackWallet;
       if (!walletAddress) {
         throw new Error('请先连接 TON 钱包后再下注');
       }
@@ -34,7 +51,7 @@ export function useBetExecutor() {
         referrerWallet,
       });
     },
-    [mutation, wallet?.account?.address],
+    [fallbackWallet, mutation],
   );
 
   return {

@@ -53,7 +53,7 @@ export function Dao() {
                   <div>
                     <h3 className="font-semibold text-text-primary">成为陪审员</h3>
                     <p className="mt-1 text-sm text-text-secondary">
-                      质押 ≥1000 TAI 成为陪审员，投票正确可获得 1.0% 的奖池分成
+                      质押 ≥10,000 TAI 成为陪审员，投票正确可获得 1.0% 的奖池分成
                     </p>
                   </div>
                 </div>
@@ -85,14 +85,14 @@ export function Dao() {
               <div className="space-y-3">
                 <div className="rounded-xl border border-border-light bg-surface-glass/60 p-4 backdrop-blur-md">
                   <p className="text-sm text-text-secondary">质押要求</p>
-                  <p className="mt-1 font-mono text-2xl font-bold text-[#F59E0B]">≥ 1,000 TAI</p>
+                  <p className="mt-1 font-mono text-2xl font-bold text-[#F59E0B]">≥ 10,000 TAI</p>
                 </div>
 
                 <div className="space-y-2 text-sm text-text-secondary">
-                  <p>✅ 立即获得铜色锤徽章</p>
                   <p>✅ 参与预测市场陪审</p>
                   <p>✅ 投票正确获得 1% 奖池</p>
-                  <p>✅ 升级体系：铜 → 银 → 金</p>
+                  <p>✅ 每次陪审获得 1 积分</p>
+                  <p>✅ 积分影响抽签权重</p>
                 </div>
 
                 <button

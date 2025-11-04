@@ -27,6 +27,8 @@ type GlobalRedPacketData = {
 type AssetData = {
   balance: number;
   change24h: number;
+  tonBalance: number;
+  tonChange24h: number;
   redPackets: RedPacketData | null;
   predictions: PredictionData | null;
   globalRedPacket: GlobalRedPacketData;
@@ -36,6 +38,8 @@ type AssetData = {
 const MOCK_DATA: AssetData = {
   balance: 12345.67,
   change24h: 5.23,
+  tonBalance: 256.78,
+  tonChange24h: -1.8,
   redPackets: {
     total: 10,
     claimed: 7,
@@ -86,6 +90,8 @@ export function useAssetData() {
   return {
     balance: data.balance,
     change24h: data.change24h,
+    tonBalance: data.tonBalance,
+    tonChange24h: data.tonChange24h,
     redPackets: data.redPackets,
     predictions: data.predictions,
     globalRedPacket: data.globalRedPacket,

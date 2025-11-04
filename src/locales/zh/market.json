@@ -4,6 +4,18 @@
     "live": "实时",
     "settled": "已结算"
   },
+  "glass": {
+    "badge": "盘口亮点",
+    "odds": "实时赔率",
+    "pool": "奖池总额",
+    "participants": "参与人数",
+    "countdown": "截止倒计时",
+    "juryReward": "陪审员奖励池",
+    "juryCount": "陪审员",
+    "jurors": "人",
+    "perJuror": "每人可得",
+    "juryNote": "多数派获得奖励 + 1 积分"
+  },
   "betFailed": "钱包拒绝了本次下注。",
   "betQueued": "下注请求已发送至钱包。",
   "betSignature": "太准了下注签名：{{market}}",
@@ -14,6 +26,28 @@
     "swipe": "左右滑动查看更多",
     "longPress": "长按快速下注",
     "quickBet": "快速下注"
+  },
+  "quickBet": {
+    "label": "快速下注",
+    "title": "快速下注",
+    "range": "建议下注 {{min}} - {{max}} {{currency}}",
+    "submit": "提交下注",
+    "submitting": "提交中…",
+    "cancel": "取消",
+    "chooseSide": "选择投注方向",
+    "sideRequired": "请选择投注方向",
+    "placeholder": "填写策略备注（可选）",
+    "connectPrompt": "请先连接 TON 钱包以继续下注。",
+    "connectedWallet": "当前钱包：{{address}}",
+    "currentOdds": "当前赔率：是 {{yes}} / 否 {{no}}",
+    "fillAll": "全部",
+    "successNotice": "下注成功，祝你好运！",
+    "expected": {
+      "title": "下注结果预估",
+      "payout": "预计到账",
+      "profit": "预计净收益",
+      "odds": "赔率"
+    }
   },
   "cards": {
     "btc": {

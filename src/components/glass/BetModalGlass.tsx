@@ -1,7 +1,9 @@
+import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTonWallet } from '@tonconnect/ui-react';
 import { Sparkles } from 'lucide-react';
 import type { TFunction } from 'i18next';
 
@@ -17,12 +19,10 @@ const createBetSchema = (t: TFunction) =>
     amount: z
       .number({ invalid_type_error: t('detail:modal.amountError') })
       .min(1, t('detail:modal.amountError')),
-    note: z.string().max(80, t('detail:modal.noteError')).optional(),
     side: z.enum(['yes', 'no'], {
       invalid_type_error: t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
       required_error: t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
     }),
-    autoClaim: z.boolean().optional(),
   });
 
 type BetFormValues = z.infer<ReturnType<typeof createBetSchema>>;
@@ -33,18 +33,28 @@ type BetModalGlassProps = {
   cancelLabel?: string;
   onSubmit?: (values: BetFormValues) => Promise<void> | void;
   onClose?: () => void;
+  odds?: {
+    yes: number;
+    no: number;
+  };
 };
 
-export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClose }: BetModalGlassProps) {
+function shorten(address: string): string {
+  if (!address) return '';
+  return address.length <= 12 ? address : `${address.slice(0, 6)}…${address.slice(-4)}`;
+}
+
+export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClose, odds }: BetModalGlassProps) {
   const [success, setSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const { t, locale } = useI18n(['market', 'detail', 'dao', 'common']);
   const { mode } = useTheme();
   const schema = useMemo(() => createBetSchema(t), [t]);
   const { execute, isPending } = useBetExecutor();
+  const wallet = useTonWallet();
 
   const defaultValues = useMemo(
-    () => ({ amount: data.amount, note: '', side: 'yes', autoClaim: true }) satisfies BetFormValues,
+    () => ({ amount: data.amount, side: 'yes' }) satisfies BetFormValues,
     [data.amount],
   );
 
@@ -52,6 +62,9 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
     () => new Intl.NumberFormat(locale === 'zh' ? 'zh-CN' : 'en-US', { maximumFractionDigits: 2 }),
     [locale],
   );
+
+  const quickAmounts = useMemo(() => [100, 500, 1000, 5000], []);
+  const maxAmount = useMemo(() => data.maxAmount ?? data.amount, [data.amount, data.maxAmount]);
 
   const resolvedSubmitLabel = submitLabel ?? t('market:quickBet.submit');
   const resolvedCancelLabel = cancelLabel ?? t('market:quickBet.cancel');
@@ -68,7 +81,6 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
     ? 'bg-white/90 shadow-[0_26px_40px_-32px_rgba(15,23,42,0.3)]'
     : 'bg-white/5';
   const highlightTone = isLight ? 'text-amber-600' : 'text-amber-100';
-  const switchThumb = isLight ? 'bg-amber-500' : 'bg-amber-200';
 
   const {
     register,
@@ -83,6 +95,22 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
   });
 
   const selectedSide = watch('side', 'yes');
+  const currentAmount = watch('amount', data.amount);
+
+  const expectedPayout = useMemo(() => {
+    const multiplier = selectedSide === 'yes' ? odds?.yes : odds?.no;
+    if (!multiplier || Number.isNaN(currentAmount)) {
+      return 0;
+    }
+    return Number((currentAmount * multiplier).toFixed(2));
+  }, [currentAmount, odds?.no, odds?.yes, selectedSide]);
+
+  const expectedProfit = useMemo(() => {
+    if (!expectedPayout) {
+      return 0;
+    }
+    return Number((expectedPayout - (Number.isNaN(currentAmount) ? 0 : currentAmount)).toFixed(2));
+  }, [currentAmount, expectedPayout]);
 
   const handleSelectSide = useCallback(
     (next: 'yes' | 'no') => {
@@ -91,8 +119,27 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
     [setValue],
   );
 
+  const clampAmount = useCallback(
+    (value: number) => {
+      if (Number.isNaN(value)) {
+        return value;
+      }
+      const min = data.minAmount ?? 1;
+      const max = maxAmount ?? value;
+      return Math.max(min, max ? Math.min(value, max) : value);
+    },
+    [data.minAmount, maxAmount],
+  );
+
+  const handleQuickFill = useCallback(
+    (value: number) => {
+      setValue('amount', clampAmount(value), { shouldDirty: true, shouldTouch: true });
+    },
+    [clampAmount, setValue],
+  );
+
   const handleSuccess = useCallback(async (values: BetFormValues) => {
-    setSubmitError(null);
+    setStatusMessage(null);
     try {
       if (onSubmit) {
         await onSubmit(values);
@@ -101,18 +148,17 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
           marketId: data.marketId,
           amount: values.amount,
           side: values.side,
-          note: values.note,
         });
       }
       setSuccess(true);
       reset({ ...defaultValues, amount: values.amount, side: values.side });
+      setStatusMessage({ type: 'success', text: t('market:quickBet.successNotice') });
     } catch (error) {
       const message =
         error instanceof Error
           ? error.message
           : t('detail:modal.genericError', { defaultValue: '提交失败，请稍后重试' });
-      setSubmitError(message);
-      throw error;
+      setStatusMessage({ type: 'error', text: message });
     }
   }, [data.marketId, defaultValues, execute, onSubmit, reset, t]);
 
@@ -125,27 +171,61 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
     return () => window.clearTimeout(timer);
   }, [success]);
 
+  const containerTone = isLight
+    ? 'border-slate-200/70 from-white/98 via-amber-50/25 to-white/40 shadow-[0_32px_60px_-40px_rgba(203,213,225,0.65)] text-slate-800'
+    : 'border-white/8 from-white/8 via-white/5 to-transparent shadow-[0_26px_42px_-38px_rgba(15,23,42,0.65)] text-white/80';
+  const walletPanelTone = isLight
+    ? 'border-slate-200 bg-white/90 text-slate-600'
+    : 'border-white/10 bg-white/5 text-white/70';
+
   return (
     <form
-      className="glass-card space-y-6 p-6"
+      className={clsx(
+        'rounded-3xl border bg-gradient-to-br p-6 backdrop-blur-xl transition-colors duration-300',
+        containerTone,
+      )}
       onSubmit={handleSubmit(handleSuccess, () => setSuccess(false))}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-200/80">{t('market:quickBet.title')}</p>
-          <h2 className={`mt-2 text-xl font-semibold ${isLight ? 'text-slate-900' : 'text-white'}`}>{data.marketTitle}</h2>
-          <p className={`mt-1 text-sm ${textMuted}`}>{rangeText}</p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="space-y-2">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-amber-200/70">
+            {t('market:quickBet.title')}
+          </p>
+          <h2 className={`text-2xl font-semibold leading-tight ${isLight ? 'text-slate-900' : 'text-white'}`}>
+            {data.marketTitle}
+          </h2>
+          <p className={`text-sm ${textMuted}`}>{rangeText}</p>
         </div>
         {onClose ? (
           <GlassButtonGlass
             variant="ghost"
             type="button"
             aria-label={t('common:close')}
-            className="h-10 w-10 rounded-full !px-0 !py-0"
+            className="self-end rounded-full !px-0 !py-0"
             onClick={onClose}
           >
             <Sparkles className="h-4 w-4" />
           </GlassButtonGlass>
+        ) : null}
+      </div>
+
+      <div
+        className={clsx(
+          'mt-6 flex flex-col gap-3 rounded-2xl border px-4 py-3 text-xs transition-colors sm:flex-row sm:items-center sm:justify-between',
+          walletPanelTone,
+        )}
+      >
+        {wallet?.account?.address ? (
+          <span className={isLight ? 'text-slate-600' : 'text-white/70'}>
+            {t('market:quickBet.connectedWallet', { address: shorten(wallet.account.address) })}
+          </span>
+        ) : (
+          <span className={isLight ? 'text-slate-600' : 'text-white/70'}>{t('market:quickBet.connectPrompt')}</span>
+        )}
+        {odds ? (
+          <span className={clsx('font-mono', isLight ? 'text-slate-700' : 'text-white/80')}>
+            {t('market:quickBet.currentOdds', { yes: odds.yes.toFixed(2), no: odds.no.toFixed(2) })}
+          </span>
         ) : null}
       </div>
 
@@ -154,17 +234,52 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
           {t('detail:modal.amount')} ({data.currency})
         </span>
         <div
-          className={`mt-2 rounded-2xl border ${errors.amount ? 'border-rose-400/40' : panelBorder} ${panelBg} px-4 py-3 backdrop-blur-xl`}
+          className={clsx(
+            'mt-2 rounded-2xl border px-5 py-4 backdrop-blur-xl shadow-inner transition-colors',
+            errors.amount ? 'border-rose-400/40' : panelBorder,
+            isLight ? 'bg-white/80' : panelBg,
+          )}
         >
-          <input
-            type="number"
-            step="0.01"
-            className={`w-full bg-transparent font-mono text-2xl ${highlightTone} outline-none`}
-            {...register('amount', { valueAsNumber: true })}
-          />
+          <div className="relative flex items-center">
+            <input
+              type="number"
+              step="0.01"
+              className={`w-full bg-transparent font-mono text-2xl ${highlightTone} outline-none pr-16`}
+              {...register('amount', {
+                valueAsNumber: true,
+                setValueAs: (value) => clampAmount(Number(value)),
+              })}
+            />
+            {maxAmount ? (
+              <button
+                type="button"
+                onClick={() => handleQuickFill(maxAmount)}
+                className="absolute right-0 rounded-full bg-gradient-to-r from-amber-300/40 to-amber-500/50 px-4 py-1 text-xs font-semibold text-amber-900/80 transition hover:from-amber-400/50 hover:to-amber-500/60"
+              >
+                {t('market:quickBet.fillAll')}
+              </button>
+            ) : null}
+          </div>
         </div>
         {errors.amount ? <span className="mt-1 block text-xs text-rose-300">{errors.amount.message}</span> : null}
       </label>
+
+      <div className="flex flex-wrap gap-2 text-sm">
+        {quickAmounts.map((value) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => handleQuickFill(value)}
+            className={`rounded-full border px-3 py-1 font-medium transition hover:-translate-y-0.5 hover:shadow-lg ${
+              isLight
+                ? 'border-slate-900/10 bg-white/80 text-slate-600 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.7)] hover:border-slate-900/20 hover:text-slate-800'
+                : 'border-white/10 bg-white/10 text-white/70 shadow-[0_10px_22px_-20px_rgba(15,23,42,0.9)] hover:border-white/25 hover:text-white'
+            }`}
+          >
+            {numberFormatter.format(value)}
+          </button>
+        ))}
+      </div>
 
       <div className="space-y-2 text-sm">
         <span className={`text-xs uppercase tracking-[0.25em] ${textMutedSecondary}`}>
@@ -192,43 +307,50 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
               </button>
             );
           })}
-        </div>
-        <input type="hidden" value={selectedSide} {...register('side')} />
-        {errors.side ? (
-          <span className="mt-1 block text-xs text-rose-300">
-            {errors.side.message ?? t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' })}
-          </span>
-        ) : null}
+      </div>
+      <input type="hidden" value={selectedSide} {...register('side')} />
+      {errors.side ? (
+        <span className="mt-1 block text-xs text-rose-300">
+          {errors.side.message ?? t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' })}
+        </span>
+      ) : null}
       </div>
 
-      <label className={`block text-sm ${textMuted}`}>
-        <span className={`text-xs uppercase tracking-[0.25em] ${textMutedSecondary}`}>{t('detail:modal.note')}</span>
-        <textarea
-          rows={2}
-          className={`glass-textarea mt-2 ${
-            errors.note ? 'border-rose-400/40' : isLight ? 'border-slate-900/10 bg-white/80 text-slate-800' : ''
-          }`}
-          placeholder={t('market:quickBet.placeholder')}
-          {...register('note')}
-        />
-        {errors.note ? <span className="mt-1 block text-xs text-rose-300">{errors.note.message}</span> : null}
-      </label>
+      <div className={`rounded-2xl border ${panelBorder} ${panelBg} px-4 py-3 text-sm ${textMuted}`}>
+        <p className={`text-xs uppercase tracking-[0.25em] ${textMutedSecondary}`}>
+          {t('market:quickBet.expected.title')}
+        </p>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <div>
+            <p className={`text-[11px] uppercase tracking-[0.2em] ${textMutedSecondary}`}>
+              {t('market:quickBet.expected.payout')}
+            </p>
+            <p className={`font-mono text-lg font-semibold ${highlightTone}`}>
+              {Number.isNaN(expectedPayout) ? '--' : numberFormatter.format(expectedPayout)} {data.currency}
+            </p>
+          </div>
+          <div>
+            <p className={`text-[11px] uppercase tracking-[0.2em] ${textMutedSecondary}`}>
+              {t('market:quickBet.expected.profit')}
+            </p>
+            <p className={`font-mono text-lg font-semibold ${expectedProfit >= 0 ? highlightTone : 'text-rose-300'}`}>
+              {Number.isNaN(expectedProfit) ? '--' : numberFormatter.format(expectedProfit)} {data.currency}
+            </p>
+          </div>
+          <div>
+            <p className={`text-[11px] uppercase tracking-[0.2em] ${textMutedSecondary}`}>
+              {t('market:quickBet.expected.odds')}
+            </p>
+            <p className={`font-mono text-lg font-semibold ${highlightTone}`}>
+              {selectedSide === 'yes'
+                ? (odds?.yes?.toFixed(2) ?? '--')
+                : (odds?.no?.toFixed(2) ?? '--')}x
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <label className={`flex items-center gap-3 text-sm ${textMuted}`}>
-        <input
-          type="checkbox"
-          className="peer sr-only"
-          {...register('autoClaim')}
-        />
-        <span
-          className={`inline-flex h-4 w-7 cursor-pointer items-center rounded-full border ${panelBorder} ${panelBg} p-0.5 transition-colors peer-checked:bg-amber-300/40`}
-        >
-          <span className={`inline-block h-3 w-3 rounded-full ${switchThumb} transition-all peer-checked:translate-x-3.5`} />
-        </span>
-        {t('dao:autoClaim')}
-      </label>
-
-      <div className="glass-modal-footer !px-0">
+      <div className="mt-6 flex items-center justify-end gap-3">
         {onClose ? (
           <GlassButtonGlass
             type="button"
@@ -239,13 +361,23 @@ export function BetModalGlass({ data, submitLabel, cancelLabel, onSubmit, onClos
             {resolvedCancelLabel}
           </GlassButtonGlass>
         ) : null}
-        <GlassButtonGlass type="submit" disabled={isSubmitting || isPending}>
-          {resolvedSubmitLabel}
+        <GlassButtonGlass
+          type="submit"
+          disabled={isSubmitting || isPending}
+          className="min-w-[160px] rounded-full bg-gradient-to-r from-amber-400 to-amber-500 font-semibold text-slate-900 shadow-[0_22px_38px_-30px_rgba(251,191,36,0.8)] hover:from-amber-300 hover:to-amber-500"
+        >
+          {isSubmitting || isPending ? t('market:quickBet.submitting', { defaultValue: '提交中…' }) : resolvedSubmitLabel}
         </GlassButtonGlass>
       </div>
 
-      {submitError ? (
-        <p className="text-center text-xs text-rose-300">{submitError}</p>
+      {statusMessage ? (
+        <p
+          className={`text-center text-xs ${
+            statusMessage.type === 'success' ? 'text-emerald-200' : 'text-rose-300'
+          }`}
+        >
+          {statusMessage.text}
+        </p>
       ) : null}
 
       <Confetti active={success} delayMs={120} />

@@ -4,8 +4,60 @@
     "subtitle": "Homepage revenue, juror rewards, and invite rebates all flow into the DAO pool. Collect once and pay gas only a single time.",
     "tagline": "Weighted draws · Focus on juror work"
   },
+  "status": {
+    "level": "Juror level",
+    "points": "Juror points",
+    "stake": "Stake",
+    "accuracy": "Accuracy",
+    "remaining": "Votes remaining",
+    "weight": "Draw weight",
+    "perCasePoints": "Points per case",
+    "description": "Resolve disputes, reports, or timeout cases to earn rewards. Higher stake yields more points per case.",
+    "times": "votes",
+    "remainingUnlimited": "Unlimited",
+    "actions": {
+      "verify": "Verify juror",
+      "stakeMore": "Add stake",
+      "exit": "Request exit"
+    }
+  },
+  "levelsTable": {
+    "columns": {
+      "level": "Tier",
+      "points": "Points",
+      "title": "Title",
+      "cap": "Daily cap"
+    }
+  },
+  "earnings": {
+    "totalPool": "DAO reward pool",
+    "totalPoolHint": "Funded by market fees and appeals deposits.",
+    "pending": "Pending rewards",
+    "pendingHint": "Subsidised gas · claim once per day.",
+    "today": "Today",
+    "week": "Last 7 days",
+    "reserve": "Reserve"
+  },
   "pool": {
     "total": "DAO pool"
+  },
+  "actions": {
+    "hint": "Claim once, pay gas once. Remaining rewards stay in the pool.",
+    "stakeMore": "Add stake",
+    "claimAll": "Claim all",
+    "exit": "Request exit",
+    "claimSuccessTitle": "Rewards claimed",
+    "claimSuccessMessage": "{{amount}} TAI transferred · tx {{txHash}}",
+    "claimFailedTitle": "Claim failed",
+    "stakeSuccess": "Stake confirmed",
+    "unstakeSuccess": "Unstake confirmed",
+    "balanceUpdate": "Available {{available}} TAI · Locked {{locked}} TAI",
+    "stakeFailedTitle": "Operation failed",
+    "verifySubmittedTitle": "Verification submitted",
+    "verifySubmittedMessage": "We will review within 24 hours. Please keep Telegram reachable.",
+    "verifyFailedTitle": "Verification failed",
+    "invalidAmountTitle": "Invalid amount",
+    "invalidAmountMessage": "Please enter a value greater than zero"
   },
   "claim": {
     "available": "Claimable rewards",
@@ -29,15 +81,47 @@
     "unit": "TAI",
     "progressLabel": "One gas payment per withdrawal. Platform covers the rest."
   },
+  "modals": {
+    "common": {
+      "cancel": "Cancel",
+      "processing": "Processing...",
+      "ok": "OK"
+    },
+    "stake": {
+      "title": "Manage staking",
+      "subtitle": "Lock TAI to boost your juror weight and draw priority",
+      "tabStake": "Stake",
+      "tabUnstake": "Unstake",
+      "amount": "Amount",
+      "hint": "Available {{available}} TAI · Locked {{locked}} TAI",
+      "confirm": "Confirm stake"
+    },
+    "unstake": {
+      "tabUnstake": "Unstake",
+      "confirm": "Confirm release"
+    },
+    "verify": {
+      "title": "Juror verification",
+      "subtitle": "Submit contact info and lock ≥10,000 TAI to enter the juror pool",
+      "description": "Leave a Telegram handle so the ops team can reach you once approved.",
+      "noteLabel": "Additional notes",
+      "notePlaceholder": "e.g. Focus on macro topics, DeFi, preferred timezone UTC+8...",
+      "alreadyJuror": "You are already a verified juror. Add more stake to increase your weight.",
+      "requirements": "Keep ≥10,000 TAI locked and ensure Telegram remains reachable.",
+      "confirm": "Submit"
+    }
+  },
   "levels": {
-    "title": "Hammer tiers",
-    "description": "Juror votes, creations, and invites all grant points. Reach the threshold to upgrade automatically.",
+    "title": "Juror tiers",
+    "description": "Only jury participation grants points. Higher stake = more points.",
     "items": [
-      "0 - 9 pts: Gray hammer (candidate)",
-      "10 - 49 pts: Bronze hammer (active juror)",
-      "50 - 199 pts: Silver hammer (senior juror)",
-      "200+ pts: Gold hammer (DAO council)"
+      "0 - 99 pts: Martial Novice 🥋 (3/day)",
+      "100 - 399 pts: Wandering Hero 🗡️🌪️ (9/day)",
+      "400 - 999 pts: Hell Judge ⚔️👹 (30/day)",
+      "1000+ pts: Supreme Unrivaled ⚡👑 (unlimited)"
     ],
+    "pointsRule": "Base +1 pt, stake multiplier up to 10x",
+    "stakeMultiplier": "Multiplier = actual stake / 10,000 TAI",
     "claimed": "Claimed",
     "pending": "Pending",
     "total": "Total rewards"
@@ -45,9 +129,153 @@
   "jury": {
     "title": "GameDAO juror",
     "description": "Stake ≥ 1,000 TAI to join the juror pool. Weight = (points + 10) × stake · Max 4 draws per day.",
-    "note": "Align with the majority to earn 1% of the pool + creator bounty. Minority votes burn 10% of the stake.",
+    "note": "Participate in jury to earn 1% of the pool. +1 point per jury session.",
     "cta": "Become a juror",
     "comingSoon": "Staking flow launches on mainnet. Stay tuned."
   },
-  "autoClaim": "Auto-claim juror rewards"
+  "autoClaim": "Auto-claim juror rewards",
+  "tasks": {
+    "title": "Active arbitration tasks",
+    "pending": "Pending",
+    "review": "Review",
+    "closed": "Closed",
+    "pool": "Pool",
+    "jurors": "Jurors",
+    "reward": "Reward",
+    "points": "Points",
+    "remaining": "Time left",
+    "people": "jurors",
+    "actions": {
+      "view": "View",
+      "vote": "Vote now"
+    },
+    "goAppeals": "Go to appeals",
+    "empty": "No arbitration tasks right now."
+  },
+  "taskDetail": {
+    "notFound": "Task not found",
+    "breadcrumb": "Jury Task · Detail",
+    "overview": "Case overview",
+    "placeholder": "Detailed evidence will load from the chain in production. This placeholder illustrates layout only.",
+    "back": "Back to tasks",
+    "raiseAppeal": "Raise appeal",
+    "myVote": "My vote",
+    "optionA": "Option A",
+    "optionB": "Option B",
+    "invalid": "Invalid",
+    "reason": "Voting reason",
+    "reasonPlaceholder": "Describe your judgement and reference on-chain evidence.",
+    "submitWithVote": "Submit vote · {{vote}}",
+    "submitDisabled": "Select a choice to continue",
+    "jurors": "Juror roster",
+    "onchainSynced": "On-chain synced",
+    "voteChoice": "Vote",
+    "points": "Points",
+    "accuracy": "Accuracy",
+    "copy": "Copy"
+  },
+  "appeals": {
+    "createTab": "Create appeal",
+    "recordsTab": "My appeals",
+    "createTitle": "Submit a new appeal",
+    "depositHint": "Deposit 10,000 TAI · refunded after review",
+    "selectPrediction": "Select prediction",
+    "searchPlaceholder": "Search by title or ID",
+    "target": "Appeal target",
+    "targetSingle": "Single juror",
+    "targetAll": "All jurors",
+    "reason": "Reason",
+    "reasonPlaceholder": "Explain the dispute, attach links or evidence.",
+    "evidence": {
+      "image": "Upload image",
+      "video": "Upload video",
+      "link": "Attach link"
+    },
+    "submit": "Submit appeal",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "targetLabel": "Target",
+    "amount": "Compensation: {{amount}} TAI",
+    "viewDetail": "View details"
+  },
+  "withdraw": {
+    "title": "Jury exit flow",
+    "subtitle": "Verify tasks, appeals, and rewards before leaving",
+    "description": "Once exit is processed, stake is released after the cooldown. Ensure no tasks remain.",
+    "checklistTitle": "Status checklist",
+    "checklist": {
+      "stake": "Current stake",
+      "points": "Juror points",
+      "pendingTasks": "Open tasks",
+      "appeals": "Pending appeals"
+    },
+    "timeline": "Estimated arrival",
+    "time": {
+      "instant": "Instant",
+      "twentyFour": "24 hours",
+      "seventyTwo": "72 hours"
+    },
+    "timeHint": {
+      "instant": "Meets all conditions",
+      "twentyFour": "Most exits clear in 24h",
+      "seventyTwo": "Delay when appeals remain"
+    },
+    "stepsTitle": "Exit steps",
+    "steps": [
+      "Submit exit request and enter cooldown",
+      "System checks outstanding tasks and appeals",
+      "Stake auto-withdraws after clearance"
+    ],
+    "cta": {
+      "confirm": "Confirm exit",
+      "cancel": "Cancel"
+    }
+  },
+  "createLimits": {
+    "title": "Point Rules",
+    "description": "Unlock market creation and jury slots with higher juror points.",
+    "openRules": "View point rules",
+    "table": {
+      "points": "Points",
+      "title": "Title",
+      "create": "Creation / slot",
+      "jury": "Jury / day"
+    },
+    "levels": {
+      "normal": {
+        "points": "General user",
+        "title": "--",
+        "create": "360 hours",
+        "jury": "Not eligible"
+      },
+      "l1": {
+        "points": "0-99",
+        "title": "Martial Novice",
+        "create": "72 hours",
+        "jury": "3 slots"
+      },
+      "l2": {
+        "points": "100-399",
+        "title": "Dust Rider",
+        "create": "48 hours",
+        "jury": "9 slots"
+      },
+      "l3": {
+        "points": "400-999",
+        "title": "Inferno Judge",
+        "create": "24 hours",
+        "jury": "30 slots"
+      },
+      "l4": {
+        "points": "1000+",
+        "title": "Heavenly Peerless",
+        "create": "6 hours",
+        "jury": "Unlimited"
+      }
+    },
+    "note": "Creating a market costs 100 TAI (customizable 100-10000 TAI bounty) plus TON on-chain gas."
+  }
 }

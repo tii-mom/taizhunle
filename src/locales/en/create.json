@@ -8,18 +8,33 @@
     "closesAt": "Select a closing time",
     "maxStake": "Maximum stake must exceed minimum",
     "minStake": "Minimum stake must be positive",
+    "rewardTaiMin": "Reward must be at least 100 TAI",
+    "rewardTaiMax": "Reward cannot exceed 10,000 TAI",
     "title": "Please enter a title"
   },
   "fields": {
     "closesAt": "Closes at",
     "maxStake": "Maximum stake",
     "minStake": "Minimum stake",
+    "rewardTai": "Juror reward (TAI)",
     "title": "Title"
   },
   "form": {
     "hint": "Define the market parameters before requesting on-chain approval.",
     "rangePreview": "Stake window: {{min}} - {{max}} TAI",
-    "submitSuccess": "Prediction draft saved"
+    "submitSuccess": "Prediction published",
+    "submitError": "Failed to create prediction. Please try again.",
+    "connectWallet": "Connect your TON wallet to publish",
+    "connectFirst": "Connect your TON wallet before configuring the market.",
+    "submitting": "Publishing...",
+    "permissionLoading": "Checking creation quota...",
+    "permissionReady": "Ready · Cooldown every {{hours}}h · DAO points {{points}}",
+    "permissionDetail": "Reward range {{min}}-{{max}} TAI · Minimum interval {{interval}}h per creation.",
+    "refreshPermission": "Refresh",
+    "cooldownMessage": "Cooldown active · wait ~{{hours}}h (next slot {{time}})",
+    "cooldownBlocked": "Creation cooldown in effect. Try again in ~{{hours}}h (next slot {{time}}).",
+    "rewardHint": "Juror reward between {{min}} and {{max}} TAI. Higher rewards attract more jurors.",
+    "feeSummary": "Juror reward locks {{reward}} TAI from your balance. Additional network fee {{gas}}."
   },
   "schedule": {
     "items": [

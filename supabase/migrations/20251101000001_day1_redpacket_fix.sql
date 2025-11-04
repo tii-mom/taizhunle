@@ -15,7 +15,7 @@ WHERE rp.wallet_address = u.wallet_address
   AND rp.user_id IS NULL;
 
 -- 添加外键约束（允许 NULL，因为可能有匿名购买）
-DO $
+DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_constraint
@@ -28,7 +28,7 @@ BEGIN
         ON DELETE SET NULL;
   END IF;
 END;
-$;
+$$;
 
 -- 添加索引
 CREATE INDEX IF NOT EXISTS idx_redpacket_purchases_user_id
@@ -54,7 +54,7 @@ ALTER TABLE redpacket_purchases
 
 -- 如果表中已有数据但 sale_id 为空，可以设置为默认的 sale 记录
 -- 这里假设有一个默认的 sale 记录，实际使用时需要根据业务逻辑调整
-DO $
+DO $$
 DECLARE
   default_sale_id UUID;
 BEGIN
@@ -71,7 +71,7 @@ BEGIN
     WHERE sale_id IS NULL;
   END IF;
 END;
-$;
+$$;
 
 -- 添加 memo 字段（如果缺失）
 ALTER TABLE redpacket_purchases
@@ -83,7 +83,7 @@ SET memo = 'RP-' || replace(substr(id::text, 1, 13), '-', '')
 WHERE memo IS NULL OR memo = '';
 
 -- 确保 memo 唯一性
-DO $
+DO $$
 BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM pg_constraint
@@ -93,14 +93,14 @@ BEGIN
       ADD CONSTRAINT redpacket_purchases_memo_key UNIQUE (memo);
   END IF;
 END;
-$;
+$$;
 
 -- ---------------------------------------------------------------------------
 -- 验证数据完整性
 -- ---------------------------------------------------------------------------
 
 -- 检查是否有 sale_id 为空的记录
-DO $
+DO $$
 DECLARE
   null_sale_count INTEGER;
 BEGIN
@@ -112,10 +112,10 @@ BEGIN
     RAISE WARNING 'Found % redpacket_purchases records with NULL sale_id', null_sale_count;
   END IF;
 END;
-$;
+$$;
 
 -- 检查是否有 memo 为空的记录
-DO $
+DO $$
 DECLARE
   null_memo_count INTEGER;
 BEGIN
@@ -127,4 +127,4 @@ BEGIN
     RAISE WARNING 'Found % redpacket_purchases records with NULL or empty memo', null_memo_count;
   END IF;
 END;
-$;
+$$;

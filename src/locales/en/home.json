@@ -45,11 +45,23 @@
     "themeLight": "Light",
     "themeDark": "Dark"
   },
+  "topbar": {
+    "disconnected": "Disconnected",
+    "copy": "Copy",
+    "copied": "Copied",
+    "search": "Search",
+    "balanceTitle": "TAI balance details",
+    "balanceSubtitle": "Synced in real-time. Tap refresh for the latest on-chain data.",
+    "tonTitle": "TON balance details",
+    "tonSubtitle": "Keep enough TON for gas and swaps.",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing..."
+  },
   "hammer": {
-    "gold": "Gold hammer",
-    "silver": "Silver hammer",
-    "bronze": "Bronze hammer",
-    "gray": "Gray hammer",
+    "supreme": "Supreme Unrivaled",
+    "judge": "Hell Judge",
+    "hero": "Wandering Hero",
+    "novice": "Martial Novice",
     "level": "Lv.{{level}} · {{points}} pts"
   },
   "card": {
@@ -61,7 +73,27 @@
     "participants": "{{value}} participants",
     "countdown": "Countdown",
     "bounty": "Bounty boost",
-    "ended": "Ended"
+    "ended": "Ended",
+    "jurorsCompact": "Jurors {{count}}",
+    "rewardCompact": "Reward {{amount}}",
+    "liveOdds": "Live odds",
+    "betYesCompact": "Bet YES",
+    "betNoCompact": "Bet NO",
+    "viewDetail": "View details",
+    "quickBetTitle": "Quick bet · {{market}}",
+    "quickBetSubtitle": {
+      "yes": "Pick an amount to place YES",
+      "no": "Pick an amount to place NO"
+    },
+    "quickBetOdds": "Current odds",
+    "quickBetPotential": "Potential payout",
+    "quickBetDirection": "Direction: {{side}}",
+    "quickBetPayout": "Estimated payout",
+    "betSuccess": "Bet submitted. Waiting for confirmation.",
+    "betFailed": "Bet failed. Try again later.",
+    "betProcessing": "Processing...",
+    "betConfirm": "Confirm",
+    "betConfirmWithPayout": "Confirm · {{payout}} {{currency}}"
   },
   "dao": {
     "total": "DAO pool"

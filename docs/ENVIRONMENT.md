@@ -105,6 +105,7 @@ PREDICTION_FEE_RATE=0.05              # 手续费率 5%
 PREDICTION_CREATOR_FEE=0.015          # 创建者分成 1.5%
 PREDICTION_REFERRAL_FEE=0.015         # 邀请奖励 1.5%
 PREDICTION_PLATFORM_FEE=0.02          # 平台分成 2%
+ENFORCE_CREATION_BALANCE=false        # 是否强制扣减创建奖励（生产建议开启）
 ```
 
 ## 🔐 安全配置
@@ -131,6 +132,7 @@ NODE_ENV=development
 PORT=3000
 ENABLE_MOCK_DATA=true                 # 启用模拟数据
 VERBOSE_LOGGING=true                  # 详细日志
+VITE_DEV_WALLET_ADDRESS=EQD_mock_wallet_address_for_dev    # (可选) 本地调试下注使用的测试钱包
 ```
 
 ### 生产环境

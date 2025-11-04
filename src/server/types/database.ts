@@ -20,6 +20,7 @@ export interface PredictionRow {
   total_fees: NumericValue;
   creator_fee: NumericValue;
   platform_fee: NumericValue;
+  juror_reward_tai: NumericValue;
   admin_notes: string | null;
   approved_by: string | null;
   approved_at: string | null;
@@ -78,6 +79,11 @@ export interface UserRow {
   last_name: string | null;
   language_code: string | null;
   is_premium: boolean | null;
+  dao_points: OptionalNumericValue;
+  is_juror: boolean | null;
+  last_market_created_at: string | null;
+  total_markets_created: OptionalNumericValue;
+  total_creation_fee_tai: OptionalNumericValue;
   total_bets: OptionalNumericValue;
   total_winnings: OptionalNumericValue;
   total_losses: OptionalNumericValue;

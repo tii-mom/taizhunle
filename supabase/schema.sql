@@ -18,7 +18,12 @@ create table public.users (
   last_name text,
   language_code text default 'zh',
   is_premium boolean default false,
-  
+  dao_points integer default 0,
+  is_juror boolean default false,
+  last_market_created_at timestamp with time zone,
+  total_markets_created integer default 0,
+  total_creation_fee_tai bigint default 0,
+
   -- 用户统计
   total_bets numeric default 0,
   total_winnings numeric default 0,
@@ -61,7 +66,8 @@ create table public.predictions (
   total_fees numeric default 0,
   creator_fee numeric default 0,
   platform_fee numeric default 0,
-  
+  juror_reward_tai bigint default 0,
+
   -- 审核信息
   admin_notes text,
   approved_by uuid references public.users(id),

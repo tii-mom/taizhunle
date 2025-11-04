@@ -40,6 +40,7 @@ const FIVE_MINUTES_MS = 5 * 60 * 1000;
 export function AssetTransactionModal({ open, variant, balance, onClose, onSubmit }: BaseProps) {
   const { t, locale } = useI18n('assets');
   const { mode } = useTheme();
+  const isLight = mode === 'light';
   const { vibrate } = useHaptic();
   const [remaining, setRemaining] = useState(FIVE_MINUTES_MS);
   const [mounted, setMounted] = useState(false);
@@ -88,6 +89,11 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
   const countdownText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
   const buttonTone = 'transition-colors duration-100';
+  const headingTone = isLight ? 'text-slate-900' : 'text-white';
+  const subHeadingTone = isLight ? 'text-slate-400' : 'text-white/50';
+  const cardTone = isLight ? 'border-slate-200 bg-white/90 text-slate-600' : 'border-white/10 bg-white/[0.05] text-white/80';
+  const accentText = isLight ? 'text-amber-500' : 'text-amber-200';
+  const secondaryTone = isLight ? 'text-slate-600' : 'text-white/70';
 
   const icon = useMemo(() => {
     switch (variant) {
@@ -141,14 +147,17 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
       <form
         lang={locale}
         onSubmit={handleSubmit(handleInternalSubmit)}
-        className="glass-modal w-full max-w-[min(520px,calc(100vw-32px))] space-y-6"
+        className={clsx(
+          'glass-modal w-full max-w-[min(520px,calc(100vw-32px))] space-y-6',
+          isLight && 'bg-white/95 text-slate-700',
+        )}
       >
         <header className="glass-modal-header">
           <div className="flex items-center gap-3">
             {icon}
             <div>
-              <h3 className="text-lg font-semibold text-white">{title}</h3>
-              <p className="text-xs uppercase tracking-[0.35em] text-white/50">
+              <h3 className={clsx('text-lg font-semibold', headingTone)}>{title}</h3>
+              <p className={clsx('text-xs uppercase tracking-[0.35em]', subHeadingTone)}>
                 {t('modal.gas', '自付 Gas · 仅一次签名')}
               </p>
             </div>
@@ -159,7 +168,10 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
               vibrate();
               onClose();
             }}
-            className="glass-button-ghost h-10 w-10 !rounded-full !px-0 !py-0 text-white/60 hover:text-white"
+            className={clsx(
+              'glass-button-ghost h-10 w-10 !rounded-full !px-0 !py-0',
+              isLight ? 'text-slate-400 hover:text-slate-600' : 'text-white/60 hover:text-white',
+            )}
             disabled={isSubmitting}
             aria-label={t('modal.close', '关闭')}
           >
@@ -167,16 +179,17 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
           </button>
         </header>
 
-        <section className="rounded-[26px] border border-white/10 bg-white/[0.05] px-6 py-5 ring-1 ring-white/5">
+        <section className={clsx('rounded-[26px] border px-6 py-5 ring-1', cardTone, isLight ? 'ring-slate-100/60' : 'ring-white/5')}>
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.35em] text-white/55">{t('balance')}</p>
-              <CountUp end={balance} className="font-mono text-2xl font-semibold text-amber-200" suffix=" TAI" />
+              <p className={clsx('text-xs uppercase tracking-[0.35em]', subHeadingTone)}>{t('balance')}</p>
+              <CountUp end={balance} className={clsx('font-mono text-2xl font-semibold', accentText)} suffix=" TAI" />
             </div>
             <div
               className={clsx(
-                'rounded-full border border-amber-300/40 px-3 py-1 text-xs font-semibold text-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.35)]',
-                highlight && 'animate-pulse'
+                'rounded-full border px-3 py-1 text-xs font-semibold shadow-[0_0_12px_rgba(251,191,36,0.35)] transition-colors',
+                highlight && 'animate-pulse',
+                isLight ? 'border-amber-200 bg-amber-100/80 text-amber-700' : 'border-amber-300/40 bg-amber-400/20 text-amber-200'
               )}
             >
               {t('modal.countdown', { time: countdownText })}
@@ -204,14 +217,20 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
             <div className="grid grid-cols-2 gap-3">
               <label className="block text-sm">
                 {t('from')}
-                <select className="glass-select mt-2" {...register('fromCurrency')}>
+                <select
+                  className={clsx('glass-select mt-2', isLight && 'border-slate-200 bg-white/90 text-slate-700')}
+                  {...register('fromCurrency')}
+                >
                   <option value="TAI">TAI</option>
                   <option value="USDT">USDT</option>
                 </select>
               </label>
               <label className="block text-sm">
                 {t('to')}
-                <select className="glass-select mt-2" {...register('toCurrency')}>
+                <select
+                  className={clsx('glass-select mt-2', isLight && 'border-slate-200 bg-white/90 text-slate-700')}
+                  {...register('toCurrency')}
+                >
                   <option value="USDT">USDT</option>
                   <option value="TAI">TAI</option>
                 </select>
@@ -224,26 +243,28 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
               {t('withdrawAddress')}
               <input
                 type="text"
-                className="glass-input mt-2 font-mono text-xs"
+                className={clsx('glass-input mt-2 font-mono text-xs', isLight && 'border-slate-200 bg-white/90 text-slate-700')}
                 placeholder="0x..."
                 {...register('address')}
               />
             </label>
           ) : null}
 
-          <div className="rounded-[26px] border border-white/10 bg-white/[0.05] p-4 text-sm text-white/70">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-white/55">
-              <ShieldCheck size={14} className="text-amber-200" />
-              <span>{t('modal.selfPay', '矿工费由用户自付')}</span>
+          <div className={clsx('rounded-[26px] border p-4 text-sm', cardTone)}>
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.35em]">
+              <ShieldCheck size={14} className={isLight ? 'text-amber-500' : 'text-amber-200'} />
+              <span className={subHeadingTone}>{t('modal.selfPay', '矿工费由用户自付')}</span>
             </div>
             <div className="mt-3 flex items-center justify-between">
-              <span>{t('modal.estimate', '预计矿工费')}</span>
-              <span className="font-mono text-white">~0.003 TON</span>
+              <span className={secondaryTone}>{t('modal.estimate', '预计矿工费')}</span>
+              <span className={clsx('font-mono', accentText)}>~0.003 TON</span>
             </div>
             {variant === 'exchange' ? (
               <div className="mt-2 flex items-center justify-between">
-                <span>{t('modal.rate', '兑换汇率')}</span>
-                <span className="font-mono text-white">1 {fromCurrency} ≈ 1 {toCurrency}</span>
+                <span className={secondaryTone}>{t('modal.rate', '兑换汇率')}</span>
+                <span className={clsx('font-mono', headingTone)}>
+                  1 {fromCurrency} ≈ 1 {toCurrency}
+                </span>
               </div>
             ) : null}
           </div>
@@ -256,9 +277,13 @@ export function AssetTransactionModal({ open, variant, balance, onClose, onSubmi
               vibrate();
               onClose();
             }}
-            className={clsx('glass-button-secondary !rounded-full !px-5 !py-2 text-xs', buttonTone)}
+            className={clsx(
+              'glass-button-secondary !rounded-full !px-5 !py-2 text-xs',
+              buttonTone,
+              isLight && '!border-slate-200 !bg-white/90 !text-slate-600 hover:!text-slate-800',
+            )}
           >
-            {t('cancel')}
+            {t('modal.cancel', 'cancel')}
           </button>
           <button
             type="submit"

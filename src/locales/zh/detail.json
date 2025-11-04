@@ -42,6 +42,7 @@
   "historyColumns": {
     "amount": "注额",
     "side": "方向",
+    "payout": "预计到账",
     "time": "时间",
     "user": "参与者"
   },
@@ -57,8 +58,7 @@
     "amountError": "至少投注 1 TAI",
     "cancel": "取消",
     "confirm": "确认",
-    "note": "附加备注",
-    "noteError": "备注太长",
+    "genericError": "提交失败，请稍后再试",
     "success": "下注请求已发送",
     "title": "确认下注"
   },
@@ -103,5 +103,22 @@
   "trend": {
     "down": "热度回落",
     "up": "热度上升"
+  },
+  "myPosition": {
+    "title": "我的注单",
+    "subtitle": "当前钱包在本盘口的下注详情",
+    "wallet": "当前钱包：{{address}}",
+    "connectHint": "请先连接 TonConnect 钱包以便同步下注记录。",
+    "empty": "你还没有在本盘口下注，选择方向与金额后点击提交即可。",
+    "side": "下注方向",
+    "amount": "投入金额",
+    "payout": "预计到账",
+    "profit": "预计净收益",
+    "count": "本盘共 {{count}} 笔下注"
+  },
+  "activity": {
+    "title": "最新下注动态",
+    "subtitle": "实时更新 · 最新 {{count}} 条",
+    "empty": "暂无下注记录，成为第一位下注者吧。"
   }
 }

@@ -68,11 +68,11 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_mv_user_dao_stats_user_id
 
 -- Refresh function
 CREATE OR REPLACE FUNCTION refresh_user_dao_stats()
-RETURNS void AS $
+RETURNS void AS $$
 BEGIN
   REFRESH MATERIALIZED VIEW CONCURRENTLY mv_user_dao_stats;
 END;
-$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 -- Comment on view
 COMMENT ON MATERIALIZED VIEW mv_user_dao_stats IS '用户 DAO 统计视图（物化，需定期刷新）';

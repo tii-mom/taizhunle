@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useMutation, useQuery, type UseQueryResult } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
 
 export type MarketFilter = 'all' | 'live' | 'closed' | 'my';
 export type MarketSortKey = 'latest' | 'hot' | 'closing' | 'bounty' | 'following';
@@ -10,6 +10,10 @@ export type MarketBet = {
   amount: number;
   market: string;
   direction: 'long' | 'short';
+  side: 'yes' | 'no';
+  odds: number;
+  potentialPayout: number;
+  walletAddress?: string | null;
   timestamp: number;
 };
 
@@ -37,6 +41,7 @@ export type MarketCard = {
   isFavorite?: boolean;
   liquidity?: string;
   participants?: number;
+  jurorRewardTai: number;
 };
 
 export type MarketFeedRequest = {
@@ -60,6 +65,20 @@ export type MarketSnapshot = {
   endTime: number;
   juryCount: number;
   targetPool: number;
+};
+
+export type MarketCreationPermission = {
+  walletAddress: string;
+  canCreate: boolean;
+  points: number;
+  isJuror: boolean;
+  intervalHours: number;
+  hoursRemaining: number;
+  nextAvailableTime: string | null;
+  lastCreatedAt: string | null;
+  minRewardTai: number;
+  maxRewardTai: number;
+  defaultRewardTai: number;
 };
 
 export type BetModalSnapshot = {
@@ -159,6 +178,32 @@ export async function loadBetModalSnapshot(id: string): Promise<BetModalSnapshot
   } satisfies BetModalSnapshot;
 }
 
+export async function loadCreationPermission(walletAddress: string): Promise<MarketCreationPermission> {
+  if (!walletAddress) {
+    throw new Error('Wallet address is required');
+  }
+
+  return apiFetch<MarketCreationPermission>(
+    `/markets/creation/permission${withParams({ wallet: walletAddress })}`,
+  );
+}
+
+export type CreateMarketPayload = {
+  title: string;
+  closesAt: string;
+  minStake: number;
+  maxStake: number;
+  creatorWallet: string;
+  rewardTai: number;
+};
+
+export async function createMarketDraft(payload: CreateMarketPayload): Promise<MarketCard> {
+  return apiFetch<MarketCard>('/markets', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
 export const useMarketsQuery = (filter: MarketFilter = 'all'): UseQueryResult<MarketCard[]> =>
   useQuery({
     queryKey: ['markets', filter],
@@ -167,7 +212,7 @@ export const useMarketsQuery = (filter: MarketFilter = 'all'): UseQueryResult<Ma
 
 export const useMarketDetailQuery = (id: string) =>
   useQuery({
-    queryKey: ['markets', 'detail', id],
+    queryKey: ['market', 'detail', id],
     queryFn: () => loadMarketDetail(id),
     enabled: Boolean(id),
   });
@@ -183,9 +228,27 @@ type PlaceBetVariables = {
   telegramUsername?: string;
 };
 
+type PlaceBetResponse = {
+  success: boolean;
+  market?: {
+    id: string;
+    pool: number;
+    yesPool: number;
+    noPool: number;
+    yesOdds: number;
+    noOdds: number;
+    odds: string;
+    volume: string;
+    bountyMultiplier: number;
+    participants?: number;
+    liquidity?: string;
+  };
+};
+
 export const usePlaceBetMutation = () => {
+  const queryClient = useQueryClient();
   const mutationFn = useCallback(async (variables: PlaceBetVariables) => {
-    await apiFetch(`/markets/${variables.marketId}/bets`, {
+    return apiFetch<PlaceBetResponse>(`/markets/${variables.marketId}/bets`, {
       method: 'POST',
       body: {
         amount: variables.amount,
@@ -199,5 +262,27 @@ export const usePlaceBetMutation = () => {
     });
   }, []);
 
-  return useMutation({ mutationFn });
+  return useMutation({
+    mutationFn,
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          if (!Array.isArray(query.queryKey) || query.queryKey.length === 0) {
+            return false;
+          }
+          const [root] = query.queryKey;
+          if (root === 'markets') {
+            return true;
+          }
+          if (root === 'home') {
+            return true;
+          }
+          if (root === 'market') {
+            return query.queryKey.includes(variables.marketId);
+          }
+          return false;
+        },
+      });
+    },
+  });
 };

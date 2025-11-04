@@ -10,11 +10,11 @@ const supabaseKey = process.env.SUPABASE_SERVICE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Fee rates in basis points (1 bp = 0.01%)
-const FEE_CREATE = parseInt(process.env.FEE_CREATE || '500'); // 0.5%
-const FEE_JURY = parseInt(process.env.FEE_JURY || '1000'); // 1.0%
-const FEE_INVITE = parseInt(process.env.FEE_INVITE || '500'); // 0.5%
-const FEE_PLATFORM = parseInt(process.env.FEE_PLATFORM || '500'); // 0.5%
-const FEE_RESERVE = parseInt(process.env.FEE_RESERVE || '2500'); // 2.5%
+// Total fee: 3% (300 basis points)
+const FEE_CREATE = parseInt(process.env.FEE_CREATE || '50'); // 0.5%
+const FEE_JURY = parseInt(process.env.FEE_JURY || '100'); // 1.0%
+const FEE_INVITE = parseInt(process.env.FEE_INVITE || '50'); // 0.5%
+const FEE_PLATFORM = parseInt(process.env.FEE_PLATFORM || '100'); // 1.0%
 
 const BASIS_POINTS = 10000;
 
@@ -23,7 +23,6 @@ export interface FeeMap {
   jury: number;
   invite: number;
   platform: number;
-  reserve: number;
 }
 
 /**
@@ -37,7 +36,6 @@ export function distributeFees(pool: number): FeeMap {
     jury: Math.floor((pool * FEE_JURY) / BASIS_POINTS),
     invite: Math.floor((pool * FEE_INVITE) / BASIS_POINTS),
     platform: Math.floor((pool * FEE_PLATFORM) / BASIS_POINTS),
-    reserve: Math.floor((pool * FEE_RESERVE) / BASIS_POINTS),
   };
 }
 
@@ -104,15 +102,7 @@ export async function sendToPools(
     });
   }
 
-  // 储备金
-  if (fees.reserve > 0) {
-    records.push({
-      pool_type: 'reserve',
-      amount: fees.reserve,
-      bet_id: betId,
-      status: 'pending',
-    });
-  }
+  // Note: Reserve pool removed in v3.0 (fee reduced from 5% to 3%)
 
   // 批量插入
   if (records.length > 0) {
@@ -211,7 +201,7 @@ export async function claimDaoPool(userId: string, txHash: string): Promise<numb
 export async function getDaoPoolStats() {
   const { data, error } = await supabase
     .from('dao_pool')
-    .select('pool_type, status, amount')
+    .select('pool_type, status, amount, created_at')
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -224,11 +214,25 @@ export async function getDaoPoolStats() {
     jury: { pending: 0, claimed: 0, total: 0 },
     invite: { pending: 0, claimed: 0, total: 0 },
     platform: { pending: 0, claimed: 0, total: 0 },
-    reserve: { pending: 0, claimed: 0, total: 0 },
+    summary: {
+      total: 0,
+      pending: 0,
+      claimed: 0,
+      today: 0,
+      last7Days: 0,
+    },
   };
 
+  const now = new Date();
+  const startOfToday = new Date(now);
+  startOfToday.setHours(0, 0, 0, 0);
+  const sevenDaysAgo = new Date(startOfToday);
+  sevenDaysAgo.setDate(startOfToday.getDate() - 6);
+
   data?.forEach((record) => {
-    const type = record.pool_type as keyof typeof stats;
+    const type = record.pool_type as 'create' | 'jury' | 'invite' | 'platform';
+    const createdAt = record.created_at ? new Date(record.created_at) : null;
+
     if (stats[type]) {
       stats[type].total += record.amount;
       if (record.status === 'pending') {
@@ -236,6 +240,21 @@ export async function getDaoPoolStats() {
       } else if (record.status === 'claimed') {
         stats[type].claimed += record.amount;
       }
+    }
+
+    stats.summary.total += record.amount;
+    if (record.status === 'pending') {
+      stats.summary.pending += record.amount;
+    } else if (record.status === 'claimed') {
+      stats.summary.claimed += record.amount;
+    }
+
+    if (createdAt && createdAt >= startOfToday) {
+      stats.summary.today += record.amount;
+    }
+
+    if (createdAt && createdAt >= sevenDaysAgo) {
+      stats.summary.last7Days += record.amount;
     }
   });
 

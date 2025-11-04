@@ -18,15 +18,21 @@ function TonConnectWrapper({ children }: { children: ReactNode }) {
     return new URL('/tonconnect-manifest.json', window.location.origin).toString();
   }, []);
 
-  return (
-    <TonConnectUIProvider 
-      manifestUrl={manifestUrl} 
-      language={i18n.language as Locales} 
-      uiPreferences={{ theme: mode === 'dark' ? THEME.DARK : THEME.LIGHT }}
-    >
-      {children}
-    </TonConnectUIProvider>
-  );
+  // Wrap in error boundary to prevent TON Connect errors from breaking the app
+  try {
+    return (
+      <TonConnectUIProvider 
+        manifestUrl={manifestUrl} 
+        language={i18n.language as Locales} 
+        uiPreferences={{ theme: mode === 'dark' ? THEME.DARK : THEME.LIGHT }}
+      >
+        {children}
+      </TonConnectUIProvider>
+    );
+  } catch (error) {
+    console.error('TON Connect initialization error:', error);
+    return <>{children}</>;
+  }
 }
 
 export function AppProviders({ children }: { children: ReactNode }) {

@@ -29,11 +29,11 @@ export function useRedPacketPurchase() {
 
   const isProcessing = useMemo(() => phase !== 'idle' && phase !== 'completed' && phase !== 'error', [phase]);
 
-  const openWalletModal = () => {
+  const openWalletModal = useCallback(() => {
     if (tonConnectUI?.openModal) {
       tonConnectUI.openModal();
     }
-  };
+  }, [tonConnectUI]);
 
   const finalizePurchase = useCallback(async (status: RedpacketPurchaseStatus, walletAddress: string) => {
     if (!tonConnectUI) {
@@ -96,7 +96,7 @@ export function useRedPacketPurchase() {
       setPhase('error');
       throw err;
     }
-  }, [wallet, tonConnectUI]);
+  }, [wallet, tonConnectUI, finalizePurchase, openWalletModal]);
 
   const reset = useCallback(() => {
     setPhase('idle');

@@ -45,11 +45,23 @@
     "themeLight": "亮色",
     "themeDark": "夜间"
   },
+  "topbar": {
+    "disconnected": "未连接",
+    "copy": "复制",
+    "copied": "已复制",
+    "search": "搜索",
+    "balanceTitle": "TAI 余额详情",
+    "balanceSubtitle": "实时同步，点击刷新获取链上最新数据",
+    "tonTitle": "TON 余额详情",
+    "tonSubtitle": "用于支付 Gas / 兑换，保持充足余额",
+    "refresh": "刷新",
+    "refreshing": "刷新中..."
+  },
   "hammer": {
-    "gold": "金锤",
-    "silver": "银锤",
-    "bronze": "铜锤",
-    "gray": "灰锤",
+    "supreme": "天上天下天地无双",
+    "judge": "地狱判官",
+    "hero": "风尘奇侠",
+    "novice": "武林新丁",
     "level": "Lv.{{level}} · {{points}} pts"
   },
   "card": {
@@ -61,7 +73,27 @@
     "participants": "{{value}} 人参与",
     "countdown": "终局倒计时",
     "bounty": "高赏金",
-    "ended": "已结束"
+    "ended": "已结束",
+    "jurorsCompact": "陪审员 {{count}} 人",
+    "rewardCompact": "实时奖励 {{amount}}",
+    "liveOdds": "实时赔率",
+    "betYesCompact": "下注 YES",
+    "betNoCompact": "下注 NO",
+    "viewDetail": "查看详情",
+    "quickBetTitle": "快速下注 · {{market}}",
+    "quickBetSubtitle": {
+      "yes": "选择金额，确认后签名下 YES",
+      "no": "选择金额，确认后签名下 NO"
+    },
+    "quickBetOdds": "当前赔率",
+    "quickBetPotential": "预计收益",
+    "quickBetDirection": "下注方向：{{side}}",
+    "quickBetPayout": "预计总收益",
+    "betSuccess": "下注已提交，等待链上确认",
+    "betFailed": "下注失败，请稍后重试",
+    "betProcessing": "签名处理中...",
+    "betConfirm": "确认下注",
+    "betConfirmWithPayout": "确认下注 · {{payout}} {{currency}}"
   },
   "dao": {
     "total": "DAO 总池"

@@ -4,6 +4,18 @@
     "live": "Live now",
     "settled": "Settled"
   },
+  "glass": {
+    "badge": "Market spotlight",
+    "odds": "Live odds",
+    "pool": "Total pool",
+    "participants": "Participants",
+    "countdown": "Time left",
+    "juryReward": "Jury reward pool",
+    "juryCount": "Jurors",
+    "jurors": "",
+    "perJuror": "Per juror",
+    "juryNote": "Majority wins reward + 1 point"
+  },
   "betFailed": "Wallet rejected the bet request.",
   "betQueued": "Bet request sent to wallet.",
   "betSignature": "Taizhunle bet handshake: {{market}}",
@@ -14,6 +26,28 @@
     "swipe": "Swipe for more",
     "longPress": "Long press to quick bet",
     "quickBet": "Quick Bet"
+  },
+  "quickBet": {
+    "label": "Quick Bet",
+    "title": "Quick Bet",
+    "range": "Suggested range {{min}} – {{max}} {{currency}}",
+    "submit": "Submit bet",
+    "submitting": "Submitting…",
+    "cancel": "Cancel",
+    "chooseSide": "Choose a side",
+    "sideRequired": "Select a side to continue",
+    "placeholder": "Add a note for your strategy (optional)",
+    "connectPrompt": "Connect your TON wallet to continue.",
+    "connectedWallet": "Wallet: {{address}}",
+    "currentOdds": "Live odds — Yes {{yes}} / No {{no}}",
+    "fillAll": "All",
+    "successNotice": "Bet placed successfully",
+    "expected": {
+      "title": "Bet preview",
+      "payout": "Estimated payout",
+      "profit": "Projected profit",
+      "odds": "Selected odds"
+    }
   },
   "cards": {
     "btc": {

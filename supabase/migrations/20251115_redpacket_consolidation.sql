@@ -165,10 +165,19 @@ CREATE INDEX IF NOT EXISTS idx_dao_pool_user_id ON dao_pool(user_id) WHERE user_
 CREATE INDEX IF NOT EXISTS idx_dao_pool_status ON dao_pool(status);
 CREATE INDEX IF NOT EXISTS idx_dao_pool_created_at ON dao_pool(created_at DESC);
 
-CREATE TRIGGER IF NOT EXISTS trg_dao_pool_updated
-  BEFORE UPDATE ON dao_pool
-  FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_trigger
+    WHERE tgname = 'trg_dao_pool_updated'
+  ) THEN
+    CREATE TRIGGER trg_dao_pool_updated
+      BEFORE UPDATE ON dao_pool
+      FOR EACH ROW
+      EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+END;
+$$;
 
 -- ---------------------------------------------------------------------------
 -- Materialized view helper

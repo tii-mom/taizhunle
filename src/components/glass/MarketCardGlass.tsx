@@ -7,17 +7,13 @@ import { useTheme } from '@/providers/ThemeProvider';
 
 import { CountUp } from './CountUp';
 import { CountDown } from './CountDown';
-import { GoldenHammer } from './GoldenHammer';
 import { Confetti } from './Confetti';
+import { QuickBetModal } from './QuickBetModal';
+import { JurorRewardBadge } from './JurorRewardBadge';
 import { marketCardQuery } from '@/queries/marketCard';
 import type { MarketCard } from '@/services/markets';
 
-const hammerLevel = (count: number) => {
-  if (count >= 5) return 'gold' as const;
-  if (count >= 3) return 'silver' as const;
-  if (count > 0) return 'bronze' as const;
-  return 'gray' as const;
-};
+// 移除锤子等级系统
 
 type MarketCardGlassProps = {
   card: MarketCard;
@@ -29,6 +25,7 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
   const { data } = useQuery(marketCardQuery(card.id));
   const [celebrate, setCelebrate] = useState(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(Boolean(card.isFavorite));
+  const [quickBet, setQuickBet] = useState<{ side: 'yes' | 'no' } | null>(null);
   const { t, locale } = useI18n(['home', 'market']);
   const { mode } = useTheme();
   const isLight = mode === 'light';
@@ -96,13 +93,31 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
   const oddsTone = isLight ? 'text-emerald-600' : 'text-emerald-200';
   const countdownTone = isLight ? 'text-amber-600' : 'text-amber-100';
   const bountyTone = isLight ? 'text-amber-700' : 'text-amber-100';
+  const infoTone = isLight ? 'text-slate-700' : 'text-slate-200/80';
+  const infoBadgeTone = isLight
+    ? 'border-white/70 bg-white/85 text-slate-700 shadow-[0_12px_24px_-24px_rgba(148,163,184,0.45)]'
+    : 'border-white/15 bg-white/10 text-white/80';
+  const betButtonTone = isLight
+    ? 'border-emerald-300/70 bg-emerald-400/15 text-emerald-700 hover:border-emerald-400 hover:bg-emerald-300/25'
+    : 'border-emerald-300/30 bg-emerald-300/15 text-emerald-100 hover:border-emerald-300/60 hover:bg-emerald-300/20';
+  const betButtonToneNo = isLight
+    ? 'border-cyan-300/70 bg-cyan-400/15 text-cyan-700 hover:border-cyan-400 hover:bg-cyan-300/25'
+    : 'border-cyan-300/30 bg-cyan-300/15 text-cyan-100 hover:border-cyan-300/60 hover:bg-cyan-300/20';
 
   return (
     <article
       role="button"
       tabIndex={0}
-      onClick={() => navigate(`/market/${card.id}`)}
+      onClick={() => {
+        if (quickBet) {
+          return;
+        }
+        navigate(`/market/${card.id}`);
+      }}
       onKeyDown={(event) => {
+        if (quickBet) {
+          return;
+        }
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           navigate(`/market/${card.id}`);
@@ -151,7 +166,6 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
               {t('home:card.follow')}
             </span>
           </button>
-          <GoldenHammer count={snapshot.juryCount} level={hammerLevel(snapshot.juryCount)} />
         </div>
       </div>
 
@@ -197,7 +211,62 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
         </div>
       </div>
 
+      <div className={`mt-4 flex flex-wrap items-center gap-3 text-sm ${infoTone}`}>
+        <div className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.25em] ${infoBadgeTone}`}>
+          🎁 {t('home:card.rewardCompact', { amount: numberFormatter.format(Math.max(card.pool * 0.05, 50)) })} TAI
+        </div>
+        <div className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.25em] ${infoBadgeTone}`}>
+          {t('home:card.liveOdds')} <span className="font-mono text-sm text-emerald-300">{card.yesOdds.toFixed(2)}x</span> /
+          <span className="font-mono text-sm text-cyan-300">{card.noOdds.toFixed(2)}x</span>
+        </div>
+        <JurorRewardBadge reward={card.jurorRewardTai ?? Math.max(card.pool * 0.01, 100)} />
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            setQuickBet({ side: 'yes' });
+          }}
+          className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition-colors ${betButtonTone}`}
+        >
+          💰 {t('home:card.betYesCompact')}
+          <span className="font-mono text-xs">{card.yesOdds.toFixed(2)}x</span>
+        </button>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            setQuickBet({ side: 'no' });
+          }}
+          className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition-colors ${betButtonToneNo}`}
+        >
+          💰 {t('home:card.betNoCompact')}
+          <span className="font-mono text-xs">{card.noOdds.toFixed(2)}x</span>
+        </button>
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            navigate(`/market/${card.id}`);
+          }}
+          className="flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white/80 transition-colors hover:border-emerald-200/40"
+        >
+          📄 {t('home:card.viewDetail')}
+        </button>
+      </div>
+
       <Confetti active={celebrate} delayMs={100} />
+      <QuickBetModal
+        open={Boolean(quickBet)}
+        marketId={card.id}
+        marketTitle={card.title}
+        side={quickBet?.side ?? 'yes'}
+        odds={quickBet?.side === 'no' ? card.noOdds : card.yesOdds}
+        onClose={() => setQuickBet(null)}
+        onSuccess={() => setCelebrate(true)}
+      />
     </article>
   );
 }

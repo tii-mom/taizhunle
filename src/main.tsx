@@ -10,7 +10,15 @@ import './index.css';
 import './styles/glass.css';
 import './i18n';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error('Root element not found');
+}
+
+console.log('🚀 Starting React app...');
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <SplashScreen />
     <AppProviders>
@@ -18,3 +26,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </AppProviders>
   </React.StrictMode>,
 );
+
+console.log('✅ React app rendered');

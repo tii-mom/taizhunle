@@ -2,6 +2,7 @@ import { supabase } from './supabaseClient.js';
 import { distributeFees, sendToPools } from './feeDistributor.js';
 import { ensureUserByWallet, incrementUserStats } from './userService.js';
 import { notifyAdmins, notifyChannel } from './telegramService.js';
+import { canCreateMarket, getCreateInterval } from '../../utils/dao.js';
 import type { BetRow, PredictionRow } from '../types/database.js';
 
 const LIVE_STATUSES = new Set(['active', 'approved']);
@@ -15,6 +16,10 @@ export type MarketBet = {
   amount: number;
   market: string;
   direction: 'long' | 'short';
+  side: 'yes' | 'no';
+  odds: number;
+  potentialPayout: number;
+  walletAddress?: string | null;
   timestamp: number;
 };
 
@@ -40,6 +45,7 @@ export type MarketCard = {
   juryCount: number;
   followers: string[];
   isFavorite?: boolean;
+  jurorRewardTai: number;
 };
 
 export type MarketListResponse = {
@@ -89,6 +95,15 @@ type PlaceBetPayload = {
   note?: string;
   referrerWallet?: string;
   extras?: EnsureUserExtras;
+};
+
+export type CreateMarketPayload = {
+  title: string;
+  closesAt: string;
+  minStake: number;
+  maxStake: number;
+  creatorWallet: string;
+  rewardTai: number;
 };
 
 function toNumber(value: number | string | null | undefined): number {
@@ -151,24 +166,110 @@ function shortenWallet(value: string | null | undefined): string {
 function mapBet(row: BetRow & { user?: { wallet_address?: string | null; telegram_username?: string | null } }): MarketBet {
   const username = row.user?.telegram_username;
   const wallet = row.user?.wallet_address;
+  const odds = toNumber(row.odds);
+  const potentialPayout = toNumber(row.potential_payout);
   return {
     id: row.id,
     user: username || shortenWallet(wallet),
     amount: toNumber(row.amount),
     market: row.prediction_id,
     direction: row.side === 'yes' ? 'long' : 'short',
+    side: row.side,
+    odds,
+    potentialPayout,
+    walletAddress: wallet ?? undefined,
     timestamp: new Date(row.created_at).getTime(),
   };
+}
+
+type StakeRangeNotes = {
+  minStake?: number;
+  maxStake?: number;
+  jurorRewardTai?: number;
+};
+
+function parseStakeRange(notes: string | null): StakeRangeNotes | null {
+  if (!notes) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(notes) as Record<string, unknown>;
+    if (typeof parsed !== 'object' || parsed === null) {
+      return null;
+    }
+
+    const range: StakeRangeNotes = {};
+    if (parsed.minStake !== undefined) {
+      const value = Number(parsed.minStake);
+      if (Number.isFinite(value)) {
+        range.minStake = value;
+      }
+    }
+    if (parsed.maxStake !== undefined) {
+      const value = Number(parsed.maxStake);
+      if (Number.isFinite(value)) {
+        range.maxStake = value;
+      }
+    }
+
+    if (parsed.jurorRewardTai !== undefined) {
+      const value = Number(parsed.jurorRewardTai);
+      if (Number.isFinite(value)) {
+        range.jurorRewardTai = value;
+      }
+    }
+
+    if (range.minStake !== undefined || range.maxStake !== undefined) {
+      return range;
+    }
+  } catch {
+    // ignore malformed admin notes
+  }
+
+  return null;
+}
+
+function parseTimestamp(value: string | null | undefined): Date | null {
+  if (!value) {
+    return null;
+  }
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+async function loadLastCreationTimestamp(userId: string): Promise<Date | null> {
+  const { data, error } = await supabase
+    .from('predictions')
+    .select('created_at')
+    .eq('creator_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.warn('Failed to query last market creation time:', error.message);
+    return null;
+  }
+
+  return data?.created_at ? new Date(data.created_at) : null;
 }
 
 function mapPrediction(row: PredictionRow, bets: MarketBet[] = []): MarketCard {
   const yesPool = toNumber(row.yes_pool);
   const noPool = toNumber(row.no_pool);
   const totalPool = toNumber(row.total_pool) || yesPool + noPool;
+  const basePool = toNumber(row.base_pool);
   const yesOdds = computeOdds(totalPool, yesPool);
   const noOdds = computeOdds(totalPool, noPool);
   const filter = LIVE_STATUSES.has(row.status) ? 'live' : 'closed';
-  const bountyMultiplier = row.base_pool > 0 ? Number((totalPool / row.base_pool).toFixed(2)) : 1;
+  const bountyMultiplier = basePool > 0 ? Number((totalPool / basePool).toFixed(2)) : 1;
+  const stakeRange = parseStakeRange(row.admin_notes);
+  const targetPool = stakeRange?.maxStake
+    ? Math.max(stakeRange.maxStake, totalPool, basePool)
+    : basePool || totalPool;
+  const jurorRewardTai = Math.max(100, Number(row.juror_reward_tai ?? stakeRange?.jurorRewardTai ?? 0));
 
   return {
     id: row.id,
@@ -186,11 +287,12 @@ function mapPrediction(row: PredictionRow, bets: MarketBet[] = []): MarketCard {
     bets,
     endsAt: new Date(row.end_time).getTime(),
     createdAt: new Date(row.created_at).getTime(),
-    targetPool: toNumber(row.base_pool) || totalPool,
+    targetPool,
     entities: guessEntities(row),
     bountyMultiplier,
     juryCount: Math.max(0, Math.round(toNumber(row.platform_fee))),
     followers: [],
+    jurorRewardTai,
   } satisfies MarketCard;
 }
 
@@ -224,7 +326,7 @@ async function fetchBetsForPredictions(predictionIds: string[]): Promise<Map<str
 
   const { data, error } = await supabase
     .from('bets')
-    .select('id, amount, side, created_at, prediction_id, user:users(wallet_address, telegram_username)')
+    .select('id, amount, side, odds, potential_payout, created_at, prediction_id, user:users(wallet_address, telegram_username)')
     .in('prediction_id', predictionIds)
     .order('created_at', { ascending: false })
     .limit(predictionIds.length * 8);
@@ -369,7 +471,7 @@ export async function getMarketOdds(id: string): Promise<MarketOddsResponse> {
 export async function getMarketLive(id: string): Promise<MarketLiveResponse> {
   const { data, error } = await supabase
     .from('bets')
-    .select('id, amount, side, created_at, prediction_id, referrer_reward, user:users(wallet_address, telegram_username)')
+    .select('id, amount, side, odds, potential_payout, created_at, prediction_id, referrer_reward, user:users(wallet_address, telegram_username)')
     .eq('prediction_id', id)
     .order('created_at', { ascending: false })
     .limit(20);
@@ -392,6 +494,207 @@ export async function getMarketLive(id: string): Promise<MarketLiveResponse> {
   } satisfies MarketLiveResponse;
 }
 
+export async function createMarketDraft(payload: CreateMarketPayload): Promise<MarketDetailResponse> {
+  const closesAt = new Date(payload.closesAt);
+  if (Number.isNaN(closesAt.getTime())) {
+    throw new Error('Invalid closing time');
+  }
+
+  const rewardTai = Math.floor(Number(payload.rewardTai));
+  if (!Number.isFinite(rewardTai) || rewardTai < 100 || rewardTai > 10_000) {
+    throw new Error('Invalid juror reward amount. Please choose between 100 and 10,000 TAI.');
+  }
+
+  const user = await ensureUserByWallet(payload.creatorWallet, {});
+  const userPoints = Number(user.dao_points ?? 0);
+  const isJuror = Boolean(user.is_juror);
+
+  const cachedLastCreate = parseTimestamp(user.last_market_created_at);
+  const lastCreate = cachedLastCreate ?? (await loadLastCreationTimestamp(user.id));
+  const creationWindow = canCreateMarket(lastCreate, userPoints, isJuror);
+
+  if (!creationWindow.canCreate) {
+    const waitHours = Math.max(1, Math.ceil(creationWindow.hoursRemaining));
+    const nextTime = creationWindow.nextAvailableTime
+      ? ` (≈ ${creationWindow.nextAvailableTime.toISOString()})`
+      : '';
+    throw new Error(`Creation cooldown active. Next slot in ~${waitHours}h${nextTime}`);
+  }
+
+  const now = new Date();
+  const nowIso = now.toISOString();
+
+  const enforceBalance = process.env.ENFORCE_CREATION_BALANCE === 'true';
+  if (enforceBalance) {
+    const { data: balance, error: balanceError } = await supabase
+      .from('user_balances')
+      .select('available_tai')
+      .eq('wallet_address', payload.creatorWallet)
+      .maybeSingle();
+
+    if (balanceError) {
+      throw new Error(`Failed to validate user balance: ${balanceError.message}`);
+    }
+
+    const availableTai = toNumber((balance as { available_tai?: number | string } | null)?.available_tai ?? 0);
+    if (availableTai < rewardTai) {
+      throw new Error(`Insufficient TAI balance. Required ${rewardTai} TAI, available ${availableTai} TAI.`);
+    }
+
+    const { error: updateBalanceError } = await supabase
+      .from('user_balances')
+      .update({
+        available_tai: availableTai - rewardTai,
+        updated_at: nowIso,
+      })
+      .eq('wallet_address', payload.creatorWallet);
+
+    if (updateBalanceError) {
+      throw new Error(`Failed to deduct creation fee: ${updateBalanceError.message}`);
+    }
+  } else {
+    console.info('[marketService] Creation balance enforcement disabled; skipping deduction.');
+  }
+
+  const basePool = Math.max(0, Number(payload.minStake) || 0);
+  const targetPool = Math.max(basePool, Number(payload.maxStake) || 0);
+  const intervalHours = getCreateInterval(userPoints, isJuror);
+
+  const insertPayload = {
+    title: payload.title,
+    description: payload.title,
+    creator_id: user.id,
+    end_time: closesAt.toISOString(),
+    status: 'active',
+    base_pool: basePool,
+    total_pool: 0,
+    yes_pool: 0,
+    no_pool: 0,
+    total_fees: 0,
+    creator_fee: 0,
+    platform_fee: 0,
+    juror_reward_tai: rewardTai,
+    admin_notes: JSON.stringify({
+      minStake: basePool,
+      maxStake: targetPool,
+      jurorRewardTai: rewardTai,
+      intervalHours,
+    }),
+  } satisfies Partial<PredictionRow>;
+
+  const { data, error } = await supabase
+    .from('predictions')
+    .insert(insertPayload)
+    .select('*')
+    .single();
+
+  if (error || !data) {
+    throw new Error(`Failed to create prediction: ${error?.message ?? 'unknown error'}`);
+  }
+
+  const totalCreated = toNumber(user.total_markets_created) + 1;
+  const totalCreationFee = toNumber(user.total_creation_fee_tai) + rewardTai;
+
+  const { error: userUpdateError } = await supabase
+    .from('users')
+    .update({
+      last_market_created_at: nowIso,
+      total_markets_created: totalCreated,
+      total_creation_fee_tai: totalCreationFee,
+    })
+    .eq('id', user.id);
+
+  if (userUpdateError) {
+    console.warn('Failed to update creator stats:', userUpdateError.message);
+  }
+
+  const { error: poolError } = await supabase
+    .from('dao_pool')
+    .insert({
+      pool_type: 'create',
+      amount: rewardTai,
+      bet_id: `prediction:${data.id}`,
+      user_id: user.id,
+      wallet_address: payload.creatorWallet,
+      status: 'pending',
+      created_at: nowIso,
+      updated_at: nowIso,
+    });
+
+  if (poolError) {
+    console.warn('Failed to record DAO pool entry for creation fee:', poolError.message);
+  }
+
+  const marketCard = mapPrediction(data);
+  const enrichedMarketCard: MarketDetailResponse = {
+    ...marketCard,
+    targetPool: Math.max(marketCard.targetPool, targetPool),
+    liquidity: '0 TAI',
+    participants: 0,
+  };
+
+  await notifyAdmins(
+    `🆕 *新预测创建*
+
+• 题目: ${payload.title}
+• 创建者: ${user.wallet_address}
+• 封盘: ${closesAt.toISOString()}
+• 赌注范围: ${basePool} ~ ${targetPool} TAI
+• 陪审奖励: ${rewardTai} TAI`,
+  );
+
+  await notifyChannel(
+    `🆕 新预测上线: *${payload.title}*
+封盘时间: ${closesAt.toLocaleString()}`,
+  );
+
+  return enrichedMarketCard;
+}
+
+export type MarketCreationPermission = {
+  walletAddress: string;
+  canCreate: boolean;
+  points: number;
+  isJuror: boolean;
+  intervalHours: number;
+  hoursRemaining: number;
+  nextAvailableTime: string | null;
+  lastCreatedAt: string | null;
+  minRewardTai: number;
+  maxRewardTai: number;
+  defaultRewardTai: number;
+};
+
+export async function getMarketCreationPermission(walletAddress: string): Promise<MarketCreationPermission> {
+  const trimmed = walletAddress.trim();
+  if (!trimmed) {
+    throw new Error('Wallet address is required');
+  }
+
+  const user = await ensureUserByWallet(trimmed, {});
+  const userPoints = Number(user.dao_points ?? 0);
+  const isJuror = Boolean(user.is_juror);
+  const cachedLastCreate = parseTimestamp(user.last_market_created_at);
+  const lastCreate = cachedLastCreate ?? (await loadLastCreationTimestamp(user.id));
+  const window = canCreateMarket(lastCreate, userPoints, isJuror);
+
+  const defaultReward = Math.min(10_000, Math.max(100, Math.round(100 + userPoints * 0.5)));
+
+  return {
+    walletAddress: trimmed,
+    canCreate: window.canCreate,
+    points: userPoints,
+    isJuror,
+    intervalHours: window.intervalHours,
+    hoursRemaining: window.hoursRemaining,
+    nextAvailableTime: window.nextAvailableTime ? window.nextAvailableTime.toISOString() : null,
+    lastCreatedAt: lastCreate ? lastCreate.toISOString() : null,
+    minRewardTai: 100,
+    maxRewardTai: 10_000,
+    defaultRewardTai: defaultReward,
+  } satisfies MarketCreationPermission;
+}
+
 async function resolveReferrerId(wallet?: string | null): Promise<string | undefined> {
   if (!wallet) {
     return undefined;
@@ -411,7 +714,7 @@ async function resolveReferrerId(wallet?: string | null): Promise<string | undef
   return data?.id ?? undefined;
 }
 
-export async function placeBet(payload: PlaceBetPayload): Promise<void> {
+export async function placeBet(payload: PlaceBetPayload): Promise<MarketDetailResponse> {
   const amount = Number(payload.amount);
 
   if (!payload.walletAddress) {
@@ -520,4 +823,6 @@ export async function placeBet(payload: PlaceBetPayload): Promise<void> {
     notifyAdmins(message),
     notifyChannel(message),
   ]);
+
+  return getMarketDetail(payload.marketId);
 }

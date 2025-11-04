@@ -1,6 +1,5 @@
 import { createBrowserRouter, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { lazy, Suspense, type ReactElement, useEffect } from 'react';
-import { useTonWallet } from '@tonconnect/ui-react';
 
 import { PageSkeleton } from './components/common/PageSkeleton';
 import { PageTransition } from './components/common/PageTransition';
@@ -18,21 +17,13 @@ const BetPage = lazy(() => import('./web/pages/BetGlass').then((module) => ({ de
 const CreatePage = lazy(() => import('./pages/Create').then((module) => ({ default: module.Create })));
 const ProfilePage = lazy(() => import('./pages/Profile').then((module) => ({ default: module.Profile })));
 const LoginPage = lazy(() => import('./pages/Login').then((module) => ({ default: module.Login })));
-const DaoPage = lazy(() => import('./pages/DaoGlass').then((module) => ({ default: module.DaoGlass })));
+const DaoPage = lazy(() => import('./pages/DaoGlass'));
+const DaoTaskPage = lazy(() => import('./pages/dao/TaskDetailPage'));
+const DaoAppealsPage = lazy(() => import('./pages/dao/AppealsPage'));
+const DaoWithdrawPage = lazy(() => import('./pages/dao/WithdrawPage'));
 const SearchPage = lazy(() => import('./pages/SearchGlass').then((module) => ({ default: module.SearchGlass })));
 
-const withWalletGuard = (element: ReactElement) => {
-  const WalletGuard = () => {
-    const wallet = useTonWallet();
-    if (!wallet) {
-      return <Navigate to="/login" replace />;
-    }
-    return element;
-  };
-
-  WalletGuard.displayName = 'WalletGuard';
-  return <WalletGuard />;
-};
+const withWalletGuard = (element: ReactElement) => element;
 
 const TransitionLayout = () => {
   const location = useLocation();
@@ -66,6 +57,9 @@ export const router = createBrowserRouter([
       { path: 'create', element: withWalletGuard(<CreatePage />) },
       { path: 'search', element: withWalletGuard(<SearchPage />) },
       { path: 'dao', element: withWalletGuard(<DaoPage />) },
+      { path: 'dao/task/:id', element: withWalletGuard(<DaoTaskPage />) },
+      { path: 'dao/appeals', element: withWalletGuard(<DaoAppealsPage />) },
+      { path: 'dao/withdraw', element: withWalletGuard(<DaoWithdrawPage />) },
       { path: 'assets', element: withWalletGuard(<Assets />) },
       { path: 'assets/redpacket', element: withWalletGuard(<RedPacketSale />) },
       { path: 'assets/official', element: withWalletGuard(<OfficialRain />) },

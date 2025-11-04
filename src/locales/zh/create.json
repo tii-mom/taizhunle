@@ -8,18 +8,33 @@
     "closesAt": "请选择封盘时间",
     "maxStake": "最大下注需不小于最小值",
     "minStake": "最小下注需大于零",
+    "rewardTaiMin": "陪审奖励至少 100 TAI",
+    "rewardTaiMax": "陪审奖励不得超过 10,000 TAI",
     "title": "请输入预测标题"
   },
   "fields": {
     "closesAt": "封盘时间",
     "maxStake": "最大下注",
     "minStake": "最小下注",
+    "rewardTai": "陪审奖励（TAI）",
     "title": "预测标题"
   },
   "form": {
     "hint": "完善市场参数，稍后可发起链上请求。",
     "rangePreview": "下注区间：{{min}} - {{max}} TAI",
-    "submitSuccess": "草稿已保存"
+    "submitSuccess": "预测已发布",
+    "submitError": "创建预测失败，请稍后重试",
+    "connectWallet": "请先连接 TON 钱包再发布",
+    "connectFirst": "请先连接 TON 钱包再配置预测。",
+    "submitting": "发布中...",
+    "permissionLoading": "正在检查创建额度...",
+    "permissionReady": "可创建 · 冷却间隔 {{hours}} 小时 · DAO 积分 {{points}}",
+    "permissionDetail": "奖励范围 {{min}}-{{max}} TAI · 每次创建需间隔 {{interval}} 小时。",
+    "refreshPermission": "刷新额度",
+    "cooldownMessage": "冷却中 · 预计 {{hours}} 小时后可用（下次 {{time}}）",
+    "cooldownBlocked": "当前处于冷却期，约 {{hours}} 小时后（{{time}}）再试。",
+    "rewardHint": "陪审奖励建议在 {{min}} 至 {{max}} TAI 之间，奖励越高越能吸引陪审员。",
+    "feeSummary": "将锁定 {{reward}} TAI 进入陪审奖励池，另需支付 {{gas}} 链上手续费。"
   },
   "schedule": {
     "items": [
