@@ -1,0 +1,604 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; TaiOracle_TaiOracle.headers.fc
+;;
+;; Header files for TaiOracle
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_dict_get_int_cell
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline;
+
+;; __tact_dict_set_int_cell
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline;
+
+;; $PriceEntry$_store
+builder $PriceEntry$_store(builder build_0, (int, int) v) inline;
+
+;; $PriceEntry$_store_cell
+cell $PriceEntry$_store_cell((int, int) v, builder b) inline;
+
+;; $PriceEntry$_load
+(slice, ((int, int))) $PriceEntry$_load(slice sc_0) inline;
+
+;; $PriceEntry$_as_optional
+tuple $PriceEntry$_as_optional((int, int) v) inline;
+
+;; $PriceEntry$_load_opt
+tuple $PriceEntry$_load_opt(cell cl) inline;
+
+;; $PriceEntry$_not_null
+((int, int)) $PriceEntry$_not_null(tuple v) inline;
+
+;; $TaiOracle$_store
+builder $TaiOracle$_store(builder build_0, (slice, cell, tuple) v) inline;
+
+;; $TaiOracle$_load
+(slice, ((slice, cell, tuple))) $TaiOracle$_load(slice sc_0) inline;
+
+;; $PriceEntry$_get_timestamp
+_ $PriceEntry$_get_timestamp((int, int) v) inline;
+
+;; $PriceEntry$_get_price
+_ $PriceEntry$_get_price((int, int) v) inline;
+
+;; $PriceEntry$_to_tuple
+tuple $PriceEntry$_to_tuple(((int, int)) v) inline;
+
+;; $PriceEntry$_to_opt_tuple
+tuple $PriceEntry$_to_opt_tuple(tuple v) inline;
+
+;; $PriceEntry$_to_opt_external
+tuple $PriceEntry$_to_opt_external(tuple v) inline;
+
+;; $TaiOracle$init$_load
+(slice, ((slice))) $TaiOracle$init$_load(slice sc_0) inline;
+
+;; $TaiOracle$_contract_init
+(slice, cell, tuple) $TaiOracle$_contract_init(slice $admin) impure inline;
+
+;; $TaiOracle$_contract_load
+(slice, cell, tuple) $TaiOracle$_contract_load() impure inline;
+
+;; $TaiOracle$_contract_store
+() $TaiOracle$_contract_store((slice, cell, tuple) v) impure inline;
+
+;; $TaiOracle$_fun_latest
+((slice, cell, tuple), tuple) $TaiOracle$_fun_latest((slice, cell, tuple) $self) impure inline_ref;
+
+;; $TaiOracle$_fun_priceAt
+((slice, cell, tuple), tuple) $TaiOracle$_fun_priceAt((slice, cell, tuple) $self, int $dayIndex) impure inline_ref;
+
+;; $AvgState$_constructor_sum_count
+((int, int)) $AvgState$_constructor_sum_count(int $sum, int $count) inline;
+
+;; $TaiOracle$_fun_abs
+((slice, cell, tuple), int) $TaiOracle$_fun_abs((slice, cell, tuple) $self, int $value) impure inline_ref;
+
+;; $TaiOracle$_fun_withinDeviation
+((slice, cell, tuple), int) $TaiOracle$_fun_withinDeviation((slice, cell, tuple) $self, int $basePrice, int $price) impure inline_ref;
+
+;; $TaiOracle$_fun_accumulate
+((slice, cell, tuple), (int, int)) $TaiOracle$_fun_accumulate((slice, cell, tuple) $self, int $day, int $remaining, int $basePrice, (int, int) $acc) impure inline_ref;
+
+;; $TaiOracle$_fun_average
+((slice, cell, tuple), int) $TaiOracle$_fun_average((slice, cell, tuple) $self, int $days) impure inline_ref;
+
+;; $TaiOracle$_fun_canUnlock
+((slice, cell, tuple), int) $TaiOracle$_fun_canUnlock((slice, cell, tuple) $self, int $lastPrice, int $requiredBps) impure inline_ref;
+
+;; $PriceEntry$_constructor_timestamp_price
+((int, int)) $PriceEntry$_constructor_timestamp_price(int $timestamp, int $price) inline;
+
+;; $TaiOracle$_fun_storeEntry
+((slice, cell, tuple), ()) $TaiOracle$_fun_storeEntry((slice, cell, tuple) $self, int $timestamp, int $price) impure inline_ref;
+
+;; $TaiOracle$_fun_ingestBatch
+((slice, cell, tuple), ()) $TaiOracle$_fun_ingestBatch((slice, cell, tuple) $self, cell $cellOpt) impure inline_ref;
+
+;; $TaiOracle$_fun_ensureAdmin
+((slice, cell, tuple), ()) $TaiOracle$_fun_ensureAdmin((slice, cell, tuple) $self) impure inline_ref;
+
+
+;; TaiOracle_TaiOracle.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1 -> tuple __tact_tuple_create_2((X0, X1) v) asm """
+    2 TUPLE
+""";
+
+forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm """
+    2 UNTUPLE
+""";
+
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline {
+    var (r, ok) = idict_get_ref?(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_ref(d, kl, k, v), ());
+    }
+}
+
+(slice, cell) $Slice$_fun_loadMaybeRef(slice $self) impure asm( -> 1 0) """
+    LDOPTREF
+""";
+
+slice $Cell$_fun_beginParse(cell $self) impure asm """
+    CTOS
+""";
+
+;; TaiOracle_TaiOracle.storage.fc
+;;
+;; Type: PriceEntry
+;; TLB: _ timestamp:int257 price:int257 = PriceEntry
+;;
+
+builder $PriceEntry$_store(builder build_0, (int, int) v) inline {
+    var (v'timestamp, v'price) = v;
+    build_0 = build_0.store_int(v'timestamp, 257);
+    build_0 = build_0.store_int(v'price, 257);
+    return build_0;
+}
+
+cell $PriceEntry$_store_cell((int, int) v, builder b) inline {
+    return $PriceEntry$_store(b, v).end_cell();
+}
+
+(slice, ((int, int))) $PriceEntry$_load(slice sc_0) inline {
+    var v'timestamp = sc_0~load_int(257);
+    var v'price = sc_0~load_int(257);
+    return (sc_0, (v'timestamp, v'price));
+}
+
+tuple $PriceEntry$_as_optional((int, int) v) inline {
+    var (v'timestamp, v'price) = v;
+    return __tact_tuple_create_2(v'timestamp, v'price);
+}
+
+tuple $PriceEntry$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $PriceEntry$_as_optional(sc~$PriceEntry$_load());
+}
+
+((int, int)) $PriceEntry$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'timestamp, int vvv'price) = __tact_tuple_destroy_2(v);
+    return (vvv'timestamp, vvv'price);
+}
+
+_ $PriceEntry$_get_timestamp((int, int) v) inline {
+    var (v'timestamp, v'price) = v;
+    return v'timestamp;
+}
+
+_ $PriceEntry$_get_price((int, int) v) inline {
+    var (v'timestamp, v'price) = v;
+    return v'price;
+}
+
+tuple $PriceEntry$_to_tuple(((int, int)) v) inline {
+    var (v'timestamp, v'price) = v;
+    return __tact_tuple_create_2(v'timestamp, v'price);
+}
+
+tuple $PriceEntry$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $PriceEntry$_to_tuple($PriceEntry$_not_null(v)); 
+}
+
+tuple $PriceEntry$_to_opt_external(tuple v) inline {
+    var loaded = $PriceEntry$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, int)) $PriceEntry$_constructor_timestamp_price(int $timestamp, int $price) inline {
+    return ($timestamp, $price);
+}
+
+;;
+;; Type: AvgState
+;; TLB: _ sum:int257 count:int257 = AvgState
+;;
+
+((int, int)) $AvgState$_constructor_sum_count(int $sum, int $count) inline {
+    return ($sum, $count);
+}
+
+;;
+;; Type: TaiOracle
+;; TLB: _ admin:address priceHistory:dict<int, ^PriceEntry{timestamp:int257,price:int257}> latestEntry:Maybe PriceEntry{timestamp:int257,price:int257} = TaiOracle
+;;
+
+builder $TaiOracle$_store(builder build_0, (slice, cell, tuple) v) inline {
+    var (v'admin, v'priceHistory, v'latestEntry) = v;
+    build_0 = build_0.store_slice(v'admin);
+    build_0 = build_0.store_dict(v'priceHistory);
+    build_0 = ~ null?(v'latestEntry) ? build_0.store_int(true, 1).$PriceEntry$_store($PriceEntry$_not_null(v'latestEntry)) : build_0.store_int(false, 1);
+    return build_0;
+}
+
+(slice, ((slice, cell, tuple))) $TaiOracle$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'priceHistory = sc_0~load_dict();
+    var v'latestEntry = sc_0~load_int(1) ? $PriceEntry$_as_optional(sc_0~$PriceEntry$_load()) : null();
+    return (sc_0, (v'admin, v'priceHistory, v'latestEntry));
+}
+
+(slice, ((slice))) $TaiOracle$init$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    return (sc_0, (v'admin));
+}
+
+(slice, cell, tuple) $TaiOracle$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$TaiOracle$_load();
+    }
+    else {
+        (slice $admin) = $sc~$TaiOracle$init$_load();
+        $sc.end_parse();
+        return $TaiOracle$_contract_init($admin);
+    }
+}
+
+() $TaiOracle$_contract_store((slice, cell, tuple) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $TaiOracle$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract TaiOracle functions
+;;
+
+(slice, cell, tuple) $TaiOracle$_contract_init(slice $admin) impure inline {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = (null(), null(), null());
+    $self'admin = $admin;
+    $self'priceHistory = null();
+    $self'latestEntry = null();
+    return ($self'admin, $self'priceHistory, $self'latestEntry);
+}
+
+((slice, cell, tuple), tuple) $TaiOracle$_fun_latest((slice, cell, tuple) $self) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    var $fresh$ret_44 = $self'latestEntry;
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_44);
+}
+
+((slice, cell, tuple), tuple) $TaiOracle$_fun_priceAt((slice, cell, tuple) $self, int $dayIndex) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    var $fresh$ret_45 = $PriceEntry$_load_opt(__tact_dict_get_int_cell($self'priceHistory, 257, $dayIndex));
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_45);
+}
+
+((slice, cell, tuple), int) $TaiOracle$_fun_abs((slice, cell, tuple) $self, int $value) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    if (($value < 0)) {
+        var $fresh$ret_56 = (- $value);
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_56);
+    }
+    var $fresh$ret_57 = $value;
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_57);
+}
+
+((slice, cell, tuple), int) $TaiOracle$_fun_withinDeviation((slice, cell, tuple) $self, int $basePrice, int $price) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    int $diff = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_abs(($price - $basePrice));
+    int $limit = (($basePrice * 3000) / 10000);
+    var $fresh$ret_55 = ($diff <= $limit);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_55);
+}
+
+((slice, cell, tuple), (int, int)) $TaiOracle$_fun_accumulate((slice, cell, tuple) $self, int $day, int $remaining, int $basePrice, (int, int) $acc) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    var (($acc'sum, $acc'count)) = $acc;
+    if (($remaining <= 0)) {
+        var $fresh$ret_53 = ($acc'sum, $acc'count);
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_53);
+    }
+    tuple $entryOpt = $PriceEntry$_load_opt(__tact_dict_get_int_cell($self'priceHistory, 257, $day));
+    var ($mutAcc'sum, $mutAcc'count) = ($acc'sum, $acc'count);
+    if ((~ null?($entryOpt))) {
+        int $price = $PriceEntry$_get_price($PriceEntry$_not_null($entryOpt));
+        if (($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_withinDeviation($basePrice, $price)) {
+            $mutAcc'sum = ($mutAcc'sum + $price);
+            $mutAcc'count = ($mutAcc'count + 1);
+        }
+    }
+    var $fresh$ret_54 = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_accumulate(($day - 1), ($remaining - 1), $basePrice, ($mutAcc'sum, $mutAcc'count));
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_54);
+}
+
+((slice, cell, tuple), int) $TaiOracle$_fun_average((slice, cell, tuple) $self, int $days) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    if (($days <= 0)) {
+        var $fresh$ret_46 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_46);
+    }
+    tuple $latestOpt = $self'latestEntry;
+    if (null?($latestOpt)) {
+        var $fresh$ret_47 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_47);
+    }
+    var ($latest'timestamp, $latest'price) = $PriceEntry$_not_null($latestOpt);
+    int $basePrice = $latest'price;
+    if (($basePrice <= 0)) {
+        var $fresh$ret_48 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_48);
+    }
+    int $dayIndex = ($latest'timestamp / 86400);
+    var ($acc'sum, $acc'count) = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_accumulate($dayIndex, $days, $basePrice, $AvgState$_constructor_sum_count(0, 0));
+    ifnot ($acc'count) {
+        var $fresh$ret_49 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_49);
+    }
+    var $fresh$ret_50 = ($acc'sum / $acc'count);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_50);
+}
+
+((slice, cell, tuple), int) $TaiOracle$_fun_canUnlock((slice, cell, tuple) $self, int $lastPrice, int $requiredBps) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    int $avg = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_average(3);
+    if (($avg <= 0)) {
+        var $fresh$ret_51 = false;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_51);
+    }
+    int $threshold = (($lastPrice * (10000 + $requiredBps)) / 10000);
+    var $fresh$ret_52 = ($avg >= $threshold);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_52);
+}
+
+((slice, cell, tuple), ()) $TaiOracle$_fun_storeEntry((slice, cell, tuple) $self, int $timestamp, int $price) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    throw_unless(29886, ($timestamp > 0));
+    throw_unless(35867, ($price > 0));
+    tuple $latestOpt = $self'latestEntry;
+    if ((~ null?($latestOpt))) {
+        throw_unless(45473, ($timestamp > $PriceEntry$_get_timestamp($PriceEntry$_not_null($latestOpt))));
+    }
+    int $dayIndex = ($timestamp / 86400);
+    var ($entry'timestamp, $entry'price) = $PriceEntry$_constructor_timestamp_price($timestamp, $price);
+    $self'priceHistory~__tact_dict_set_int_cell(257, $dayIndex, $PriceEntry$_store_cell(($entry'timestamp, $entry'price), begin_cell()));
+    $self'latestEntry = $PriceEntry$_as_optional(($entry'timestamp, $entry'price));
+    return (($self'admin, $self'priceHistory, $self'latestEntry), ());
+}
+
+((slice, cell, tuple), ()) $TaiOracle$_fun_ingestBatch((slice, cell, tuple) $self, cell $cellOpt) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    if (null?($cellOpt)) {
+        return (($self'admin, $self'priceHistory, $self'latestEntry), ());
+    }
+    slice $slice = $Cell$_fun_beginParse(__tact_not_null($cellOpt));
+    int $timestamp = $slice~load_int(257);
+    int $price = $slice~load_int(257);
+    cell $nextOpt = $slice~$Slice$_fun_loadMaybeRef();
+    ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_storeEntry($timestamp, $price);
+    ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_ingestBatch($nextOpt);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), ());
+}
+
+((slice, cell, tuple), ()) $TaiOracle$_fun_ensureAdmin((slice, cell, tuple) $self) impure inline_ref {
+    var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
+    throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+    return (($self'admin, $self'priceHistory, $self'latestEntry), ());
+}
+
+;;
+;; Get methods of a Contract TaiOracle
+;;
+
+_ %latest() method_id(97392) {
+    var self = $TaiOracle$_contract_load();
+    var res = self~$TaiOracle$_fun_latest();
+    return $PriceEntry$_to_opt_external(res);
+}
+
+_ %priceAt(int $dayIndex) method_id(84326) {
+    int $dayIndex = $dayIndex;
+    var self = $TaiOracle$_contract_load();
+    var res = self~$TaiOracle$_fun_priceAt($dayIndex);
+    return $PriceEntry$_to_opt_external(res);
+}
+
+_ %average(int $days) method_id(87157) {
+    int $days = $days;
+    var self = $TaiOracle$_contract_load();
+    var res = self~$TaiOracle$_fun_average($days);
+    return res;
+}
+
+_ %canUnlock(int $lastPrice, int $requiredBps) method_id(88439) {
+    int $lastPrice = $lastPrice;
+    int $requiredBps = $requiredBps;
+    var self = $TaiOracle$_contract_load();
+    var res = self~$TaiOracle$_fun_canUnlock($lastPrice, $requiredBps);
+    return res;
+}
+
+;;
+;; Routing of a Contract TaiOracle
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'admin, $self'priceHistory, $self'latestEntry) = $TaiOracle$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive PushPrice message
+    if (op == 4090136517) {
+        var $msg'timestamp = in_msg~load_int(257);
+        var $msg'price = in_msg~load_int(257);
+        ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_ensureAdmin();
+        ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_storeEntry($msg'timestamp, $msg'price);
+        $TaiOracle$_contract_store(($self'admin, $self'priceHistory, $self'latestEntry));
+        return ();
+    }
+    
+    ;; Receive BatchPushPrice message
+    if (op == 2712739837) {
+        var $msg'entries = in_msg~load_maybe_ref();
+        ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_ensureAdmin();
+        ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_ingestBatch($msg'entries);
+        $TaiOracle$_contract_store(($self'admin, $self'priceHistory, $self'latestEntry));
+        return ();
+    }
+    
+    ;; Receive ResetPrice message
+    if (op == 1312950905) {
+        var $msg'timestamp = in_msg~load_int(257);
+        var $msg'price = in_msg~load_int(257);
+        ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_ensureAdmin();
+        ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_storeEntry($msg'timestamp, $msg'price);
+        $TaiOracle$_contract_store(($self'admin, $self'priceHistory, $self'latestEntry));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $TaiOracle$_contract_store(($self'admin, $self'priceHistory, $self'latestEntry));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

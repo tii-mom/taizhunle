@@ -179,8 +179,11 @@ export function HomeGlass() {
       return undefined;
     }
     const sample = enrichedFeedCards.slice(0, 6);
-    const avgBounty = sample.reduce((sum, card) => sum + card.bountyMultiplier, 0) / sample.length;
-    const value = Math.min(24, Math.max(-12, avgBounty * 3.1));
+    const avgReturnRatio = sample.reduce((sum, card) => {
+      const stake = Math.max(card.creatorStakeTai, 1);
+      return sum + card.pool / stake;
+    }, 0) / sample.length;
+    const value = Math.min(24, Math.max(-12, (avgReturnRatio - 1) * 12));
     return { value, intervalLabel: '24h' } as const;
   }, [enrichedFeedCards]);
 

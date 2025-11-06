@@ -1,0 +1,1717 @@
+// automatically generated from `@stdlib/std/stdlib.fc` `/Users/yudeyou/Desktop/666/taizhunle/contracts/build/PredictionMarket/PredictionMarket_PredictionMarket.fc` 
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_dict_get_slice_int
+  DECLPROC __tact_dict_set_slice_int
+  DECLPROC __tact_dict_get_slice_cell
+  DECLPROC __tact_dict_set_slice_cell
+  DECLPROC __tact_dict_get_int_cell
+  DECLPROC __tact_dict_set_int_cell
+  DECLPROC $Market$_store
+  DECLPROC $Market$_store_cell
+  DECLPROC $Market$_load
+  DECLPROC $Market$_as_optional
+  DECLPROC $Market$_load_opt
+  DECLPROC $BetPosition$_store
+  DECLPROC $BetPosition$_store_cell
+  DECLPROC $BetPosition$_load
+  DECLPROC $BetPosition$_as_optional
+  DECLPROC $BetPosition$_load_opt
+  DECLPROC $PositionBook$_store
+  DECLPROC $PositionBook$_store_cell
+  DECLPROC $PositionBook$_load
+  DECLPROC $PositionBook$_as_optional
+  DECLPROC $PositionBook$_load_opt
+  DECLPROC $PredictionMarket$_store
+  DECLPROC $PredictionMarket$_load
+  DECLPROC $Market$_not_null
+  DECLPROC $Market$_to_tuple
+  DECLPROC $Market$_to_opt_tuple
+  DECLPROC $Market$_to_opt_external
+  DECLPROC $BetPosition$_not_null
+  DECLPROC $BetPosition$_to_tuple
+  DECLPROC $BetPosition$_to_opt_tuple
+  DECLPROC $BetPosition$_to_opt_external
+  DECLPROC $PositionBook$_get_entries
+  DECLPROC $PositionBook$_not_null
+  DECLPROC $PredictionMarket$init$_load
+  DECLPROC $PredictionMarket$_contract_init
+  DECLPROC $PredictionMarket$_contract_load
+  DECLPROC $PredictionMarket$_contract_store
+  DECLPROC $PredictionMarket$_fun_marketInfo
+  DECLPROC $PredictionMarket$_fun_positionOf
+  DECLPROC $PredictionMarket$_fun_creditOf
+  DECLPROC $SendParameters$_constructor_to_value_bounce_mode_body_code_data
+  DECLPROC $PredictionMarket$_fun_handleRewardPayouts
+  DECLPROC $PredictionMarket$_fun_handleSlashList
+  DECLPROC $PredictionMarket$_fun_creditUser
+  DECLPROC $PredictionMarket$_fun_ensureAdmin
+  DECLPROC $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata
+  DECLPROC $PositionBook$_constructor_entries
+  DECLPROC $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo
+  114280 DECLMETHOD %marketInfo
+  110854 DECLMETHOD %positionOf
+  103027 DECLMETHOD %creditOf
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_dict_get_slice_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+        DICTGET NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_slice_int PROCINLINE:<{
+    OVER
+    ISNULL
+    IF:<{
+      2DROP
+      -ROT
+          DICTDEL
+      DROP
+    }>ELSE<{
+      NEWC
+      SWAP
+      STIX
+      s1 s3 s3 XCHG3
+      DICTSETB
+    }>
+  }>
+  __tact_dict_get_slice_cell PROCINLINE:<{
+    -ROT
+        DICTGETREF NULLSWAPIFNOT
+    IF:<{
+    }>ELSE<{
+      DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_slice_cell PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      -ROT
+          DICTDEL
+      DROP
+    }>ELSE<{
+      s1 s3 s3 XCHG3
+          DICTSETREF
+    }>
+  }>
+  __tact_dict_get_int_cell PROCINLINE:<{
+    -ROT
+    DICTIGETREF
+    NULLSWAPIFNOT
+    IF:<{
+    }>ELSE<{
+      DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_int_cell PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      -ROT
+      DICTIDEL
+      DROP
+    }>ELSE<{
+      s1 s3 s3 XCHG3
+      DICTISETREF
+    }>
+  }>
+  $Market$_store PROCREF:<{
+    s13 s14 XCHG2
+    257 PUSHINT
+    STIX
+    s1 s11 XCHG
+    STSLICE
+    s1 s9 XCHG
+    257 PUSHINT
+    STIX
+    s0 s7 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s6 XCHG
+    257 PUSHINT
+    STIX
+    s1 s4 XCHG
+    257 PUSHINT
+    STIX
+    s0 s2 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    s0 s2 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s4 XCHG
+    257 PUSHINT
+    STIX
+    s1 s4 XCHG
+    257 PUSHINT
+    STIX
+    s0 s4 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s5 XCHG
+    STOPTREF
+    s1 s3 XCHG
+    STBREFR
+    STBREFR
+    STBREFR
+    STBREFR
+  }>
+  $Market$_store_cell PROCINLINE:<{
+    14 -ROLL
+    $Market$_store INLINECALLDICT
+    ENDC
+  }>
+  $Market$_load PROCREF:<{
+    257 PUSHINT
+    LDIX
+    LDMSGADDR
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDOPTREF
+    DROP
+    s11 s14 XCHG
+    s11 s13 XCHG
+    s11 s12 XCHG
+  }>
+  $Market$_as_optional PROCINLINE:<{
+        14 TUPLE
+  }>
+  $Market$_load_opt PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      CTOS
+      $Market$_load INLINECALLDICT
+      1 14 BLKDROP2
+      $Market$_as_optional INLINECALLDICT
+    }>
+  }>
+  $BetPosition$_store PROCINLINE:<{
+    s3 s4 XCHG2
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    1 STI
+    1 STI
+  }>
+  $BetPosition$_store_cell PROCINLINE:<{
+    4 -ROLL
+    $BetPosition$_store INLINECALLDICT
+    ENDC
+  }>
+  $BetPosition$_load PROCINLINE:<{
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    1 LDI
+    1 LDI
+    4 -ROLL
+  }>
+  $BetPosition$_as_optional PROCINLINE:<{
+        4 TUPLE
+  }>
+  $BetPosition$_load_opt PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      CTOS
+      $BetPosition$_load INLINECALLDICT
+      1 4 BLKDROP2
+      $BetPosition$_as_optional INLINECALLDICT
+    }>
+  }>
+  $PositionBook$_store PROCINLINE:<{
+    SWAP
+    STDICT
+  }>
+  $PositionBook$_store_cell PROCINLINE:<{
+    SWAP
+    $PositionBook$_store INLINECALLDICT
+    ENDC
+  }>
+  $PositionBook$_load PROCINLINE:<{
+    LDDICT
+    SWAP
+  }>
+  $PositionBook$_as_optional PROCINLINE:<{
+        1 TUPLE
+  }>
+  $PositionBook$_load_opt PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      CTOS
+      $PositionBook$_load INLINECALLDICT
+      NIP
+      $PositionBook$_as_optional INLINECALLDICT
+    }>
+  }>
+  $PredictionMarket$_store PROCINLINE:<{
+    s7 s8 XCHG2
+    STSLICE
+    s1 s5 XCHG
+    STSLICE
+    s1 s3 XCHG
+    STSLICE
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    STBREFR
+  }>
+  $PredictionMarket$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    LDMSGADDR
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDDICT
+    LDDICT
+    LDDICT
+    257 PUSHINT
+    LDIX
+    DROP
+    s5 s8 XCHG
+    s5 s7 XCHG
+    s5 s6 XCHG
+  }>
+  $Market$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+        14 UNTUPLE
+  }>
+  $Market$_to_tuple PROCINLINE:<{
+        14 TUPLE
+  }>
+  $Market$_to_opt_tuple PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      $Market$_not_null INLINECALLDICT
+      $Market$_to_tuple INLINECALLDICT
+    }>
+  }>
+  $Market$_to_opt_external PROCINLINE:<{
+    $Market$_to_opt_tuple INLINECALLDICT
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+    }>
+  }>
+  $BetPosition$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+        4 UNTUPLE
+  }>
+  $BetPosition$_to_tuple PROCINLINE:<{
+        4 TUPLE
+  }>
+  $BetPosition$_to_opt_tuple PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      $BetPosition$_not_null INLINECALLDICT
+      $BetPosition$_to_tuple INLINECALLDICT
+    }>
+  }>
+  $BetPosition$_to_opt_external PROCINLINE:<{
+    $BetPosition$_to_opt_tuple INLINECALLDICT
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+    }>
+  }>
+  $PositionBook$_get_entries PROCINLINE:<{
+  }>
+  $PositionBook$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+        1 UNTUPLE
+  }>
+  $PredictionMarket$init$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    LDMSGADDR
+    3 -ROLL
+  }>
+  $PredictionMarket$_contract_init PROCINLINE:<{
+    1 PUSHINT
+    PUSHNULL
+    PUSHNULL
+    PUSHNULL
+    0 PUSHINT
+  }>
+  $PredictionMarket$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $PredictionMarket$_load INLINECALLDICT
+      1 8 BLKDROP2
+    }>ELSE<{
+      $PredictionMarket$init$_load INLINECALLDICT
+      s0 s3 XCHG
+      ENDS
+      ROT
+      $PredictionMarket$_contract_init INLINECALLDICT
+    }>
+  }>
+  $PredictionMarket$_contract_store PROCINLINE:<{
+    NEWC
+    TRUE
+    SWAP
+    1 STI
+    8 -ROLL
+    $PredictionMarket$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $PredictionMarket$_fun_marketInfo PROCREF:<{
+    257 PUSHINT
+    s5 PUSH
+    s0 s2 XCHG
+    __tact_dict_get_int_cell INLINECALLDICT
+    $Market$_load_opt INLINECALLDICT
+  }>
+  $PredictionMarket$_fun_positionOf PROCREF:<{
+    257 PUSHINT
+    s5 s0 s2 PUXC2
+    __tact_dict_get_int_cell INLINECALLDICT
+    $PositionBook$_load_opt INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      2DROP
+      PUSHNULL
+    }>
+    $PositionBook$_not_null INLINECALLDICT
+    $PositionBook$_get_entries INLINECALLDICT
+    267 PUSHINT
+    ROT
+    __tact_dict_get_slice_cell INLINECALLDICT
+    $BetPosition$_load_opt INLINECALLDICT
+  }>
+  $PredictionMarket$_fun_creditOf PROCREF:<{
+    267 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    __tact_not_null INLINECALLDICT
+  }>
+  $SendParameters$_constructor_to_value_bounce_mode_body_code_data PROCINLINE:<{
+    s3 s6 XCHG
+    s5 s3 s3 XCHG3
+    s0 s4 XCHG
+  }>
+  $PredictionMarket$_fun_handleRewardPayouts PROCREF:<{
+    NIP
+    OVER
+    ISNULL
+    IF:<{
+      DROP
+      TRUE
+    }>ELSE<{
+      DUP
+      1 LESSINT
+      NIP
+    }>
+    IFJMP:<{
+      DROP
+    }>
+        NEWC
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      OVER
+          1 STI
+      DROP
+      SWAP
+      __tact_not_null INLINECALLDICT
+      OVER
+          STREF
+      DROP
+    }>ELSE<{
+      NIP
+      FALSE
+      OVER
+          1 STI
+      DROP
+    }>
+        ENDC
+    5000000 PUSHINT
+    FALSE
+    64 PUSHINT
+    s9 PUSH
+    s0 s4 XCHG
+    PUSHNULL
+    PUSHNULL
+    $SendParameters$_constructor_to_value_bounce_mode_body_code_data INLINECALLDICT
+        NEWC
+        b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+        1 STI               // store `bounce`
+        b{000} STSLICECONST // store bounced = false and src = addr_none
+        STSLICE             // store `to`
+        SWAP
+        STGRAMS             // store `value`
+        105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+        STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+        // → Stack state
+        // s0: Builder
+        // s1: `data`
+        // s2: `code`
+        // s3: `body`
+        // s4: `mode`
+        // Group 2: Placing the Builder after code and data, then checking those for nullability
+        s2 XCHG0
+        DUP2
+        ISNULL
+        SWAP
+        ISNULL
+        AND
+        // → Stack state
+        // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+        // s1: `code`
+        // s2: `data`
+        // s3: Builder
+        // s4: `body`
+        // s5: `mode`
+        // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+        <{
+            DROP2 // drop `data` and `code`, since either of those is null
+            b{0} STSLICECONST
+        }> PUSHCONT
+        // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+        <{
+            // _ split_depth:(Maybe (## 5))
+            //   special:(Maybe TickTock)
+            //   code:(Maybe ^Cell)
+            //   data:(Maybe ^Cell)
+            //   library:(Maybe ^Cell)
+            // = StateInit;
+            ROT                // place message Builder on top
+            b{10} STSLICECONST // store Maybe = true, Either = false
+            // Start composing inlined StateInit
+            b{00} STSLICECONST // store split_depth and special first
+            STDICT             // store code
+            STDICT             // store data
+            b{0} STSLICECONST  // store library
+        }> PUSHCONT
+        // Group 3: IFELSE that does the branching shown above
+        IFELSE
+        // → Stack state
+        // s0: Builder
+        // s1: null or StateInit
+        // s2: `body`
+        // s3: `mode`
+        // Group 4: Finalizing the message
+        STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+        ENDC
+        // → Stack state
+        // s0: Cell
+        // s1: `mode`
+        // Group 5: Sending the message, with `mode` on top
+        SWAP
+        SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+  }>
+  $PredictionMarket$_fun_handleSlashList PROCREF:<{
+    DROP
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+    }>
+        NEWC
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      OVER
+          1 STI
+      DROP
+      SWAP
+      __tact_not_null INLINECALLDICT
+      OVER
+          STREF
+      DROP
+    }>ELSE<{
+      NIP
+      FALSE
+      OVER
+          1 STI
+      DROP
+    }>
+        ENDC
+    5000000 PUSHINT
+    FALSE
+    64 PUSHINT
+    s9 PUSH
+    s0 s4 XCHG
+    PUSHNULL
+    PUSHNULL
+    $SendParameters$_constructor_to_value_bounce_mode_body_code_data INLINECALLDICT
+        NEWC
+        b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+        1 STI               // store `bounce`
+        b{000} STSLICECONST // store bounced = false and src = addr_none
+        STSLICE             // store `to`
+        SWAP
+        STGRAMS             // store `value`
+        105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+        STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+        // → Stack state
+        // s0: Builder
+        // s1: `data`
+        // s2: `code`
+        // s3: `body`
+        // s4: `mode`
+        // Group 2: Placing the Builder after code and data, then checking those for nullability
+        s2 XCHG0
+        DUP2
+        ISNULL
+        SWAP
+        ISNULL
+        AND
+        // → Stack state
+        // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+        // s1: `code`
+        // s2: `data`
+        // s3: Builder
+        // s4: `body`
+        // s5: `mode`
+        // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+        <{
+            DROP2 // drop `data` and `code`, since either of those is null
+            b{0} STSLICECONST
+        }> PUSHCONT
+        // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+        <{
+            // _ split_depth:(Maybe (## 5))
+            //   special:(Maybe TickTock)
+            //   code:(Maybe ^Cell)
+            //   data:(Maybe ^Cell)
+            //   library:(Maybe ^Cell)
+            // = StateInit;
+            ROT                // place message Builder on top
+            b{10} STSLICECONST // store Maybe = true, Either = false
+            // Start composing inlined StateInit
+            b{00} STSLICECONST // store split_depth and special first
+            STDICT             // store code
+            STDICT             // store data
+            b{0} STSLICECONST  // store library
+        }> PUSHCONT
+        // Group 3: IFELSE that does the branching shown above
+        IFELSE
+        // → Stack state
+        // s0: Builder
+        // s1: null or StateInit
+        // s2: `body`
+        // s3: `mode`
+        // Group 4: Finalizing the message
+        STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+        ENDC
+        // → Stack state
+        // s0: Cell
+        // s1: `mode`
+        // Group 5: Sending the message, with `mode` on top
+        SWAP
+        SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+  }>
+  $PredictionMarket$_fun_creditUser PROCREF:<{
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      2DROP
+    }>
+    s3 PUSH
+    267 PUSHINT
+    s3 PUSH
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    2DUP
+    ISNULL
+    NOT
+    IF:<{
+      DROP
+      __tact_not_null INLINECALLDICT
+      SWAP
+      ADD
+    }>ELSE<{
+      2 1 BLKDROP2
+    }>
+    s2 s3 XCHG
+    267 PUSHINT
+    -ROT
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+    SWAP
+  }>
+  $PredictionMarket$_fun_ensureAdmin PROCREF:<{
+    45917 PUSHINT
+    __tact_context_get_sender INLINECALLDICT
+    s9 PUSH
+    SDEQ
+    THROWANYIFNOT
+  }>
+  $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata PROCINLINE:<{
+  }>
+  $PositionBook$_constructor_entries PROCINLINE:<{
+  }>
+  $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo PROCINLINE:<{
+  }>
+  %marketInfo PROC:<{
+    $PredictionMarket$_contract_load INLINECALLDICT
+    8 ROLL
+    $PredictionMarket$_fun_marketInfo INLINECALLDICT
+    8 1 BLKDROP2
+    $Market$_to_opt_external INLINECALLDICT
+  }>
+  %positionOf PROC:<{
+    $PredictionMarket$_contract_load INLINECALLDICT
+    2 8 BLKSWAP
+    $PredictionMarket$_fun_positionOf INLINECALLDICT
+    8 1 BLKDROP2
+    $BetPosition$_to_opt_external INLINECALLDICT
+  }>
+  %creditOf PROC:<{
+    $PredictionMarket$_contract_load INLINECALLDICT
+    8 ROLL
+    $PredictionMarket$_fun_creditOf INLINECALLDICT
+    8 1 BLKDROP2
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $PredictionMarket$_contract_load INLINECALLDICT
+    s0 s9 XCHG
+    IFJMP:<{
+      9 BLKDROP
+    }>
+    0 PUSHINT
+    s8 PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 s8 XCHG
+      32 LDU
+      s0 s9 XCHG
+    }>
+    OVER
+    2253082016 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      LDOPTREF
+      DROP
+      __tact_context_get_sender INLINECALLDICT
+      60218 PUSHINT
+      s4 PUSH
+      1000 PUSHINT
+      GEQ
+      THROWANYIFNOT
+      25335 PUSHINT
+          NOW
+      s6 s(-1) PUXC
+      GREATER
+      THROWANYIFNOT
+      s2 PUSH
+      1 LESSINT
+      IF:<{
+        TRUE
+      }>ELSE<{
+        s2 PUSH
+        500 PUSHINT
+        GREATER
+      }>
+      IF:<{
+        200 PUSHINT
+        s3 POP
+      }>
+      s7 PUSH
+      INC
+      0 PUSHINT
+      s0 s0 s0 PUSH3
+      100 PUSHINT
+      s1 s1 s1 PUSH3
+      16 s() PUSH
+      s0 s13 XCHG
+      s10 s12 XCHG
+      s11 s14 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s0 s8 XCHG
+      s6 s7 XCHG
+      s0 s5 XCHG
+      s0 s6 XCHG
+      s0 s14 XCHG
+      $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata INLINECALLDICT
+      s12 s13 XCHG
+      s11 s13 XCHG
+      s10 s13 XCHG
+      s9 s13 XCHG
+      s0 s13 XCHG
+      s0 s8 XCHG
+      s0 s7 XCHG
+      s0 s6 XCHG
+      s0 s5 XCHG
+      s0 s4 XCHG
+      s3 s1 s3 XCHG3
+      257 PUSHINT
+      s2 s14 XCHG2
+      NEWC
+      $Market$_store_cell INLINECALLDICT
+      s3 s4 XCHG
+      s1 s5 s0 XCHG3
+      __tact_dict_set_int_cell INLINECALLDICT
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s1 s4 s3 XCHG3
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    OVER
+    910216531 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      __tact_context_get_sender INLINECALLDICT
+      60082 PUSHINT
+      s2 PUSH
+      9 GTINT
+      THROWANYIFNOT
+      38657 PUSHINT
+      s3 PUSH
+      1 EQINT
+      IF:<{
+        TRUE
+      }>ELSE<{
+        s3 PUSH
+        2 EQINT
+      }>
+      THROWANYIFNOT
+      s5 PUSH
+      257 PUSHINT
+      s5 PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $Market$_load_opt INLINECALLDICT
+      23784 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $Market$_not_null INLINECALLDICT
+      41726 PUSHINT
+      s11 PUSH
+      0 EQINT
+      THROWANYIFNOT
+      61685 PUSHINT
+          NOW
+      s13 PUSH
+      LESS
+      THROWANYIFNOT
+      s15 s5 PUSH2
+      MUL
+      10000 PUSHINT
+      DIV
+      DUP
+      0 LESSINT
+      IF:<{
+        DROP
+        0 PUSHINT
+      }>
+      s0 s5 PUSH2
+      MUL
+      10000 PUSHINT
+      DIV
+      DUP
+      0 LESSINT
+      IF:<{
+        DROP
+        0 PUSHINT
+      }>
+      s0 s1 PUSH2
+      GREATER
+      IF:<{
+        DROP
+        DUP
+      }>
+      s0 17 s() XCHG
+      OVER
+      SUB
+      23551 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      18 s() PUSH
+      1 EQINT
+      IF:<{
+        s9 s9 XCPU
+        ADD
+      }>ELSE<{
+        s8 s8 XCPU
+        ADD
+        s0 s8 XCHG
+        s0 s9 XCHG
+      }>
+      OVER
+      18 s() PUSH
+      SUB
+      s1 s6 XCHG
+      ADD
+      s0 s4 XCHG
+      17 s() PUSH
+      ADD
+      s0 17 s() XCHG
+      SUB
+      s1 26 s() XCHG
+      ADD
+      18 s() PUSH
+      257 PUSHINT
+      19 s() PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $PositionBook$_load_opt INLINECALLDICT
+      PUSHNULL
+      $PositionBook$_constructor_entries INLINECALLDICT
+      OVER
+      ISNULL
+      NOT
+      IF:<{
+        DROP
+        $PositionBook$_not_null INLINECALLDICT
+      }>ELSE<{
+        NIP
+      }>
+      DUP
+      267 PUSHINT
+      17 s() PUSH
+      __tact_dict_get_slice_cell INLINECALLDICT
+      $BetPosition$_load_opt INLINECALLDICT
+      0 PUSHINT
+      DUP
+      FALSE
+      FALSE
+      $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo INLINECALLDICT
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        4 BLKDROP
+        $BetPosition$_not_null INLINECALLDICT
+        3 -ROLL
+      }>ELSE<{
+        s4 POP
+      }>
+      s0 21 s() XCHG
+      1 EQINT
+      IF:<{
+        s0 s11 XCHG
+        ADD
+      }>ELSE<{
+        s0 s11 XCHG2
+        ADD
+        s0 s10 XCHG
+      }>
+      s0 s2 XCHG
+      s0 19 s() XCHG
+      s1 s10 XCHG
+      267 PUSHINT
+      s0 s11 XCHG
+      NEWC
+      $BetPosition$_store_cell INLINECALLDICT
+      s3 17 s() XCHG
+      s8 s15 s0 XCHG3
+      __tact_dict_set_slice_cell INLINECALLDICT
+      257 PUSHINT
+      SWAP
+      NEWC
+      $PositionBook$_store_cell INLINECALLDICT
+      s2 17 s() XCHG
+      16 s() PUSH
+      SWAP
+      __tact_dict_set_int_cell INLINECALLDICT
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s6 s15 XCHG
+      s3 s5 XCHG
+      s4 s1 s13 XCHG3
+      2SWAP
+      s1 s15 XCHG
+      257 PUSHINT
+      s0 23 s() XCHG
+      NEWC
+      $Market$_store_cell INLINECALLDICT
+      s3 s4 XCHG
+      s10 s10 s0 XCHG3
+      __tact_dict_set_int_cell INLINECALLDICT
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s1 s3 XCHG3
+      -ROT
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1958838370 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      s6 s7 XCHG
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s8 XCHG3
+      $PredictionMarket$_fun_ensureAdmin INLINECALLDICT
+      s3 PUSH
+      257 PUSHINT
+      s10 PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $Market$_load_opt INLINECALLDICT
+      23784 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $Market$_not_null INLINECALLDICT
+      26038 PUSHINT
+      s0 s11 XCHG
+      0 EQINT
+      s1 s11 XCHG
+      THROWANYIFNOT
+          NOW
+      s11 PUSH
+      LESS
+      IF:<{
+        s10 POP
+            NOW
+        s0 s10 XCHG
+      }>
+      s11 s12 XCHG
+      s10 s12 XCHG
+      s9 s12 XCHG
+      1 PUSHINT
+      s0 s9 XCHG
+      s0 s8 XCHG
+      s0 s7 XCHG
+      s0 s6 XCHG
+      s0 s5 XCHG
+      s0 s4 XCHG
+      s3 s1 s3 XCHG3
+      257 PUSHINT
+      s2 s14 XCHG2
+      NEWC
+      $Market$_store_cell INLINECALLDICT
+      s3 s5 XCHG
+      s1 s10 s0 XCHG3
+      __tact_dict_set_int_cell INLINECALLDICT
+      s6 s7 XCHG
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s0 s3 XCHG
+      s2 s4 XCHG2
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2010051374 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      LDOPTREF
+      LDOPTREF
+      DROP
+      s7 s10 XCHG
+      s6 s9 XCHG
+      s5 s8 XCHG
+      s4 s10 XCHG
+      s3 s9 XCHG
+      s8 s11 s12 XCHG3
+      $PredictionMarket$_fun_ensureAdmin INLINECALLDICT
+      s3 PUSH
+      257 PUSHINT
+      s12 PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $Market$_load_opt INLINECALLDICT
+      23784 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $Market$_not_null INLINECALLDICT
+      NIP
+      s8 POP
+      9429 PUSHINT
+      s9 PUSH
+      0 EQINT
+      IF:<{
+        s9 POP
+        TRUE
+      }>ELSE<{
+        s0 s9 XCHG
+        1 EQINT
+      }>
+      s1 s9 XCHG
+      THROWANYIFNOT
+      61831 PUSHINT
+      21 s() PUSH
+      1 EQINT
+      IF:<{
+        TRUE
+      }>ELSE<{
+        21 s() PUSH
+        2 EQINT
+      }>
+      IF:<{
+        TRUE
+      }>ELSE<{
+        21 s() PUSH
+        3 EQINT
+      }>
+      THROWANYIFNOT
+      20 s() PUSH
+      3 EQINT
+      IF:<{
+        3 PUSHINT
+      }>ELSE<{
+        2 PUSHINT
+      }>
+          NOW
+      s0 21 s() XCHG
+      s7 PUSH
+          MIN
+      DUP
+      0 GTINT
+      IF:<{
+        s7 s7 XCPU
+        SUB
+        s13 s7 XCHG2
+        ADD
+        s0 s12 XCHG
+      }>ELSE<{
+        DROP
+      }>
+      s8 19 s() XCHG
+      s7 18 s() XCHG
+      s6 17 s() XCHG
+      s5 16 s() XCHG
+      s4 s15 XCHG
+      s3 s14 XCHG
+      s13 s12 s0 XCHG3
+      s10 s(-1) PUXC
+      s0 18 s() XCHG
+      $PredictionMarket$_fun_creditUser INLINECALLDICT
+      8 ROLL
+      s0 22 s() XCHG
+      21 s() PUSH
+      0 PUSHINT
+      s0 20 s() XCHG
+      $PredictionMarket$_fun_handleRewardPayouts INLINECALLDICT
+      17 s() PUSH
+      s0 23 s() XCHG
+      21 s() PUSH
+      $PredictionMarket$_fun_handleSlashList INLINECALLDICT
+      s9 s12 XCHG
+      s8 s11 XCHG
+      s10 21 s() XCHG
+      s9 s15 XCHG
+      s8 19 s() XCHG
+      s7 17 s() XCHG
+      s6 s14 XCHG
+      s5 s13 XCHG
+      s4 s15 XCHG
+      s3 19 s() XCHG
+      s2 21 s() XCHG
+      s1 22 s() XCHG
+      s0 18 s() XCHG
+      257 PUSHINT
+      s0 17 s() XCHG
+      NEWC
+      $Market$_store_cell INLINECALLDICT
+      s3 s7 XCHG
+      s4 s8 s0 XCHG3
+      __tact_dict_set_int_cell INLINECALLDICT
+      s7 s6 s3 XCHG3
+      s1 s2 XCHG
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1905316452 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      __tact_context_get_sender INLINECALLDICT
+      s3 PUSH
+      257 PUSHINT
+      s3 PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $Market$_load_opt INLINECALLDICT
+      23784 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $Market$_not_null INLINECALLDICT
+      6 BLKDROP
+      s2 POP
+      s4 POP
+      s4 POP
+      s4 POP
+      39367 PUSHINT
+      OVER
+      2 EQINT
+      IF:<{
+        TRUE
+      }>ELSE<{
+        OVER
+        3 EQINT
+      }>
+      THROWANYIFNOT
+      s6 PUSH
+      257 PUSHINT
+      s7 PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $PositionBook$_load_opt INLINECALLDICT
+      51548 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $PositionBook$_not_null INLINECALLDICT
+      DUP
+      267 PUSHINT
+      s7 PUSH
+      __tact_dict_get_slice_cell INLINECALLDICT
+      $BetPosition$_load_opt INLINECALLDICT
+      60278 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $BetPosition$_not_null INLINECALLDICT
+      0 PUSHINT
+      s0 s2 s1 PUSH3
+      s0 s9 XCHG
+      3 EQINT
+      IF:<{
+        s9 POP
+        s9 POP
+        s9 POP
+        s3 PUSH
+        0 GTINT
+        IF:<{
+          SWAP
+          NOT
+        }>ELSE<{
+          NIP
+          FALSE
+        }>
+        IF:<{
+          s5 POP
+          s6 POP
+          s0 s5 PUXC
+          TRUE
+          s0 s5 XCHG
+        }>
+        OVER
+        0 GTINT
+        IF:<{
+          NOT
+        }>ELSE<{
+          DROP
+          FALSE
+        }>
+        IF:<{
+          s3 POP
+          s4 POP
+          s1 s0 s3 PUXC2
+          TRUE
+          s0 s3 XCHG
+        }>
+      }>ELSE<{
+        s11 PUSH
+        1 EQINT
+        IF:<{
+          s6 PUSH
+          0 GTINT
+        }>ELSE<{
+          FALSE
+        }>
+        IF:<{
+          s0 s4 XCHG
+          NOT
+        }>ELSE<{
+          s4 POP
+          FALSE
+        }>
+        IF:<{
+          NIP
+          s2 POP
+          3395 PUSHINT
+          s7 PUSH
+          0 GTINT
+          THROWANYIFNOT
+          s3 s7 PUSH2
+          MUL
+          s7 PUSH
+          DIV
+          s4 s(-1) PUXC
+          ADD
+          TRUE
+          s0 s3 XCHG
+        }>
+        s0 s10 XCHG
+        2 EQINT
+        IF:<{
+          s3 PUSH
+          0 GTINT
+        }>ELSE<{
+          FALSE
+        }>
+        IF:<{
+          SWAP
+          NOT
+        }>ELSE<{
+          NIP
+          FALSE
+        }>
+        IF:<{
+          s5 POP
+          s7 POP
+          3395 PUSHINT
+          s6 PUSH
+          0 GTINT
+          THROWANYIFNOT
+          s0 s4 PUXC
+          MUL
+          s0 s5 XCHG2
+          DIV
+          s3 s(-1) PUXC
+          ADD
+          s0 s5 XCHG
+          s3 s1 s4 XCHG3
+          TRUE
+          s0 s3 XCHG
+        }>ELSE<{
+          s6 POP
+          s6 POP
+        }>
+        s4 s6 XCHG
+        s4 s5 XCHG
+      }>
+      s6 s5 XCHG2
+      ADD
+      21744 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      4 2 BLKSWAP
+      $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo INLINECALLDICT
+      s3 s1 s3 XCHG3
+      267 PUSHINT
+      s2 s4 XCHG2
+      NEWC
+      $BetPosition$_store_cell INLINECALLDICT
+      s4 PUSH
+      s3 s4 XCHG
+      SWAP
+      __tact_dict_set_slice_cell INLINECALLDICT
+      257 PUSHINT
+      SWAP
+      NEWC
+      $PositionBook$_store_cell INLINECALLDICT
+      s3 s5 XCHG
+      s1 s4 s0 XCHG3
+      __tact_dict_set_int_cell INLINECALLDICT
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      4 -ROLL
+      $PredictionMarket$_fun_creditUser INLINECALLDICT
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1501672126 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      __tact_context_get_sender INLINECALLDICT
+      257 PUSHINT
+      s4 s0 s2 PUXC2
+      __tact_dict_get_int_cell INLINECALLDICT
+      $Market$_load_opt INLINECALLDICT
+      23784 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $Market$_not_null INLINECALLDICT
+      s10 s11 XCHG
+      11 BLKDROP
+      s2 POP
+      52287 PUSHINT
+      s0 s3 XCHG
+      SDEQ
+      s1 s2 XCHG
+      THROWANYIFNOT
+      54749 PUSHINT
+      OVER
+      2 EQINT
+      IF:<{
+        NIP
+        TRUE
+      }>ELSE<{
+        SWAP
+        3 EQINT
+      }>
+      THROWANYIFNOT
+      s5 s7 XCHG
+      2 5 BLKSWAP
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1579076871 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s7 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      s6 s7 XCHG
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s8 XCHG3
+      $PredictionMarket$_fun_ensureAdmin INLINECALLDICT
+      s3 PUSH
+      257 PUSHINT
+      s10 PUSH
+      __tact_dict_get_int_cell INLINECALLDICT
+      $Market$_load_opt INLINECALLDICT
+      23784 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $Market$_not_null INLINECALLDICT
+      NIP
+      s8 POP
+      9429 PUSHINT
+      s9 PUSH
+      0 EQINT
+      IF:<{
+        s9 POP
+        TRUE
+      }>ELSE<{
+        s0 s9 XCHG
+        1 EQINT
+      }>
+      s1 s9 XCHG
+      THROWANYIFNOT
+      3 PUSHINT
+      DUP
+          NOW
+      s8 21 s() XCHG
+      s7 20 s() XCHG
+      s6 19 s() XCHG
+      s5 18 s() XCHG
+      s4 17 s() XCHG
+      s3 16 s() XCHG
+      s15 s14 s0 XCHG3
+      s12 s(-1) PUXC
+      s0 22 s() XCHG
+      $PredictionMarket$_fun_creditUser INLINECALLDICT
+      s11 s12 XCHG
+      s10 s12 XCHG
+      s9 s12 XCHG
+      s8 s14 XCHG
+      s7 s13 XCHG
+      0 PUSHINT
+      s0 s7 XCHG
+      s6 20 s() XCHG
+      s5 19 s() XCHG
+      s4 18 s() XCHG
+      s3 17 s() XCHG
+      s2 16 s() XCHG
+      s0 21 s() XCHG
+      s1 s13 XCHG
+      257 PUSHINT
+      s0 16 s() XCHG
+      NEWC
+      $Market$_store_cell INLINECALLDICT
+      s3 s6 XCHG
+      s6 s10 s0 XCHG3
+      __tact_dict_set_int_cell INLINECALLDICT
+      s0 s3 XCHG
+      s0 s7 XCHG
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    s9 POP
+    DUP
+    539044870 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      s7 POP
+      s5 s7 XCHG
+      2 5 BLKSWAP
+      $PredictionMarket$_fun_ensureAdmin INLINECALLDICT
+      DUP
+      0 GTINT
+      IF:<{
+        s6 s0 PUSH2
+        $PredictionMarket$_fun_creditUser INLINECALLDICT
+        DROP
+        0 PUSHINT
+      }>
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    0 EQINT
+    s0 s8 XCHG
+    33 LESSINT
+    s1 s8 XCHG
+    AND
+    IFJMP:<{
+      s5 s7 XCHG
+      2 5 BLKSWAP
+      $PredictionMarket$_contract_store INLINECALLDICT
+    }>
+    8 BLKDROP
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c

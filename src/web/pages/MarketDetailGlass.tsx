@@ -12,6 +12,9 @@ import { marketDetailQuery } from '@/queries/marketDetail';
 import { useI18n } from '@/hooks/useI18n';
 import { useTheme } from '@/providers/ThemeProvider';
 import { formatTAI } from '@/utils/format';
+import { MarketNewsDrawer } from '@/components/market/MarketNewsDrawer';
+import { LazyOddsChart } from '@/components/market-detail/LazyOddsChart';
+import { LazyComments } from '@/components/market-detail/LazyComments';
 
 function shorten(address: string): string {
   if (!address) return '';
@@ -87,10 +90,78 @@ export function MarketDetailGlass() {
     <GlassPageLayout>
       <div className="space-y-6 pb-12">
         <SystemInfoGlass data={data.systemInfo} />
+
+        {data.systemInfo.referenceUrl ? (
+          <AuroraPanel
+            variant="violet"
+            className={clsx(
+              'flex flex-col gap-3 p-5',
+              isLight ? 'text-slate-700' : 'text-white/80',
+            )}
+          >
+            <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+              <div>
+                <p className={clsx('text-xs uppercase tracking-[0.3em]', isLight ? 'text-slate-500' : 'text-white/50')}>
+                  {t('detail:reference.title')}
+                </p>
+                <h4 className={clsx('mt-1 text-lg font-semibold', isLight ? 'text-slate-900' : 'text-white')}>
+                  {t('detail:reference.subtitle')}
+                </h4>
+              </div>
+              <a
+                href={data.systemInfo.referenceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={clsx(
+                  'inline-flex items-center gap-2 rounded-full px-4 py-1 text-xs font-medium transition',
+                  isLight
+                    ? 'border border-violet-200 bg-white/90 text-violet-600 shadow-[0_12px_24px_-22px_rgba(139,92,246,0.35)] hover:text-violet-700'
+                    : 'border border-white/15 bg-white/10 text-white/80 hover:text-white',
+                )}
+              >
+                {t('detail:reference.viewSource')}
+              </a>
+            </div>
+            {data.systemInfo.referenceSummary ? (
+              <p className={clsx('text-sm leading-relaxed', isLight ? 'text-slate-600' : 'text-white/70')}>
+                {data.systemInfo.referenceSummary}
+              </p>
+            ) : (
+              <p className={clsx('text-sm italic', isLight ? 'text-slate-400' : 'text-white/50')}>
+                {t('detail:reference.emptySummary')}
+              </p>
+            )}
+
+            {data.systemInfo.tags.length > 0 ? (
+              <div className="flex flex-wrap gap-2 pt-1 text-xs">
+                <span className={clsx('uppercase tracking-[0.25em]', isLight ? 'text-slate-400' : 'text-white/40')}>
+                  {t('detail:reference.tags')}
+                </span>
+                {data.systemInfo.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className={clsx(
+                      'rounded-full border px-3 py-1 font-medium',
+                      isLight
+                        ? 'border-violet-200 bg-white text-violet-600'
+                        : 'border-white/15 bg-white/10 text-white/80',
+                    )}
+                  >
+                    #{t(`detail:tagCopy.${tag}`, { defaultValue: tag })}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+          </AuroraPanel>
+        ) : null}
+
+        <MarketNewsDrawer marketId={id} tags={data.systemInfo.tags} />
         <BetModalGlass
           data={data.betModal}
           odds={{ yes: data.systemInfo.yesOdds, no: data.systemInfo.noOdds }}
         />
+
+        <LazyOddsChart marketId={id} />
 
         <AuroraPanel
           variant="emerald"
@@ -294,6 +365,8 @@ export function MarketDetailGlass() {
           </div>
         )}
         </AuroraPanel>
+
+        <LazyComments marketId={id} />
       </div>
     </GlassPageLayout>
   );

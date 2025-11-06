@@ -6,7 +6,12 @@ const TELEGRAM_BASE_URL = 'https://api.telegram.org';
 
 function getBotToken(): string | null {
   const token = process.env.TELEGRAM_ADMIN_BOT_TOKEN;
-  if (!token || token.includes('test') || token.includes('placeholder')) {
+  if (
+    !token ||
+    token.includes('test') ||
+    token.includes('placeholder') ||
+    token.startsWith('your-')
+  ) {
     return null;
   }
   return token;
@@ -33,7 +38,12 @@ async function callTelegramApi(path: string, payload: Record<string, unknown>): 
       console.warn(`Telegram API responded with ${response.status}: ${body}`);
     }
   } catch (error) {
-    console.error('Failed to call Telegram API:', error);
+    const message = error instanceof Error ? error.message : String(error);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Failed to call Telegram API:', message);
+    } else {
+      console.warn('[telegram] skipped sending message:', message);
+    }
   }
 }
 

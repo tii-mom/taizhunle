@@ -189,9 +189,15 @@ export function ExpandedPrediction({ card, onPlaceBet }: Props) {
           </button>
 
           {projectedOdds && (
-            <p className="text-center text-xs text-text-secondary">
-              {t('bet.projected')}: {formatTON(betAmount * (selectedSide === 'yes' ? projectedOdds.yesOdds : projectedOdds.noOdds))} TAI
-            </p>
+            <div className="space-y-1 text-center text-xs text-text-secondary">
+              <p>
+                {t('bet.projected')}: {formatTON(projectedOdds.effectiveStake * (selectedSide === 'yes' ? projectedOdds.yesOdds : projectedOdds.noOdds))} TAI
+              </p>
+              <p>{t('bet.effectiveStake', { value: formatTON(projectedOdds.effectiveStake) })}</p>
+              {projectedOdds.impactFee > 0 && (
+                <p>{t('bet.impactFee', { value: formatTON(projectedOdds.impactFee) })}</p>
+              )}
+            </div>
           )}
         </div>
       )}

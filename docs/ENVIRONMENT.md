@@ -102,9 +102,9 @@ OFFICIAL_RAIN_MAX_BONUS=100000        # 最大随机奖励
 ```env
 PREDICTION_MIN_POOL=1000000           # 最小奖池 (100万 TAI)
 PREDICTION_FEE_RATE=0.05              # 手续费率 5%
-PREDICTION_CREATOR_FEE=0.015          # 创建者分成 1.5%
-PREDICTION_REFERRAL_FEE=0.015         # 邀请奖励 1.5%
-PREDICTION_PLATFORM_FEE=0.02          # 平台分成 2%
+PREDICTION_CREATOR_FEE=0.01           # 创建者分成 1%
+PREDICTION_REFERRAL_FEE=0.005         # 邀请奖励 0.5%
+PREDICTION_PLATFORM_FEE=0.01          # 平台分成 1%
 ENFORCE_CREATION_BALANCE=false        # 是否强制扣减创建奖励（生产建议开启）
 ```
 

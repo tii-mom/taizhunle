@@ -9,6 +9,9 @@ import { marketsRouter } from './routes/markets.js';
 import daoRouter from './routes/dao.js';
 import inviteRouter from './routes/invite.js';
 import rankingRouter from './routes/ranking.js';
+import marketInsightsRouter from './routes/marketInsights.js';
+import whitelistRouter from './routes/whitelist.js';
+import oddsStreamRouter from './routes/oddsStream.js';
 
 // 检查环境变量
 if (!checkRequiredEnv()) {
@@ -91,6 +94,9 @@ app.use('/api/markets', marketsRouter);
 app.use('/api/dao', daoRouter);
 app.use('/api/invite', inviteRouter);
 app.use('/api/ranking', rankingRouter);
+app.use('/api/whitelist', whitelistRouter);
+app.use('/api/odds-stream', oddsStreamRouter);
+app.use('/api', marketInsightsRouter);
 
 // 错误处理中间件
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {

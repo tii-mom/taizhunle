@@ -1,0 +1,1048 @@
+// automatically generated from `@stdlib/std/stdlib.fc` `/Users/yudeyou/Desktop/666/taizhunle/contracts/build/JurorStaking/JurorStaking_JurorStaking.fc` 
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_dict_get_slice_int
+  DECLPROC __tact_dict_set_slice_int
+  DECLPROC __tact_dict_get_slice_cell
+  DECLPROC __tact_dict_set_slice_cell
+  DECLPROC $StakeInfo$_store
+  DECLPROC $StakeInfo$_store_cell
+  DECLPROC $StakeInfo$_load
+  DECLPROC $StakeInfo$_as_optional
+  DECLPROC $StakeInfo$_load_opt
+  DECLPROC $JurorStaking$_store
+  DECLPROC $JurorStaking$_load
+  DECLPROC $StakeInfo$_get_amount
+  DECLPROC $StakeInfo$_not_null
+  DECLPROC $StakeInfo$_to_tuple
+  DECLPROC $StakeInfo$_to_opt_tuple
+  DECLPROC $StakeInfo$_to_opt_external
+  DECLPROC $JurorStaking$init$_load
+  DECLPROC $JurorStaking$_contract_init
+  DECLPROC $JurorStaking$_contract_load
+  DECLPROC $JurorStaking$_contract_store
+  DECLPROC $JurorStaking$_fun_stakeOf
+  DECLPROC $JurorStaking$_fun_stakeAmountOf
+  DECLPROC $JurorStaking$_fun_stakeDaysOf
+  DECLPROC $JurorStaking$_fun_whitelistQuotaOf
+  DECLPROC $JurorStaking$_fun_rewardCreditOf
+  DECLPROC $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points
+  DECLPROC $JurorStaking$_fun_settleStake
+  DECLPROC $JurorStaking$_fun_creditReward
+  DECLPROC $JurorStaking$_fun_processPayoutList
+  DECLPROC $JurorStaking$_fun_ensureAdmin
+  DECLPROC $JurorStaking$_fun_ensurePrediction
+  DECLPROC $JurorStaking$_fun_ensureNotPaused
+  DECLPROC $JurorStaking$_fun_ensureNotSuspended
+  101015 DECLMETHOD %stakeOf
+  101466 DECLMETHOD %stakeAmountOf
+  118148 DECLMETHOD %stakeDaysOf
+  113129 DECLMETHOD %whitelistQuotaOf
+  100340 DECLMETHOD %rewardCreditOf
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_dict_get_slice_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+        DICTGET NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_slice_int PROCINLINE:<{
+    OVER
+    ISNULL
+    IF:<{
+      2DROP
+      -ROT
+          DICTDEL
+      DROP
+    }>ELSE<{
+      NEWC
+      SWAP
+      STIX
+      s1 s3 s3 XCHG3
+      DICTSETB
+    }>
+  }>
+  __tact_dict_get_slice_cell PROCINLINE:<{
+    -ROT
+        DICTGETREF NULLSWAPIFNOT
+    IF:<{
+    }>ELSE<{
+      DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_slice_cell PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      -ROT
+          DICTDEL
+      DROP
+    }>ELSE<{
+      s1 s3 s3 XCHG3
+          DICTSETREF
+    }>
+  }>
+  $StakeInfo$_store PROCINLINE:<{
+    s6 s7 XCHG2
+    257 PUSHINT
+    STIX
+    s1 s4 XCHG
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    s0 s2 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    STBREFR
+    STBREFR
+  }>
+  $StakeInfo$_store_cell PROCINLINE:<{
+    7 -ROLL
+    $StakeInfo$_store INLINECALLDICT
+    ENDC
+  }>
+  $StakeInfo$_load PROCINLINE:<{
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    DROP
+    s4 s7 XCHG
+    s4 s6 XCHG
+    s4 s5 XCHG
+  }>
+  $StakeInfo$_as_optional PROCINLINE:<{
+        7 TUPLE
+  }>
+  $StakeInfo$_load_opt PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      CTOS
+      $StakeInfo$_load INLINECALLDICT
+      1 7 BLKDROP2
+      $StakeInfo$_as_optional INLINECALLDICT
+    }>
+  }>
+  $JurorStaking$_store PROCINLINE:<{
+    s6 s7 XCHG2
+    STSLICE
+    s1 s4 XCHG
+    STSLICE
+    s1 s2 XCHG
+    STSLICE
+    1 STI
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    STDICT
+    s1 s2 XCHG
+    STDICT
+    STBREFR
+  }>
+  $JurorStaking$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    LDMSGADDR
+    1 LDI
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDDICT
+    LDDICT
+    DROP
+    s3 s7 XCHG
+    s3 s6 XCHG
+    s3 s5 XCHG
+    s3 s4 XCHG
+  }>
+  $StakeInfo$_get_amount PROCINLINE:<{
+    6 BLKDROP
+  }>
+  $StakeInfo$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+        7 UNTUPLE
+  }>
+  $StakeInfo$_to_tuple PROCINLINE:<{
+        7 TUPLE
+  }>
+  $StakeInfo$_to_opt_tuple PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      $StakeInfo$_not_null INLINECALLDICT
+      $StakeInfo$_to_tuple INLINECALLDICT
+    }>
+  }>
+  $StakeInfo$_to_opt_external PROCINLINE:<{
+    $StakeInfo$_to_opt_tuple INLINECALLDICT
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+    }>
+  }>
+  $JurorStaking$init$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    LDMSGADDR
+    3 -ROLL
+  }>
+  $JurorStaking$_contract_init PROCINLINE:<{
+    FALSE
+    0 PUSHINT
+    PUSHNULL
+    PUSHNULL
+  }>
+  $JurorStaking$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $JurorStaking$_load INLINECALLDICT
+      1 7 BLKDROP2
+    }>ELSE<{
+      $JurorStaking$init$_load INLINECALLDICT
+      s0 s3 XCHG
+      ENDS
+      ROT
+      $JurorStaking$_contract_init INLINECALLDICT
+    }>
+  }>
+  $JurorStaking$_contract_store PROCINLINE:<{
+    NEWC
+    TRUE
+    SWAP
+    1 STI
+    7 -ROLL
+    $JurorStaking$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $JurorStaking$_fun_stakeOf PROCREF:<{
+    267 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    __tact_dict_get_slice_cell INLINECALLDICT
+    $StakeInfo$_load_opt INLINECALLDICT
+  }>
+  $JurorStaking$_fun_stakeAmountOf PROCREF:<{
+    267 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    __tact_dict_get_slice_cell INLINECALLDICT
+    $StakeInfo$_load_opt INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    $StakeInfo$_not_null INLINECALLDICT
+    $StakeInfo$_get_amount INLINECALLDICT
+  }>
+  $JurorStaking$_fun_stakeDaysOf PROCREF:<{
+    267 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    __tact_dict_get_slice_cell INLINECALLDICT
+    $StakeInfo$_load_opt INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    $StakeInfo$_not_null INLINECALLDICT
+    4 BLKDROP
+    0 PUSHINT
+    s0 s3 XCHG
+    0 GTINT
+    IF:<{
+      s2 POP
+          NOW
+      ROT
+      SUB
+      SWAP
+    }>ELSE<{
+      DROP
+    }>
+    OVER
+    0 LESSINT
+    IF:<{
+      0 PUSHINT
+      s2 POP
+    }>
+    SWAP
+    ADD
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    86400 PUSHINT
+    DIV
+  }>
+  $JurorStaking$_fun_whitelistQuotaOf PROCREF:<{
+    7 -ROLL
+    s7 PUSH
+    $JurorStaking$_fun_stakeAmountOf INLINECALLDICT
+    s0 s8 XCHG
+    $JurorStaking$_fun_stakeDaysOf INLINECALLDICT
+    s8 PUSH
+    3 LSHIFT#
+    10 PUSHINT
+    DIV
+    SWAP
+    100 PUSHINT
+    DIV
+    ADD
+    s0 s8 XCHG
+    50 MULCONST
+    100 PUSHINT
+    DIV
+    s8 s0 PUSH2
+    GREATER
+    IF:<{
+      s8 POP
+    }>ELSE<{
+      DROP
+    }>
+    s7 PUSH
+    0 LESSINT
+    IF:<{
+      0 PUSHINT
+      s8 POP
+    }>
+    7 ROLL
+  }>
+  $JurorStaking$_fun_rewardCreditOf PROCREF:<{
+    267 PUSHINT
+    s2 PUSH
+    s0 s2 XCHG
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    __tact_not_null INLINECALLDICT
+  }>
+  $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points PROCINLINE:<{
+  }>
+  $JurorStaking$_fun_settleStake PROCREF:<{
+    267 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    __tact_dict_get_slice_cell INLINECALLDICT
+    $StakeInfo$_load_opt INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+      DUP
+          NOW
+      s1 s1 s1 PUSH3
+      DUP
+      $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points INLINECALLDICT
+    }>
+    $StakeInfo$_not_null INLINECALLDICT
+        NOW
+    s7 PUSH
+    0 GTINT
+    IF:<{
+      s0 s5 PUSH2
+      GREATER
+    }>ELSE<{
+      FALSE
+    }>
+    IF:<{
+      s0 s5 PUXC
+      SUB
+      s1 s6 XCHG
+      ADD
+      s0 s5 XCHG
+    }>ELSE<{
+      s5 POP
+    }>
+  }>
+  $JurorStaking$_fun_creditReward PROCREF:<{
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      2DROP
+    }>
+    s2 PUSH
+    267 PUSHINT
+    s3 PUSH
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    2DUP
+    ISNULL
+    NOT
+    IF:<{
+      DROP
+      __tact_not_null INLINECALLDICT
+      SWAP
+      ADD
+    }>ELSE<{
+      2 1 BLKDROP2
+    }>
+    267 PUSHINT
+    -ROT
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+  }>
+  $JurorStaking$_fun_processPayoutList PROCREF:<{
+    OVER
+    ISNULL
+    IFJMP:<{
+      2DROP
+    }>
+    SWAP
+    __tact_not_null INLINECALLDICT
+        CTOS
+        LDMSGADDR
+    257 PUSHINT
+    LDIX
+        LDOPTREF
+    DROP
+    OVER
+    0 GTINT
+    IF:<{
+      s3 PUSH
+      IF:<{
+        s6 s10 XCHG
+        s5 s9 XCHG
+        s4 s8 XCHG
+        s3 s7 XCHG
+        s10 s9 s8 XCHG3
+        s10 PUSH
+        $JurorStaking$_fun_settleStake INLINECALLDICT
+        s0 16 s() XCHG
+        ADD
+        267 PUSHINT
+        s0 16 s() XCHG
+        NEWC
+        $StakeInfo$_store_cell INLINECALLDICT
+        s2 s3 XCHG
+        s10 s11 s0 XCHG3
+        __tact_dict_set_slice_cell INLINECALLDICT
+      }>ELSE<{
+        s6 s10 XCHG
+        s5 s9 XCHG
+        s4 s8 XCHG
+        s3 s7 XCHG
+        s10 s9 s8 XCHG3
+        s10 PUSH
+        $JurorStaking$_fun_settleStake INLINECALLDICT
+        s0 16 s() XCHG
+        s6 PUSH
+            MIN
+        DUP
+        0 GTINT
+        IF:<{
+          s6 s6 XCPU
+          SUB
+          s0 s3 XCHG
+          INC
+          s9 s6 XCPU
+          SUB
+          s11 PUSH
+          s8 s14 XCHG
+          s7 s13 XCHG
+          s0 s6 XCHG
+          s5 s11 XCHG
+          s1 s4 XCHG
+          s3 s9 XCHG
+          s14 s12 s13 XCHG3
+          $JurorStaking$_fun_creditReward INLINECALLDICT
+          s6 s12 XCHG
+          6 6 BLKSWAP
+          s4 s5 XCHG
+        }>ELSE<{
+          DROP
+        }>
+        267 PUSHINT
+        s0 16 s() XCHG
+        NEWC
+        $StakeInfo$_store_cell INLINECALLDICT
+        s2 s3 XCHG
+        s10 s11 s0 XCHG3
+        __tact_dict_set_slice_cell INLINECALLDICT
+      }>
+      s4 s8 XCHG
+      s3 s7 XCHG
+      s6 s1 s3 XCHG3
+      s4 s5 s4 XCHG3
+    }>ELSE<{
+      2 1 BLKDROP2
+    }>
+    SWAP
+    $JurorStaking$_fun_processPayoutList INLINECALLDICT
+  }>
+  $JurorStaking$_fun_ensureAdmin PROCREF:<{
+    45917 PUSHINT
+    __tact_context_get_sender INLINECALLDICT
+    s8 PUSH
+    SDEQ
+    THROWANYIFNOT
+  }>
+  $JurorStaking$_fun_ensurePrediction PROCREF:<{
+    41711 PUSHINT
+    __tact_context_get_sender INLINECALLDICT
+    s7 PUSH
+    SDEQ
+    THROWANYIFNOT
+  }>
+  $JurorStaking$_fun_ensureNotPaused PROCREF:<{
+    63709 PUSHINT
+    s4 PUSH
+    NOT
+    THROWANYIFNOT
+  }>
+  $JurorStaking$_fun_ensureNotSuspended PROCREF:<{
+    s2 s6 XCHG
+    6 BLKDROP
+    DUP
+    0 GTINT
+    IF:<{
+      36991 PUSHINT
+          NOW
+      ROT
+      GEQ
+      THROWANYIFNOT
+    }>ELSE<{
+      DROP
+    }>
+  }>
+  %stakeOf PROC:<{
+    $JurorStaking$_contract_load INLINECALLDICT
+    7 ROLL
+    $JurorStaking$_fun_stakeOf INLINECALLDICT
+    7 1 BLKDROP2
+    $StakeInfo$_to_opt_external INLINECALLDICT
+  }>
+  %stakeAmountOf PROC:<{
+    $JurorStaking$_contract_load INLINECALLDICT
+    7 ROLL
+    $JurorStaking$_fun_stakeAmountOf INLINECALLDICT
+    7 1 BLKDROP2
+  }>
+  %stakeDaysOf PROC:<{
+    $JurorStaking$_contract_load INLINECALLDICT
+    7 ROLL
+    $JurorStaking$_fun_stakeDaysOf INLINECALLDICT
+    7 1 BLKDROP2
+  }>
+  %whitelistQuotaOf PROC:<{
+    $JurorStaking$_contract_load INLINECALLDICT
+    7 ROLL
+    $JurorStaking$_fun_whitelistQuotaOf INLINECALLDICT
+    7 1 BLKDROP2
+  }>
+  %rewardCreditOf PROC:<{
+    $JurorStaking$_contract_load INLINECALLDICT
+    7 ROLL
+    $JurorStaking$_fun_rewardCreditOf INLINECALLDICT
+    7 1 BLKDROP2
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $JurorStaking$_contract_load INLINECALLDICT
+    s0 s8 XCHG
+    IFJMP:<{
+      8 BLKDROP
+    }>
+    0 PUSHINT
+    s7 PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 s7 XCHG
+      32 LDU
+      s0 s8 XCHG
+    }>
+    OVER
+    1696574805 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s7 XCHG3
+      $JurorStaking$_fun_ensureNotPaused INLINECALLDICT
+      28436 PUSHINT
+      s8 PUSH
+      10000 PUSHINT
+      GEQ
+      THROWANYIFNOT
+      __tact_context_get_sender INLINECALLDICT
+      7 -ROLL
+      s7 PUSH
+      $JurorStaking$_fun_settleStake INLINECALLDICT
+      s6 s5 s4 PUSH3
+      s6 s5 s4 PUSH3
+      s6 PUSH
+      s13 20 s() XCHG
+      s12 19 s() XCHG
+      s11 18 s() XCHG
+      s10 17 s() XCHG
+      s9 16 s() XCHG
+      s8 s15 XCHG
+      s7 s14 XCHG
+      $JurorStaking$_fun_ensureNotSuspended INLINECALLDICT
+      s13 s15 XCPU
+      ADD
+      s2 s15 XCHG2
+      ADD
+      s5 s14 XCHG
+      s4 s11 XCHG
+      s3 s10 XCHG
+      s9 s8 s0 XCHG3
+      267 PUSHINT
+      s8 s7 XCHG2
+      NEWC
+      $StakeInfo$_store_cell INLINECALLDICT
+      s1 s8 s0 XCHG3
+      __tact_dict_set_slice_cell INLINECALLDICT
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      s0 s2 XCHG
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    3125946401 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      257 PUSHINT
+      LDIX
+      DROP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s7 XCHG3
+      $JurorStaking$_fun_ensureNotPaused INLINECALLDICT
+      __tact_context_get_sender INLINECALLDICT
+      7 -ROLL
+      s7 PUSH
+      $JurorStaking$_fun_settleStake INLINECALLDICT
+      s6 s5 s4 PUSH3
+      s6 s5 s4 PUSH3
+      s6 PUSH
+      s13 20 s() XCHG
+      s12 19 s() XCHG
+      s11 18 s() XCHG
+      s10 17 s() XCHG
+      s9 16 s() XCHG
+      s8 s15 XCHG
+      s7 s14 XCHG
+      $JurorStaking$_fun_ensureNotSuspended INLINECALLDICT
+      3118 PUSHINT
+      16 s() PUSH
+      0 GTINT
+      THROWANYIFNOT
+      46277 PUSHINT
+      16 s() PUSH
+      s15 PUSH
+      LEQ
+      THROWANYIFNOT
+      s13 s15 XCPU
+      SUB
+      s2 s15 XCPU
+      SUB
+      s2 PUSH
+      IFNOT:<{
+        s11 POP
+            NOW
+        s0 s11 XCHG
+      }>
+      s2 s5 XCHG
+      s4 s12 XCHG
+      s3 s11 XCHG
+      s10 s9 s0 XCHG3
+      267 PUSHINT
+      s9 s8 XCHG2
+      NEWC
+      $StakeInfo$_store_cell INLINECALLDICT
+      s4 s4 s0 XCHG3
+      s9 s(-1) PUXC
+      __tact_dict_set_slice_cell INLINECALLDICT
+      s2 s8 XCHG
+      s3 s7 XCHG
+      s5 s6 XCHG
+      s3 s3 XCHG2
+      s0 s4 XCHG
+      s5 s1 s5 XCHG3
+      $JurorStaking$_fun_creditReward INLINECALLDICT
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2151883269 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s6 POP
+      __tact_context_get_sender INLINECALLDICT
+      s6 PUSH
+      267 PUSHINT
+      s2 PUSH
+      __tact_dict_get_slice_cell INLINECALLDICT
+      $StakeInfo$_load_opt INLINECALLDICT
+      12134 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $StakeInfo$_not_null INLINECALLDICT
+      s6 s5 s4 PUSH3
+      s6 s5 s4 PUSH3
+      s6 PUSH
+      s13 19 s() XCHG
+      s12 18 s() XCHG
+      s11 17 s() XCHG
+      s10 16 s() XCHG
+      s9 s15 XCHG
+      s8 20 s() XCHG
+      s7 21 s() XCHG
+      $JurorStaking$_fun_ensureNotSuspended INLINECALLDICT
+      29352 PUSHINT
+      s14 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      s4 s12 XCHG
+      s3 s11 XCHG
+      s10 s9 s8 XCHG3
+      0 PUSHINT
+      267 PUSHINT
+      s0 16 s() XCHG
+      NEWC
+      $StakeInfo$_store_cell INLINECALLDICT
+      s5 s10 s0 XCHG3
+      s3 s(-1) PUXC
+      __tact_dict_set_slice_cell INLINECALLDICT
+      s0 s3 XCHG
+      s0 s8 XCHG
+      s0 s7 XCHG
+      $JurorStaking$_fun_creditReward INLINECALLDICT
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    545102078 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      LDMSGADDR
+      257 PUSHINT
+      LDIX
+      DROP
+      s7 s8 XCHG2
+      $JurorStaking$_fun_ensureAdmin INLINECALLDICT
+      s7 PUSH
+      $JurorStaking$_fun_settleStake INLINECALLDICT
+      s2 POP
+      267 PUSHINT
+      s15 s1 s15 XCHG3
+      NEWC
+      $StakeInfo$_store_cell INLINECALLDICT
+      s2 s3 XCHG
+      s9 s8 s0 XCHG3
+      __tact_dict_set_slice_cell INLINECALLDICT
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1068767172 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      1 LDI
+      DROP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s7 XCHG3
+      $JurorStaking$_fun_ensureAdmin INLINECALLDICT
+      s3 POP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      ROT
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2232415888 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      LDMSGADDR
+      257 PUSHINT
+      LDIX
+      DROP
+      s7 s8 XCHG2
+      $JurorStaking$_fun_ensureAdmin INLINECALLDICT
+      s7 PUSH
+      $JurorStaking$_fun_settleStake INLINECALLDICT
+      s0 s15 XCHG2
+      ADD
+      267 PUSHINT
+      s15 s15 XCHG2
+      NEWC
+      $StakeInfo$_store_cell INLINECALLDICT
+      s2 s3 XCHG
+      s9 s8 s0 XCHG3
+      __tact_dict_set_slice_cell INLINECALLDICT
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s0 s3 XCHG3
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    291497744 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      257 PUSHINT
+      LDIX
+      NIP
+      257 PUSHINT
+      LDIX
+      LDOPTREF
+      DROP
+      s7 s8 XCHG2
+      $JurorStaking$_fun_ensurePrediction INLINECALLDICT
+      s0 s7 XCHG
+      1 LESSINT
+      IFJMP:<{
+        s7 POP
+        2 5 BLKSWAP
+        $JurorStaking$_contract_store INLINECALLDICT
+      }>
+      s5 s7 XCHG
+      2 5 BLKSWAP
+      TRUE
+      $JurorStaking$_fun_processPayoutList INLINECALLDICT
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2570802865 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      257 PUSHINT
+      LDIX
+      NIP
+      LDOPTREF
+      DROP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s7 XCHG3
+      $JurorStaking$_fun_ensurePrediction INLINECALLDICT
+      7 ROLL
+      FALSE
+      $JurorStaking$_fun_processPayoutList INLINECALLDICT
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1154094813 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s6 XCHG
+      LDMSGADDR
+      DROP
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s7 XCHG3
+      $JurorStaking$_fun_ensureAdmin INLINECALLDICT
+      s5 POP
+      s5 s6 XCHG
+      4 ROLL
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    s8 POP
+    0 EQINT
+    s0 s7 XCHG
+    33 LESSINT
+    s1 s7 XCHG
+    AND
+    IFJMP:<{
+      s4 s6 XCHG
+      2 4 BLKSWAP
+      $JurorStaking$_contract_store INLINECALLDICT
+    }>
+    7 BLKDROP
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c

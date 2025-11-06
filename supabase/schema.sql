@@ -68,6 +68,10 @@ create table public.predictions (
   platform_fee numeric default 0,
   juror_reward_tai bigint default 0,
 
+  -- 主题标签 & 参考资料
+  tags text[] default '{}'::text[],
+  reference_url text,
+
   -- 审核信息
   admin_notes text,
   approved_by uuid references public.users(id),
@@ -110,6 +114,42 @@ create table public.bets (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   settled_at timestamp with time zone
 );
+
+-- ===========================================
+-- 📈 赔率配置
+-- ===========================================
+create table public.market_odds_config (
+  id bigserial primary key,
+  side_cap_ratio numeric,
+  other_floor_ratio numeric,
+  min_pool_ratio numeric,
+  min_absolute_pool numeric,
+  impact_fee_coefficient numeric,
+  impact_min_pool numeric,
+  impact_max_multiplier numeric,
+  min_odds numeric,
+  max_odds numeric,
+  default_odds numeric,
+  sse_refetch_fallback_ms integer,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- ===========================================
+-- 📊 赔率序列记录
+-- ===========================================
+create table public.odds_sequence (
+  id bigserial primary key,
+  market_id uuid references public.predictions(id) on delete cascade not null,
+  yes_odds numeric not null,
+  no_odds numeric not null,
+  yes_pool numeric not null,
+  no_pool numeric not null,
+  total_pool numeric not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+create index odds_sequence_market_id_idx on public.odds_sequence (market_id, id);
 
 -- ===========================================
 -- 🧧 红包销售表
@@ -246,6 +286,22 @@ create table public.official_rain_claims (
 );
 
 -- ===========================================
+-- 🐋 鲸鱼榜快照表
+-- ===========================================
+create table public.whale_rankings (
+  wallet_address text primary key,
+  amount_tai numeric not null default 0,
+  rank integer not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+comment on table public.whale_rankings is '鲸鱼榜快照表，记录每个钱包地址的 TAI 持仓及排行榜顺位';
+comment on column public.whale_rankings.wallet_address is '钱包地址（TON，规范化后的 bounceable 地址）';
+comment on column public.whale_rankings.amount_tai is 'TAI 持仓（最小单位，可由批处理任务写入）';
+comment on column public.whale_rankings.rank is '当前名次，1 为榜首';
+
+-- ===========================================
 -- 📇 索引创建
 -- ===========================================
 
@@ -272,6 +328,10 @@ create index idx_redpacket_claims_redpacket_id on public.redpacket_claims(redpac
 -- 官方雨露索引
 create index idx_official_rain_status on public.official_rain(status);
 create index idx_official_rain_start_time on public.official_rain(start_time);
+
+-- 鲸鱼榜索引
+create index idx_whale_rankings_rank on public.whale_rankings(rank);
+create index idx_whale_rankings_updated_at on public.whale_rankings(updated_at desc);
 
 -- ===========================================
 -- 🔐 行级安全策略 (RLS)
@@ -324,6 +384,9 @@ create trigger update_redpacket_purchases_updated_at before update on public.red
   for each row execute function update_updated_at_column();
 
 create trigger update_official_rain_updated_at before update on public.official_rain
+  for each row execute function update_updated_at_column();
+
+create trigger update_whale_rankings_updated_at before update on public.whale_rankings
   for each row execute function update_updated_at_column();
 
 -- ===========================================

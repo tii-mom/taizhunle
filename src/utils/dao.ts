@@ -117,16 +117,15 @@ export function calculateWeight(points: number, stakedAmount: number): number {
  * @returns 创建间隔（小时）
  */
 export function getCreateInterval(points: number, isJuror: boolean): number {
-  // 普通用户
   if (!isJuror) {
-    return 360; // 360小时 = 15天
+    return 360;
   }
 
-  // 陪审员根据等级
-  if (points >= 1000) return 6; // 6小时
-  if (points >= 400) return 24; // 24小时
-  if (points >= 100) return 48; // 48小时
-  return 72; // 72小时
+  if (points >= 1000) return 6;
+  if (points >= 400) return 24;
+  if (points >= 100) return 48;
+  if (points >= 0) return 72;
+  return 360;
 }
 
 /**
@@ -136,6 +135,25 @@ export function getCreateInterval(points: number, isJuror: boolean): number {
  * @param isJuror 是否是陪审员
  * @returns 是否可以创建和下次可创建时间
  */
+
+export function getCreationStakeRequirement(points: number): {
+  stake: number;
+  cooldownHours: number;
+  maxStake: number;
+} {
+  const MAX_STAKE_LIMIT = 20_000;
+  if (points >= 1000) {
+    return { stake: 20_000, cooldownHours: 6, maxStake: MAX_STAKE_LIMIT };
+  }
+  if (points >= 400) {
+    return { stake: 10_000, cooldownHours: 24, maxStake: MAX_STAKE_LIMIT };
+  }
+  if (points >= 100) {
+    return { stake: 5_000, cooldownHours: 48, maxStake: MAX_STAKE_LIMIT };
+  }
+  return { stake: 1_000, cooldownHours: 72, maxStake: MAX_STAKE_LIMIT };
+}
+
 export function canCreateMarket(
   lastCreateTime: Date | null,
   points: number,
@@ -177,21 +195,5 @@ export function canCreateMarket(
     nextAvailableTime,
     intervalHours,
     hoursRemaining,
-  };
-}
-
-/**
- * 获取创建预测的费用
- * @returns 费用信息
- */
-export function getCreateFee(): {
-  tai: number;
-  estimatedGas: number;
-  total: string;
-} {
-  return {
-    tai: 100,
-    estimatedGas: 0.3,
-    total: '100 TAI + ~0.3 TON',
   };
 }

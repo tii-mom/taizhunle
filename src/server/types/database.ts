@@ -21,6 +21,8 @@ export interface PredictionRow {
   creator_fee: NumericValue;
   platform_fee: NumericValue;
   juror_reward_tai: NumericValue;
+  tags?: string[] | null;
+  reference_url?: string | null;
   admin_notes: string | null;
   approved_by: string | null;
   approved_at: string | null;

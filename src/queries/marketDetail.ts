@@ -16,7 +16,11 @@ export type MarketSystemInfo = {
   // DAO rewards
   juryReward: number;        // 陪审员奖励池（1%）
   rewardPerJuror: number;    // 每位陪审员可得
-  creatorReward: number;     // 创建者奖励（0.5%）
+  creatorStakeTai: number;   // 创建时质押
+  stakeCooldownHours: number;
+  tags: string[];
+  referenceUrl: string | null;
+  referenceSummary: string | null;
 };
 
 export type MarketDetailData = {
@@ -35,9 +39,8 @@ export const marketDetailQuery = (
 
     // Calculate DAO rewards
     const juryCount = market.juryCount || 7;
-    const juryReward = Math.max(100, Math.round(market.jurorRewardTai ?? market.pool * 0.01));
+    const juryReward = Math.round(market.pool * 0.01);
     const rewardPerJuror = juryCount > 0 ? Math.floor(juryReward / juryCount) : juryReward;
-    const creatorReward = Math.floor(juryReward * 0.1); // 10% buffer for creator rebate
 
     return {
       systemInfo: {
@@ -53,7 +56,11 @@ export const marketDetailQuery = (
         noOdds: market.noOdds,
         juryReward,
         rewardPerJuror,
-        creatorReward,
+        creatorStakeTai: market.creatorStakeTai,
+        stakeCooldownHours: market.stakeCooldownHours ?? 72,
+        tags: market.tags ?? market.topicTags ?? [],
+        referenceUrl: market.referenceUrl ?? null,
+        referenceSummary: market.referenceSummary ?? null,
       },
       betModal,
       bets: market.bets,

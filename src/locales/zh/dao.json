@@ -56,6 +56,14 @@
     "week": "近 7 日",
     "reserve": "储备金"
   },
+  "insights": {
+    "creatorStakeTitle": "创建者质押",
+    "creatorStakeValue": "质押 {{stake}} TAI · 冷却 {{hours}} 小时",
+    "creatorStakeHint": "创建时锁定 creatorStakeTai，结算后返还；申诉成立扣 50%，恶意或超时最多扣 100%。",
+    "jurorRewardTitle": "陪审奖励（奖池 × {{percent}}%）",
+    "jurorRewardValue": "待领 {{pending}} TAI · 累积 {{total}} TAI",
+    "jurorRewardHint": "每笔下注都会刷新奖励，每天领取一次即可，Gas 只扣一笔。"
+  },
   "modals": {
     "common": {
       "cancel": "取消",
@@ -236,7 +244,7 @@
   },
   "createLimits": {
     "title": "积分规则",
-    "description": "根据陪审积分解锁预测创建频率与陪审名额。",
+    "description": "创建预测需按等级锁定质押，预测结束自动退回；若被申诉或恶意操作将按规则扣减质押。",
     "openRules": "查看积分规则",
     "table": {
       "points": "积分",
@@ -276,6 +284,39 @@
         "jury": "无限制"
       }
     },
-    "note": "创建预测需支付 100 TAI（可自定义 100-10000 TAI 奖励）及 TON 链上 Gas 费。"
+    "note": "创建预测需按等级锁定质押（1,000 - 20,000 TAI），预测结束后自动退回；若被申诉或恶意操作将按规则扣除。"
+  },
+  "jurorSystem": {
+    "title": "陪审员体系说明",
+    "yourLevel": "你的等级：{{title}} ({{level}})",
+    "points": "积分：{{points}} / {{next}}",
+    "remaining": "今日剩余：{{remain}} / {{limit}} 次",
+    "rightsTitle": "等级权益速览",
+    "stakeRulesTitle": "创建质押规则（单话题）",
+    "penaltyTitle": "扣款场景",
+    "penalty": [
+      "申诉成功：扣 50% 质押",
+      "无效 / 恶意：扣 100% 质押",
+      "超时未设结果：扣 20% 质押"
+    ],
+    "exampleTitle": "例子：你当前等级",
+    "example": [
+      "创建需质押 {{stake}}，{{cooldown}} 后可再创建",
+      "若被申诉成功 → 损失 {{penalty}}",
+      "无争议 → {{stake}} 原路退回"
+    ],
+    "close": "知道了",
+    "table": {
+      "points": "积分",
+      "title": "称号",
+      "jury": "陪审/日",
+      "create": "创建/次"
+    },
+    "stakeTable": {
+      "level": "等级",
+      "stake": "质押额",
+      "cooldown": "冷却"
+    },
+    "remainingUnlimited": "今日剩余：无限制"
   }
 }

@@ -1,0 +1,1087 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; TAIUnlockController_TAIUnlockController.headers.fc
+;;
+;; Header files for TAIUnlockController
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get
+(int, slice, int, slice) __tact_context_get() inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_dict_get_slice_int
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline;
+
+;; __tact_dict_set_slice_int
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline;
+
+;; $PriceRecord$_store
+builder $PriceRecord$_store(builder build_0, (int, int, int) v) inline;
+
+;; $PriceRecord$_load
+(slice, ((int, int, int))) $PriceRecord$_load(slice sc_0) inline;
+
+;; $WhitelistSale$_store
+builder $WhitelistSale$_store(builder build_0, (int, cell, int, int, int, int, int) v) inline;
+
+;; $WhitelistSale$_load
+(slice, ((int, cell, int, int, int, int, int))) $WhitelistSale$_load(slice sc_0) inline;
+
+;; $PriceRecord$_not_null
+((int, int, int)) $PriceRecord$_not_null(tuple v) inline;
+
+;; $TAIUnlockController$_store
+builder $TAIUnlockController$_store(builder build_0, (slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) v) inline;
+
+;; $PriceRecord$_as_optional
+tuple $PriceRecord$_as_optional((int, int, int) v) inline;
+
+;; $TAIUnlockController$_load
+(slice, ((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int))) $TAIUnlockController$_load(slice sc_0) inline;
+
+;; $Context$_get_value
+_ $Context$_get_value((int, slice, int, slice) v) inline;
+
+;; $PriceRecord$_to_tuple
+tuple $PriceRecord$_to_tuple(((int, int, int)) v) inline;
+
+;; $PriceRecord$_to_opt_tuple
+tuple $PriceRecord$_to_opt_tuple(tuple v) inline;
+
+;; $PriceRecord$_to_opt_external
+tuple $PriceRecord$_to_opt_external(tuple v) inline;
+
+;; $SaleInfo$_to_external
+(int, int, int, int) $SaleInfo$_to_external(((int, int, int, int)) v) inline;
+
+;; $UnlockStatus$_to_external
+(int, int, int, int) $UnlockStatus$_to_external(((int, int, int, int)) v) inline;
+
+;; $SupplySummary$_to_external
+(int, int, int) $SupplySummary$_to_external(((int, int, int)) v) inline;
+
+;; $WhitelistSaleInfo$_to_external
+(int, int, int, int, int, int, int) $WhitelistSaleInfo$_to_external(((int, int, int, int, int, int, int)) v) inline;
+
+;; $TAIUnlockController$init$_load
+(slice, ((slice, slice, int, slice))) $TAIUnlockController$init$_load(slice sc_0) inline;
+
+;; $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd
+((int, cell, int, int, int, int, int)) $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd(int $active, cell $merkleRoot, int $totalAmount, int $soldAmount, int $baselinePrice, int $currentPrice, int $windowEnd) inline;
+
+;; $TAIUnlockController$_contract_init
+(slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $TAIUnlockController$_contract_init(slice $admin, slice $treasury, int $saleEndTimestamp, slice $usdcMaster) impure inline;
+
+;; $TAIUnlockController$_contract_load
+(slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $TAIUnlockController$_contract_load() impure inline;
+
+;; $TAIUnlockController$_contract_store
+() $TAIUnlockController$_contract_store((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) v) impure inline;
+
+;; $SaleInfo$_constructor_remaining_sold_endTimestamp_closed
+((int, int, int, int)) $SaleInfo$_constructor_remaining_sold_endTimestamp_closed(int $remaining, int $sold, int $endTimestamp, int $closed) inline;
+
+;; $TAIUnlockController$_fun_saleInfo
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int, int)) $TAIUnlockController$_fun_saleInfo((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref;
+
+;; $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused
+((int, int, int, int)) $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused(int $currentRound, int $remainingLocked, int $lastPrice, int $paused) inline;
+
+;; $TAIUnlockController$_fun_unlockStatus
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int, int)) $TAIUnlockController$_fun_unlockStatus((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref;
+
+;; $TAIUnlockController$_fun_lastRecordedPrice
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), tuple) $TAIUnlockController$_fun_lastRecordedPrice((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref;
+
+;; $SupplySummary$_constructor_total_locked_circulating
+((int, int, int)) $SupplySummary$_constructor_total_locked_circulating(int $total, int $locked, int $circulating) inline;
+
+;; $TAIUnlockController$_fun_balanceOfInternal
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_balanceOfInternal((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $target) impure inline_ref;
+
+;; $TAIUnlockController$_fun_supplySummary
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int)) $TAIUnlockController$_fun_supplySummary((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref;
+
+;; $TAIUnlockController$_fun_balanceOf
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_balanceOf((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $target) impure inline_ref;
+
+;; $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd
+((int, int, int, int, int, int, int)) $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd(int $active, int $total, int $sold, int $remaining, int $baselinePrice, int $currentPrice, int $windowEnd) inline;
+
+;; $TAIUnlockController$_fun_whitelistSaleInfo
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int, int, int, int, int)) $TAIUnlockController$_fun_whitelistSaleInfo((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref;
+
+;; $TAIUnlockController$_fun_getWhitelistUsageInternal
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_getWhitelistUsageInternal((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $addr) impure inline_ref;
+
+;; $TAIUnlockController$_fun_whitelistUsed
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_whitelistUsed((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $target) impure inline_ref;
+
+;; $TAIUnlockController$_fun_requiredInflationForRound
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_requiredInflationForRound((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, int $round) impure inline_ref;
+
+;; $TAIUnlockController$_fun_transferTaiInternal
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), ()) $TAIUnlockController$_fun_transferTaiInternal((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $from, slice $to, int $amount) impure inline_ref;
+
+;; $TAIUnlockController$_fun_buildLeafCell
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), cell) $TAIUnlockController$_fun_buildLeafCell((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $addr, int $quota) impure inline_ref;
+
+;; $TAIUnlockController$_fun_combineCells
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), cell) $TAIUnlockController$_fun_combineCells((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, cell $left, cell $right) impure inline_ref;
+
+;; $TAIUnlockController$_fun_foldProof
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), cell) $TAIUnlockController$_fun_foldProof((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, cell $current, cell $nodeOpt) impure inline_ref;
+
+;; $TAIUnlockController$_fun_verifyMerkleProof
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_verifyMerkleProof((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, cell $root, cell $leaf, cell $proofOpt) impure inline_ref;
+
+;; $TAIUnlockController$_fun_resetWhitelistSale
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), ()) $TAIUnlockController$_fun_resetWhitelistSale((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, int $distributeRemainder) impure inline_ref;
+
+;; $TAIUnlockController$_fun_calculateStablePayment
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_calculateStablePayment((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, int $amountTai, int $price) impure inline_ref;
+
+;; $PriceRecord$_constructor_price_timestamp_round
+((int, int, int)) $PriceRecord$_constructor_price_timestamp_round(int $price, int $timestamp, int $round) inline;
+
+
+;; TAIUnlockController_TAIUnlockController.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+(cell, int) __tact_dict_delete(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTDEL
+""";
+
+(slice, int) __tact_dict_get(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGET NULLSWAPIFNOT
+""";
+
+(int, slice, int, slice) __tact_context_get() inline {
+    return __tact_context;
+}
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1, X2 -> tuple __tact_tuple_create_3((X0, X1, X2) v) asm """
+    3 TUPLE
+""";
+
+forall X0, X1, X2 -> (X0, X1, X2) __tact_tuple_destroy_3(tuple v) asm """
+    3 UNTUPLE
+""";
+
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline {
+    var (r, ok) = __tact_dict_get(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return (dict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+int $global_now() impure asm """
+    NOW
+""";
+
+slice $global_myAddress() impure asm """
+    MYADDR
+""";
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+builder $Builder$_fun_storeRef(cell $cell, builder $self) impure asm """
+    STREF
+""";
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+builder $Builder$_fun_storeAddress(builder $self, slice $address) impure asm """
+    STSLICER
+""";
+
+(slice, cell) $Slice$_fun_loadRef(slice $self) impure asm( -> 1 0) """
+    LDREF
+""";
+
+(slice, cell) $Slice$_fun_loadMaybeRef(slice $self) impure asm( -> 1 0) """
+    LDOPTREF
+""";
+
+slice $Cell$_fun_beginParse(cell $self) impure asm """
+    CTOS
+""";
+
+int $Cell$_fun_hash(cell $self) impure asm """
+    HASHCU
+""";
+
+;; TAIUnlockController_TAIUnlockController.storage.fc
+;;
+;; Type: Context
+;; TLB: _ bounceable:bool sender:address value:int257 raw:^slice = Context
+;;
+
+_ $Context$_get_value((int, slice, int, slice) v) inline {
+    var (v'bounceable, v'sender, v'value, v'raw) = v;
+    return v'value;
+}
+
+;;
+;; Type: PriceRecord
+;; TLB: _ price:int257 timestamp:int257 round:int257 = PriceRecord
+;;
+
+builder $PriceRecord$_store(builder build_0, (int, int, int) v) inline {
+    var (v'price, v'timestamp, v'round) = v;
+    build_0 = build_0.store_int(v'price, 257);
+    build_0 = build_0.store_int(v'timestamp, 257);
+    build_0 = build_0.store_int(v'round, 257);
+    return build_0;
+}
+
+(slice, ((int, int, int))) $PriceRecord$_load(slice sc_0) inline {
+    var v'price = sc_0~load_int(257);
+    var v'timestamp = sc_0~load_int(257);
+    var v'round = sc_0~load_int(257);
+    return (sc_0, (v'price, v'timestamp, v'round));
+}
+
+((int, int, int)) $PriceRecord$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'price, int vvv'timestamp, int vvv'round) = __tact_tuple_destroy_3(v);
+    return (vvv'price, vvv'timestamp, vvv'round);
+}
+
+tuple $PriceRecord$_as_optional((int, int, int) v) inline {
+    var (v'price, v'timestamp, v'round) = v;
+    return __tact_tuple_create_3(v'price, v'timestamp, v'round);
+}
+
+tuple $PriceRecord$_to_tuple(((int, int, int)) v) inline {
+    var (v'price, v'timestamp, v'round) = v;
+    return __tact_tuple_create_3(v'price, v'timestamp, v'round);
+}
+
+tuple $PriceRecord$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $PriceRecord$_to_tuple($PriceRecord$_not_null(v)); 
+}
+
+tuple $PriceRecord$_to_opt_external(tuple v) inline {
+    var loaded = $PriceRecord$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, int, int)) $PriceRecord$_constructor_price_timestamp_round(int $price, int $timestamp, int $round) inline {
+    return ($price, $timestamp, $round);
+}
+
+;;
+;; Type: SaleInfo
+;; TLB: _ remaining:int257 sold:int257 endTimestamp:int257 closed:bool = SaleInfo
+;;
+
+(int, int, int, int) $SaleInfo$_to_external(((int, int, int, int)) v) inline {
+    var (v'remaining, v'sold, v'endTimestamp, v'closed) = v; 
+    return (v'remaining, v'sold, v'endTimestamp, v'closed);
+}
+
+((int, int, int, int)) $SaleInfo$_constructor_remaining_sold_endTimestamp_closed(int $remaining, int $sold, int $endTimestamp, int $closed) inline {
+    return ($remaining, $sold, $endTimestamp, $closed);
+}
+
+;;
+;; Type: UnlockStatus
+;; TLB: _ currentRound:int257 remainingLocked:int257 lastPrice:int257 paused:bool = UnlockStatus
+;;
+
+(int, int, int, int) $UnlockStatus$_to_external(((int, int, int, int)) v) inline {
+    var (v'currentRound, v'remainingLocked, v'lastPrice, v'paused) = v; 
+    return (v'currentRound, v'remainingLocked, v'lastPrice, v'paused);
+}
+
+((int, int, int, int)) $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused(int $currentRound, int $remainingLocked, int $lastPrice, int $paused) inline {
+    return ($currentRound, $remainingLocked, $lastPrice, $paused);
+}
+
+;;
+;; Type: SupplySummary
+;; TLB: _ total:int257 locked:int257 circulating:int257 = SupplySummary
+;;
+
+(int, int, int) $SupplySummary$_to_external(((int, int, int)) v) inline {
+    var (v'total, v'locked, v'circulating) = v; 
+    return (v'total, v'locked, v'circulating);
+}
+
+((int, int, int)) $SupplySummary$_constructor_total_locked_circulating(int $total, int $locked, int $circulating) inline {
+    return ($total, $locked, $circulating);
+}
+
+;;
+;; Type: WhitelistSaleInfo
+;; TLB: _ active:bool total:int257 sold:int257 remaining:int257 baselinePrice:int257 currentPrice:int257 windowEnd:int257 = WhitelistSaleInfo
+;;
+
+(int, int, int, int, int, int, int) $WhitelistSaleInfo$_to_external(((int, int, int, int, int, int, int)) v) inline {
+    var (v'active, v'total, v'sold, v'remaining, v'baselinePrice, v'currentPrice, v'windowEnd) = v; 
+    return (v'active, v'total, v'sold, v'remaining, v'baselinePrice, v'currentPrice, v'windowEnd);
+}
+
+((int, int, int, int, int, int, int)) $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd(int $active, int $total, int $sold, int $remaining, int $baselinePrice, int $currentPrice, int $windowEnd) inline {
+    return ($active, $total, $sold, $remaining, $baselinePrice, $currentPrice, $windowEnd);
+}
+
+;;
+;; Type: WhitelistSale
+;; TLB: _ active:bool merkleRoot:Maybe ^cell totalAmount:int257 soldAmount:int257 baselinePrice:int257 currentPrice:int257 windowEnd:int257 = WhitelistSale
+;;
+
+builder $WhitelistSale$_store(builder build_0, (int, cell, int, int, int, int, int) v) inline {
+    var (v'active, v'merkleRoot, v'totalAmount, v'soldAmount, v'baselinePrice, v'currentPrice, v'windowEnd) = v;
+    build_0 = build_0.store_int(v'active, 1);
+    build_0 = build_0.store_maybe_ref(v'merkleRoot);
+    build_0 = build_0.store_int(v'totalAmount, 257);
+    build_0 = build_0.store_int(v'soldAmount, 257);
+    build_0 = build_0.store_int(v'baselinePrice, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'currentPrice, 257);
+    build_1 = build_1.store_int(v'windowEnd, 257);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+(slice, ((int, cell, int, int, int, int, int))) $WhitelistSale$_load(slice sc_0) inline {
+    var v'active = sc_0~load_int(1);
+    var v'merkleRoot = sc_0~load_maybe_ref();
+    var v'totalAmount = sc_0~load_int(257);
+    var v'soldAmount = sc_0~load_int(257);
+    var v'baselinePrice = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'currentPrice = sc_1~load_int(257);
+    var v'windowEnd = sc_1~load_int(257);
+    return (sc_0, (v'active, v'merkleRoot, v'totalAmount, v'soldAmount, v'baselinePrice, v'currentPrice, v'windowEnd));
+}
+
+((int, cell, int, int, int, int, int)) $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd(int $active, cell $merkleRoot, int $totalAmount, int $soldAmount, int $baselinePrice, int $currentPrice, int $windowEnd) inline {
+    return ($active, $merkleRoot, $totalAmount, $soldAmount, $baselinePrice, $currentPrice, $windowEnd);
+}
+
+;;
+;; Type: TAIUnlockController
+;; TLB: _ admin:address treasury:address saleEndTimestamp:int257 balances:dict<address, int> whitelistUsage:dict<address, int> remainingSaleSupply:int257 totalSaleSold:int257 saleClosed:bool remainingLocked:int257 currentRound:int257 paused:bool initialPriceSet:bool lastRoundPrice:int257 lastRoundTimestamp:int257 lastRoundId:int257 pendingPrice:Maybe PriceRecord{price:int257,timestamp:int257,round:int257} usdcMaster:address whitelistSale:WhitelistSale{active:bool,merkleRoot:Maybe ^cell,totalAmount:int257,soldAmount:int257,baselinePrice:int257,currentPrice:int257,windowEnd:int257} reserveUsdc:int257 reserveUsdt:int257 = TAIUnlockController
+;;
+
+builder $TAIUnlockController$_store(builder build_0, (slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) v) inline {
+    var (v'admin, v'treasury, v'saleEndTimestamp, v'balances, v'whitelistUsage, v'remainingSaleSupply, v'totalSaleSold, v'saleClosed, v'remainingLocked, v'currentRound, v'paused, v'initialPriceSet, v'lastRoundPrice, v'lastRoundTimestamp, v'lastRoundId, v'pendingPrice, v'usdcMaster, (v'whitelistSale'active, v'whitelistSale'merkleRoot, v'whitelistSale'totalAmount, v'whitelistSale'soldAmount, v'whitelistSale'baselinePrice, v'whitelistSale'currentPrice, v'whitelistSale'windowEnd), v'reserveUsdc, v'reserveUsdt) = v;
+    build_0 = build_0.store_slice(v'admin);
+    build_0 = build_0.store_slice(v'treasury);
+    build_0 = build_0.store_int(v'saleEndTimestamp, 257);
+    build_0 = build_0.store_dict(v'balances);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_dict(v'whitelistUsage);
+    build_1 = build_1.store_int(v'remainingSaleSupply, 257);
+    build_1 = build_1.store_int(v'totalSaleSold, 257);
+    build_1 = build_1.store_int(v'saleClosed, 1);
+    build_1 = build_1.store_int(v'remainingLocked, 257);
+    var build_2 = begin_cell();
+    build_2 = build_2.store_int(v'currentRound, 257);
+    build_2 = build_2.store_int(v'paused, 1);
+    build_2 = build_2.store_int(v'initialPriceSet, 1);
+    build_2 = build_2.store_int(v'lastRoundPrice, 257);
+    build_2 = build_2.store_int(v'lastRoundTimestamp, 257);
+    var build_3 = begin_cell();
+    build_3 = build_3.store_int(v'lastRoundId, 257);
+    var build_4 = begin_cell();
+    build_4 = ~ null?(v'pendingPrice) ? build_4.store_int(true, 1).$PriceRecord$_store($PriceRecord$_not_null(v'pendingPrice)) : build_4.store_int(false, 1);
+    var build_5 = begin_cell();
+    build_5 = build_5.store_slice(v'usdcMaster);
+    var build_6 = begin_cell();
+    build_6 = $WhitelistSale$_store(build_6, (v'whitelistSale'active, v'whitelistSale'merkleRoot, v'whitelistSale'totalAmount, v'whitelistSale'soldAmount, v'whitelistSale'baselinePrice, v'whitelistSale'currentPrice, v'whitelistSale'windowEnd));
+    var build_7 = begin_cell();
+    build_7 = build_7.store_int(v'reserveUsdc, 257);
+    build_7 = build_7.store_int(v'reserveUsdt, 257);
+    build_6 = store_builder_ref(build_6, build_7);
+    build_5 = store_builder_ref(build_5, build_6);
+    build_4 = store_builder_ref(build_4, build_5);
+    build_3 = store_builder_ref(build_3, build_4);
+    build_2 = store_builder_ref(build_2, build_3);
+    build_1 = store_builder_ref(build_1, build_2);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+(slice, ((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int))) $TAIUnlockController$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    var v'saleEndTimestamp = sc_0~load_int(257);
+    var v'balances = sc_0~load_dict();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'whitelistUsage = sc_1~load_dict();
+    var v'remainingSaleSupply = sc_1~load_int(257);
+    var v'totalSaleSold = sc_1~load_int(257);
+    var v'saleClosed = sc_1~load_int(1);
+    var v'remainingLocked = sc_1~load_int(257);
+    slice sc_2 = sc_1~load_ref().begin_parse();
+    var v'currentRound = sc_2~load_int(257);
+    var v'paused = sc_2~load_int(1);
+    var v'initialPriceSet = sc_2~load_int(1);
+    var v'lastRoundPrice = sc_2~load_int(257);
+    var v'lastRoundTimestamp = sc_2~load_int(257);
+    slice sc_3 = sc_2~load_ref().begin_parse();
+    var v'lastRoundId = sc_3~load_int(257);
+    slice sc_4 = sc_3~load_ref().begin_parse();
+    var v'pendingPrice = sc_4~load_int(1) ? $PriceRecord$_as_optional(sc_4~$PriceRecord$_load()) : null();
+    slice sc_5 = sc_4~load_ref().begin_parse();
+    var v'usdcMaster = sc_5~load_msg_addr();
+    slice sc_6 = sc_5~load_ref().begin_parse();
+    var v'whitelistSale = sc_6~$WhitelistSale$_load();
+    slice sc_7 = sc_6~load_ref().begin_parse();
+    var v'reserveUsdc = sc_7~load_int(257);
+    var v'reserveUsdt = sc_7~load_int(257);
+    return (sc_0, (v'admin, v'treasury, v'saleEndTimestamp, v'balances, v'whitelistUsage, v'remainingSaleSupply, v'totalSaleSold, v'saleClosed, v'remainingLocked, v'currentRound, v'paused, v'initialPriceSet, v'lastRoundPrice, v'lastRoundTimestamp, v'lastRoundId, v'pendingPrice, v'usdcMaster, v'whitelistSale, v'reserveUsdc, v'reserveUsdt));
+}
+
+(slice, ((slice, slice, int, slice))) $TAIUnlockController$init$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    var v'saleEndTimestamp = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'usdcMaster = sc_1~load_msg_addr();
+    return (sc_0, (v'admin, v'treasury, v'saleEndTimestamp, v'usdcMaster));
+}
+
+(slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $TAIUnlockController$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$TAIUnlockController$_load();
+    }
+    else {
+        (slice $admin, slice $treasury, int $saleEndTimestamp, slice $usdcMaster) = $sc~$TAIUnlockController$init$_load();
+        $sc.end_parse();
+        return $TAIUnlockController$_contract_init($admin, $treasury, $saleEndTimestamp, $usdcMaster);
+    }
+}
+
+() $TAIUnlockController$_contract_store((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $TAIUnlockController$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract TAIUnlockController functions
+;;
+
+(slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $TAIUnlockController$_contract_init(slice $admin, slice $treasury, int $saleEndTimestamp, slice $usdcMaster) impure inline {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = (null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null(), null());
+    throw_unless(26150, ($saleEndTimestamp > $global_now()));
+    $self'admin = $admin;
+    $self'treasury = $treasury;
+    $self'saleEndTimestamp = $saleEndTimestamp;
+    $self'balances = null();
+    $self'whitelistUsage = null();
+    slice $contractAddress = $global_myAddress();
+    $self'balances~__tact_dict_set_slice_int(267, $contractAddress, 98000000000, 257);
+    $self'balances~__tact_dict_set_slice_int(267, $treasury, 2000000000, 257);
+    $self'remainingSaleSupply = 8000000000;
+    $self'totalSaleSold = 0;
+    $self'saleClosed = false;
+    $self'remainingLocked = 90000000000;
+    $self'currentRound = 1;
+    $self'paused = false;
+    $self'initialPriceSet = false;
+    $self'lastRoundPrice = 0;
+    $self'lastRoundTimestamp = 0;
+    $self'lastRoundId = 0;
+    $self'pendingPrice = null();
+    $self'usdcMaster = $usdcMaster;
+    ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd) = $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd(false, null(), 0, 0, 0, 0, 0);
+    $self'reserveUsdc = 0;
+    $self'reserveUsdt = 0;
+    return ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int, int)) $TAIUnlockController$_fun_saleInfo((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    var $fresh$ret_7 = $SaleInfo$_constructor_remaining_sold_endTimestamp_closed($self'remainingSaleSupply, $self'totalSaleSold, $self'saleEndTimestamp, $self'saleClosed);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_7);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int, int)) $TAIUnlockController$_fun_unlockStatus((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    var $fresh$ret_8 = $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused($self'currentRound, $self'remainingLocked, $self'lastRoundPrice, $self'paused);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_8);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), tuple) $TAIUnlockController$_fun_lastRecordedPrice((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    var $fresh$ret_9 = $self'pendingPrice;
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_9);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_balanceOfInternal((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $target) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    int $value = __tact_dict_get_slice_int($self'balances, 267, $target, 257);
+    if (null?($value)) {
+        var $fresh$ret_18 = 0;
+        return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_18);
+    }
+    var $fresh$ret_19 = __tact_not_null($value);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_19);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int)) $TAIUnlockController$_fun_supplySummary((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    int $contractBalance = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_balanceOfInternal($global_myAddress());
+    int $circulating = (100000000000 - $contractBalance);
+    var $fresh$ret_10 = $SupplySummary$_constructor_total_locked_circulating(100000000000, $self'remainingLocked, $circulating);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_10);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_balanceOf((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $target) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    var $fresh$ret_11 = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_balanceOfInternal($target);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_11);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), (int, int, int, int, int, int, int)) $TAIUnlockController$_fun_whitelistSaleInfo((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    int $remaining = ($self'whitelistSale'totalAmount - $self'whitelistSale'soldAmount);
+    if (($remaining < 0)) {
+        $remaining = 0;
+    }
+    var $fresh$ret_12 = $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd($self'whitelistSale'active, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $remaining, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_12);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_getWhitelistUsageInternal((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $addr) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    int $raw = __tact_dict_get_slice_int($self'whitelistUsage, 267, $addr, 257);
+    if (null?($raw)) {
+        var $fresh$ret_26 = 0;
+        return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_26);
+    }
+    var $fresh$ret_27 = __tact_not_null($raw);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_27);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_whitelistUsed((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $target) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    var $fresh$ret_13 = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_getWhitelistUsageInternal($target);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_13);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_requiredInflationForRound((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, int $round) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    if (( (($round >= 2)) ? (($round <= 7)) : (false) )) {
+        var $fresh$ret_14 = 100;
+        return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_14);
+    }
+    if (( (($round >= 8)) ? (($round <= 13)) : (false) )) {
+        var $fresh$ret_15 = 80;
+        return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_15);
+    }
+    if (( (($round >= 14)) ? (($round <= 19)) : (false) )) {
+        var $fresh$ret_16 = 50;
+        return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_16);
+    }
+    var $fresh$ret_17 = 0;
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_17);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), ()) $TAIUnlockController$_fun_transferTaiInternal((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $from, slice $to, int $amount) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    throw_unless(50295, ($amount > 0));
+    int $fromBalance = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_balanceOfInternal($from);
+    throw_unless(27056, ($fromBalance >= $amount));
+    $self'balances~__tact_dict_set_slice_int(267, $from, ($fromBalance - $amount), 257);
+    int $toBalance = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_balanceOfInternal($to);
+    $self'balances~__tact_dict_set_slice_int(267, $to, ($toBalance + $amount), 257);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), ());
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), cell) $TAIUnlockController$_fun_buildLeafCell((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, slice $addr, int $quota) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    builder $builder = $global_beginCell();
+    $Builder$_fun_storeAddress($builder, $addr);
+    store_uint($builder, $quota, 64);
+    var $fresh$ret_20 = $Builder$_fun_endCell($builder);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_20);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), cell) $TAIUnlockController$_fun_combineCells((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, cell $left, cell $right) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    builder $builder = $global_beginCell();
+    $Builder$_fun_storeRef($left, $builder);
+    $Builder$_fun_storeRef($right, $builder);
+    var $fresh$ret_21 = $Builder$_fun_endCell($builder);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_21);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), cell) $TAIUnlockController$_fun_foldProof((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, cell $current, cell $nodeOpt) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    if (null?($nodeOpt)) {
+        var $fresh$ret_23 = $current;
+        return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_23);
+    }
+    cell $node = __tact_not_null($nodeOpt);
+    slice $slice = $Cell$_fun_beginParse($node);
+    int $direction = $slice~load_uint(1);
+    cell $sibling = $slice~$Slice$_fun_loadRef();
+    cell $nextOpt = $slice~$Slice$_fun_loadMaybeRef();
+    cell $mutCombined = $current;
+    ifnot ($direction) {
+        $mutCombined = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_combineCells($sibling, $current);
+    } else {
+        $mutCombined = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_combineCells($current, $sibling);
+    }
+    var $fresh$ret_24 = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_foldProof($mutCombined, $nextOpt);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_24);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_verifyMerkleProof((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, cell $root, cell $leaf, cell $proofOpt) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    cell $finalCell = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_foldProof($leaf, $proofOpt);
+    var $fresh$ret_22 = ($Cell$_fun_hash($finalCell) == $Cell$_fun_hash($root));
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_22);
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), ()) $TAIUnlockController$_fun_resetWhitelistSale((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, int $distributeRemainder) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    if (( ($distributeRemainder) ? (($self'whitelistSale'soldAmount < $self'whitelistSale'totalAmount)) : (false) )) {
+        int $remaining = ($self'whitelistSale'totalAmount - $self'whitelistSale'soldAmount);
+        if (($remaining > 0)) {
+            ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_transferTaiInternal($global_myAddress(), $self'treasury, $remaining);
+        }
+    }
+    ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd) = $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd(false, null(), 0, 0, 0, 0, 0);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), ());
+}
+
+((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int), int) $TAIUnlockController$_fun_calculateStablePayment((slice, slice, int, cell, cell, int, int, int, int, int, int, int, int, int, int, tuple, slice, (int, cell, int, int, int, int, int), int, int) $self, int $amountTai, int $price) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)) = $self;
+    var $fresh$ret_25 = (($amountTai * $price) / 100000000);
+    return (($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt), $fresh$ret_25);
+}
+
+;;
+;; Get methods of a Contract TAIUnlockController
+;;
+
+_ %saleInfo() method_id(80950) {
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_saleInfo();
+    return $SaleInfo$_to_external(res);
+}
+
+_ %unlockStatus() method_id(130598) {
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_unlockStatus();
+    return $UnlockStatus$_to_external(res);
+}
+
+_ %lastRecordedPrice() method_id(74948) {
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_lastRecordedPrice();
+    return $PriceRecord$_to_opt_external(res);
+}
+
+_ %supplySummary() method_id(107839) {
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_supplySummary();
+    return $SupplySummary$_to_external(res);
+}
+
+_ %balanceOf(slice $target) method_id(96915) {
+    slice $target = $target;
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_balanceOf($target);
+    return res;
+}
+
+_ %whitelistSaleInfo() method_id(88112) {
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_whitelistSaleInfo();
+    return $WhitelistSaleInfo$_to_external(res);
+}
+
+_ %whitelistUsed(slice $target) method_id(123271) {
+    slice $target = $target;
+    var self = $TAIUnlockController$_contract_load();
+    var res = self~$TAIUnlockController$_fun_whitelistUsed($target);
+    return res;
+}
+
+;;
+;; Routing of a Contract TAIUnlockController
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt) = $TAIUnlockController$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive SetInitialPrice message
+    if (op == 3861224729) {
+        var $msg'price = in_msg~load_int(257);
+        var $msg'timestamp = in_msg~load_int(257);
+        throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        throw_unless(36934, (~ $self'initialPriceSet));
+        throw_unless(33565, ($msg'price >= 1));
+        throw_unless(6593, ($msg'timestamp >= $global_now()));
+        $self'lastRoundPrice = $msg'price;
+        $self'lastRoundTimestamp = $msg'timestamp;
+        $self'lastRoundId = 1;
+        $self'initialPriceSet = true;
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive RecordPrice message
+    if (op == 3167374006) {
+        var $msg'price = in_msg~load_int(257);
+        var $msg'timestamp = in_msg~load_int(257);
+        var $msg'round = in_msg~load_int(257);
+        throw_unless(33565, ($msg'price >= 1));
+        throw_unless(25076, $self'initialPriceSet);
+        throw_unless(4561, ($msg'timestamp >= $self'lastRoundTimestamp));
+        $self'pendingPrice = $PriceRecord$_as_optional($PriceRecord$_constructor_price_timestamp_round($msg'price, $msg'timestamp, $msg'round));
+        int $nextRound = ($self'currentRound + 1);
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive UnlockRound message
+    if (op == 2301350297) {
+        var $msg = empty_tuple();
+        throw_unless(25076, $self'initialPriceSet);
+        throw_unless(5635, (~ $self'paused));
+        int $targetRound = ($self'currentRound + 1);
+        throw_unless(26180, ($targetRound <= 19));
+        throw_unless(36606, ($self'remainingLocked >= 5000000000));
+        tuple $recordOpt = $self'pendingPrice;
+        throw_unless(25644, (~ null?($recordOpt)));
+        var ($record'price, $record'timestamp, $record'round) = $PriceRecord$_not_null($recordOpt);
+        throw_unless(51795, ($record'timestamp >= ($self'lastRoundTimestamp + 86400)));
+        int $requiredInflation = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_requiredInflationForRound($targetRound);
+        int $lhs = ($record'price * 100);
+        int $rhs = ($self'lastRoundPrice * (100 + $requiredInflation));
+        throw_unless(15221, ($lhs >= $rhs));
+        $self'remainingLocked = ($self'remainingLocked - 5000000000);
+        $self'currentRound = $targetRound;
+        $self'lastRoundPrice = $record'price;
+        $self'lastRoundTimestamp = $record'timestamp;
+        $self'lastRoundId = $record'round;
+        $self'pendingPrice = null();
+        ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_transferTaiInternal($global_myAddress(), $self'treasury, 5000000000);
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive PauseUnlock message
+    if (op == 3107043122) {
+        var $msg'value = in_msg~load_int(1);
+        throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        $self'paused = $msg'value;
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive BuyTokens message
+    if (op == 1294606507) {
+        var $msg'tonAmount = in_msg~load_int(257);
+        var $msg'taiAmount = in_msg~load_int(257);
+        var $msg'beneficiary = in_msg~load_msg_addr();
+        throw_unless(16021, (~ $self'saleClosed));
+        throw_unless(19104, ($global_now() < $self'saleEndTimestamp));
+        throw_unless(10849, ($msg'taiAmount > 0));
+        throw_unless(32219, ($msg'tonAmount > 0));
+        throw_unless(35815, ($msg'taiAmount <= $self'remainingSaleSupply));
+        throw_unless(30566, ($Context$_get_value(__tact_context_get()) >= $msg'tonAmount));
+        $self'remainingSaleSupply = ($self'remainingSaleSupply - $msg'taiAmount);
+        $self'totalSaleSold = ($self'totalSaleSold + $msg'taiAmount);
+        ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_transferTaiInternal($global_myAddress(), $msg'beneficiary, $msg'taiAmount);
+        ifnot ($self'remainingSaleSupply) {
+            $self'saleClosed = true;
+        }
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive ClaimFission message
+    if (op == 18720429) {
+        var $msg'recipient = in_msg~load_msg_addr();
+        var $msg'amount = in_msg~load_int(257);
+        throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        throw_unless(10849, ($msg'amount > 0));
+        throw_unless(16021, (~ $self'saleClosed));
+        throw_unless(35815, ($msg'amount <= $self'remainingSaleSupply));
+        $self'remainingSaleSupply = ($self'remainingSaleSupply - $msg'amount);
+        $self'totalSaleSold = ($self'totalSaleSold + $msg'amount);
+        ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_transferTaiInternal($global_myAddress(), $msg'recipient, $msg'amount);
+        ifnot ($self'remainingSaleSupply) {
+            $self'saleClosed = true;
+        }
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive RefundSaleRemainder message
+    if (op == 3981117921) {
+        var $msg = empty_tuple();
+        throw_unless(50349, (~ $self'saleClosed));
+        throw_unless(43767, ( (($global_now() >= $self'saleEndTimestamp)) ? (true) : (($self'remainingSaleSupply == 0)) ));
+        int $remaining = $self'remainingSaleSupply;
+        if (($remaining > 0)) {
+            ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_transferTaiInternal($global_myAddress(), $self'treasury, $remaining);
+        }
+        $self'remainingSaleSupply = 0;
+        $self'saleClosed = true;
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive StartWhitelistSale message
+    if (op == 1773594179) {
+        var $msg'merkleRoot = in_msg~load_ref();
+        var $msg'totalAmount = in_msg~load_int(257);
+        var $msg'baselinePrice = in_msg~load_int(257);
+        var $msg'currentPrice = in_msg~load_int(257);
+        slice sc_1 = in_msg~load_ref().begin_parse();
+        var $msg'windowSeconds = sc_1~load_int(257);
+        throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        throw_unless(15930, (~ $self'whitelistSale'active));
+        throw_unless(48891, ($msg'totalAmount > 0));
+        throw_unless(29358, ($msg'baselinePrice >= 1));
+        throw_unless(29174, ($msg'windowSeconds > 0));
+        int $windowSeconds = $msg'windowSeconds;
+        int $mutWindowDuration = $windowSeconds;
+        if (($windowSeconds > 259200)) {
+            $mutWindowDuration = 259200;
+        }
+        ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd) = $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd(true, $msg'merkleRoot, $msg'totalAmount, 0, $msg'baselinePrice, $msg'currentPrice, ($global_now() + $mutWindowDuration));
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive CancelWhitelistSale message
+    if (op == 1380739122) {
+        var $msg = empty_tuple();
+        throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        ifnot ($self'whitelistSale'active) {
+            $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+            return ();
+        }
+        ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_resetWhitelistSale(false);
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive CloseWhitelistSale message
+    if (op == 3164457204) {
+        var $msg = empty_tuple();
+        ifnot ($self'whitelistSale'active) {
+            $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+            return ();
+        }
+        throw_unless(10757, ( (($global_now() >= $self'whitelistSale'windowEnd)) ? (true) : (( equal_slices_bits(__tact_context_get_sender(), $self'admin) )) ));
+        ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_resetWhitelistSale(true);
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive PurchaseWhitelist message
+    if (op == 2162821518) {
+        var $msg'amount = in_msg~load_int(257);
+        var $msg'quota = in_msg~load_int(257);
+        var $msg'proof = in_msg~load_maybe_ref();
+        var $msg'beneficiary = in_msg~load_msg_addr();
+        throw_unless(7807, $self'whitelistSale'active);
+        throw_unless(11099, ($global_now() <= $self'whitelistSale'windowEnd));
+        throw_unless(10849, ($msg'amount > 0));
+        throw_unless(2907, ($msg'quota > 0));
+        cell $merkleRootOpt = $self'whitelistSale'merkleRoot;
+        throw_unless(13010, (~ null?($merkleRootOpt)));
+        cell $merkleRoot = __tact_not_null($merkleRootOpt);
+        slice $buyer = __tact_context_get_sender();
+        slice $beneficiary = $msg'beneficiary;
+        throw_unless(38791, ( equal_slices_bits($buyer, $beneficiary) ));
+        cell $leaf = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_buildLeafCell($beneficiary, $msg'quota);
+        cell $proofCell = $msg'proof;
+        throw_unless(57785, ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_verifyMerkleProof($merkleRoot, $leaf, $proofCell));
+        int $used = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_getWhitelistUsageInternal($beneficiary);
+        throw_unless(19196, (($used + $msg'amount) <= $msg'quota));
+        throw_unless(32395, (($self'whitelistSale'soldAmount + $msg'amount) <= $self'whitelistSale'totalAmount));
+        $self'whitelistUsage~__tact_dict_set_slice_int(267, $beneficiary, ($used + $msg'amount), 257);
+        $self'whitelistSale'soldAmount = ($self'whitelistSale'soldAmount + $msg'amount);
+        int $payment = ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_calculateStablePayment($msg'amount, $self'whitelistSale'baselinePrice);
+        $self'reserveUsdc = ($self'reserveUsdc + $payment);
+        ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_transferTaiInternal($global_myAddress(), $beneficiary, $msg'amount);
+        if (($self'whitelistSale'soldAmount >= $self'whitelistSale'totalAmount)) {
+            ($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt)~$TAIUnlockController$_fun_resetWhitelistSale(true);
+        }
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive TriggerEmergencyBuyback message
+    if (op == 2652668014) {
+        var $msg'priceNow = in_msg~load_int(257);
+        var $msg'pricePrev = in_msg~load_int(257);
+        throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+        throw_unless(33565, ($msg'pricePrev > 0));
+        throw_unless(33565, ($msg'priceNow > 0));
+        int $doubled = ($msg'priceNow * 2);
+        throw_unless(2459, ($doubled <= $msg'pricePrev));
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $TAIUnlockController$_contract_store(($self'admin, $self'treasury, $self'saleEndTimestamp, $self'balances, $self'whitelistUsage, $self'remainingSaleSupply, $self'totalSaleSold, $self'saleClosed, $self'remainingLocked, $self'currentRound, $self'paused, $self'initialPriceSet, $self'lastRoundPrice, $self'lastRoundTimestamp, $self'lastRoundId, $self'pendingPrice, $self'usdcMaster, ($self'whitelistSale'active, $self'whitelistSale'merkleRoot, $self'whitelistSale'totalAmount, $self'whitelistSale'soldAmount, $self'whitelistSale'baselinePrice, $self'whitelistSale'currentPrice, $self'whitelistSale'windowEnd), $self'reserveUsdc, $self'reserveUsdt));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

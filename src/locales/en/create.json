@@ -8,16 +8,15 @@
     "closesAt": "Select a closing time",
     "maxStake": "Maximum stake must exceed minimum",
     "minStake": "Minimum stake must be positive",
-    "rewardTaiMin": "Reward must be at least 100 TAI",
-    "rewardTaiMax": "Reward cannot exceed 10,000 TAI",
     "title": "Please enter a title"
   },
   "fields": {
     "closesAt": "Closes at",
     "maxStake": "Maximum stake",
     "minStake": "Minimum stake",
-    "rewardTai": "Juror reward (TAI)",
-    "title": "Title"
+    "title": "Title",
+    "referenceLink": "Reference link",
+    "tags": "Categories"
   },
   "form": {
     "hint": "Define the market parameters before requesting on-chain approval.",
@@ -28,13 +27,64 @@
     "connectFirst": "Connect your TON wallet before configuring the market.",
     "submitting": "Publishing...",
     "permissionLoading": "Checking creation quota...",
-    "permissionReady": "Ready · Cooldown every {{hours}}h · DAO points {{points}}",
-    "permissionDetail": "Reward range {{min}}-{{max}} TAI · Minimum interval {{interval}}h per creation.",
+    "permissionReady": "Ready · interval {{hours}}h · stake {{stake}} TAI",
     "refreshPermission": "Refresh",
-    "cooldownMessage": "Cooldown active · wait ~{{hours}}h (next slot {{time}})",
-    "cooldownBlocked": "Creation cooldown in effect. Try again in ~{{hours}}h (next slot {{time}}).",
-    "rewardHint": "Juror reward between {{min}} and {{max}} TAI. Higher rewards attract more jurors.",
-    "feeSummary": "Juror reward locks {{reward}} TAI from your balance. Additional network fee {{gas}}."
+    "cooldownMessage": "Cooldown · available in ~{{hours}}h (next {{time}})",
+    "cooldownBlocked": "Still cooling down. Try again in ~{{hours}}h ({{time}}).",
+    "stakeSummary": "Lock {{stake}} TAI. Refunded after settlement.",
+    "stakeSummaryHint": "Stake is refunded when the market settles. Appeals or malicious behaviour may slash part of the stake.",
+    "stakeCardTitle": "Creation stake requirement",
+    "stakeCardSubtitle": "Meet the stake and cooldown to publish. Stake unlocks automatically once the market finalises.",
+    "stakeCardAmount": "{{stake}} TAI",
+    "stakeCardCooldown": "Cooldown {{cooldown}}h",
+    "permissionSummary": "Points {{points}} · Level {{level}}",
+    "stakeOptionsTitle": "Select stake amount",
+    "stakeOptionsHint": "Higher stakes spotlight your market and seed the juror reward pool.",
+    "stakeOptionsCustom": "Custom amount",
+    "stakeOptionsInputHint": "Between {{min}} and {{max}} TAI",
+    "stakeSummarySelected": "Locking {{stake}} TAI (min required {{min}} TAI).",
+    "referenceLinkHint": "Optional. Include https:// and keep within {{max}} characters.",
+    "tagsHint": "Optional. Select up to {{count}} tags to boost discovery."
+  },
+  "hotTopics": {
+    "title": "Hot topics & templates",
+    "subtitle": "Bring real-world headlines into your market question with one tap.",
+    "refresh": "Refresh",
+    "trending": "Trending",
+    "sports": "Sports",
+    "politics": "Politics",
+    "society": "Society",
+    "entertainment": "Entertainment",
+    "crypto": "Crypto",
+    "apply": "Use template",
+    "recommended": "Suggested",
+    "heat": "Heat {{value}}",
+    "empty": "No hot topics found for this category yet. Try another tab."
+  },
+  "referencePreview": {
+    "title": "Reference preview",
+    "summary": "Summary",
+    "link": "Reference link",
+    "tags": "Applied tags"
+  },
+  "tags": {
+    "sports": "Sports",
+    "politics": "Politics",
+    "society": "Society",
+    "entertainment": "Entertainment",
+    "crypto": "Crypto",
+    "other": "Other"
+  },
+  "confirm": {
+    "title": "Confirm publish",
+    "description": "Review the details before locking stake and publishing.",
+    "marketTitle": "Market title",
+    "closeTime": "Closes at",
+    "stake": "TAI stake",
+    "referenceLink": "Reference link",
+    "referenceSummary": "Summary",
+    "publish": "Lock & publish",
+    "cancel": "Back to edit"
   },
   "schedule": {
     "items": [

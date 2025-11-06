@@ -1,0 +1,1124 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; PredictionMarket_PredictionMarket.headers.fc
+;;
+;; Header files for PredictionMarket
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_dict_get_slice_int
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline;
+
+;; __tact_dict_set_slice_int
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline;
+
+;; __tact_dict_get_slice_cell
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline;
+
+;; __tact_dict_set_slice_cell
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline;
+
+;; __tact_dict_get_int_cell
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline;
+
+;; __tact_dict_set_int_cell
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline;
+
+;; $Market$_store
+builder $Market$_store(builder build_0, (int, slice, int, int, int, int, int, int, int, int, int, int, int, cell) v) inline_ref;
+
+;; $Market$_store_cell
+cell $Market$_store_cell((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell) v, builder b) inline;
+
+;; $Market$_load
+(slice, ((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell))) $Market$_load(slice sc_0) inline_ref;
+
+;; $Market$_as_optional
+tuple $Market$_as_optional((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell) v) inline;
+
+;; $Market$_load_opt
+tuple $Market$_load_opt(cell cl) inline;
+
+;; $BetPosition$_store
+builder $BetPosition$_store(builder build_0, (int, int, int, int) v) inline;
+
+;; $BetPosition$_store_cell
+cell $BetPosition$_store_cell((int, int, int, int) v, builder b) inline;
+
+;; $BetPosition$_load
+(slice, ((int, int, int, int))) $BetPosition$_load(slice sc_0) inline;
+
+;; $BetPosition$_as_optional
+tuple $BetPosition$_as_optional((int, int, int, int) v) inline;
+
+;; $BetPosition$_load_opt
+tuple $BetPosition$_load_opt(cell cl) inline;
+
+;; $PositionBook$_store
+builder $PositionBook$_store(builder build_0, (cell) v) inline;
+
+;; $PositionBook$_store_cell
+cell $PositionBook$_store_cell((cell) v, builder b) inline;
+
+;; $PositionBook$_load
+(slice, ((cell))) $PositionBook$_load(slice sc_0) inline;
+
+;; $PositionBook$_as_optional
+tuple $PositionBook$_as_optional((cell) v) inline;
+
+;; $PositionBook$_load_opt
+tuple $PositionBook$_load_opt(cell cl) inline;
+
+;; $PredictionMarket$_store
+builder $PredictionMarket$_store(builder build_0, (slice, slice, slice, int, cell, cell, cell, int) v) inline;
+
+;; $PredictionMarket$_load
+(slice, ((slice, slice, slice, int, cell, cell, cell, int))) $PredictionMarket$_load(slice sc_0) inline;
+
+;; $Market$_not_null
+((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell)) $Market$_not_null(tuple v) inline;
+
+;; $Market$_to_tuple
+tuple $Market$_to_tuple(((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell)) v) inline;
+
+;; $Market$_to_opt_tuple
+tuple $Market$_to_opt_tuple(tuple v) inline;
+
+;; $Market$_to_opt_external
+tuple $Market$_to_opt_external(tuple v) inline;
+
+;; $BetPosition$_not_null
+((int, int, int, int)) $BetPosition$_not_null(tuple v) inline;
+
+;; $BetPosition$_to_tuple
+tuple $BetPosition$_to_tuple(((int, int, int, int)) v) inline;
+
+;; $BetPosition$_to_opt_tuple
+tuple $BetPosition$_to_opt_tuple(tuple v) inline;
+
+;; $BetPosition$_to_opt_external
+tuple $BetPosition$_to_opt_external(tuple v) inline;
+
+;; $PositionBook$_get_entries
+_ $PositionBook$_get_entries((cell) v) inline;
+
+;; $PositionBook$_not_null
+((cell)) $PositionBook$_not_null(tuple v) inline;
+
+;; $PredictionMarket$init$_load
+(slice, ((slice, slice, slice))) $PredictionMarket$init$_load(slice sc_0) inline;
+
+;; $PredictionMarket$_contract_init
+(slice, slice, slice, int, cell, cell, cell, int) $PredictionMarket$_contract_init(slice $admin, slice $treasury, slice $staking) impure inline;
+
+;; $PredictionMarket$_contract_load
+(slice, slice, slice, int, cell, cell, cell, int) $PredictionMarket$_contract_load() impure inline;
+
+;; $PredictionMarket$_contract_store
+() $PredictionMarket$_contract_store((slice, slice, slice, int, cell, cell, cell, int) v) impure inline;
+
+;; $PredictionMarket$_fun_marketInfo
+((slice, slice, slice, int, cell, cell, cell, int), tuple) $PredictionMarket$_fun_marketInfo((slice, slice, slice, int, cell, cell, cell, int) $self, int $id) impure inline_ref;
+
+;; $PredictionMarket$_fun_positionOf
+((slice, slice, slice, int, cell, cell, cell, int), tuple) $PredictionMarket$_fun_positionOf((slice, slice, slice, int, cell, cell, cell, int) $self, int $id, slice $user) impure inline_ref;
+
+;; $PredictionMarket$_fun_creditOf
+((slice, slice, slice, int, cell, cell, cell, int), int) $PredictionMarket$_fun_creditOf((slice, slice, slice, int, cell, cell, cell, int) $self, slice $user) impure inline_ref;
+
+;; $SendParameters$_constructor_to_value_bounce_mode_body_code_data
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_bounce_mode_body_code_data(slice $to, int $value, int $bounce, int $mode, cell $body, cell $code, cell $data) inline;
+
+;; $PredictionMarket$_fun_handleRewardPayouts
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_handleRewardPayouts((slice, slice, slice, int, cell, cell, cell, int) $self, cell $cellOpt, int $marketId, int $rewardPool) impure inline_ref;
+
+;; $PredictionMarket$_fun_handleSlashList
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_handleSlashList((slice, slice, slice, int, cell, cell, cell, int) $self, cell $cellOpt, int $marketId) impure inline_ref;
+
+;; $PredictionMarket$_fun_creditUser
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_creditUser((slice, slice, slice, int, cell, cell, cell, int) $self, slice $user, int $amount) impure inline_ref;
+
+;; $PredictionMarket$_fun_ensureAdmin
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_ensureAdmin((slice, slice, slice, int, cell, cell, cell, int) $self) impure inline_ref;
+
+;; $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata
+((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell)) $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata(int $id, slice $creator, int $closeTime, int $status, int $outcome, int $creatorStake, int $yesPool, int $noPool, int $feeBps, int $rewardBps, int $platformFees, int $rewardPool, int $resolvedAt, cell $metadata) inline;
+
+;; $PositionBook$_constructor_entries
+((cell)) $PositionBook$_constructor_entries(cell $entries) inline;
+
+;; $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo
+((int, int, int, int)) $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo(int $yesAmount, int $noAmount, int $claimedYes, int $claimedNo) inline;
+
+
+;; PredictionMarket_PredictionMarket.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+(cell, int) __tact_dict_delete(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTDEL
+""";
+
+((cell), ()) __tact_dict_set_ref(cell dict, int key_len, slice index, cell value) asm(value index dict key_len) """
+    DICTSETREF
+""";
+
+(slice, int) __tact_dict_get(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGET NULLSWAPIFNOT
+""";
+
+(cell, int) __tact_dict_get_ref(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGETREF NULLSWAPIFNOT
+""";
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0 -> tuple __tact_tuple_create_1((X0) v) asm """
+    1 TUPLE
+""";
+
+forall X0 -> (X0) __tact_tuple_destroy_1(tuple v) asm """
+    1 UNTUPLE
+""";
+
+forall X0, X1, X2, X3 -> tuple __tact_tuple_create_4((X0, X1, X2, X3) v) asm """
+    4 TUPLE
+""";
+
+forall X0, X1, X2, X3 -> (X0, X1, X2, X3) __tact_tuple_destroy_4(tuple v) asm """
+    4 UNTUPLE
+""";
+
+forall X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13 -> tuple __tact_tuple_create_14((X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13) v) asm """
+    14 TUPLE
+""";
+
+forall X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13 -> (X0, X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, X11, X12, X13) __tact_tuple_destroy_14(tuple v) asm """
+    14 UNTUPLE
+""";
+
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline {
+    var (r, ok) = __tact_dict_get(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return (dict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline {
+    var (r, ok) = __tact_dict_get_ref(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return __tact_dict_set_ref(d, kl, k, v);
+    }
+}
+
+cell __tact_dict_get_int_cell(cell d, int kl, int k) inline {
+    var (r, ok) = idict_get_ref?(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_int_cell(cell d, int kl, int k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = idict_delete?(d, kl, k);
+        return (r, ());
+    } else {
+        return (idict_set_ref(d, kl, k, v), ());
+    }
+}
+
+builder $global_beginCell() impure asm """
+    NEWC
+""";
+
+int $global_min(int $x, int $y) impure asm """
+    MIN
+""";
+
+() $global_send((int, cell, cell, cell, int, slice, int) $params) impure asm """
+    NEWC
+    b{01} STSLICECONST  // store tag = $0 and ihr_disabled = true
+    1 STI               // store `bounce`
+    b{000} STSLICECONST // store bounced = false and src = addr_none
+    STSLICE             // store `to`
+    SWAP
+    STGRAMS             // store `value`
+    105 PUSHINT         // 1 + 4 + 4 + 64 + 32
+    STZEROES            // store currency_collection, ihr_fee, fwd_fee, created_lt and created_at
+    // → Stack state
+    // s0: Builder
+    // s1: `data`
+    // s2: `code`
+    // s3: `body`
+    // s4: `mode`
+
+    // Group 2: Placing the Builder after code and data, then checking those for nullability
+    s2 XCHG0
+    DUP2
+    ISNULL
+    SWAP
+    ISNULL
+    AND
+    // → Stack state
+    // s0: -1 (true) if `data` and `code` are both null, 0 (false) otherwise
+    // s1: `code`
+    // s2: `data`
+    // s3: Builder
+    // s4: `body`
+    // s5: `mode`
+
+    // Group 3: Left branch of the IFELSE, executed if s0 is -1 (true)
+    <{
+        DROP2 // drop `data` and `code`, since either of those is null
+        b{0} STSLICECONST
+    }> PUSHCONT
+
+    // Group 3: Right branch of the IFELSE, executed if s0 is 0 (false)
+    <{
+        // _ split_depth:(Maybe (## 5))
+        //   special:(Maybe TickTock)
+        //   code:(Maybe ^Cell)
+        //   data:(Maybe ^Cell)
+        //   library:(Maybe ^Cell)
+        // = StateInit;
+        ROT                // place message Builder on top
+        b{10} STSLICECONST // store Maybe = true, Either = false
+        // Start composing inlined StateInit
+        b{00} STSLICECONST // store split_depth and special first
+        STDICT             // store code
+        STDICT             // store data
+        b{0} STSLICECONST  // store library
+    }> PUSHCONT
+
+    // Group 3: IFELSE that does the branching shown above
+    IFELSE
+    // → Stack state
+    // s0: Builder
+    // s1: null or StateInit
+    // s2: `body`
+    // s3: `mode`
+
+    // Group 4: Finalizing the message
+    STDICT // store `body` as ref with an extra Maybe bit, since `body` might be null
+    ENDC
+    // → Stack state
+    // s0: Cell
+    // s1: `mode`
+
+    // Group 5: Sending the message, with `mode` on top
+    SWAP
+    SENDRAWMSG // https://github.com/tact-lang/tact/issues/1558
+""";
+
+int $global_now() impure asm """
+    NOW
+""";
+
+builder $Builder$_fun_storeBit(int $value, builder $self) impure asm """
+    1 STI
+""";
+
+builder $Builder$_fun_storeRef(cell $cell, builder $self) impure asm """
+    STREF
+""";
+
+cell $Builder$_fun_endCell(builder $self) impure asm """
+    ENDC
+""";
+
+;; PredictionMarket_PredictionMarket.storage.fc
+;;
+;; Type: SendParameters
+;; TLB: _ mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell value:int257 to:address bounce:bool = SendParameters
+;;
+
+((int, cell, cell, cell, int, slice, int)) $SendParameters$_constructor_to_value_bounce_mode_body_code_data(slice $to, int $value, int $bounce, int $mode, cell $body, cell $code, cell $data) inline {
+    return ($mode, $body, $code, $data, $value, $to, $bounce);
+}
+
+;;
+;; Type: Market
+;; TLB: _ id:int257 creator:address closeTime:int257 status:int257 outcome:int257 creatorStake:int257 yesPool:int257 noPool:int257 feeBps:int257 rewardBps:int257 platformFees:int257 rewardPool:int257 resolvedAt:int257 metadata:Maybe ^cell = Market
+;;
+
+builder $Market$_store(builder build_0, (int, slice, int, int, int, int, int, int, int, int, int, int, int, cell) v) inline_ref {
+    var (v'id, v'creator, v'closeTime, v'status, v'outcome, v'creatorStake, v'yesPool, v'noPool, v'feeBps, v'rewardBps, v'platformFees, v'rewardPool, v'resolvedAt, v'metadata) = v;
+    build_0 = build_0.store_int(v'id, 257);
+    build_0 = build_0.store_slice(v'creator);
+    build_0 = build_0.store_int(v'closeTime, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'status, 257);
+    build_1 = build_1.store_int(v'outcome, 257);
+    build_1 = build_1.store_int(v'creatorStake, 257);
+    var build_2 = begin_cell();
+    build_2 = build_2.store_int(v'yesPool, 257);
+    build_2 = build_2.store_int(v'noPool, 257);
+    build_2 = build_2.store_int(v'feeBps, 257);
+    var build_3 = begin_cell();
+    build_3 = build_3.store_int(v'rewardBps, 257);
+    build_3 = build_3.store_int(v'platformFees, 257);
+    build_3 = build_3.store_int(v'rewardPool, 257);
+    var build_4 = begin_cell();
+    build_4 = build_4.store_int(v'resolvedAt, 257);
+    build_4 = build_4.store_maybe_ref(v'metadata);
+    build_3 = store_builder_ref(build_3, build_4);
+    build_2 = store_builder_ref(build_2, build_3);
+    build_1 = store_builder_ref(build_1, build_2);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+cell $Market$_store_cell((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell) v, builder b) inline {
+    return $Market$_store(b, v).end_cell();
+}
+
+(slice, ((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell))) $Market$_load(slice sc_0) inline_ref {
+    var v'id = sc_0~load_int(257);
+    var v'creator = sc_0~load_msg_addr();
+    var v'closeTime = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'status = sc_1~load_int(257);
+    var v'outcome = sc_1~load_int(257);
+    var v'creatorStake = sc_1~load_int(257);
+    slice sc_2 = sc_1~load_ref().begin_parse();
+    var v'yesPool = sc_2~load_int(257);
+    var v'noPool = sc_2~load_int(257);
+    var v'feeBps = sc_2~load_int(257);
+    slice sc_3 = sc_2~load_ref().begin_parse();
+    var v'rewardBps = sc_3~load_int(257);
+    var v'platformFees = sc_3~load_int(257);
+    var v'rewardPool = sc_3~load_int(257);
+    slice sc_4 = sc_3~load_ref().begin_parse();
+    var v'resolvedAt = sc_4~load_int(257);
+    var v'metadata = sc_4~load_maybe_ref();
+    return (sc_0, (v'id, v'creator, v'closeTime, v'status, v'outcome, v'creatorStake, v'yesPool, v'noPool, v'feeBps, v'rewardBps, v'platformFees, v'rewardPool, v'resolvedAt, v'metadata));
+}
+
+tuple $Market$_as_optional((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell) v) inline {
+    var (v'id, v'creator, v'closeTime, v'status, v'outcome, v'creatorStake, v'yesPool, v'noPool, v'feeBps, v'rewardBps, v'platformFees, v'rewardPool, v'resolvedAt, v'metadata) = v;
+    return __tact_tuple_create_14(v'id, v'creator, v'closeTime, v'status, v'outcome, v'creatorStake, v'yesPool, v'noPool, v'feeBps, v'rewardBps, v'platformFees, v'rewardPool, v'resolvedAt, v'metadata);
+}
+
+tuple $Market$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $Market$_as_optional(sc~$Market$_load());
+}
+
+((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell)) $Market$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'id, slice vvv'creator, int vvv'closeTime, int vvv'status, int vvv'outcome, int vvv'creatorStake, int vvv'yesPool, int vvv'noPool, int vvv'feeBps, int vvv'rewardBps, int vvv'platformFees, int vvv'rewardPool, int vvv'resolvedAt, cell vvv'metadata) = __tact_tuple_destroy_14(v);
+    return (vvv'id, vvv'creator, vvv'closeTime, vvv'status, vvv'outcome, vvv'creatorStake, vvv'yesPool, vvv'noPool, vvv'feeBps, vvv'rewardBps, vvv'platformFees, vvv'rewardPool, vvv'resolvedAt, vvv'metadata);
+}
+
+tuple $Market$_to_tuple(((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell)) v) inline {
+    var (v'id, v'creator, v'closeTime, v'status, v'outcome, v'creatorStake, v'yesPool, v'noPool, v'feeBps, v'rewardBps, v'platformFees, v'rewardPool, v'resolvedAt, v'metadata) = v;
+    return __tact_tuple_create_14(v'id, v'creator, v'closeTime, v'status, v'outcome, v'creatorStake, v'yesPool, v'noPool, v'feeBps, v'rewardBps, v'platformFees, v'rewardPool, v'resolvedAt, v'metadata);
+}
+
+tuple $Market$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $Market$_to_tuple($Market$_not_null(v)); 
+}
+
+tuple $Market$_to_opt_external(tuple v) inline {
+    var loaded = $Market$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, slice, int, int, int, int, int, int, int, int, int, int, int, cell)) $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata(int $id, slice $creator, int $closeTime, int $status, int $outcome, int $creatorStake, int $yesPool, int $noPool, int $feeBps, int $rewardBps, int $platformFees, int $rewardPool, int $resolvedAt, cell $metadata) inline {
+    return ($id, $creator, $closeTime, $status, $outcome, $creatorStake, $yesPool, $noPool, $feeBps, $rewardBps, $platformFees, $rewardPool, $resolvedAt, $metadata);
+}
+
+;;
+;; Type: BetPosition
+;; TLB: _ yesAmount:int257 noAmount:int257 claimedYes:bool claimedNo:bool = BetPosition
+;;
+
+builder $BetPosition$_store(builder build_0, (int, int, int, int) v) inline {
+    var (v'yesAmount, v'noAmount, v'claimedYes, v'claimedNo) = v;
+    build_0 = build_0.store_int(v'yesAmount, 257);
+    build_0 = build_0.store_int(v'noAmount, 257);
+    build_0 = build_0.store_int(v'claimedYes, 1);
+    build_0 = build_0.store_int(v'claimedNo, 1);
+    return build_0;
+}
+
+cell $BetPosition$_store_cell((int, int, int, int) v, builder b) inline {
+    return $BetPosition$_store(b, v).end_cell();
+}
+
+(slice, ((int, int, int, int))) $BetPosition$_load(slice sc_0) inline {
+    var v'yesAmount = sc_0~load_int(257);
+    var v'noAmount = sc_0~load_int(257);
+    var v'claimedYes = sc_0~load_int(1);
+    var v'claimedNo = sc_0~load_int(1);
+    return (sc_0, (v'yesAmount, v'noAmount, v'claimedYes, v'claimedNo));
+}
+
+tuple $BetPosition$_as_optional((int, int, int, int) v) inline {
+    var (v'yesAmount, v'noAmount, v'claimedYes, v'claimedNo) = v;
+    return __tact_tuple_create_4(v'yesAmount, v'noAmount, v'claimedYes, v'claimedNo);
+}
+
+tuple $BetPosition$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $BetPosition$_as_optional(sc~$BetPosition$_load());
+}
+
+((int, int, int, int)) $BetPosition$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'yesAmount, int vvv'noAmount, int vvv'claimedYes, int vvv'claimedNo) = __tact_tuple_destroy_4(v);
+    return (vvv'yesAmount, vvv'noAmount, vvv'claimedYes, vvv'claimedNo);
+}
+
+tuple $BetPosition$_to_tuple(((int, int, int, int)) v) inline {
+    var (v'yesAmount, v'noAmount, v'claimedYes, v'claimedNo) = v;
+    return __tact_tuple_create_4(v'yesAmount, v'noAmount, v'claimedYes, v'claimedNo);
+}
+
+tuple $BetPosition$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $BetPosition$_to_tuple($BetPosition$_not_null(v)); 
+}
+
+tuple $BetPosition$_to_opt_external(tuple v) inline {
+    var loaded = $BetPosition$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, int, int, int)) $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo(int $yesAmount, int $noAmount, int $claimedYes, int $claimedNo) inline {
+    return ($yesAmount, $noAmount, $claimedYes, $claimedNo);
+}
+
+;;
+;; Type: PositionBook
+;; TLB: _ entries:dict<address, ^BetPosition{yesAmount:int257,noAmount:int257,claimedYes:bool,claimedNo:bool}> = PositionBook
+;;
+
+builder $PositionBook$_store(builder build_0, (cell) v) inline {
+    var (v'entries) = v;
+    build_0 = build_0.store_dict(v'entries);
+    return build_0;
+}
+
+cell $PositionBook$_store_cell((cell) v, builder b) inline {
+    return $PositionBook$_store(b, v).end_cell();
+}
+
+(slice, ((cell))) $PositionBook$_load(slice sc_0) inline {
+    var v'entries = sc_0~load_dict();
+    return (sc_0, (v'entries));
+}
+
+tuple $PositionBook$_as_optional((cell) v) inline {
+    var (v'entries) = v;
+    return __tact_tuple_create_1(v'entries);
+}
+
+tuple $PositionBook$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $PositionBook$_as_optional(sc~$PositionBook$_load());
+}
+
+_ $PositionBook$_get_entries((cell) v) inline {
+    var (v'entries) = v;
+    return v'entries;
+}
+
+((cell)) $PositionBook$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (cell vvv'entries) = __tact_tuple_destroy_1(v);
+    return (vvv'entries);
+}
+
+((cell)) $PositionBook$_constructor_entries(cell $entries) inline {
+    return ($entries);
+}
+
+;;
+;; Type: PredictionMarket
+;; TLB: _ admin:address treasury:address staking:address nextMarketId:int257 markets:dict<int, ^Market{id:int257,creator:address,closeTime:int257,status:int257,outcome:int257,creatorStake:int257,yesPool:int257,noPool:int257,feeBps:int257,rewardBps:int257,platformFees:int257,rewardPool:int257,resolvedAt:int257,metadata:Maybe ^cell}> positions:dict<int, ^PositionBook{entries:dict<address, ^BetPosition{yesAmount:int257,noAmount:int257,claimedYes:bool,claimedNo:bool}>}> userCredits:dict<address, int> platformVault:int257 = PredictionMarket
+;;
+
+builder $PredictionMarket$_store(builder build_0, (slice, slice, slice, int, cell, cell, cell, int) v) inline {
+    var (v'admin, v'treasury, v'staking, v'nextMarketId, v'markets, v'positions, v'userCredits, v'platformVault) = v;
+    build_0 = build_0.store_slice(v'admin);
+    build_0 = build_0.store_slice(v'treasury);
+    build_0 = build_0.store_slice(v'staking);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'nextMarketId, 257);
+    build_1 = build_1.store_dict(v'markets);
+    build_1 = build_1.store_dict(v'positions);
+    build_1 = build_1.store_dict(v'userCredits);
+    build_1 = build_1.store_int(v'platformVault, 257);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+(slice, ((slice, slice, slice, int, cell, cell, cell, int))) $PredictionMarket$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    var v'staking = sc_0~load_msg_addr();
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'nextMarketId = sc_1~load_int(257);
+    var v'markets = sc_1~load_dict();
+    var v'positions = sc_1~load_dict();
+    var v'userCredits = sc_1~load_dict();
+    var v'platformVault = sc_1~load_int(257);
+    return (sc_0, (v'admin, v'treasury, v'staking, v'nextMarketId, v'markets, v'positions, v'userCredits, v'platformVault));
+}
+
+(slice, ((slice, slice, slice))) $PredictionMarket$init$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    var v'staking = sc_0~load_msg_addr();
+    return (sc_0, (v'admin, v'treasury, v'staking));
+}
+
+(slice, slice, slice, int, cell, cell, cell, int) $PredictionMarket$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$PredictionMarket$_load();
+    }
+    else {
+        (slice $admin, slice $treasury, slice $staking) = $sc~$PredictionMarket$init$_load();
+        $sc.end_parse();
+        return $PredictionMarket$_contract_init($admin, $treasury, $staking);
+    }
+}
+
+() $PredictionMarket$_contract_store((slice, slice, slice, int, cell, cell, cell, int) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $PredictionMarket$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract PredictionMarket functions
+;;
+
+(slice, slice, slice, int, cell, cell, cell, int) $PredictionMarket$_contract_init(slice $admin, slice $treasury, slice $staking) impure inline {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = (null(), null(), null(), null(), null(), null(), null(), null());
+    $self'admin = $admin;
+    $self'treasury = $treasury;
+    $self'staking = $staking;
+    $self'nextMarketId = 1;
+    $self'markets = null();
+    $self'positions = null();
+    $self'userCredits = null();
+    $self'platformVault = 0;
+    return ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault);
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), tuple) $PredictionMarket$_fun_marketInfo((slice, slice, slice, int, cell, cell, cell, int) $self, int $id) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    var $fresh$ret_28 = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $id));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_28);
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), tuple) $PredictionMarket$_fun_positionOf((slice, slice, slice, int, cell, cell, cell, int) $self, int $id, slice $user) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    tuple $bookOpt = $PositionBook$_load_opt(__tact_dict_get_int_cell($self'positions, 257, $id));
+    if (null?($bookOpt)) {
+        var $fresh$ret_29 = null();
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_29);
+    }
+    var $fresh$ret_30 = $BetPosition$_load_opt(__tact_dict_get_slice_cell($PositionBook$_get_entries($PositionBook$_not_null($bookOpt)), 267, $user));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_30);
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), int) $PredictionMarket$_fun_creditOf((slice, slice, slice, int, cell, cell, cell, int) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    int $saved = __tact_dict_get_slice_int($self'userCredits, 267, $user, 257);
+    if (null?($saved)) {
+        var $fresh$ret_31 = 0;
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_31);
+    }
+    var $fresh$ret_32 = __tact_not_null($saved);
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_32);
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_handleRewardPayouts((slice, slice, slice, int, cell, cell, cell, int) $self, cell $cellOpt, int $marketId, int $rewardPool) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    if (( (null?($cellOpt)) ? (true) : (($rewardPool <= 0)) )) {
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+    }
+    builder $bodyBuilder = $global_beginCell();
+    store_uint($bodyBuilder, 291497744, 32);
+    store_int($bodyBuilder, $marketId, 257);
+    store_int($bodyBuilder, $rewardPool, 257);
+    if ((~ null?($cellOpt))) {
+        $Builder$_fun_storeBit(true, $bodyBuilder);
+        $Builder$_fun_storeRef(__tact_not_null($cellOpt), $bodyBuilder);
+    } else {
+        $Builder$_fun_storeBit(false, $bodyBuilder);
+    }
+    cell $body = $Builder$_fun_endCell($bodyBuilder);
+    $global_send($SendParameters$_constructor_to_value_bounce_mode_body_code_data($self'staking, 5000000, false, 64, $body, null(), null()));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_handleSlashList((slice, slice, slice, int, cell, cell, cell, int) $self, cell $cellOpt, int $marketId) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    if (null?($cellOpt)) {
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+    }
+    builder $bodyBuilder = $global_beginCell();
+    store_uint($bodyBuilder, 2570802865, 32);
+    store_int($bodyBuilder, $marketId, 257);
+    if ((~ null?($cellOpt))) {
+        $Builder$_fun_storeBit(true, $bodyBuilder);
+        $Builder$_fun_storeRef(__tact_not_null($cellOpt), $bodyBuilder);
+    } else {
+        $Builder$_fun_storeBit(false, $bodyBuilder);
+    }
+    cell $body = $Builder$_fun_endCell($bodyBuilder);
+    $global_send($SendParameters$_constructor_to_value_bounce_mode_body_code_data($self'staking, 5000000, false, 64, $body, null(), null()));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_creditUser((slice, slice, slice, int, cell, cell, cell, int) $self, slice $user, int $amount) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    if (($amount <= 0)) {
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+    }
+    int $prev = __tact_dict_get_slice_int($self'userCredits, 267, $user, 257);
+    int $next = $amount;
+    if ((~ null?($prev))) {
+        $next = (__tact_not_null($prev) + $amount);
+    }
+    $self'userCredits~__tact_dict_set_slice_int(267, $user, $next, 257);
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+}
+
+((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_ensureAdmin((slice, slice, slice, int, cell, cell, cell, int) $self) impure inline_ref {
+    var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
+    throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), ());
+}
+
+;;
+;; Get methods of a Contract PredictionMarket
+;;
+
+_ %marketInfo(int $id) method_id(114280) {
+    int $id = $id;
+    var self = $PredictionMarket$_contract_load();
+    var res = self~$PredictionMarket$_fun_marketInfo($id);
+    return $Market$_to_opt_external(res);
+}
+
+_ %positionOf(int $id, slice $user) method_id(110854) {
+    int $id = $id;
+    slice $user = $user;
+    var self = $PredictionMarket$_contract_load();
+    var res = self~$PredictionMarket$_fun_positionOf($id, $user);
+    return $BetPosition$_to_opt_external(res);
+}
+
+_ %creditOf(slice $user) method_id(103027) {
+    slice $user = $user;
+    var self = $PredictionMarket$_contract_load();
+    var res = self~$PredictionMarket$_fun_creditOf($user);
+    return res;
+}
+
+;;
+;; Routing of a Contract PredictionMarket
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault) = $PredictionMarket$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive CreateMarket message
+    if (op == 2253082016) {
+        var $msg'closeTime = in_msg~load_int(257);
+        var $msg'creatorStake = in_msg~load_int(257);
+        var $msg'feeBps = in_msg~load_int(257);
+        var $msg'metadata = in_msg~load_maybe_ref();
+        slice $creator = __tact_context_get_sender();
+        throw_unless(60218, ($msg'creatorStake >= 1000));
+        throw_unless(25335, ($msg'closeTime > $global_now()));
+        int $feeBps = $msg'feeBps;
+        if (( (($feeBps <= 0)) ? (true) : (($feeBps > 500)) )) {
+            $feeBps = 200;
+        }
+        int $marketId = $self'nextMarketId;
+        $self'nextMarketId = ($self'nextMarketId + 1);
+        var ($market'id, $market'creator, $market'closeTime, $market'status, $market'outcome, $market'creatorStake, $market'yesPool, $market'noPool, $market'feeBps, $market'rewardBps, $market'platformFees, $market'rewardPool, $market'resolvedAt, $market'metadata) = $Market$_constructor_id_creator_closeTime_status_outcome_creatorStake_yesPool_noPool_feeBps_rewardBps_platformFees_rewardPool_resolvedAt_metadata($marketId, $creator, $msg'closeTime, 0, 0, $msg'creatorStake, 0, 0, $feeBps, 100, 0, 0, 0, $msg'metadata);
+        $self'markets~__tact_dict_set_int_cell(257, $marketId, $Market$_store_cell(($market'id, $market'creator, $market'closeTime, $market'status, $market'outcome, $market'creatorStake, $market'yesPool, $market'noPool, $market'feeBps, $market'rewardBps, $market'platformFees, $market'rewardPool, $market'resolvedAt, $market'metadata), begin_cell()));
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive PlaceBet message
+    if (op == 910216531) {
+        var $msg'marketId = in_msg~load_int(257);
+        var $msg'side = in_msg~load_int(257);
+        var $msg'amount = in_msg~load_int(257);
+        slice $bettor = __tact_context_get_sender();
+        throw_unless(60082, ($msg'amount >= 10));
+        throw_unless(38657, ( (($msg'side == 1)) ? (true) : (($msg'side == 2)) ));
+        tuple $marketOpt = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $msg'marketId));
+        throw_unless(23784, (~ null?($marketOpt)));
+        var ($market'id, $market'creator, $market'closeTime, $market'status, $market'outcome, $market'creatorStake, $market'yesPool, $market'noPool, $market'feeBps, $market'rewardBps, $market'platformFees, $market'rewardPool, $market'resolvedAt, $market'metadata) = $Market$_not_null($marketOpt);
+        throw_unless(41726, ($market'status == 0));
+        throw_unless(61685, ($global_now() < $market'closeTime));
+        int $fee = (($msg'amount * $market'feeBps) / 10000);
+        if (($fee < 0)) {
+            $fee = 0;
+        }
+        int $reward = (($fee * $market'rewardBps) / 10000);
+        if (($reward < 0)) {
+            $reward = 0;
+        }
+        if (($reward > $fee)) {
+            $reward = $fee;
+        }
+        int $netAmount = ($msg'amount - $fee);
+        throw_unless(23551, ($netAmount > 0));
+        if (($msg'side == 1)) {
+            $market'yesPool = ($market'yesPool + $netAmount);
+        } else {
+            $market'noPool = ($market'noPool + $netAmount);
+        }
+        $market'platformFees = ($market'platformFees + ($fee - $reward));
+        $market'rewardPool = ($market'rewardPool + $reward);
+        $self'platformVault = ($self'platformVault + ($fee - $reward));
+        tuple $bookOpt = $PositionBook$_load_opt(__tact_dict_get_int_cell($self'positions, 257, $msg'marketId));
+        var ($book'entries) = $PositionBook$_constructor_entries(null());
+        if ((~ null?($bookOpt))) {
+            ($book'entries) = $PositionBook$_not_null($bookOpt);
+        }
+        tuple $positionOpt = $BetPosition$_load_opt(__tact_dict_get_slice_cell($book'entries, 267, $bettor));
+        var ($position'yesAmount, $position'noAmount, $position'claimedYes, $position'claimedNo) = $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo(0, 0, false, false);
+        if ((~ null?($positionOpt))) {
+            ($position'yesAmount, $position'noAmount, $position'claimedYes, $position'claimedNo) = $BetPosition$_not_null($positionOpt);
+        }
+        if (($msg'side == 1)) {
+            $position'yesAmount = ($position'yesAmount + $netAmount);
+        } else {
+            $position'noAmount = ($position'noAmount + $netAmount);
+        }
+        $book'entries~__tact_dict_set_slice_cell(267, $bettor, $BetPosition$_store_cell(($position'yesAmount, $position'noAmount, $position'claimedYes, $position'claimedNo), begin_cell()));
+        $self'positions~__tact_dict_set_int_cell(257, $msg'marketId, $PositionBook$_store_cell(($book'entries), begin_cell()));
+        $self'markets~__tact_dict_set_int_cell(257, $msg'marketId, $Market$_store_cell(($market'id, $market'creator, $market'closeTime, $market'status, $market'outcome, $market'creatorStake, $market'yesPool, $market'noPool, $market'feeBps, $market'rewardBps, $market'platformFees, $market'rewardPool, $market'resolvedAt, $market'metadata), begin_cell()));
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive LockMarket message
+    if (op == 1958838370) {
+        var $msg'marketId = in_msg~load_int(257);
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_ensureAdmin();
+        tuple $marketOpt = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $msg'marketId));
+        throw_unless(23784, (~ null?($marketOpt)));
+        var ($mutMarket'id, $mutMarket'creator, $mutMarket'closeTime, $mutMarket'status, $mutMarket'outcome, $mutMarket'creatorStake, $mutMarket'yesPool, $mutMarket'noPool, $mutMarket'feeBps, $mutMarket'rewardBps, $mutMarket'platformFees, $mutMarket'rewardPool, $mutMarket'resolvedAt, $mutMarket'metadata) = $Market$_not_null($marketOpt);
+        throw_unless(26038, ($mutMarket'status == 0));
+        if (($global_now() < $mutMarket'closeTime)) {
+            $mutMarket'closeTime = $global_now();
+        }
+        $mutMarket'status = 1;
+        $self'markets~__tact_dict_set_int_cell(257, $msg'marketId, $Market$_store_cell(($mutMarket'id, $mutMarket'creator, $mutMarket'closeTime, $mutMarket'status, $mutMarket'outcome, $mutMarket'creatorStake, $mutMarket'yesPool, $mutMarket'noPool, $mutMarket'feeBps, $mutMarket'rewardBps, $mutMarket'platformFees, $mutMarket'rewardPool, $mutMarket'resolvedAt, $mutMarket'metadata), begin_cell()));
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive ResolveMarket message
+    if (op == 2010051374) {
+        var $msg'marketId = in_msg~load_int(257);
+        var $msg'outcome = in_msg~load_int(257);
+        var $msg'creatorPenalty = in_msg~load_int(257);
+        var $msg'rewardPayouts = in_msg~load_maybe_ref();
+        var $msg'slashList = in_msg~load_maybe_ref();
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_ensureAdmin();
+        tuple $marketOpt = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $msg'marketId));
+        throw_unless(23784, (~ null?($marketOpt)));
+        var ($mutMarket'id, $mutMarket'creator, $mutMarket'closeTime, $mutMarket'status, $mutMarket'outcome, $mutMarket'creatorStake, $mutMarket'yesPool, $mutMarket'noPool, $mutMarket'feeBps, $mutMarket'rewardBps, $mutMarket'platformFees, $mutMarket'rewardPool, $mutMarket'resolvedAt, $mutMarket'metadata) = $Market$_not_null($marketOpt);
+        throw_unless(9429, ( (($mutMarket'status == 0)) ? (true) : (($mutMarket'status == 1)) ));
+        throw_unless(61831, ( (( (($msg'outcome == 1)) ? (true) : (($msg'outcome == 2)) )) ? (true) : (($msg'outcome == 3)) ));
+        $mutMarket'status = (($msg'outcome == 3) ? 3 : 2);
+        $mutMarket'outcome = $msg'outcome;
+        $mutMarket'resolvedAt = $global_now();
+        int $penalty = $global_min($msg'creatorPenalty, $mutMarket'creatorStake);
+        if (($penalty > 0)) {
+            $mutMarket'creatorStake = ($mutMarket'creatorStake - $penalty);
+            $self'platformVault = ($self'platformVault + $penalty);
+        }
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_creditUser($mutMarket'creator, $mutMarket'creatorStake);
+        $mutMarket'creatorStake = 0;
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_handleRewardPayouts($msg'rewardPayouts, $msg'marketId, $mutMarket'rewardPool);
+        $mutMarket'rewardPool = 0;
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_handleSlashList($msg'slashList, $msg'marketId);
+        $self'markets~__tact_dict_set_int_cell(257, $msg'marketId, $Market$_store_cell(($mutMarket'id, $mutMarket'creator, $mutMarket'closeTime, $mutMarket'status, $mutMarket'outcome, $mutMarket'creatorStake, $mutMarket'yesPool, $mutMarket'noPool, $mutMarket'feeBps, $mutMarket'rewardBps, $mutMarket'platformFees, $mutMarket'rewardPool, $mutMarket'resolvedAt, $mutMarket'metadata), begin_cell()));
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive ClaimWinnings message
+    if (op == 1905316452) {
+        var $msg'marketId = in_msg~load_int(257);
+        slice $bettor = __tact_context_get_sender();
+        tuple $marketOpt = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $msg'marketId));
+        throw_unless(23784, (~ null?($marketOpt)));
+        var ($market'id, $market'creator, $market'closeTime, $market'status, $market'outcome, $market'creatorStake, $market'yesPool, $market'noPool, $market'feeBps, $market'rewardBps, $market'platformFees, $market'rewardPool, $market'resolvedAt, $market'metadata) = $Market$_not_null($marketOpt);
+        throw_unless(39367, ( (($market'status == 2)) ? (true) : (($market'status == 3)) ));
+        tuple $bookOpt = $PositionBook$_load_opt(__tact_dict_get_int_cell($self'positions, 257, $msg'marketId));
+        throw_unless(51548, (~ null?($bookOpt)));
+        var ($book'entries) = $PositionBook$_not_null($bookOpt);
+        tuple $posOpt = $BetPosition$_load_opt(__tact_dict_get_slice_cell($book'entries, 267, $bettor));
+        throw_unless(60278, (~ null?($posOpt)));
+        var ($position'yesAmount, $position'noAmount, $position'claimedYes, $position'claimedNo) = $BetPosition$_not_null($posOpt);
+        int $yesPayout = 0;
+        int $noPayout = 0;
+        int $claimedYes = $position'claimedYes;
+        int $claimedNo = $position'claimedNo;
+        if (($market'status == 3)) {
+            if (( (($position'yesAmount > 0)) ? ((~ $position'claimedYes)) : (false) )) {
+                $yesPayout = $position'yesAmount;
+                $claimedYes = true;
+            }
+            if (( (($position'noAmount > 0)) ? ((~ $position'claimedNo)) : (false) )) {
+                $noPayout = $position'noAmount;
+                $claimedNo = true;
+            }
+        } else {
+            if (( (( (($market'outcome == 1)) ? (($position'yesAmount > 0)) : (false) )) ? ((~ $position'claimedYes)) : (false) )) {
+                throw_unless(3395, ($market'yesPool > 0));
+                int $rewardYes = (($position'yesAmount * $market'noPool) / $market'yesPool);
+                $yesPayout = ($position'yesAmount + $rewardYes);
+                $claimedYes = true;
+            }
+            if (( (( (($market'outcome == 2)) ? (($position'noAmount > 0)) : (false) )) ? ((~ $position'claimedNo)) : (false) )) {
+                throw_unless(3395, ($market'noPool > 0));
+                int $rewardNo = (($position'noAmount * $market'yesPool) / $market'noPool);
+                $noPayout = ($position'noAmount + $rewardNo);
+                $claimedNo = true;
+            }
+        }
+        int $totalPayout = ($yesPayout + $noPayout);
+        throw_unless(21744, ($totalPayout > 0));
+        var ($updatedPosition'yesAmount, $updatedPosition'noAmount, $updatedPosition'claimedYes, $updatedPosition'claimedNo) = $BetPosition$_constructor_yesAmount_noAmount_claimedYes_claimedNo($position'yesAmount, $position'noAmount, $claimedYes, $claimedNo);
+        $book'entries~__tact_dict_set_slice_cell(267, $bettor, $BetPosition$_store_cell(($updatedPosition'yesAmount, $updatedPosition'noAmount, $updatedPosition'claimedYes, $updatedPosition'claimedNo), begin_cell()));
+        $self'positions~__tact_dict_set_int_cell(257, $msg'marketId, $PositionBook$_store_cell(($book'entries), begin_cell()));
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_creditUser($bettor, $totalPayout);
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive ClaimCreatorStake message
+    if (op == 1501672126) {
+        var $msg'marketId = in_msg~load_int(257);
+        slice $caller = __tact_context_get_sender();
+        tuple $marketOpt = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $msg'marketId));
+        throw_unless(23784, (~ null?($marketOpt)));
+        var ($market'id, $market'creator, $market'closeTime, $market'status, $market'outcome, $market'creatorStake, $market'yesPool, $market'noPool, $market'feeBps, $market'rewardBps, $market'platformFees, $market'rewardPool, $market'resolvedAt, $market'metadata) = $Market$_not_null($marketOpt);
+        throw_unless(52287, ( equal_slices_bits($market'creator, $caller) ));
+        throw_unless(54749, ( (($market'status == 2)) ? (true) : (($market'status == 3)) ));
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive VoidMarket message
+    if (op == 1579076871) {
+        var $msg'marketId = in_msg~load_int(257);
+        var $msg'reason = in_msg~load_int(257);
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_ensureAdmin();
+        tuple $marketOpt = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $msg'marketId));
+        throw_unless(23784, (~ null?($marketOpt)));
+        var ($mutMarket'id, $mutMarket'creator, $mutMarket'closeTime, $mutMarket'status, $mutMarket'outcome, $mutMarket'creatorStake, $mutMarket'yesPool, $mutMarket'noPool, $mutMarket'feeBps, $mutMarket'rewardBps, $mutMarket'platformFees, $mutMarket'rewardPool, $mutMarket'resolvedAt, $mutMarket'metadata) = $Market$_not_null($marketOpt);
+        throw_unless(9429, ( (($mutMarket'status == 0)) ? (true) : (($mutMarket'status == 1)) ));
+        $mutMarket'status = 3;
+        $mutMarket'outcome = 3;
+        $mutMarket'resolvedAt = $global_now();
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_creditUser($mutMarket'creator, $mutMarket'creatorStake);
+        $mutMarket'creatorStake = 0;
+        $self'markets~__tact_dict_set_int_cell(257, $msg'marketId, $Market$_store_cell(($mutMarket'id, $mutMarket'creator, $mutMarket'closeTime, $mutMarket'status, $mutMarket'outcome, $mutMarket'creatorStake, $mutMarket'yesPool, $mutMarket'noPool, $mutMarket'feeBps, $mutMarket'rewardBps, $mutMarket'platformFees, $mutMarket'rewardPool, $mutMarket'resolvedAt, $mutMarket'metadata), begin_cell()));
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive WithdrawFees message
+    if (op == 539044870) {
+        var $_ = empty_tuple();
+        ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_ensureAdmin();
+        if (($self'platformVault > 0)) {
+            ($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)~$PredictionMarket$_fun_creditUser($self'treasury, $self'platformVault);
+            $self'platformVault = 0;
+        }
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $PredictionMarket$_contract_store(($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

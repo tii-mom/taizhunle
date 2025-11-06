@@ -35,13 +35,18 @@ export type MarketCard = {
   createdAt: number;
   targetPool: number;
   entities: string[];
-  bountyMultiplier: number;
+  creatorStakeTai: number;
+  stakeCooldownHours: number;
   juryCount: number;
   followers: string[];
   isFavorite?: boolean;
   liquidity?: string;
   participants?: number;
-  jurorRewardTai: number;
+  jurorRewardTai?: number;
+  topicTags?: string[];
+  tags?: string[];
+  referenceUrl?: string | null;
+  referenceSummary?: string | null;
 };
 
 export type MarketFeedRequest = {
@@ -76,9 +81,9 @@ export type MarketCreationPermission = {
   hoursRemaining: number;
   nextAvailableTime: string | null;
   lastCreatedAt: string | null;
-  minRewardTai: number;
-  maxRewardTai: number;
-  defaultRewardTai: number;
+  requiredStakeTai: number;
+  stakeCooldownHours: number;
+  maxStakeTai: number;
 };
 
 export type BetModalSnapshot = {
@@ -194,7 +199,11 @@ export type CreateMarketPayload = {
   minStake: number;
   maxStake: number;
   creatorWallet: string;
-  rewardTai: number;
+  creatorStakeTai: number;
+  tags?: string[];
+  topicTags?: string[];
+  referenceUrl?: string | null;
+  referenceSummary?: string | null;
 };
 
 export async function createMarketDraft(payload: CreateMarketPayload): Promise<MarketCard> {
@@ -239,7 +248,8 @@ type PlaceBetResponse = {
     noOdds: number;
     odds: string;
     volume: string;
-    bountyMultiplier: number;
+    creatorStakeTai: number;
+    jurorRewardTai?: number;
     participants?: number;
     liquidity?: string;
   };
@@ -286,3 +296,121 @@ export const usePlaceBetMutation = () => {
     },
   });
 };
+
+export type MarketOddsSeriesPoint = {
+  timestamp: number;
+  yesOdds: number;
+  noOdds: number;
+  volume: number;
+};
+
+type RawMarketOddsPoint = {
+  ts: string | number;
+  yes_odds: number;
+  no_odds: number;
+  volume: number;
+};
+
+function mapOddsPoint(point: RawMarketOddsPoint): MarketOddsSeriesPoint {
+  const timestamp = typeof point.ts === 'number' ? point.ts : Date.parse(point.ts);
+  return {
+    timestamp,
+    yesOdds: point.yes_odds,
+    noOdds: point.no_odds,
+    volume: point.volume,
+  } satisfies MarketOddsSeriesPoint;
+}
+
+export async function loadMarketOddsSeries(
+  id: string,
+  granularity: '1m' | '5m' | '15m' = '1m',
+): Promise<MarketOddsSeriesPoint[]> {
+  const response = await apiFetch<RawMarketOddsPoint[]>(`/markets/${id}/odds-series${withParams({ granularity })}`);
+  return response.map(mapOddsPoint);
+}
+
+export type MarketComment = {
+  id: string;
+  parentId: string | null;
+  body: string;
+  likes: number;
+  createdAt: string;
+  walletAddress: string;
+  nickname: string;
+  avatar: string | null;
+  taiBalance: number;
+  replies: MarketComment[];
+  viewerHasLiked: boolean;
+};
+
+type RawMarketComment = {
+  id: string;
+  parent_id: string | null;
+  body: string;
+  likes: number;
+  created_at: string;
+  wallet_address: string;
+  nickname: string;
+  avatar: string | null;
+  tai_balance: number;
+  replies?: RawMarketComment[];
+  viewer_liked?: boolean;
+};
+
+function mapMarketComment(comment: RawMarketComment): MarketComment {
+  return {
+    id: comment.id,
+    parentId: comment.parent_id,
+    body: comment.body,
+    likes: comment.likes,
+    createdAt: comment.created_at,
+    walletAddress: comment.wallet_address,
+    nickname: comment.nickname,
+    avatar: comment.avatar,
+    taiBalance: comment.tai_balance,
+    replies: (comment.replies ?? []).map(mapMarketComment),
+    viewerHasLiked: Boolean(comment.viewer_liked),
+  } satisfies MarketComment;
+}
+
+export type CommentSortKey = 'hot' | 'time';
+
+export async function loadMarketComments(
+  marketId: string,
+  sort: CommentSortKey,
+): Promise<MarketComment[]> {
+  const response = await apiFetch<RawMarketComment[]>(
+    `/markets/${marketId}/comments${withParams({ sort })}`,
+  );
+  return response.map(mapMarketComment);
+}
+
+export type CreateCommentPayload = {
+  body: string;
+  parentId?: string | null;
+};
+
+export async function postMarketComment(
+  marketId: string,
+  payload: CreateCommentPayload,
+): Promise<MarketComment> {
+  const response = await apiFetch<RawMarketComment>(`/markets/${marketId}/comments`, {
+    method: 'POST',
+    body: {
+      body: payload.body,
+      parentId: payload.parentId ?? null,
+    },
+  });
+  return mapMarketComment(response);
+}
+
+export type LikeCommentResponse = {
+  likes: number;
+  viewer_liked?: boolean;
+};
+
+export async function likeMarketComment(commentId: string): Promise<LikeCommentResponse> {
+  return apiFetch<LikeCommentResponse>(`/comments/${commentId}/like`, {
+    method: 'POST',
+  });
+}

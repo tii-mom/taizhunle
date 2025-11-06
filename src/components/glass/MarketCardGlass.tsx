@@ -76,6 +76,45 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
     [locale],
   );
 
+  const parsedOddsFromString = useMemo(() => {
+    if (!card.odds) {
+      return null;
+    }
+    const parts = card.odds.split('/').map((part) => {
+      const numericPart = part.replace(/[^0-9.]/g, '').trim();
+      const value = Number(numericPart);
+      return Number.isFinite(value) ? value : NaN;
+    });
+
+    if (parts.length < 2 || parts.some((value) => Number.isNaN(value))) {
+      return null;
+    }
+
+    return [parts[0], parts[1]] as [number, number];
+  }, [card.odds]);
+
+  const { yesOdds: safeYesOdds, noOdds: safeNoOdds } = useMemo(() => {
+    const [fallbackYes, fallbackNo] = parsedOddsFromString ?? [1.5, 1.5];
+
+    const normalise = (value: unknown, fallback: number) => {
+      if (typeof value === 'number' && Number.isFinite(value) && value > 0) {
+        return value;
+      }
+
+      const numeric = Number(value);
+      if (Number.isFinite(numeric) && numeric > 0) {
+        return numeric;
+      }
+
+      return fallback;
+    };
+
+    return {
+      yesOdds: normalise(card.yesOdds, fallbackYes),
+      noOdds: normalise(card.noOdds, fallbackNo),
+    };
+  }, [card.noOdds, card.yesOdds, parsedOddsFromString]);
+
   const tagStyle = isLight
     ? 'border-amber-400/50 bg-amber-100/90 text-amber-700 shadow-[0_12px_20px_-18px_rgba(217,119,6,0.55)]'
     : 'border-amber-300/35 bg-amber-400/10 text-amber-100';
@@ -205,21 +244,21 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
             <CountDown endTime={snapshot.endTime} className={`font-mono text-base ${countdownTone}`} />
           </div>
           <div className={`rounded-2xl px-3 py-2 text-right ${panelStyle}`}>
-            <p className={`text-[11px] uppercase tracking-[0.3em] ${metaText}`}>{t('home:card.bounty')}</p>
-            <span className={`font-mono text-xl ${bountyTone}`}>x{card.bountyMultiplier.toFixed(1)}</span>
+            <p className={`text-[11px] uppercase tracking-[0.3em] ${metaText}`}>{t('home:card.creatorStake')}</p>
+            <span className={`block font-mono text-xl ${bountyTone}`}>{numberFormatter.format(card.creatorStakeTai ?? 0)} TAI</span>
           </div>
         </div>
       </div>
 
       <div className={`mt-4 flex flex-wrap items-center gap-3 text-sm ${infoTone}`}>
         <div className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.25em] ${infoBadgeTone}`}>
-          🎁 {t('home:card.rewardCompact', { amount: numberFormatter.format(Math.max(card.pool * 0.05, 50)) })} TAI
+          🎁 {t('home:card.jurorRewardCompact', { amount: numberFormatter.format(Math.max(Math.round(card.pool * 0.01), card.jurorRewardTai ?? 0)) })}
         </div>
         <div className={`flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.25em] ${infoBadgeTone}`}>
-          {t('home:card.liveOdds')} <span className="font-mono text-sm text-emerald-300">{card.yesOdds.toFixed(2)}x</span> /
-          <span className="font-mono text-sm text-cyan-300">{card.noOdds.toFixed(2)}x</span>
+          {t('home:card.liveOdds')} <span className="font-mono text-sm text-emerald-300">{safeYesOdds.toFixed(2)}x</span> /
+          <span className="font-mono text-sm text-cyan-300">{safeNoOdds.toFixed(2)}x</span>
         </div>
-        <JurorRewardBadge reward={card.jurorRewardTai ?? Math.max(card.pool * 0.01, 100)} />
+        <JurorRewardBadge reward={card.jurorRewardTai ?? Math.round(card.pool * 0.01)} />
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -232,7 +271,7 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
           className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition-colors ${betButtonTone}`}
         >
           💰 {t('home:card.betYesCompact')}
-          <span className="font-mono text-xs">{card.yesOdds.toFixed(2)}x</span>
+          <span className="font-mono text-xs">{safeYesOdds.toFixed(2)}x</span>
         </button>
         <button
           type="button"
@@ -243,7 +282,7 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
           className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition-colors ${betButtonToneNo}`}
         >
           💰 {t('home:card.betNoCompact')}
-          <span className="font-mono text-xs">{card.noOdds.toFixed(2)}x</span>
+          <span className="font-mono text-xs">{safeNoOdds.toFixed(2)}x</span>
         </button>
         <button
           type="button"
@@ -263,7 +302,7 @@ export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps
         marketId={card.id}
         marketTitle={card.title}
         side={quickBet?.side ?? 'yes'}
-        odds={quickBet?.side === 'no' ? card.noOdds : card.yesOdds}
+        odds={quickBet?.side === 'no' ? safeNoOdds : safeYesOdds}
         onClose={() => setQuickBet(null)}
         onSuccess={() => setCelebrate(true)}
       />

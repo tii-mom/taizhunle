@@ -50,6 +50,18 @@ export const env = {
   TELEGRAM_WEBHOOK_URL: getEnvVar('TELEGRAM_WEBHOOK_URL'),
   TELEGRAM_WEBHOOK_SECRET: getEnvVar('TELEGRAM_WEBHOOK_SECRET'),
 
+  // 社交媒体
+  TWITTER_BEARER_TOKEN: getEnvVar('TWITTER_BEARER_TOKEN'),
+
+  // LLM 配置
+  LLM_API_URL: getEnvVar('LLM_API_URL'),
+  LLM_API_KEY: getEnvVar('LLM_API_KEY'),
+  LLM_MODEL: getEnvVar('LLM_MODEL', 'gpt-4o-mini'),
+
+  // Insights 缓存配置
+  INSIGHTS_HOT_TOPICS_TTL: getEnvNumber('INSIGHTS_HOT_TOPICS_TTL', 3600),
+  INSIGHTS_NEWS_TTL: getEnvNumber('INSIGHTS_NEWS_TTL', 6 * 3600),
+
   // TON 配置
   TON_NETWORK: getEnvVar('TON_NETWORK', 'testnet'),
   TON_API_ENDPOINT: getEnvVar('TON_API_ENDPOINT', 'https://testnet.toncenter.com/api/v2/'),
@@ -122,6 +134,12 @@ export const config = {
       secret: env.TELEGRAM_WEBHOOK_SECRET,
     },
   },
+
+  social: {
+    twitter: {
+      bearerToken: env.TWITTER_BEARER_TOKEN,
+    },
+  },
   
   // TON 配置
   ton: {
@@ -181,6 +199,20 @@ export const config = {
     priceAdjustment: env.ENABLE_PRICE_ADJUSTMENT,
     acceleratePeriod: env.ENABLE_ACCELERATE_PERIOD,
     officialRainCreation: env.ENABLE_OFFICIAL_RAIN_CREATION,
+  },
+
+  // AI 配置
+  ai: {
+    llm: {
+      apiUrl: env.LLM_API_URL,
+      apiKey: env.LLM_API_KEY,
+      model: env.LLM_MODEL,
+    },
+  },
+
+  insights: {
+    hotTopicsTtl: env.INSIGHTS_HOT_TOPICS_TTL,
+    newsTtl: env.INSIGHTS_NEWS_TTL,
   },
 } as const;
 

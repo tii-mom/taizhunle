@@ -11,6 +11,7 @@ import {
 } from '../services/marketService.js';
 import * as mockMarketService from '../services/mockMarketService.js';
 import { normalizeTonAddress } from '../utils/ton.js';
+import { resolveMarketTags } from '../../constants/marketTags.js';
 
 // 检查是否使用 Mock 服务
 const useMockService = process.env.NODE_ENV === 'development' && process.env.ENABLE_MOCK_DATA === 'true';
@@ -68,14 +69,36 @@ router.post('/', async (req: Request, res: Response) => {
     const minStake = Number(req.body?.minStake);
     const maxStake = Number(req.body?.maxStake);
     const wallet = typeof req.body?.creatorWallet === 'string' ? req.body.creatorWallet.trim() : '';
-    const rewardTai = Number(req.body?.rewardTai ?? req.body?.jurorRewardTai ?? req.body?.creationReward);
+    const creatorStakeTai = Number(req.body?.creatorStakeTai ?? req.body?.stakeTai);
+    const rawTags = Array.isArray(req.body?.tags)
+      ? (req.body.tags as unknown[]).map((tag) => String(tag))
+      : Array.isArray(req.body?.topicTags)
+        ? (req.body.topicTags as unknown[]).map((tag) => String(tag))
+        : undefined;
+    let tags: string[] | undefined;
+    try {
+      const resolved = resolveMarketTags(rawTags);
+      tags = resolved.length > 0 ? resolved : undefined;
+    } catch (error) {
+      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid tags' });
+      return;
+    }
+    const topicTags = tags;
+
+    const referenceUrl = typeof req.body?.referenceUrl === 'string'
+      ? (() => {
+          const trimmed = req.body.referenceUrl.trim();
+          return trimmed ? trimmed.slice(0, 500) : undefined;
+        })()
+      : undefined;
+    const referenceSummary = typeof req.body?.referenceSummary === 'string' ? req.body.referenceSummary : undefined;
 
     if (
       !title ||
       !closesAt ||
       !Number.isFinite(minStake) ||
       !Number.isFinite(maxStake) ||
-      !Number.isFinite(rewardTai) ||
+      !Number.isFinite(creatorStakeTai) ||
       !wallet
     ) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -87,7 +110,11 @@ router.post('/', async (req: Request, res: Response) => {
         closesAt,
         minStake,
         maxStake,
-        rewardTai,
+        creatorStakeTai,
+        tags,
+        topicTags,
+        referenceUrl,
+        referenceSummary,
       });
       res.json(draft);
       return;
@@ -99,7 +126,11 @@ router.post('/', async (req: Request, res: Response) => {
       minStake,
       maxStake,
       creatorWallet: normalizeTonAddress(wallet),
-      rewardTai,
+      creatorStakeTai,
+      tags,
+      topicTags,
+      referenceUrl,
+      referenceSummary,
     });
     res.json(draft);
   } catch (error) {

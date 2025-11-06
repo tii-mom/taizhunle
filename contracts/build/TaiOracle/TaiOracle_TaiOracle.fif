@@ -1,0 +1,601 @@
+// automatically generated from `@stdlib/std/stdlib.fc` `/Users/yudeyou/Desktop/666/taizhunle/contracts/build/TaiOracle/TaiOracle_TaiOracle.fc` 
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_dict_get_int_cell
+  DECLPROC __tact_dict_set_int_cell
+  DECLPROC $PriceEntry$_store
+  DECLPROC $PriceEntry$_store_cell
+  DECLPROC $PriceEntry$_load
+  DECLPROC $PriceEntry$_as_optional
+  DECLPROC $PriceEntry$_load_opt
+  DECLPROC $PriceEntry$_not_null
+  DECLPROC $TaiOracle$_store
+  DECLPROC $TaiOracle$_load
+  DECLPROC $PriceEntry$_get_timestamp
+  DECLPROC $PriceEntry$_get_price
+  DECLPROC $PriceEntry$_to_tuple
+  DECLPROC $PriceEntry$_to_opt_tuple
+  DECLPROC $PriceEntry$_to_opt_external
+  DECLPROC $TaiOracle$init$_load
+  DECLPROC $TaiOracle$_contract_init
+  DECLPROC $TaiOracle$_contract_load
+  DECLPROC $TaiOracle$_contract_store
+  DECLPROC $TaiOracle$_fun_latest
+  DECLPROC $TaiOracle$_fun_priceAt
+  DECLPROC $AvgState$_constructor_sum_count
+  DECLPROC $TaiOracle$_fun_abs
+  DECLPROC $TaiOracle$_fun_withinDeviation
+  DECLPROC $TaiOracle$_fun_accumulate
+  DECLPROC $TaiOracle$_fun_average
+  DECLPROC $TaiOracle$_fun_canUnlock
+  DECLPROC $PriceEntry$_constructor_timestamp_price
+  DECLPROC $TaiOracle$_fun_storeEntry
+  DECLPROC $TaiOracle$_fun_ingestBatch
+  DECLPROC $TaiOracle$_fun_ensureAdmin
+  97392 DECLMETHOD %latest
+  84326 DECLMETHOD %priceAt
+  87157 DECLMETHOD %average
+  88439 DECLMETHOD %canUnlock
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_dict_get_int_cell PROCINLINE:<{
+    -ROT
+    DICTIGETREF
+    NULLSWAPIFNOT
+    IF:<{
+    }>ELSE<{
+      DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_int_cell PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      -ROT
+      DICTIDEL
+      DROP
+    }>ELSE<{
+      s1 s3 s3 XCHG3
+      DICTISETREF
+    }>
+  }>
+  $PriceEntry$_store PROCINLINE:<{
+    s0 s2 XCHG
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+  }>
+  $PriceEntry$_store_cell PROCINLINE:<{
+    -ROT
+    $PriceEntry$_store INLINECALLDICT
+    ENDC
+  }>
+  $PriceEntry$_load PROCINLINE:<{
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    -ROT
+  }>
+  $PriceEntry$_as_optional PROCINLINE:<{
+        2 TUPLE
+  }>
+  $PriceEntry$_load_opt PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      CTOS
+      $PriceEntry$_load INLINECALLDICT
+      1 2 BLKDROP2
+      $PriceEntry$_as_optional INLINECALLDICT
+    }>
+  }>
+  $PriceEntry$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+        2 UNTUPLE
+  }>
+  $TaiOracle$_store PROCINLINE:<{
+    s2 s3 XCHG2
+    STSLICE
+    STDICT
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      SWAP
+      1 STI
+      SWAP
+      $PriceEntry$_not_null INLINECALLDICT
+      $PriceEntry$_store INLINECALLDICT
+    }>ELSE<{
+      FALSE
+      s2 POP
+      1 STI
+    }>
+  }>
+  $TaiOracle$_load PROCINLINE:<{
+    LDMSGADDR
+    LDDICT
+    1 LDI
+    SWAP
+    IF:<{
+      $PriceEntry$_load INLINECALLDICT
+      $PriceEntry$_as_optional INLINECALLDICT
+    }>ELSE<{
+      PUSHNULL
+    }>
+    s3 s3 s0 XCHG3
+  }>
+  $PriceEntry$_get_timestamp PROCINLINE:<{
+    DROP
+  }>
+  $PriceEntry$_get_price PROCINLINE:<{
+    NIP
+  }>
+  $PriceEntry$_to_tuple PROCINLINE:<{
+        2 TUPLE
+  }>
+  $PriceEntry$_to_opt_tuple PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      $PriceEntry$_not_null INLINECALLDICT
+      $PriceEntry$_to_tuple INLINECALLDICT
+    }>
+  }>
+  $PriceEntry$_to_opt_external PROCINLINE:<{
+    $PriceEntry$_to_opt_tuple INLINECALLDICT
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+    }>
+  }>
+  $TaiOracle$init$_load PROCINLINE:<{
+    LDMSGADDR
+    SWAP
+  }>
+  $TaiOracle$_contract_init PROCINLINE:<{
+    PUSHNULL
+    PUSHNULL
+  }>
+  $TaiOracle$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $TaiOracle$_load INLINECALLDICT
+      1 3 BLKDROP2
+    }>ELSE<{
+      $TaiOracle$init$_load INLINECALLDICT
+      SWAP
+      ENDS
+      $TaiOracle$_contract_init INLINECALLDICT
+    }>
+  }>
+  $TaiOracle$_contract_store PROCINLINE:<{
+    NEWC
+    TRUE
+    SWAP
+    1 STI
+    3 -ROLL
+    $TaiOracle$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $TaiOracle$_fun_latest PROCREF:<{
+    DUP
+  }>
+  $TaiOracle$_fun_priceAt PROCREF:<{
+    257 PUSHINT
+    s3 PUSH
+    s0 s2 XCHG
+    __tact_dict_get_int_cell INLINECALLDICT
+    $PriceEntry$_load_opt INLINECALLDICT
+  }>
+  $AvgState$_constructor_sum_count PROCINLINE:<{
+  }>
+  $TaiOracle$_fun_abs PROCREF:<{
+    DUP
+    0 LESSINT
+    IFJMP:<{
+      NEGATE
+    }>
+  }>
+  $TaiOracle$_fun_withinDeviation PROCREF:<{
+    OVER
+    SUB
+    s1 s4 XCHG
+    s3 s3 s0 XCHG3
+    $TaiOracle$_fun_abs INLINECALLDICT
+    s0 s4 XCHG
+    3000 PUSHINT
+    MUL
+    10000 PUSHINT
+    DIV
+    s1 s4 XCHG
+    LEQ
+    s1 s3 s0 XCHG3
+  }>
+  $TaiOracle$_fun_accumulate PROCREF:<{
+    s3 PUSH
+    1 LESSINT
+    IFJMP:<{
+      3 2 BLKDROP2
+    }>
+    s6 PUSH
+    257 PUSHINT
+    s6 PUSH
+    __tact_dict_get_int_cell INLINECALLDICT
+    $PriceEntry$_load_opt INLINECALLDICT
+    DUP
+    ISNULL
+    NOT
+    IF:<{
+      $PriceEntry$_not_null INLINECALLDICT
+      $PriceEntry$_get_price INLINECALLDICT
+      s8 s7 s6 XCHG3
+      s3 s6 PUSH2
+      $TaiOracle$_fun_withinDeviation INLINECALLDICT
+      IF:<{
+        s8 s6 XCHG2
+        ADD
+        s0 s6 XCHG
+        INC
+        s0 s6 XCHG
+        s0 s7 XCHG
+      }>ELSE<{
+        s6 POP
+      }>
+      s7 s6 XCHG2
+    }>ELSE<{
+      DROP
+    }>
+    s0 s4 XCHG
+    DEC
+    s0 s3 XCHG
+    DEC
+    s0 s3 XCHG
+    s0 s4 XCHG
+    $TaiOracle$_fun_accumulate INLINECALLDICT
+  }>
+  $TaiOracle$_fun_average PROCREF:<{
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    s1 s1 PUSH2
+    ISNULL
+    IFJMP:<{
+      2DROP
+      0 PUSHINT
+    }>
+    $PriceEntry$_not_null INLINECALLDICT
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      3 BLKDROP
+      0 PUSHINT
+    }>
+    SWAP
+    86400 PUSHINT
+    DIV
+    0 PUSHINT
+    DUP
+    $AvgState$_constructor_sum_count INLINECALLDICT
+    s2 s4 XCHG
+    s2 s3 XCHG
+    $TaiOracle$_fun_accumulate INLINECALLDICT
+    DUP
+    IFNOTJMP:<{
+      2DROP
+      0 PUSHINT
+    }>
+    DIV
+  }>
+  $TaiOracle$_fun_canUnlock PROCREF:<{
+    s4 s3 s4 XCHG3
+    3 PUSHINT
+    $TaiOracle$_fun_average INLINECALLDICT
+    DUP
+    1 LESSINT
+    IFJMP:<{
+      DROP
+      2 3 BLKDROP2
+      FALSE
+    }>
+    10000 PUSHINT
+    s0 s6 XCHG2
+    ADD
+    s1 s4 XCHG
+    MUL
+    10000 PUSHINT
+    DIV
+    s1 s4 XCHG
+    GEQ
+    s3 s3 s0 XCHG3
+  }>
+  $PriceEntry$_constructor_timestamp_price PROCINLINE:<{
+  }>
+  $TaiOracle$_fun_storeEntry PROCREF:<{
+    29886 PUSHINT
+    s2 PUSH
+    0 GTINT
+    THROWANYIFNOT
+    35867 PUSHINT
+    OVER
+    0 GTINT
+    THROWANYIFNOT
+    s2 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      45473 PUSHINT
+      s0 s3 XCHG
+      $PriceEntry$_not_null INLINECALLDICT
+      $PriceEntry$_get_timestamp INLINECALLDICT
+      s2 s(-1) PUXC
+      GREATER
+      s1 s3 XCHG
+      THROWANYIFNOT
+    }>ELSE<{
+      s2 POP
+    }>
+    DUP
+    86400 PUSHINT
+    DIV
+    s0 s2 XCHG
+    $PriceEntry$_constructor_timestamp_price INLINECALLDICT
+    257 PUSHINT
+    s2 s1 PUSH2
+    NEWC
+    $PriceEntry$_store_cell INLINECALLDICT
+    s3 s5 XCHG
+    s1 s4 s0 XCHG3
+    __tact_dict_set_int_cell INLINECALLDICT
+    -ROT
+    $PriceEntry$_as_optional INLINECALLDICT
+  }>
+  $TaiOracle$_fun_ingestBatch PROCREF:<{
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+    }>
+    __tact_not_null INLINECALLDICT
+        CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+        LDOPTREF
+    DROP
+    5 -ROLL
+    $TaiOracle$_fun_storeEntry INLINECALLDICT
+    3 ROLL
+    $TaiOracle$_fun_ingestBatch INLINECALLDICT
+  }>
+  $TaiOracle$_fun_ensureAdmin PROCREF:<{
+    45917 PUSHINT
+    __tact_context_get_sender INLINECALLDICT
+    s4 PUSH
+    SDEQ
+    THROWANYIFNOT
+  }>
+  %latest PROC:<{
+    $TaiOracle$_contract_load INLINECALLDICT
+    $TaiOracle$_fun_latest INLINECALLDICT
+    3 1 BLKDROP2
+    $PriceEntry$_to_opt_external INLINECALLDICT
+  }>
+  %priceAt PROC:<{
+    $TaiOracle$_contract_load INLINECALLDICT
+    3 ROLL
+    $TaiOracle$_fun_priceAt INLINECALLDICT
+    3 1 BLKDROP2
+    $PriceEntry$_to_opt_external INLINECALLDICT
+  }>
+  %average PROC:<{
+    $TaiOracle$_contract_load INLINECALLDICT
+    3 ROLL
+    $TaiOracle$_fun_average INLINECALLDICT
+    3 1 BLKDROP2
+  }>
+  %canUnlock PROC:<{
+    $TaiOracle$_contract_load INLINECALLDICT
+    2 3 BLKSWAP
+    $TaiOracle$_fun_canUnlock INLINECALLDICT
+    3 1 BLKDROP2
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $TaiOracle$_contract_load INLINECALLDICT
+    s0 s4 XCHG
+    IFJMP:<{
+      4 BLKDROP
+    }>
+    0 PUSHINT
+    s3 PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 s3 XCHG
+      32 LDU
+      s0 s4 XCHG
+    }>
+    OVER
+    4090136517 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s2 XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      s3 s4 XCHG2
+      $TaiOracle$_fun_ensureAdmin INLINECALLDICT
+      s0 s3 s4 XCHG3
+      $TaiOracle$_fun_storeEntry INLINECALLDICT
+      $TaiOracle$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2712739837 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s2 XCHG
+      LDOPTREF
+      DROP
+      s2 s3 XCHG2
+      $TaiOracle$_fun_ensureAdmin INLINECALLDICT
+      3 ROLL
+      $TaiOracle$_fun_ingestBatch INLINECALLDICT
+      $TaiOracle$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1312950905 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 s2 XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      s3 s4 XCHG2
+      $TaiOracle$_fun_ensureAdmin INLINECALLDICT
+      s0 s3 s4 XCHG3
+      $TaiOracle$_fun_storeEntry INLINECALLDICT
+      $TaiOracle$_contract_store INLINECALLDICT
+    }>
+    s4 POP
+    0 EQINT
+    s0 s3 XCHG
+    33 LESSINT
+    s1 s3 XCHG
+    AND
+    IFJMP:<{
+      s0 s2 XCHG
+      $TaiOracle$_contract_store INLINECALLDICT
+    }>
+    3 BLKDROP
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c

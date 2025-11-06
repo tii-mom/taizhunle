@@ -1,6 +1,7 @@
 import { Trophy } from 'lucide-react';
 
 import { GlassCard } from '../glass/GlassCard';
+import { useI18n } from '@/hooks/useI18n';
 
 type Props = {
   title: string;
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export function RankingHero({ title, subtitle }: Props) {
+  const { t } = useI18n('ranking');
   return (
     <GlassCard className="overflow-hidden p-8">
       <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 via-white/5 to-transparent" />
@@ -19,6 +21,14 @@ export function RankingHero({ title, subtitle }: Props) {
           <div>
             <h1 className="text-3xl font-bold text-white drop-shadow-[0_0_18px_rgba(251,191,36,0.35)]">{title}</h1>
             <p className="mt-2 text-white/70">{subtitle}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full border border-emerald-300/40 bg-emerald-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-emerald-100">
+                {t('hero.badgeStake')}
+              </span>
+              <span className="rounded-full border border-cyan-300/40 bg-cyan-400/10 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-cyan-100">
+                {t('hero.badgeReward')}
+              </span>
+            </div>
           </div>
         </div>
         <div className="glass-tile flex items-center gap-2 px-4 py-2">

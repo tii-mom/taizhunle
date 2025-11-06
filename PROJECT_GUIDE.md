@@ -40,6 +40,7 @@
 - **@ton/core 0.62.0**：BOC 生成与监听
 - **@tonconnect/ui-react**：前端钱包连接
 - **Ton 支付监听器**：`src/server/listeners/tonPayment.ts` 轮询 toncenter API
+- **解锁 & 白名单方案**：详见 `docs/UNLOCK_WHITELIST_PLAN.md`，记录 20/30 亿分配、质押白名单公式、稳定币储备池与 RedStone 预言机
 
 ### 工具链与规范
 - **ESLint 9.38.0** + **@typescript-eslint 8.46.2** + **Prettier 3.6.2**
@@ -193,6 +194,7 @@ node ../scripts/verifyContracts.js # 在仓库根校验 addresses.json
 ```
 - 部署后更新 `addresses.json` 并同步审计记录。
 - `scripts/verifyContracts.js` 会校验管理地址、stateInit、供应量与初始价格。
+- `docs/UNLOCK_WHITELIST_PLAN.md` 描述了解锁后白名单认购、USDC 储备池与暴跌回购流程，是规划链上实现的唯一来源。
 
 ---
 ## 📦 部署参考

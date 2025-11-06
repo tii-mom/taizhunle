@@ -14,7 +14,10 @@
     "juryCount": "陪审员",
     "jurors": "人",
     "perJuror": "每人可得",
-    "juryNote": "多数派获得奖励 + 1 积分"
+    "juryNote": "多数派获得奖励 + 1 积分",
+    "creatorStake": "创建质押",
+    "stakeCooldown": "冷却",
+    "stakeHours": "{{hours}} 小时"
   },
   "betFailed": "钱包拒绝了本次下注。",
   "betQueued": "下注请求已发送至钱包。",
@@ -63,7 +66,8 @@
       "description": "Layer-1 激励计划吸引鲸鱼回流 TON 生态。"
     }
   },
-  "cta": {    "create": "创建盘口",
+  "cta": {
+    "create": "创建盘口",
     "enter": "进入盘口",
     "invite": "邀请收益",
     "packets": "打开红包",
@@ -126,7 +130,9 @@
     "amountLabel": "下注金额（TAI）",
     "confirm": "确认下注",
     "submitting": "提交中...",
-    "projected": "预计收益"
+    "projected": "预计收益",
+    "effectiveStake": "冲击后实际下注：{{value}} TAI",
+    "impactFee": "冲击成本：{{value}} TAI"
   },
   "live": {
     "inviteRewards": "邀请收益",

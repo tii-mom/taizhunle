@@ -44,7 +44,12 @@ const notifyAdmins = async (message: string) => {
 export function startTelegramBot() {
   const botToken = process.env.TELEGRAM_ADMIN_BOT_TOKEN;
   
-  if (!botToken || botToken.includes('test') || botToken.includes('placeholder')) {
+  const isPlaceholderToken = !botToken
+    || botToken.includes('test')
+    || botToken.includes('placeholder')
+    || botToken.includes('your-');
+
+  if (isPlaceholderToken) {
     console.warn('⚠️ TELEGRAM_ADMIN_BOT_TOKEN not set or using placeholder');
     
     if (process.env.NODE_ENV === 'development') {

@@ -13,14 +13,14 @@ const STAT_PILL_TONE = {
 } as const;
 
 export type JurorStatus = {
+  levelKey: 'normal' | 'l1' | 'l2' | 'l3' | 'l4';
   levelName: string;
-  levelBadge: string;
-  levelEmoji: string;
   points: number;
   nextLevelPoints: number;
   stakeAmount: number;
   accuracy: number;
-  remainingLabel: string;
+  dailyLimit: number | null;
+  dailyUsed: number;
   weight: number;
   perCasePoints: number;
 };
@@ -36,6 +36,9 @@ type JurorStatusCardProps = {
 export function JurorStatusCard({ status, onStake, onWithdraw, onVerify, onShowRules }: JurorStatusCardProps) {
   const { t } = useI18n('dao');
   const progress = Math.min((status.points / Math.max(status.nextLevelPoints, 1)) * 100, 100);
+  const remainingLabel = status.dailyLimit === null
+    ? t('status.remainingUnlimited')
+    : `${Math.max(status.dailyLimit - status.dailyUsed, 0)}/${status.dailyLimit} ${t('status.times')}`;
 
   return (
     <GlassCard className="grid gap-6 p-6 lg:grid-cols-2">
@@ -61,7 +64,7 @@ export function JurorStatusCard({ status, onStake, onWithdraw, onVerify, onShowR
               type="button"
               onClick={onShowRules}
               className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 text-cyan-100 transition hover:border-cyan-300/60 hover:bg-cyan-400/15"
-              aria-label={t('createLimits.openRules')}
+              aria-label={t('jurorSystem.title')}
             >
               <Info size={16} />
             </button>
@@ -84,7 +87,7 @@ export function JurorStatusCard({ status, onStake, onWithdraw, onVerify, onShowR
         <div className="grid gap-3 sm:grid-cols-2">
           <StatPill label={t('status.stake')} value={`${status.stakeAmount.toLocaleString()} TAI`} tone="cyan" />
           <StatPill label={t('status.accuracy')} value={`${status.accuracy.toFixed(1)}%`} tone="emerald" />
-          <StatPill label={t('status.remaining')} value={status.remainingLabel} tone="violet" />
+          <StatPill label={t('status.remaining')} value={remainingLabel} tone="violet" />
           <StatPill label={t('status.weight')} value={`x${status.weight.toFixed(2)}`} tone="amber" />
         </div>
       </div>

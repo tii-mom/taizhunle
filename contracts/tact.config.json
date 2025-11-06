@@ -20,6 +20,46 @@
         "external": false
       },
       "mode": "full"
+    },
+    {
+      "name": "TAIUnlockController",
+      "path": "contracts/tai_unlock_controller.tact",
+      "output": "build/TAIUnlockController",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "PredictionMarket",
+      "path": "contracts/prediction_market.tact",
+      "output": "build/PredictionMarket",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "JurorStaking",
+      "path": "contracts/juror_staking.tact",
+      "output": "build/JurorStaking",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
+    },
+    {
+      "name": "TaiOracle",
+      "path": "contracts/tai_oracle.tact",
+      "output": "build/TaiOracle",
+      "options": {
+        "debug": false,
+        "external": false
+      },
+      "mode": "full"
     }
   ]
 }

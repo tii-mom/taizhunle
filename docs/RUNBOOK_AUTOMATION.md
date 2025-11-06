@@ -46,3 +46,15 @@
 2. 检查 Telegram Bot Token 与频道 ID 有效
 3. 使用 `npm run logs` (需自建) 或服务端监控查看错误
 4. 如需暂停任务，可设置 `ENABLE_PRICE_ADJUSTMENT=false` 等开关
+
+## 4. 预测创建质押与陪审奖励巡检
+- **频率**: 每日 UTC 00:15 与 12:15 手动复核；监控告警时立即处理
+- **巡检清单**:
+  1. 通过 `/api/markets/creation/permission?wallet=<sample>` 验证不同积分等级返回的 `requiredStakeTai`、`stakeCooldownHours`
+  2. 在 Supabase `predictions` 中抽查最新记录，确认 `creator_fee` 与 `admin_notes` 内的 `creatorStakeTai`、`stakeCooldownHours` 一致
+  3. 校验 `juror_reward_tai` 是否约等于 `total_pool × 1%`，并确保前端 DAO 面板显示一致
+  4. 检查 `marketService`、`mockMarketService` 日志是否出现 `Creation cooldown active`、`Stake must be ...` 等异常
+- **快速修复**:
+  1. 若质押金额错误：更新 `users.dao_points` 或手动重写预测记录，再通知创建者重新提交
+  2. 若陪审奖励缺失：执行 `npm run test:e2e` 快速校验逻辑，必要时触发 `marketService.updateReward`
+  3. 若倒计时/冷却异常：重启 API 服务并验证 `getCreateInterval`、`getCreationStakeRequirement` 逻辑

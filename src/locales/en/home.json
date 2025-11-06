@@ -12,7 +12,7 @@
       "latest": "Latest",
       "hot": "Trending",
       "closing": "Closing soon",
-      "bounty": "High bounty",
+      "bounty": "High stake",
       "following": "My favorites ({{count}})"
     },
     "status": {
@@ -93,7 +93,9 @@
     "betFailed": "Bet failed. Try again later.",
     "betProcessing": "Processing...",
     "betConfirm": "Confirm",
-    "betConfirmWithPayout": "Confirm · {{payout}} {{currency}}"
+    "betConfirmWithPayout": "Confirm · {{payout}} {{currency}}",
+    "creatorStake": "Creator Stake",
+    "jurorRewardCompact": "Juror reward {{amount}} TAI"
   },
   "dao": {
     "total": "DAO pool"

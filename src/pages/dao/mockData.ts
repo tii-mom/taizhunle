@@ -16,14 +16,14 @@ export type TaskItem = {
 };
 
 export const jurorStatusMock: JurorStatus = {
+  levelKey: 'l3',
   levelName: '地狱判官',
-  levelBadge: 'Lv.3',
-  levelEmoji: '⚔️',
   points: 612,
   nextLevelPoints: 1000,
   stakeAmount: 125000,
   accuracy: 92.4,
-  remainingLabel: '30 次',
+  dailyLimit: 30,
+  dailyUsed: 4,
   weight: 7.25,
   perCasePoints: 6.2,
 };

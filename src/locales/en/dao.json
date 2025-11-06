@@ -38,6 +38,14 @@
     "week": "Last 7 days",
     "reserve": "Reserve"
   },
+  "insights": {
+    "creatorStakeTitle": "Creator stake",
+    "creatorStakeValue": "Stake {{stake}} TAI · Cooldown {{hours}}h",
+    "creatorStakeHint": "Creation locks creatorStakeTai until settlement. Appeals deduct 50%; malicious or timeout cases deduct up to 100%.",
+    "jurorRewardTitle": "Juror reward (pool × {{percent}}%)",
+    "jurorRewardValue": "Pending {{pending}} TAI · Lifetime {{total}} TAI",
+    "jurorRewardHint": "Rewards refresh with every bet. Claim once per day — pay gas only once."
+  },
   "pool": {
     "total": "DAO pool"
   },
@@ -236,7 +244,7 @@
   },
   "createLimits": {
     "title": "Point Rules",
-    "description": "Unlock market creation and jury slots with higher juror points.",
+    "description": "Creation requires tier-based staking; stake unlocks after settlement. Appeals or malicious behaviour may slash your stake.",
     "openRules": "View point rules",
     "table": {
       "points": "Points",
@@ -276,6 +284,39 @@
         "jury": "Unlimited"
       }
     },
-    "note": "Creating a market costs 100 TAI (customizable 100-10000 TAI bounty) plus TON on-chain gas."
+    "note": "Publishing requires a stake based on your tier (1,000 - 20,000 TAI). Stake unlocks after settlement; appeals or malicious behaviour may slash part of it."
+  },
+  "jurorSystem": {
+    "title": "Juror System Overview",
+    "yourLevel": "Your level: {{title}} ({{level}})",
+    "points": "Points: {{points}} / {{next}}",
+    "remaining": "Today’s quota: {{remain}} / {{limit}} votes",
+    "rightsTitle": "Level benefits at a glance",
+    "stakeRulesTitle": "Creation staking rules (single market)",
+    "penaltyTitle": "Penalty cases",
+    "penalty": [
+      "Appeal upheld: lose 50% stake",
+      "Invalid / malicious: lose 100% stake",
+      "Timeout without result: lose 20% stake"
+    ],
+    "exampleTitle": "Example: your current tier",
+    "example": [
+      "You must stake {{stake}} · create again after {{cooldown}}",
+      "If appealed successfully → lose {{penalty}}",
+      "No disputes → {{stake}} returned to wallet"
+    ],
+    "close": "Got it",
+    "table": {
+      "points": "Points",
+      "title": "Title",
+      "jury": "Jury / day",
+      "create": "Creation / slot"
+    },
+    "stakeTable": {
+      "level": "Tier",
+      "stake": "Stake",
+      "cooldown": "Cooldown"
+    },
+    "remainingUnlimited": "Today's quota: Unlimited"
   }
 }

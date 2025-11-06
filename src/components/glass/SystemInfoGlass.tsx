@@ -16,6 +16,8 @@ export function SystemInfoGlass({ data }: SystemInfoGlassProps) {
   const { mode } = useTheme();
   const isLight = mode === 'light';
   const showCelebration = useMemo(() => data.juryReward >= data.pool * 0.02, [data.juryReward, data.pool]);
+  const safeYesOdds = Number.isFinite(data.yesOdds) && data.yesOdds > 0 ? data.yesOdds : 1.5;
+  const safeNoOdds = Number.isFinite(data.noOdds) && data.noOdds > 0 ? data.noOdds : 1.5;
 
   const panelTone = isLight
     ? 'border-slate-200/80 bg-white/85 text-slate-800 shadow-[0_26px_42px_-34px_rgba(15,23,42,0.28)]'
@@ -51,12 +53,12 @@ export function SystemInfoGlass({ data }: SystemInfoGlassProps) {
           <div className="mt-3 flex items-end justify-end gap-6">
             <div className="text-right">
               <p className={`text-[10px] uppercase tracking-[0.35em] ${labelTone}`}>{t('market:yes')}</p>
-              <span className={`font-mono text-4xl font-semibold ${oddsTone}`}>{data.yesOdds.toFixed(2)}x</span>
+              <span className={`font-mono text-4xl font-semibold ${oddsTone}`}>{safeYesOdds.toFixed(2)}x</span>
             </div>
             <div className="h-12 w-px bg-emerald-400/30" />
             <div className="text-right">
               <p className={`text-[10px] uppercase tracking-[0.35em] ${labelTone}`}>{t('market:no')}</p>
-              <span className={`font-mono text-4xl font-semibold ${isLight ? 'text-teal-700' : 'text-teal-100'}`}>{data.noOdds.toFixed(2)}x</span>
+              <span className={`font-mono text-4xl font-semibold ${isLight ? 'text-teal-700' : 'text-teal-100'}`}>{safeNoOdds.toFixed(2)}x</span>
             </div>
           </div>
         </div>
@@ -112,6 +114,20 @@ export function SystemInfoGlass({ data }: SystemInfoGlassProps) {
               <p className={`text-[11px] uppercase tracking-[0.25em] ${labelTone}`}>{t('glass.perJuror')}</p>
               <span className={`font-mono text-xl ${isLight ? 'text-amber-700' : 'text-amber-200'}`}>
                 {data.rewardPerJuror.toLocaleString()}
+              </span>
+            </div>
+          </div>
+          <div className={`mt-4 grid grid-cols-2 gap-3 text-sm ${isLight ? 'text-slate-700' : 'text-slate-200/80'}`}>
+            <div>
+              <p className={`text-[11px] uppercase tracking-[0.25em] ${labelTone}`}>{t('glass.creatorStake')}</p>
+              <span className={`font-mono text-base ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                {data.creatorStakeTai.toLocaleString()} TAI
+              </span>
+            </div>
+            <div>
+              <p className={`text-[11px] uppercase tracking-[0.25em] ${labelTone}`}>{t('glass.stakeCooldown')}</p>
+              <span className={`font-mono text-base ${isLight ? 'text-slate-900' : 'text-white'}`}>
+                {t('glass.stakeHours', { hours: data.stakeCooldownHours })}
               </span>
             </div>
           </div>

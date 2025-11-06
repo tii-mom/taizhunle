@@ -2,6 +2,7 @@
  * 模拟市场服务 - 用于开发和离线场景
  */
 
+import { DEFAULT_MARKET_ODDS_CONFIG } from '../config/oddsConfig.js';
 import type {
   MarketCard,
   MarketCreationPermission,
@@ -12,6 +13,90 @@ import type {
 } from './marketService.js';
 
 const numberFormatter = new Intl.NumberFormat('en-US');
+
+const NOW = Date.now();
+
+const MOCK_HOT_TOPICS = [
+  {
+    id: 'topic-btc-halving',
+    title: 'BTC 再次逼近 100K？分析师称 ETF 流入创纪录',
+    tags: ['crypto', 'macro'],
+    heat: 0.92,
+    template: {
+      title: 'BTC 是否会在 30 天内突破 100,000 美元？',
+      summary: 'BTC ETF 当周净流入 12 亿美金，链上活跃地址创近 18 个月新高，多家机构预估将触发新一轮做多。',
+      referenceUrl: 'https://www.coindesk.com/markets/2025/01/15/btc-etf-inflows-record/',
+    },
+  },
+  {
+    id: 'topic-messi-return',
+    title: '梅西年底复出？迈阿密俱乐部官宣亚洲行计划',
+    tags: ['sports', 'football'],
+    heat: 0.88,
+    template: {
+      title: '梅西会在年底前重返官方比赛？',
+      summary: '迈阿密国际公布 12 月亚洲行，梅西伤情恢复良好并随队训练，博彩公司将其复出概率上调至 68%。',
+      referenceUrl: 'https://espn.com/soccer/story/_/id/123456',
+    },
+  },
+  {
+    id: 'topic-fed-cut',
+    title: '美联储是否会在 Q2 降息？失业率上升引发猜测',
+    tags: ['macro', 'politics'],
+    heat: 0.84,
+    template: {
+      title: '美联储会在下个季度宣布降息吗？',
+      summary: '最新就业数据出现松动，市场隐含降息概率升至 52%，同时通胀仍高于目标，决议存在变数。',
+      referenceUrl: 'https://www.bloomberg.com/news/articles/fed-cut-odds',
+    },
+  },
+];
+
+const MOCK_MARKET_NEWS = [
+  {
+    id: 'news-btc-1',
+    marketId: 'market-1',
+    source: 'CoinDesk',
+    sourceType: 'media' as const,
+    publishedAt: new Date(NOW - 2 * 60 * 60 * 1000).toISOString(),
+    summary: 'CoinDesk 报道称 ETF 净流入创两周新高，BlackRock 与 Fidelity 均出现大额申购。',
+    url: 'https://www.coindesk.com/latest/btc-etf-flows',
+    sentiment: 'positive' as const,
+  },
+  {
+    id: 'news-btc-2',
+    marketId: 'market-1',
+    source: 'Twitter',
+    sourceType: 'social' as const,
+    publishedAt: new Date(NOW - 5 * 60 * 60 * 1000).toISOString(),
+    summary: '#BTC100K 话题 24 小时提及量上涨 37%，社交情绪指数转为正面。',
+    url: 'https://twitter.com/search?q=BTC100K',
+    sentiment: 'positive' as const,
+  },
+  {
+    id: 'news-messi-1',
+    marketId: 'market-3',
+    source: 'ESPN',
+    sourceType: 'media' as const,
+    publishedAt: new Date(NOW - 90 * 60 * 1000).toISOString(),
+    summary: '迈阿密国际发布官方通告，确认 12 月亚洲行将全主力出战，队医表示梅西恢复顺利。',
+    url: 'https://www.espn.com/soccer/story/_/id/123457',
+    sentiment: 'positive' as const,
+  },
+  {
+    id: 'news-fed-1',
+    marketId: 'market-4',
+    source: 'Bloomberg',
+    sourceType: 'media' as const,
+    publishedAt: new Date(NOW - 4 * 60 * 60 * 1000).toISOString(),
+    summary: '彭博社最新调查显示，超过半数经济学家认为 Q2 降息一次，部分担忧通胀反弹。',
+    url: 'https://www.bloomberg.com/news/articles/fed-poll',
+    sentiment: 'neutral' as const,
+  },
+];
+
+type MockHotTopic = (typeof MOCK_HOT_TOPICS)[number];
+type MockMarketNews = (typeof MOCK_MARKET_NEWS)[number];
 
 function formatTai(amount: number): string {
   return `${numberFormatter.format(Math.max(0, Math.round(amount))) } TAI`;
@@ -65,11 +150,11 @@ const MOCK_MARKETS: MarketCard[] = [
     createdAt: Date.now() - 86400000 * 7,
     targetPool: 200000,
     entities: ['BTC', 'Crypto'],
-    bountyMultiplier: 1.5,
+    creatorStakeTai: 5_000,
+    stakeCooldownHours: 48,
     juryCount: 12,
     followers: [],
     participants: 156,
-    jurorRewardTai: 1000,
   },
   {
     id: 'market-2',
@@ -89,11 +174,11 @@ const MOCK_MARKETS: MarketCard[] = [
     createdAt: Date.now() - 86400000 * 5,
     targetPool: 150000,
     entities: ['ETH', 'Staking'],
-    bountyMultiplier: 1.2,
+    creatorStakeTai: 10_000,
+    stakeCooldownHours: 24,
     juryCount: 8,
     followers: [],
     participants: 98,
-    jurorRewardTai: 1000,
   },
   {
     id: 'market-3',
@@ -113,11 +198,11 @@ const MOCK_MARKETS: MarketCard[] = [
     createdAt: Date.now() - 86400000 * 3,
     targetPool: 180000,
     entities: ['TON', 'DeFi'],
-    bountyMultiplier: 1.8,
+    creatorStakeTai: 20_000,
+    stakeCooldownHours: 6,
     juryCount: 15,
     followers: [],
     participants: 140,
-    jurorRewardTai: 1000,
   },
   {
     id: 'market-4',
@@ -137,11 +222,11 @@ const MOCK_MARKETS: MarketCard[] = [
     createdAt: Date.now() - 86400000 * 2,
     targetPool: 120000,
     entities: ['Macro', 'Fed'],
-    bountyMultiplier: 1.3,
+    creatorStakeTai: 5_000,
+    stakeCooldownHours: 72,
     juryCount: 10,
     followers: [],
     participants: 76,
-    jurorRewardTai: 1000,
   },
 ];
 
@@ -154,8 +239,13 @@ function findMarket(id: string): MarketCard {
 }
 
 function snapshotDetail(market: MarketCard): MarketDetailResponse {
+  const tags = Array.isArray(market.tags) && market.tags.length > 0
+    ? market.tags
+    : (market.topicTags ?? []);
   return {
     ...market,
+    tags,
+    topicTags: tags,
     liquidity: formatTai(Math.max(market.pool * 0.42, 0)),
     participants: market.participants ?? market.bets.length,
   } satisfies MarketDetailResponse;
@@ -197,6 +287,19 @@ export async function getMarketOdds(id: string): Promise<MarketOddsResponse> {
     noPool: market.noPool,
     totalPool: market.pool,
     fluctuation: 0,
+    meta: {
+      minOdds: DEFAULT_MARKET_ODDS_CONFIG.minOdds,
+      maxOdds: DEFAULT_MARKET_ODDS_CONFIG.maxOdds,
+      defaultOdds: DEFAULT_MARKET_ODDS_CONFIG.defaultOdds,
+      minPoolRatio: DEFAULT_MARKET_ODDS_CONFIG.minPoolRatio,
+      minAbsolutePool: DEFAULT_MARKET_ODDS_CONFIG.minAbsolutePool,
+      sideCapRatio: DEFAULT_MARKET_ODDS_CONFIG.sideCapRatio,
+      otherFloorRatio: DEFAULT_MARKET_ODDS_CONFIG.otherFloorRatio,
+      impactFeeCoefficient: DEFAULT_MARKET_ODDS_CONFIG.impactFeeCoefficient,
+      impactMinPool: DEFAULT_MARKET_ODDS_CONFIG.impactMinPool,
+      impactMaxMultiplier: DEFAULT_MARKET_ODDS_CONFIG.impactMaxMultiplier,
+      sseFallbackMs: DEFAULT_MARKET_ODDS_CONFIG.sseRefetchFallbackMs,
+    },
   } satisfies MarketOddsResponse;
 }
 
@@ -214,6 +317,9 @@ export async function getMarketLive(id: string): Promise<MarketLiveResponse> {
 
 export async function placeBet(payload: MockBetPayload): Promise<MarketDetailResponse> {
   await delay(180);
+  if (!payload.walletAddress?.trim()) {
+    throw new Error('Wallet address is required');
+  }
   const market = findMarket(payload.marketId);
 
   const betId = `mock-bet-${Date.now()}`;
@@ -245,7 +351,7 @@ export async function placeBet(payload: MockBetPayload): Promise<MarketDetailRes
   market.yesOdds = computeOdds(market.pool, market.yesPool);
   market.noOdds = computeOdds(market.pool, market.noPool);
   market.odds = `${market.yesOdds.toFixed(2)}x / ${market.noOdds.toFixed(2)}x`;
-  market.bountyMultiplier = Number((market.pool / Math.max(market.targetPool || market.pool || 1, 1)).toFixed(2));
+  market.jurorRewardTai = Math.max(100, Math.round(market.pool * 0.01));
   market.participants = (market.participants ?? 0) + 1;
 
   return snapshotDetail(market);
@@ -256,7 +362,11 @@ export async function createMarketDraft(payload: {
   closesAt: string;
   minStake: number;
   maxStake: number;
-  rewardTai: number;
+  creatorStakeTai: number;
+  tags?: string[];
+  topicTags?: string[];
+  referenceUrl?: string | null;
+  referenceSummary?: string | null;
 }) {
   const id = `mock-market-${Date.now()}`;
   const endsAt = new Date(payload.closesAt).getTime();
@@ -279,11 +389,16 @@ export async function createMarketDraft(payload: {
     createdAt: Date.now(),
     targetPool: payload.maxStake,
     entities: ['Prediction'],
-    bountyMultiplier: 1,
+    creatorStakeTai: payload.creatorStakeTai,
+    stakeCooldownHours: 72,
     juryCount: 0,
     followers: [],
     participants: 0,
-    jurorRewardTai: Math.max(100, Math.round(payload.rewardTai)),
+    jurorRewardTai: Math.max(100, Math.round(payload.creatorStakeTai * 0.01)),
+    topicTags: payload.tags ?? payload.topicTags ?? [],
+    tags: payload.tags ?? payload.topicTags ?? [],
+    referenceUrl: payload.referenceUrl ?? null,
+    referenceSummary: payload.referenceSummary ?? null,
   };
 
   MOCK_MARKETS.unshift(draft);
@@ -300,8 +415,30 @@ export async function getCreationPermission(walletAddress: string): Promise<Mark
     hoursRemaining: 0,
     nextAvailableTime: null,
     lastCreatedAt: null,
-    minRewardTai: 100,
-    maxRewardTai: 10_000,
-    defaultRewardTai: 250,
+    requiredStakeTai: 1_000,
+    stakeCooldownHours: 72,
+    maxStakeTai: 20_000,
   } satisfies MarketCreationPermission;
+}
+
+export type HotTopicQuery = {
+  tag?: string;
+  limit?: number;
+};
+
+export async function listHotTopics(query: HotTopicQuery = {}): Promise<MockHotTopic[]> {
+  const normalizedTag = query.tag?.toLowerCase();
+  const limit = Math.min(Math.max(query.limit ?? 10, 1), 20);
+  const items = normalizedTag
+    ? MOCK_HOT_TOPICS.filter((topic) => topic.tags.some((tag) => tag.toLowerCase() === normalizedTag))
+    : MOCK_HOT_TOPICS;
+  return items
+    .sort((a, b) => b.heat - a.heat)
+    .slice(0, limit);
+}
+
+export async function getMarketNews(marketId: string): Promise<MockMarketNews[]> {
+  return MOCK_MARKET_NEWS.filter((item) => item.marketId === marketId).sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+  );
 }

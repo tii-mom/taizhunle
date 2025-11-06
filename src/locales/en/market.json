@@ -14,7 +14,10 @@
     "juryCount": "Jurors",
     "jurors": "",
     "perJuror": "Per juror",
-    "juryNote": "Majority wins reward + 1 point"
+    "juryNote": "Majority wins reward + 1 point",
+    "creatorStake": "Creator stake",
+    "stakeCooldown": "Cooldown",
+    "stakeHours": "{{hours}}h"
   },
   "betFailed": "Wallet rejected the bet request.",
   "betQueued": "Bet request sent to wallet.",
@@ -63,7 +66,8 @@
       "description": "Layer-1 incentives draw whales back to TON."
     }
   },
-  "cta": {    "create": "Create market",
+  "cta": {
+    "create": "Create market",
     "enter": "Enter market",
     "invite": "Invite rewards",
     "packets": "Open red packets",
@@ -126,7 +130,9 @@
     "amountLabel": "Bet Amount (TAI)",
     "confirm": "Confirm Bet",
     "submitting": "Submitting...",
-    "projected": "Projected Return"
+    "projected": "Projected Return",
+    "effectiveStake": "Effective stake: {{value}} TAI",
+    "impactFee": "Impact fee: {{value}} TAI"
   },
   "live": {
     "inviteRewards": "Invite Rewards",

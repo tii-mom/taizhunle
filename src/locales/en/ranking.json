@@ -1,7 +1,9 @@
 {
   "hero": {
     "title": "Live Hero Board, You Can Be On Top",
-    "subtitle": "Top 50 visible · 60s refresh"
+    "subtitle": "Top 50 visible · 60s refresh",
+    "badgeStake": "Creator stake 1K~20K TAI",
+    "badgeReward": "Juror reward = pool × 1%"
   },
   "tabs": {
     "invite": "Evangelist 🧙",

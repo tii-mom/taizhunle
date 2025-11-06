@@ -5,12 +5,14 @@ import { GlassPageLayout } from '../components/glass/GlassPageLayout';
 import { RealtimeProfitBar } from '../components/glass/RealtimeProfitBar';
 import { GlassModalGlass } from '@/components/glass/GlassModalGlass';
 import { GlassButtonGlass } from '@/components/glass/GlassButtonGlass';
+import { GlassCard } from '@/components/glass/GlassCard';
 import { useI18n } from '@/hooks/useI18n';
 import { JurorStatusCard, type JurorStatus } from './dao/components/JurorStatusCard';
 import { EarningsOverview } from './dao/components/EarningsOverview';
 import { TaskList } from './dao/components/TaskList';
 import { ActionPanel } from './dao/components/ActionPanel';
-import { CreateLimitsCard } from './dao/components/CreateLimitsCard';
+import { JurorSystemModal } from './dao/components/JurorSystemModal';
+import { DAO_LEVELS } from './dao/constants';
 import { taskListMock } from './dao/mockData';
 import {
   daoPoolQuery,
@@ -24,13 +26,6 @@ import { useHaptic } from '@/hooks/useHaptic';
 import { triggerSuccessConfetti } from '@/utils/confetti';
 import { useTheme } from '@/providers/ThemeProvider';
 
-const LEVELS = [
-  { key: 'normal', min: Number.NEGATIVE_INFINITY, max: -1, createHours: 360, juryPerDay: 0 },
-  { key: 'l1', min: 0, max: 99, createHours: 72, juryPerDay: 3 },
-  { key: 'l2', min: 100, max: 399, createHours: 48, juryPerDay: 9 },
-  { key: 'l3', min: 400, max: 999, createHours: 24, juryPerDay: 30 },
-  { key: 'l4', min: 1000, max: Number.POSITIVE_INFINITY, createHours: 6, juryPerDay: Infinity },
-];
 
 const DEFAULT_PROFILE: DaoProfileResponse = {
   userId: 'current_user',
@@ -202,11 +197,11 @@ export default function DaoGlass() {
 
   const level = useMemo(() => {
     const points = profileData.daoPoints ?? 0;
-    return LEVELS.find((item) => points >= item.min && points <= item.max) ?? LEVELS[0];
+    return DAO_LEVELS.find((item) => points >= item.min && points <= item.max) ?? DAO_LEVELS[0];
   }, [profileData.daoPoints]);
 
   const nextLevelPoints = useMemo(() => {
-    const levels = LEVELS;
+    const levels = DAO_LEVELS;
     const currentIndex = levels.indexOf(level);
     const nextLevel = levels[currentIndex + 1];
     if (!nextLevel) {
@@ -224,19 +219,19 @@ export default function DaoGlass() {
 
     const levelTitleKey = `createLimits.levels.${level.key}.title` as const;
     const levelTitle = t(levelTitleKey);
-    const remainingLabel = level.juryPerDay === Infinity
-      ? t('status.remainingUnlimited')
-      : `${level.juryPerDay} ${t('status.times')}`;
+    const dailyLimit = level.juryPerDay === Infinity ? null : level.juryPerDay;
+    const dailyUsed = 0;
+    const accuracy = Math.max(0, Math.min(100, (profileData.winRate ?? 0) * 100));
 
     return {
+      levelKey: level.key,
       levelName: levelTitle,
-      levelBadge: level.key.toUpperCase(),
-      levelEmoji: '',
       points,
       nextLevelPoints,
       stakeAmount: baseStake,
-      accuracy: Math.max(0, Math.min(100, (profileData.winRate ?? 0) * 100)),
-      remainingLabel,
+      accuracy,
+      dailyLimit,
+      dailyUsed,
       weight,
       perCasePoints: perCase,
     } satisfies JurorStatus;
@@ -274,13 +269,45 @@ export default function DaoGlass() {
   return (
     <GlassPageLayout>
       <div className="space-y-6 pb-10">
-      <JurorStatusCard
-        status={jurorStatus}
-        onStake={() => handleStakeOpen('stake')}
-        onWithdraw={() => window.location.assign('/dao/withdraw')}
-        onVerify={() => setVerifyModalOpen(true)}
-        onShowRules={() => setRulesModalOpen(true)}
-      />
+        <JurorStatusCard
+          status={jurorStatus}
+          onStake={() => handleStakeOpen('stake')}
+          onWithdraw={() => window.location.assign('/dao/withdraw')}
+          onVerify={() => setVerifyModalOpen(true)}
+          onShowRules={() => setRulesModalOpen(true)}
+        />
+
+        <GlassCard className="grid gap-5 p-6 md:grid-cols-2">
+          <div className="space-y-2 text-sm text-slate-200/80">
+            <p className="text-[11px] uppercase tracking-[0.35em] text-cyan-200/80">
+              {t('insights.creatorStakeTitle')}
+            </p>
+            <p className="font-mono text-lg font-semibold text-white">
+              {t('insights.creatorStakeValue', {
+                stake: level.stakeRequirement.toLocaleString(),
+                hours: level.createHours,
+              })}
+            </p>
+            <p className="text-xs leading-relaxed text-slate-300/70">
+              {t('insights.creatorStakeHint')}
+            </p>
+          </div>
+          <div className="space-y-2 text-sm text-slate-200/80">
+            <p className="text-[11px] uppercase tracking-[0.35em] text-emerald-200/80">
+              {t('insights.jurorRewardTitle')}
+            </p>
+            <p className="font-mono text-lg font-semibold text-emerald-200">
+              {t('insights.jurorRewardValue', {
+                percent: 1,
+                pending: poolStats.jury.pending.toLocaleString(),
+                total: poolStats.jury.total.toLocaleString(),
+              })}
+            </p>
+            <p className="text-xs leading-relaxed text-slate-300/70">
+              {t('insights.jurorRewardHint')}
+            </p>
+          </div>
+        </GlassCard>
 
         <EarningsOverview {...earningsOverview} />
 
@@ -338,13 +365,16 @@ export default function DaoGlass() {
         isJuror={profileData.isJuror}
       />
 
-      <GlassModalGlass
+      <JurorSystemModal
         open={rulesModalOpen}
-        title={t('createLimits.title')}
         onClose={() => setRulesModalOpen(false)}
-      >
-        <CreateLimitsCard stakeRange={[100, 10000]} showTitle={false} />
-      </GlassModalGlass>
+        levelKey={jurorStatus.levelKey}
+        levelName={jurorStatus.levelName}
+        points={jurorStatus.points}
+        nextPoints={jurorStatus.nextLevelPoints}
+        dailyLimit={jurorStatus.dailyLimit}
+        dailyUsed={jurorStatus.dailyUsed}
+      />
 
       <FeedbackModal feedback={feedback} onClose={() => setFeedback(null)} />
     </GlassPageLayout>

@@ -65,19 +65,19 @@
   "records": {
     "btc": [
       {
-        "amount": "8,500 TAI",
+        "amount": "2,000 TAI",
         "side": "空头",
         "time": "3 分钟",
         "user": "pBlue"
       },
       {
-        "amount": "4,200 TAI",
+        "amount": "2,000 TAI",
         "side": "多头",
         "time": "4 分钟",
         "user": "Validator Yun"
       },
       {
-        "amount": "12,000 TAI",
+        "amount": "2,000 TAI",
         "side": "多头",
         "time": "5 分钟",
         "user": "Amber"
@@ -85,7 +85,7 @@
     ],
     "eth": [
       {
-        "amount": "14,849 TAI",
+        "amount": "2,000 TAI",
         "side": "多头",
         "time": "3 分钟",
         "user": "Validator Yun"
@@ -120,5 +120,38 @@
     "title": "最新下注动态",
     "subtitle": "实时更新 · 最新 {{count}} 条",
     "empty": "暂无下注记录，成为第一位下注者吧。"
+  },
+  "news": {
+    "openLabel": "收起资讯",
+    "closedLabel": "相关资讯",
+    "subtitle": "每小时更新的新闻摘要与社交热度。",
+    "refresh": "刷新",
+    "empty": "暂时没有与此预测相关的资讯。",
+    "openLink": "查看原文",
+    "sentiment": {
+      "positive": "整体偏多",
+      "negative": "整体偏空",
+      "neutral": "情绪中性"
+    },
+    "sourceType": {
+      "media": "媒体",
+      "social": "社交",
+      "report": "报告"
+    }
+  },
+  "reference": {
+    "title": "官方参考",
+    "subtitle": "创建者提供的背景资料",
+    "viewSource": "前往参考链接",
+    "emptySummary": "暂无摘要，可直接打开参考链接了解详情。",
+    "tags": "关联标签"
+  },
+  "tagCopy": {
+    "sports": "体育",
+    "politics": "政治",
+    "society": "社会",
+    "entertainment": "娱乐",
+    "crypto": "加密",
+    "other": "其他"
   }
 }

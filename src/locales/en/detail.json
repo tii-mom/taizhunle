@@ -65,13 +65,13 @@
   "records": {
     "btc": [
       {
-        "amount": "2,500 TAI",
+        "amount": "2,000 TAI",
         "side": "Long",
         "time": "2m",
         "user": "Amber"
       },
       {
-        "amount": "1,100 TAI",
+        "amount": "2,000 TAI",
         "side": "Short",
         "time": "5m",
         "user": "Blue"
@@ -79,7 +79,7 @@
     ],
     "eth": [
       {
-        "amount": "800 TAI",
+        "amount": "2,000 TAI",
         "side": "Long",
         "time": "3m",
         "user": "Validator"
@@ -109,6 +109,39 @@
     "payout": "Estimated payout",
     "profit": "Projected profit",
     "count": "{{count}} bets placed with this wallet"
+  },
+  "news": {
+    "openLabel": "Hide insights",
+    "closedLabel": "Related insights",
+    "subtitle": "Auto summarised news & social buzz synced hourly.",
+    "refresh": "Refresh",
+    "empty": "No related updates for this market yet.",
+    "openLink": "Open source",
+    "sentiment": {
+      "positive": "Positive sentiment",
+      "negative": "Negative sentiment",
+      "neutral": "Neutral sentiment"
+    },
+    "sourceType": {
+      "media": "Media",
+      "social": "Social",
+      "report": "Report"
+    }
+  },
+  "reference": {
+    "title": "Official reference",
+    "subtitle": "Creator supplied context",
+    "viewSource": "Open reference",
+    "emptySummary": "No summary provided for this source.",
+    "tags": "Tags"
+  },
+  "tagCopy": {
+    "sports": "Sports",
+    "politics": "Politics",
+    "society": "Society",
+    "entertainment": "Entertainment",
+    "crypto": "Crypto",
+    "other": "Other"
   },
   "activity": {
     "title": "Latest activity",

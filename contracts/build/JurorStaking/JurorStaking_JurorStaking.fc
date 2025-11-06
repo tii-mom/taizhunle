@@ -1,0 +1,809 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; JurorStaking_JurorStaking.headers.fc
+;;
+;; Header files for JurorStaking
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; __tact_not_null
+forall X -> X __tact_not_null(X x) impure inline;
+
+;; __tact_context_get_sender
+slice __tact_context_get_sender() inline;
+
+;; __tact_dict_get_slice_int
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline;
+
+;; __tact_dict_set_slice_int
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline;
+
+;; __tact_dict_get_slice_cell
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline;
+
+;; __tact_dict_set_slice_cell
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline;
+
+;; $StakeInfo$_store
+builder $StakeInfo$_store(builder build_0, (int, int, int, int, int, int, int) v) inline;
+
+;; $StakeInfo$_store_cell
+cell $StakeInfo$_store_cell((int, int, int, int, int, int, int) v, builder b) inline;
+
+;; $StakeInfo$_load
+(slice, ((int, int, int, int, int, int, int))) $StakeInfo$_load(slice sc_0) inline;
+
+;; $StakeInfo$_as_optional
+tuple $StakeInfo$_as_optional((int, int, int, int, int, int, int) v) inline;
+
+;; $StakeInfo$_load_opt
+tuple $StakeInfo$_load_opt(cell cl) inline;
+
+;; $JurorStaking$_store
+builder $JurorStaking$_store(builder build_0, (slice, slice, slice, int, int, cell, cell) v) inline;
+
+;; $JurorStaking$_load
+(slice, ((slice, slice, slice, int, int, cell, cell))) $JurorStaking$_load(slice sc_0) inline;
+
+;; $StakeInfo$_get_amount
+_ $StakeInfo$_get_amount((int, int, int, int, int, int, int) v) inline;
+
+;; $StakeInfo$_not_null
+((int, int, int, int, int, int, int)) $StakeInfo$_not_null(tuple v) inline;
+
+;; $StakeInfo$_to_tuple
+tuple $StakeInfo$_to_tuple(((int, int, int, int, int, int, int)) v) inline;
+
+;; $StakeInfo$_to_opt_tuple
+tuple $StakeInfo$_to_opt_tuple(tuple v) inline;
+
+;; $StakeInfo$_to_opt_external
+tuple $StakeInfo$_to_opt_external(tuple v) inline;
+
+;; $JurorStaking$init$_load
+(slice, ((slice, slice, slice))) $JurorStaking$init$_load(slice sc_0) inline;
+
+;; $JurorStaking$_contract_init
+(slice, slice, slice, int, int, cell, cell) $JurorStaking$_contract_init(slice $admin, slice $prediction, slice $treasury) impure inline;
+
+;; $JurorStaking$_contract_load
+(slice, slice, slice, int, int, cell, cell) $JurorStaking$_contract_load() impure inline;
+
+;; $JurorStaking$_contract_store
+() $JurorStaking$_contract_store((slice, slice, slice, int, int, cell, cell) v) impure inline;
+
+;; $JurorStaking$_fun_stakeOf
+((slice, slice, slice, int, int, cell, cell), tuple) $JurorStaking$_fun_stakeOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref;
+
+;; $JurorStaking$_fun_stakeAmountOf
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_stakeAmountOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref;
+
+;; $JurorStaking$_fun_stakeDaysOf
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_stakeDaysOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref;
+
+;; $JurorStaking$_fun_whitelistQuotaOf
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_whitelistQuotaOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref;
+
+;; $JurorStaking$_fun_rewardCreditOf
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_rewardCreditOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref;
+
+;; $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points
+((int, int, int, int, int, int, int)) $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points(int $amount, int $accumulatedSeconds, int $lastUpdate, int $penaltyCount, int $pausedUntil, int $pendingReward, int $points) inline;
+
+;; $JurorStaking$_fun_settleStake
+((slice, slice, slice, int, int, cell, cell), (int, int, int, int, int, int, int)) $JurorStaking$_fun_settleStake((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref;
+
+;; $JurorStaking$_fun_creditReward
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_creditReward((slice, slice, slice, int, int, cell, cell) $self, slice $user, int $amount) impure inline_ref;
+
+;; $JurorStaking$_fun_processPayoutList
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_processPayoutList((slice, slice, slice, int, int, cell, cell) $self, cell $cellOpt, int $isReward) impure inline_ref;
+
+;; $JurorStaking$_fun_ensureAdmin
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensureAdmin((slice, slice, slice, int, int, cell, cell) $self) impure inline_ref;
+
+;; $JurorStaking$_fun_ensurePrediction
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensurePrediction((slice, slice, slice, int, int, cell, cell) $self) impure inline_ref;
+
+;; $JurorStaking$_fun_ensureNotPaused
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensureNotPaused((slice, slice, slice, int, int, cell, cell) $self) impure inline_ref;
+
+;; $JurorStaking$_fun_ensureNotSuspended
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensureNotSuspended((slice, slice, slice, int, int, cell, cell) $self, (int, int, int, int, int, int, int) $info) impure inline_ref;
+
+
+;; JurorStaking_JurorStaking.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+forall X -> X __tact_not_null(X x) impure inline {
+    throw_if(128, null?(x)); return x;
+}
+
+(cell, int) __tact_dict_delete(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTDEL
+""";
+
+((cell), ()) __tact_dict_set_ref(cell dict, int key_len, slice index, cell value) asm(value index dict key_len) """
+    DICTSETREF
+""";
+
+(slice, int) __tact_dict_get(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGET NULLSWAPIFNOT
+""";
+
+(cell, int) __tact_dict_get_ref(cell dict, int key_len, slice index) asm(index dict key_len) """
+    DICTGETREF NULLSWAPIFNOT
+""";
+
+slice __tact_context_get_sender() inline {
+    return __tact_context_sender;
+}
+
+forall X0, X1, X2, X3, X4, X5, X6 -> tuple __tact_tuple_create_7((X0, X1, X2, X3, X4, X5, X6) v) asm """
+    7 TUPLE
+""";
+
+forall X0, X1, X2, X3, X4, X5, X6 -> (X0, X1, X2, X3, X4, X5, X6) __tact_tuple_destroy_7(tuple v) asm """
+    7 UNTUPLE
+""";
+
+int __tact_dict_get_slice_int(cell d, int kl, slice k, int vl) inline {
+    var (r, ok) = __tact_dict_get(d, kl, k);
+    if (ok) {
+        return r~load_int(vl);
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_int(cell d, int kl, slice k, int v, int vl) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return (dict_set_builder(d, kl, k, begin_cell().store_int(v, vl)), ());
+    }
+}
+
+cell __tact_dict_get_slice_cell(cell d, int kl, slice k) inline {
+    var (r, ok) = __tact_dict_get_ref(d, kl, k);
+    if (ok) {
+        return r;
+    } else {
+        return null();
+    }
+}
+
+(cell, ()) __tact_dict_set_slice_cell(cell d, int kl, slice k, cell v) inline {
+    if (null?(v)) {
+        var (r, ok) = __tact_dict_delete(d, kl, k);
+        return (r, ());
+    } else {
+        return __tact_dict_set_ref(d, kl, k, v);
+    }
+}
+
+int $global_min(int $x, int $y) impure asm """
+    MIN
+""";
+
+int $global_now() impure asm """
+    NOW
+""";
+
+(slice, cell) $Slice$_fun_loadMaybeRef(slice $self) impure asm( -> 1 0) """
+    LDOPTREF
+""";
+
+(slice, slice) $Slice$_fun_loadAddress(slice $self) impure asm( -> 1 0) """
+    LDMSGADDR
+""";
+
+slice $Cell$_fun_beginParse(cell $self) impure asm """
+    CTOS
+""";
+
+;; JurorStaking_JurorStaking.storage.fc
+;;
+;; Type: StakeInfo
+;; TLB: _ amount:int257 accumulatedSeconds:int257 lastUpdate:int257 penaltyCount:int257 pausedUntil:int257 pendingReward:int257 points:int257 = StakeInfo
+;;
+
+builder $StakeInfo$_store(builder build_0, (int, int, int, int, int, int, int) v) inline {
+    var (v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points) = v;
+    build_0 = build_0.store_int(v'amount, 257);
+    build_0 = build_0.store_int(v'accumulatedSeconds, 257);
+    build_0 = build_0.store_int(v'lastUpdate, 257);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'penaltyCount, 257);
+    build_1 = build_1.store_int(v'pausedUntil, 257);
+    build_1 = build_1.store_int(v'pendingReward, 257);
+    var build_2 = begin_cell();
+    build_2 = build_2.store_int(v'points, 257);
+    build_1 = store_builder_ref(build_1, build_2);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+cell $StakeInfo$_store_cell((int, int, int, int, int, int, int) v, builder b) inline {
+    return $StakeInfo$_store(b, v).end_cell();
+}
+
+(slice, ((int, int, int, int, int, int, int))) $StakeInfo$_load(slice sc_0) inline {
+    var v'amount = sc_0~load_int(257);
+    var v'accumulatedSeconds = sc_0~load_int(257);
+    var v'lastUpdate = sc_0~load_int(257);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'penaltyCount = sc_1~load_int(257);
+    var v'pausedUntil = sc_1~load_int(257);
+    var v'pendingReward = sc_1~load_int(257);
+    slice sc_2 = sc_1~load_ref().begin_parse();
+    var v'points = sc_2~load_int(257);
+    return (sc_0, (v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points));
+}
+
+tuple $StakeInfo$_as_optional((int, int, int, int, int, int, int) v) inline {
+    var (v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points) = v;
+    return __tact_tuple_create_7(v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points);
+}
+
+tuple $StakeInfo$_load_opt(cell cl) inline {
+    if (null?(cl)) {
+        return null();
+    }
+    var sc = cl.begin_parse();
+    return $StakeInfo$_as_optional(sc~$StakeInfo$_load());
+}
+
+_ $StakeInfo$_get_amount((int, int, int, int, int, int, int) v) inline {
+    var (v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points) = v;
+    return v'amount;
+}
+
+((int, int, int, int, int, int, int)) $StakeInfo$_tensor_cast((int, int, int, int, int, int, int) v) asm "NOP";
+
+((int, int, int, int, int, int, int)) $StakeInfo$_not_null(tuple v) inline {
+    throw_if(128, null?(v));
+    var (int vvv'amount, int vvv'accumulatedSeconds, int vvv'lastUpdate, int vvv'penaltyCount, int vvv'pausedUntil, int vvv'pendingReward, int vvv'points) = __tact_tuple_destroy_7(v);
+    return (vvv'amount, vvv'accumulatedSeconds, vvv'lastUpdate, vvv'penaltyCount, vvv'pausedUntil, vvv'pendingReward, vvv'points);
+}
+
+tuple $StakeInfo$_to_tuple(((int, int, int, int, int, int, int)) v) inline {
+    var (v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points) = v;
+    return __tact_tuple_create_7(v'amount, v'accumulatedSeconds, v'lastUpdate, v'penaltyCount, v'pausedUntil, v'pendingReward, v'points);
+}
+
+tuple $StakeInfo$_to_opt_tuple(tuple v) inline {
+    if (null?(v)) { return null(); } 
+    return $StakeInfo$_to_tuple($StakeInfo$_not_null(v)); 
+}
+
+tuple $StakeInfo$_to_opt_external(tuple v) inline {
+    var loaded = $StakeInfo$_to_opt_tuple(v);
+    if (null?(loaded)) {
+        return null();
+    } else {
+        return (loaded);
+    }
+}
+
+((int, int, int, int, int, int, int)) $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points(int $amount, int $accumulatedSeconds, int $lastUpdate, int $penaltyCount, int $pausedUntil, int $pendingReward, int $points) inline {
+    return ($amount, $accumulatedSeconds, $lastUpdate, $penaltyCount, $pausedUntil, $pendingReward, $points);
+}
+
+;;
+;; Type: JurorStaking
+;; TLB: _ admin:address prediction:address treasury:address emergencyPaused:bool totalStaked:int257 stakes:dict<address, ^StakeInfo{amount:int257,accumulatedSeconds:int257,lastUpdate:int257,penaltyCount:int257,pausedUntil:int257,pendingReward:int257,points:int257}> rewardCredits:dict<address, int> = JurorStaking
+;;
+
+builder $JurorStaking$_store(builder build_0, (slice, slice, slice, int, int, cell, cell) v) inline {
+    var (v'admin, v'prediction, v'treasury, v'emergencyPaused, v'totalStaked, v'stakes, v'rewardCredits) = v;
+    build_0 = build_0.store_slice(v'admin);
+    build_0 = build_0.store_slice(v'prediction);
+    build_0 = build_0.store_slice(v'treasury);
+    build_0 = build_0.store_int(v'emergencyPaused, 1);
+    var build_1 = begin_cell();
+    build_1 = build_1.store_int(v'totalStaked, 257);
+    build_1 = build_1.store_dict(v'stakes);
+    build_1 = build_1.store_dict(v'rewardCredits);
+    build_0 = store_builder_ref(build_0, build_1);
+    return build_0;
+}
+
+(slice, ((slice, slice, slice, int, int, cell, cell))) $JurorStaking$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'prediction = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    var v'emergencyPaused = sc_0~load_int(1);
+    slice sc_1 = sc_0~load_ref().begin_parse();
+    var v'totalStaked = sc_1~load_int(257);
+    var v'stakes = sc_1~load_dict();
+    var v'rewardCredits = sc_1~load_dict();
+    return (sc_0, (v'admin, v'prediction, v'treasury, v'emergencyPaused, v'totalStaked, v'stakes, v'rewardCredits));
+}
+
+(slice, ((slice, slice, slice))) $JurorStaking$init$_load(slice sc_0) inline {
+    var v'admin = sc_0~load_msg_addr();
+    var v'prediction = sc_0~load_msg_addr();
+    var v'treasury = sc_0~load_msg_addr();
+    return (sc_0, (v'admin, v'prediction, v'treasury));
+}
+
+(slice, slice, slice, int, int, cell, cell) $JurorStaking$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$JurorStaking$_load();
+    }
+    else {
+        (slice $admin, slice $prediction, slice $treasury) = $sc~$JurorStaking$init$_load();
+        $sc.end_parse();
+        return $JurorStaking$_contract_init($admin, $prediction, $treasury);
+    }
+}
+
+() $JurorStaking$_contract_store((slice, slice, slice, int, int, cell, cell) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $JurorStaking$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract JurorStaking functions
+;;
+
+(slice, slice, slice, int, int, cell, cell) $JurorStaking$_contract_init(slice $admin, slice $prediction, slice $treasury) impure inline {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = (null(), null(), null(), null(), null(), null(), null());
+    $self'admin = $admin;
+    $self'prediction = $prediction;
+    $self'treasury = $treasury;
+    $self'emergencyPaused = false;
+    $self'totalStaked = 0;
+    $self'stakes = null();
+    $self'rewardCredits = null();
+    return ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits);
+}
+
+((slice, slice, slice, int, int, cell, cell), tuple) $JurorStaking$_fun_stakeOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    var $fresh$ret_33 = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_33);
+}
+
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_stakeAmountOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
+    if (null?($infoOpt)) {
+        var $fresh$ret_34 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_34);
+    }
+    var $fresh$ret_35 = $StakeInfo$_get_amount($StakeInfo$_not_null($infoOpt));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_35);
+}
+
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_stakeDaysOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
+    if (null?($infoOpt)) {
+        var $fresh$ret_36 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_36);
+    }
+    var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = $StakeInfo$_not_null($infoOpt);
+    int $extra = 0;
+    if (($info'amount > 0)) {
+        $extra = ($global_now() - $info'lastUpdate);
+    }
+    if (($extra < 0)) {
+        $extra = 0;
+    }
+    int $totalSeconds = ($info'accumulatedSeconds + $extra);
+    if (($totalSeconds <= 0)) {
+        var $fresh$ret_37 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_37);
+    }
+    var $fresh$ret_38 = ($totalSeconds / 86400);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_38);
+}
+
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_whitelistQuotaOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    int $amount = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_stakeAmountOf($user);
+    int $days = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_stakeDaysOf($user);
+    int $quotaAmount = (($amount * 8) / 10);
+    int $quotaDays = (($days * 1) / 100);
+    int $quota = ($quotaAmount + $quotaDays);
+    int $cap = (($amount * 50) / 100);
+    if (($quota > $cap)) {
+        $quota = $cap;
+    }
+    if (($quota < 0)) {
+        $quota = 0;
+    }
+    var $fresh$ret_39 = $quota;
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_39);
+}
+
+((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_rewardCreditOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    int $saved = __tact_dict_get_slice_int($self'rewardCredits, 267, $user, 257);
+    if (null?($saved)) {
+        var $fresh$ret_40 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_40);
+    }
+    var $fresh$ret_41 = __tact_not_null($saved);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_41);
+}
+
+((slice, slice, slice, int, int, cell, cell), (int, int, int, int, int, int, int)) $JurorStaking$_fun_settleStake((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
+    if (null?($infoOpt)) {
+        var $fresh$ret_42 = $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points(0, 0, $global_now(), 0, 0, 0, 0);
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_42);
+    }
+    var ($mutInfo'amount, $mutInfo'accumulatedSeconds, $mutInfo'lastUpdate, $mutInfo'penaltyCount, $mutInfo'pausedUntil, $mutInfo'pendingReward, $mutInfo'points) = $StakeInfo$_not_null($infoOpt);
+    int $current = $global_now();
+    if (( (($mutInfo'amount > 0)) ? (($current > $mutInfo'lastUpdate)) : (false) )) {
+        int $delta = ($current - $mutInfo'lastUpdate);
+        $mutInfo'accumulatedSeconds = ($mutInfo'accumulatedSeconds + $delta);
+    }
+    $mutInfo'lastUpdate = $current;
+    var $fresh$ret_43 = ($mutInfo'amount, $mutInfo'accumulatedSeconds, $mutInfo'lastUpdate, $mutInfo'penaltyCount, $mutInfo'pausedUntil, $mutInfo'pendingReward, $mutInfo'points);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_43);
+}
+
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_creditReward((slice, slice, slice, int, int, cell, cell) $self, slice $user, int $amount) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    if (($amount <= 0)) {
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+    }
+    int $prev = __tact_dict_get_slice_int($self'rewardCredits, 267, $user, 257);
+    int $next = $amount;
+    if ((~ null?($prev))) {
+        $next = (__tact_not_null($prev) + $amount);
+    }
+    $self'rewardCredits~__tact_dict_set_slice_int(267, $user, $next, 257);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+}
+
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_processPayoutList((slice, slice, slice, int, int, cell, cell) $self, cell $cellOpt, int $isReward) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    if (null?($cellOpt)) {
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+    }
+    slice $slice = $Cell$_fun_beginParse(__tact_not_null($cellOpt));
+    slice $addr = $slice~$Slice$_fun_loadAddress();
+    int $amount = $slice~load_int(257);
+    cell $nextOpt = $slice~$Slice$_fun_loadMaybeRef();
+    if (($amount > 0)) {
+        if ($isReward) {
+            var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_settleStake($addr);
+            $info'pendingReward = ($info'pendingReward + $amount);
+            $self'stakes~__tact_dict_set_slice_cell(267, $addr, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        } else {
+            var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_settleStake($addr);
+            int $penalty = $global_min($amount, $info'amount);
+            if (($penalty > 0)) {
+                $info'amount = ($info'amount - $penalty);
+                $info'penaltyCount = ($info'penaltyCount + 1);
+                $self'totalStaked = ($self'totalStaked - $penalty);
+                ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_creditReward($self'treasury, $penalty);
+            }
+            $self'stakes~__tact_dict_set_slice_cell(267, $addr, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        }
+    }
+    ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_processPayoutList($nextOpt, $isReward);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+}
+
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensureAdmin((slice, slice, slice, int, int, cell, cell) $self) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    throw_unless(45917, ( equal_slices_bits(__tact_context_get_sender(), $self'admin) ));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+}
+
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensurePrediction((slice, slice, slice, int, int, cell, cell) $self) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    throw_unless(41711, ( equal_slices_bits(__tact_context_get_sender(), $self'prediction) ));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+}
+
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensureNotPaused((slice, slice, slice, int, int, cell, cell) $self) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    throw_unless(63709, (~ $self'emergencyPaused));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+}
+
+((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_ensureNotSuspended((slice, slice, slice, int, int, cell, cell) $self, (int, int, int, int, int, int, int) $info) impure inline_ref {
+    var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
+    var (($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points)) = $info;
+    if (($info'pausedUntil > 0)) {
+        throw_unless(36991, ($global_now() >= $info'pausedUntil));
+    }
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), ());
+}
+
+;;
+;; Get methods of a Contract JurorStaking
+;;
+
+_ %stakeOf(slice $user) method_id(101015) {
+    slice $user = $user;
+    var self = $JurorStaking$_contract_load();
+    var res = self~$JurorStaking$_fun_stakeOf($user);
+    return $StakeInfo$_to_opt_external(res);
+}
+
+_ %stakeAmountOf(slice $user) method_id(101466) {
+    slice $user = $user;
+    var self = $JurorStaking$_contract_load();
+    var res = self~$JurorStaking$_fun_stakeAmountOf($user);
+    return res;
+}
+
+_ %stakeDaysOf(slice $user) method_id(118148) {
+    slice $user = $user;
+    var self = $JurorStaking$_contract_load();
+    var res = self~$JurorStaking$_fun_stakeDaysOf($user);
+    return res;
+}
+
+_ %whitelistQuotaOf(slice $user) method_id(113129) {
+    slice $user = $user;
+    var self = $JurorStaking$_contract_load();
+    var res = self~$JurorStaking$_fun_whitelistQuotaOf($user);
+    return res;
+}
+
+_ %rewardCreditOf(slice $user) method_id(100340) {
+    slice $user = $user;
+    var self = $JurorStaking$_contract_load();
+    var res = self~$JurorStaking$_fun_rewardCreditOf($user);
+    return res;
+}
+
+;;
+;; Routing of a Contract JurorStaking
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits) = $JurorStaking$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Receive Stake message
+    if (op == 1696574805) {
+        var $msg'amount = in_msg~load_int(257);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureNotPaused();
+        throw_unless(28436, ($msg'amount >= 10000));
+        slice $juror = __tact_context_get_sender();
+        var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_settleStake($juror);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureNotSuspended($StakeInfo$_tensor_cast(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points)));
+        $info'amount = ($info'amount + $msg'amount);
+        $self'totalStaked = ($self'totalStaked + $msg'amount);
+        $self'stakes~__tact_dict_set_slice_cell(267, $juror, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive Unstake message
+    if (op == 3125946401) {
+        var $msg'amount = in_msg~load_int(257);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureNotPaused();
+        slice $juror = __tact_context_get_sender();
+        var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_settleStake($juror);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureNotSuspended($StakeInfo$_tensor_cast(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points)));
+        throw_unless(3118, ($msg'amount > 0));
+        throw_unless(46277, ($msg'amount <= $info'amount));
+        $info'amount = ($info'amount - $msg'amount);
+        $self'totalStaked = ($self'totalStaked - $msg'amount);
+        ifnot ($info'amount) {
+            $info'lastUpdate = $global_now();
+        }
+        $self'stakes~__tact_dict_set_slice_cell(267, $juror, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_creditReward($juror, $msg'amount);
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive ClaimReward message
+    if (op == 2151883269) {
+        var $_ = empty_tuple();
+        slice $juror = __tact_context_get_sender();
+        tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $juror));
+        throw_unless(12134, (~ null?($infoOpt)));
+        var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = $StakeInfo$_not_null($infoOpt);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureNotSuspended($StakeInfo$_tensor_cast(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points)));
+        int $reward = $info'pendingReward;
+        throw_unless(29352, ($reward > 0));
+        $info'pendingReward = 0;
+        $self'stakes~__tact_dict_set_slice_cell(267, $juror, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_creditReward($juror, $reward);
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive PauseStaker message
+    if (op == 545102078) {
+        var $msg'target = in_msg~load_msg_addr();
+        var $msg'untilTs = in_msg~load_int(257);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureAdmin();
+        var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_settleStake($msg'target);
+        $info'pausedUntil = $msg'untilTs;
+        $self'stakes~__tact_dict_set_slice_cell(267, $msg'target, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive ToggleEmergency message
+    if (op == 1068767172) {
+        var $msg'value = in_msg~load_int(1);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureAdmin();
+        $self'emergencyPaused = $msg'value;
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive RecordParticipation message
+    if (op == 2232415888) {
+        var $msg'target = in_msg~load_msg_addr();
+        var $msg'deltaPoints = in_msg~load_int(257);
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureAdmin();
+        var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_settleStake($msg'target);
+        $info'points = ($info'points + $msg'deltaPoints);
+        $self'stakes~__tact_dict_set_slice_cell(267, $msg'target, $StakeInfo$_store_cell(($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points), begin_cell()));
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive CreditRewards message
+    if (op == 291497744) {
+        var $msg'marketId = in_msg~load_int(257);
+        var $msg'reward = in_msg~load_int(257);
+        var $msg'payouts = in_msg~load_maybe_ref();
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensurePrediction();
+        if (($msg'reward <= 0)) {
+            $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+            return ();
+        }
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_processPayoutList($msg'payouts, true);
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive ApplySlash message
+    if (op == 2570802865) {
+        var $msg'marketId = in_msg~load_int(257);
+        var $msg'entries = in_msg~load_maybe_ref();
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensurePrediction();
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_processPayoutList($msg'entries, false);
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive SetPrediction message
+    if (op == 1154094813) {
+        var $msg'target = in_msg~load_msg_addr();
+        ($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)~$JurorStaking$_fun_ensureAdmin();
+        $self'prediction = $msg'target;
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    
+    ;; Receive empty message
+    if ((op == 0) & (in_msg_length <= 32)) {
+        $JurorStaking$_contract_store(($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}

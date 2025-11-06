@@ -8,7 +8,8 @@ export type JurorRewardBadgeProps = {
 };
 
 export function JurorRewardBadge({ reward, className }: JurorRewardBadgeProps) {
-  const { t } = useI18n('dao');
+  const { t } = useI18n('home');
+  const safeReward = Number.isFinite(reward) && reward > 0 ? Math.round(reward) : 0;
   return (
     <span
       className={clsx(
@@ -16,7 +17,7 @@ export function JurorRewardBadge({ reward, className }: JurorRewardBadgeProps) {
         className,
       )}
     >
-      {t('createLimits.reward.title')}: {reward.toLocaleString()} TAI
+      {t('card.jurorRewardCompact', { amount: safeReward.toLocaleString() })}
     </span>
   );
 }

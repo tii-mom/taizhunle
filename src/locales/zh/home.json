@@ -12,7 +12,7 @@
       "latest": "最新",
       "hot": "最热",
       "closing": "即将截止",
-      "bounty": "高赏金",
+      "bounty": "高质押",
       "following": "我的关注 ({{count}})"
     },
     "status": {
@@ -93,7 +93,9 @@
     "betFailed": "下注失败，请稍后重试",
     "betProcessing": "签名处理中...",
     "betConfirm": "确认下注",
-    "betConfirmWithPayout": "确认下注 · {{payout}} {{currency}}"
+    "betConfirmWithPayout": "确认下注 · {{payout}} {{currency}}",
+    "creatorStake": "创建质押",
+    "jurorRewardCompact": "陪审奖励 {{amount}} TAI"
   },
   "dao": {
     "total": "DAO 总池"

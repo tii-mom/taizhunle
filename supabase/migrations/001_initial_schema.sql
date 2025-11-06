@@ -61,6 +61,8 @@ create table public.predictions (
   total_fees numeric default 0,
   creator_fee numeric default 0,
   platform_fee numeric default 0,
+  tags text[] default '{}'::text[],
+  reference_url text,
   
   -- 审核信息
   admin_notes text,

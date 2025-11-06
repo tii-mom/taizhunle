@@ -3,12 +3,13 @@
 > 面向接手团队的技术概览、运行指南与后续规划。请配合同目录下的业务文档（如 `PROJECT_GUIDE.md`、`ENVIRONMENT.md`、`TELEGRAM_BOT_SETUP.md`）一起阅读。
 
 ## 1. 项目速览
-- **定位**：基于 TON 区块链的预测市场与社区运营平台，包含预测下注、DAO 分账、红包裂变、官方雨露、邀请返利、榜单等功能。
+- **定位**：基于 TON 区块链的预测市场 + 社群金融平台，涵盖预测下注、陪审 DAO 分账、红包裂变、官方雨露、邀请返利、排行榜以及 TAI 白名单认购/解锁等功能。
 - **技术栈**：
-  - 前端：Vite + React 19 + TypeScript，TanStack Query 管理数据，Tailwind +自建 Glass UI 体系，i18next 多语言，TonConnect UI 钱包接入。
-  - 后端：Node 20 + Express，Supabase/Postgres 作为主数据源，TON API、Telegram Bot、node-cron 定时任务。
-  - 基础设施：Docker（多阶段构建）、Vercel 部署脚本、Railway 配置、Supabase 迁移脚本。
-- **核心依赖**：`@tanstack/react-query`, `@supabase/supabase-js`, `@ton/core`, `@tonconnect/ui-react`, `node-telegram-bot-api`, `node-cron`, `express`, `zod`。
+  - 前端：Vite + React 19 + TypeScript，TanStack Query，Tailwind + Glass/Aurora UI，i18next，TonConnect UI；首页/详情已接入实时赔率提示、下注确认弹窗、评论流，资产页上线钱包卡片与白名单认购交互。
+  - 后端：Node 20 + Express，Supabase/Postgres 主存储，整合 TON API、Telegram Bot、node-cron；新增白名单配额、赔率流、DAO 池、评论等 API。
+  - 区块链：Tact 智能合约套件（TAI 解锁/白名单、预测市场、陪审质押、喂价 Oracle）+ sandbox 测试 + 部署脚本。
+  - 基础设施：Docker（多阶段）、Vercel/Railway 部署脚本、Supabase 迁移体系、whitelist Merkle 工具链。
+- **核心依赖**：`@tanstack/react-query`, `@supabase/supabase-js`, `@ton/core`, `@tonconnect/ui-react`, `node-telegram-bot-api`, `node-cron`, `express`, `zod`, `merkletreejs`, `@ton/sandbox`。
 
 ## 2. 代码结构总览
 | 目录 | 说明 |
@@ -64,6 +65,9 @@ npm run dev:server        # 仅后端（watch 模式）
 | `scripts/test-db.js` / `test-system.js` | 快速健康检查占位（需按需完善） |
 | `scripts/verify-trend-data.ts` | 资产曲线数据校验辅助 |
 | `scripts/verifyContracts.js` | 合约配置验证占位 |
+| `scripts/generate-whitelist-merkle.ts` | 基于质押快照计算白名单配额 + 生成 Merkle 根/Proof |
+| `scripts/encode-start-whitelist-sale.ts` | 将白名单参数编码成 `StartWhitelistSale` 链上消息 payload |
+| `scripts/deploy-whitelist-sale.ts` | 示例部署脚本，读取 `.env` 助记词向 `tai_unlock_controller` 发送白名单启动交易 |
 
 ## 4. 前端架构
 ### 4.1 入口与 Provider
@@ -77,29 +81,31 @@ npm run dev:server        # 仅后端（watch 模式）
   - 页面懒加载：`HomeGlass`, `DaoGlass`, `BetGlass`, `MarketDetailGlass`, `Create`, `Profile`, `SearchGlass`, `Invite`, `Ranking`, `Assets`, `RedPacket*` 等。
 
 ### 4.3 UI 体系
-- `src/components/glass/`：统一的“玻璃拟态”组件（`GlassPageLayout`、`GlassCard`、`GlassButtonGlass`、`RealtimeProfitBar`、`DaoConsoleGlass`、`MarketCardGlass` 等）。
+- `src/components/glass/`：统一的“玻璃拟态”组件（`GlassPageLayout`、`GlassCard`、`GlassButtonGlass`、`AuroraPanel`、`RealtimeProfitBar`、`SystemInfoGlass`、`BetModalGlass` 等）。
+- `src/components/wallet/WalletSummary.tsx`：首页/资产顶部栏复用的钱包摘要卡片（TonConnect 按钮、地址复制、余额）。
 - 旧版布局仍通过 `src/components/layout/`（`PageLayout`, `BottomNav` 等）服务部分页面。
-- Tailwind + 自定义 CSS 变量（`src/styles/glass.css`、`src/index.css`）处理浅/深色模式。
+- Tailwind + 自定义 CSS 变量（`src/styles/glass.css`、`src/index.css`）处理浅/深色模式，并针对明/暗模式提供不同的阴影、边框。
 
 ### 4.4 数据访问
 - 通过 `src/services/*.ts` 封装 HTTP：
   - `markets.ts`：行情列表、详情、下注、分页加载、React Query 钩子。
+  - `whitelistService.ts`：白名单窗口状态、个人配额、Merkle proof 获取；配合 `useWhitelistQuota`/`useWhitelistStatus`。
   - `rankingService.ts`、`inviteService.ts` 等目前带有 fallback mock，API 未完全落地时返回模拟数据。
   - `tonService.ts`（前端）仅包含 TON 工具函数；实际链上交互走后端。
 - Query 定义集中在 `src/queries/`（home feed、market detail、DAO、bet modal 等）。
 
 ### 4.5 核心 Hooks
 - Ton & 钱包：`useTonWallet.ts`, `useTonSign.ts`
-- 数据/动画：`useCountUp`, `usePulseGlow`, `useAssetTrend`, `useAssetData`（带插值逻辑）、`useDynamicOdds`, `useLiveBetting`, `useRedPacketSale`, `useOfficialRain`。
+- 数据/动画：`useCountUp`, `usePulseGlow`, `useAssetTrend`, `useAssetData`（带插值逻辑）、`useDynamicOdds`, `useLiveBetting`, `useWhitelistQuota`, `useWhitelistPurchase`, `useRedPacketSale`, `useOfficialRain`。
 - 终端能力：`useHaptic`, `useTelegramWebApp`（WebApp SDK）
 - i18n 包装：`useI18n`
 
 ### 4.6 主要页面
-- `HomeGlass.tsx`：首页无限滚动预测卡片、过滤器、收藏、DAO 数据条。
-- `MarketDetailGlass`/`BetGlass`：详情、下注面板（依赖 `useMarketDetailQuery` 等）。
-- `Create.tsx`：预测创建多步骤表单，zod 校验 + 动画（目前提交落地为本地提示）。
-- `DaoGlass.tsx`：DAO 控制台，聚合 Supabase 数据、待领取金额展示、收益拆分。
-- `Assets.tsx` 系列：资产概览、趋势图（Recharts）。
+- `HomeGlass.tsx`：首页无限滚动预测卡片、简化分类条、收藏、DAO 数据条；顶部复用 `HomeTopBar`（TonConnect、TAI/TON 余额、语言/主题切换、搜索）。
+- `MarketDetailGlass`/`BetGlass`：详情、下注面板（依赖 `useMarketDetailQuery`），包含实时赔率动画、下注确认提示、评论区、资讯抽屉。
+- `Create.tsx`：预测创建多步骤表单，zod 校验 + 热门话题一键填充 + 质押选择，提交后调用真实 API。
+- `DaoGlass.tsx`：DAO 控制台，聚合 Supabase 数据、待领取金额展示、积分与质押概览、白名单额度展示。
+- `Assets.tsx` 系列：资产概览、趋势图（Recharts）、`AssetHeader` 钱包卡片、`FinanceSections` 白名单认购/红包资产。
 - `Invite.tsx`：邀请返利仪表盘，复制链接、申请领取（现阶段通过 mock 数据）。
 - `Ranking.tsx`：榜单切换（invite/whale/prophet），定时刷新，右侧分享卡片。
 - `RedPacketSale.tsx` / `OfficialRain.tsx`：与后端 `/api/redpacket`、`/api/official` 对接，包含倒计时、加速徽章、资格判断。
@@ -169,6 +175,16 @@ npm run dev:server        # 仅后端（watch 模式）
 4. 前端轮询 `/api/redpacket/purchase` 获取 BOC → 用户在 Ton 钱包签名 → 前端回传签名（TODO）。
 5. 后端 `markPurchaseCompleted` → 更新销量、用户资产、DAO 池（后续可扩展）。
 
+### 6.5 白名单认购与储备池
+1. 链下通过 `scripts/generate-whitelist-merkle.ts` 收集 `juror_staking` 的质押量与质押天数，计算配额与 Merkle 根。
+2. 运营使用 `scripts/encode-start-whitelist-sale.ts` + `deploy-whitelist-sale.ts`（或 TonConnect）向 `tai_unlock_controller` 发送 `StartWhitelistSale`，写入窗口、总额度、上一轮基准价。
+3. 前端资产页调用 `/api/whitelist/status`、`/api/whitelist/quota`：
+   - `status` 返回窗口是否开启、剩余额度、上一轮/当前估值、截止时间。
+   - `quota` 针对当前钱包返回配额、已使用额度、Merkle proof。
+4. 用户在 `FinanceSections` 中输入认购数量 → `useWhitelistPurchase` 将 proof & 金额编码 → TonConnect 触发 `PurchaseWhitelist`（USDC/USDT Jetton 支付，TAI 即刻到账）。
+5. 窗口结束或售罄时调用 `CloseWhitelistSale`，未售出 TAI 将自动退回运营钱包；如需紧急终止可使用 `CancelWhitelistSale`。
+6. 合约累计的稳定币记录在 `reserveUsdc/reserveUsdt`，触发 `TriggerEmergencyBuyback` 可标记暴跌（当前占位，后续接入 DEX 执行回购）。
+
 ## 7. 数据模型与迁移
 - 主要表：
   - `users`（钱包+Telegram 信息、统计）
@@ -183,14 +199,14 @@ npm run dev:server        # 仅后端（watch 模式）
 ## 8. 功能模块现状
 | 模块 | 状态 | 备注 |
 | --- | --- | --- |
-| 预测市场 | ✔️ 核心流程已通，下注写库、费率分配、Telegram 推送 | 需验证 Supabase RPC `increment_user_bets` 是否存在 |
-| DAO 控制台 | ✔️ 前端展示 + 基础接口；领取逻辑基于 `dao_pool` | 需补充实际领取交易、刷新物化视图机制 |
-| 红包销售 | ⚠️ 后端流程齐全，但签名提交、Ton 代付尚未完全连通 | listener 依赖 Ton API，缺失签名回写调用方 |
-| 官方雨露 | ⚠️ 数据结构就绪，`claim` 生成 base64 JSON BOC 占位，后续需接真实合约 | 需要补充门票扣费、链上发放 |
-| 邀请 / 榜单 / 资产 | ⚠️ 前端完成，接口仍使用 mock 或容错逻辑 | 待后端补齐真实 API |
+| 预测市场 | ✔️ 前端支持实时赔率闪烁、下注确认弹窗、评论墙；后端下注写库、费率拆分、Telegram 推送可用 | 仍需接链上合约 / 真正赔率数据源 |
+| DAO 控制台 | ✔️ 展示积分、质押、领取、白名单额度；`useWhitelistQuota` 可以读取 Merkle proof | 链上 stake/claim 尚未串通，物化视图刷新需调度 |
+| 红包销售 | ⚠️ 监听、订单、BOC 生成齐备，缺签名提交与 Ton 代付闭环 | listener 依赖 Ton API，缺合约侧确认回写 |
+| 官方雨露 | ⚠️ 数据结构就绪，`claim` 仍返回 base64 JSON BOC，占位 | 需挂接真实合约 + 门票扣费 |
+| 邀请 / 榜单 / 资产 | ⚠️ 前端完成，榜单/邀请/资产曲线部分仍走 mock | 需补 Supabase 视图与统计 API |
 | Telegram Bot | ⚠️ 命令齐全但大部分为 TODO，需要结合数据库实现实际动作 |
 | 定时任务 | ⚠️ priceAdjust 已写库；accelerate/officialCreate 仅日志 | 需补齐 Supabase 更新与通知 |
-| 测试 | ❌ 尚无单元/集成测试 | 建议补充至少服务层单测与关键接口 e2e |
+| 测试 | ⚠️ 合约层已有 Vitest 覆盖（PredictionMarket/JurorStaking/TaiOracle/Unlock）；服务层仍缺 | 建议继续补充后端单测与关键接口 e2e |
 
 ## 9. 部署与运维
 - **打包**：`npm run build` （先 TS 构建，再 Vite，再 server bundle）
@@ -220,6 +236,7 @@ npm run dev:server        # 仅后端（watch 模式）
 - `docs/ENVIRONMENT.md`：环境变量清单与获取方式。
 - `docs/TELEGRAM_BOT_SETUP.md`：Telegram Bot 配置与调试。
 - `docs/DAO_V2_IMPLEMENTATION.md`、`DAO_INSERT_GUIDE.md`：DAO 相关设计。
+- `docs/UNLOCK_WHITELIST_PLAN.md`：50 亿解锁分配、质押白名单认购、USDC 储备池与 RedStone 预言机方案。
 - `docs/CURRENT_STATUS.md`、`FINAL_DELIVERY.md`：阶段性进度总结。
 - `docs/PROJECT_GUIDE.md`：产品/运营视角说明。
 - `supabase/schema.sql`、`supabase/migrations/`：数据库结构历史。

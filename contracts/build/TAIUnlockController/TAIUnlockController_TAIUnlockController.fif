@@ -1,0 +1,2043 @@
+// automatically generated from `@stdlib/std/stdlib.fc` `/Users/yudeyou/Desktop/666/taizhunle/contracts/build/TAIUnlockController/TAIUnlockController_TAIUnlockController.fc` 
+PROGRAM{
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_dict_get_slice_int
+  DECLPROC __tact_dict_set_slice_int
+  DECLPROC $PriceRecord$_store
+  DECLPROC $PriceRecord$_load
+  DECLPROC $WhitelistSale$_store
+  DECLPROC $WhitelistSale$_load
+  DECLPROC $PriceRecord$_not_null
+  DECLPROC $TAIUnlockController$_store
+  DECLPROC $PriceRecord$_as_optional
+  DECLPROC $TAIUnlockController$_load
+  DECLPROC $Context$_get_value
+  DECLPROC $PriceRecord$_to_tuple
+  DECLPROC $PriceRecord$_to_opt_tuple
+  DECLPROC $PriceRecord$_to_opt_external
+  DECLPROC $SaleInfo$_to_external
+  DECLPROC $UnlockStatus$_to_external
+  DECLPROC $SupplySummary$_to_external
+  DECLPROC $WhitelistSaleInfo$_to_external
+  DECLPROC $TAIUnlockController$init$_load
+  DECLPROC $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd
+  DECLPROC $TAIUnlockController$_contract_init
+  DECLPROC $TAIUnlockController$_contract_load
+  DECLPROC $TAIUnlockController$_contract_store
+  DECLPROC $SaleInfo$_constructor_remaining_sold_endTimestamp_closed
+  DECLPROC $TAIUnlockController$_fun_saleInfo
+  DECLPROC $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused
+  DECLPROC $TAIUnlockController$_fun_unlockStatus
+  DECLPROC $TAIUnlockController$_fun_lastRecordedPrice
+  DECLPROC $SupplySummary$_constructor_total_locked_circulating
+  DECLPROC $TAIUnlockController$_fun_balanceOfInternal
+  DECLPROC $TAIUnlockController$_fun_supplySummary
+  DECLPROC $TAIUnlockController$_fun_balanceOf
+  DECLPROC $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd
+  DECLPROC $TAIUnlockController$_fun_whitelistSaleInfo
+  DECLPROC $TAIUnlockController$_fun_getWhitelistUsageInternal
+  DECLPROC $TAIUnlockController$_fun_whitelistUsed
+  DECLPROC $TAIUnlockController$_fun_requiredInflationForRound
+  DECLPROC $TAIUnlockController$_fun_transferTaiInternal
+  DECLPROC $TAIUnlockController$_fun_buildLeafCell
+  DECLPROC $TAIUnlockController$_fun_combineCells
+  DECLPROC $TAIUnlockController$_fun_foldProof
+  DECLPROC $TAIUnlockController$_fun_verifyMerkleProof
+  DECLPROC $TAIUnlockController$_fun_resetWhitelistSale
+  DECLPROC $TAIUnlockController$_fun_calculateStablePayment
+  DECLPROC $PriceRecord$_constructor_price_timestamp_round
+  80950 DECLMETHOD %saleInfo
+  130598 DECLMETHOD %unlockStatus
+  74948 DECLMETHOD %lastRecordedPrice
+  107839 DECLMETHOD %supplySummary
+  96915 DECLMETHOD %balanceOf
+  88112 DECLMETHOD %whitelistSaleInfo
+  123271 DECLMETHOD %whitelistUsed
+  DECLPROC recv_internal
+  65535 DECLMETHOD __tact_selector_hack
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_child_contract_codes
+  DECLGLOBVAR __tact_randomized
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get PROCINLINE:<{
+    __tact_context GETGLOB
+    4 UNTUPLE
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_dict_get_slice_int PROCINLINE:<{
+    s1 s3 s3 XCHG3
+        DICTGET NULLSWAPIFNOT
+    IF:<{
+      SWAP
+      LDIX
+      DROP
+    }>ELSE<{
+      2DROP
+      PUSHNULL
+    }>
+  }>
+  __tact_dict_set_slice_int PROCINLINE:<{
+    OVER
+    ISNULL
+    IF:<{
+      2DROP
+      -ROT
+          DICTDEL
+      DROP
+    }>ELSE<{
+      NEWC
+      SWAP
+      STIX
+      s1 s3 s3 XCHG3
+      DICTSETB
+    }>
+  }>
+  $PriceRecord$_store PROCINLINE:<{
+    s2 s3 XCHG2
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+  }>
+  $PriceRecord$_load PROCINLINE:<{
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    3 -ROLL
+  }>
+  $WhitelistSale$_store PROCINLINE:<{
+    s6 s7 XCHG2
+    1 STI
+    s1 s4 XCHG
+    STOPTREF
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s2 XCHG
+    257 PUSHINT
+    STIX
+    STBREFR
+  }>
+  $WhitelistSale$_load PROCINLINE:<{
+    1 LDI
+    LDOPTREF
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    DROP
+    s2 s7 XCHG
+    s2 s6 XCHG
+    s2 s5 XCHG
+    s2 s4 XCHG
+    s2 s3 XCHG
+  }>
+  $PriceRecord$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+        3 UNTUPLE
+  }>
+  $TAIUnlockController$_store PROCINLINE:<{
+    s1 25 s() XCHG
+    s0 26 s() XCHG
+    STSLICE
+    s1 23 s() XCHG
+    STSLICE
+    s1 21 s() XCHG
+    257 PUSHINT
+    STIX
+    s1 19 s() XCHG
+    STDICT
+    s0 17 s() XCHG
+    NEWC
+    STDICT
+    s1 16 s() XCHG
+    257 PUSHINT
+    STIX
+    s1 s14 XCHG
+    257 PUSHINT
+    STIX
+    s1 s12 XCHG
+    1 STI
+    s1 s10 XCHG
+    257 PUSHINT
+    STIX
+    s0 s8 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s7 XCHG
+    1 STI
+    s1 s5 XCHG
+    1 STI
+    s1 s3 XCHG
+    257 PUSHINT
+    STIX
+    257 PUSHINT
+    STIX
+    SWAP
+    NEWC
+    257 PUSHINT
+    STIX
+    NEWC
+    s3 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      SWAP
+      1 STI
+      s0 s3 XCHG
+      $PriceRecord$_not_null INLINECALLDICT
+      s3 s5 XCHG
+      $PriceRecord$_store INLINECALLDICT
+    }>ELSE<{
+      s3 POP
+      FALSE
+      s0 s3 XCHG2
+      1 STI
+    }>
+    s0 s3 XCHG
+    NEWC
+    STSLICE
+    NEWC
+    s0 s7 XCHG
+    s0 s5 XCHG
+    s4 s8 XCHG
+    s3 s9 XCHG
+    s11 s12 s13 XCHG3
+    $WhitelistSale$_store INLINECALLDICT
+    s0 s7 XCHG
+    NEWC
+    257 PUSHINT
+    STIX
+    s1 s8 XCHG
+    257 PUSHINT
+    STIX
+    s1 s6 XCHG
+    STBREFR
+    s1 s3 XCHG
+    STBREFR
+    s1 s5 XCHG
+    STBREFR
+    s1 s3 XCHG
+    STBREFR
+    s1 s3 XCHG
+    STBREFR
+    s1 s2 XCHG
+    STBREFR
+    STBREFR
+  }>
+  $PriceRecord$_as_optional PROCINLINE:<{
+        3 TUPLE
+  }>
+  $TAIUnlockController$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    257 PUSHINT
+    LDIX
+    LDDICT
+    LDREF
+    SWAP
+    CTOS
+    LDDICT
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    1 LDI
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    1 LDI
+    1 LDI
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    LDREF
+    DROP
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $PriceRecord$_load INLINECALLDICT
+      $PriceRecord$_as_optional INLINECALLDICT
+    }>ELSE<{
+      PUSHNULL
+    }>
+    SWAP
+    LDREF
+    DROP
+    CTOS
+    LDMSGADDR
+    LDREF
+    DROP
+    CTOS
+    $WhitelistSale$_load INLINECALLDICT
+    s0 s7 XCHG
+    LDREF
+    DROP
+    CTOS
+    257 PUSHINT
+    LDIX
+    257 PUSHINT
+    LDIX
+    DROP
+    22 s() 26 s() XCHG
+    22 s() 25 s() XCHG
+    22 s() 24 s() XCHG
+    22 s() 23 s() XCHG
+    s7 s8 XCHG
+    s6 s7 XCHG
+    s5 s6 XCHG
+    s4 s5 XCHG
+    s3 s4 XCHG
+    s2 s3 XCHG
+  }>
+  $Context$_get_value PROCINLINE:<{
+    s1 s3 XCHG
+    3 BLKDROP
+  }>
+  $PriceRecord$_to_tuple PROCINLINE:<{
+        3 TUPLE
+  }>
+  $PriceRecord$_to_opt_tuple PROCINLINE:<{
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+      $PriceRecord$_not_null INLINECALLDICT
+      $PriceRecord$_to_tuple INLINECALLDICT
+    }>
+  }>
+  $PriceRecord$_to_opt_external PROCINLINE:<{
+    $PriceRecord$_to_opt_tuple INLINECALLDICT
+    DUP
+    ISNULL
+    IF:<{
+      DROP
+      PUSHNULL
+    }>ELSE<{
+    }>
+  }>
+  $SaleInfo$_to_external PROCINLINE:<{
+  }>
+  $UnlockStatus$_to_external PROCINLINE:<{
+  }>
+  $SupplySummary$_to_external PROCINLINE:<{
+  }>
+  $WhitelistSaleInfo$_to_external PROCINLINE:<{
+  }>
+  $TAIUnlockController$init$_load PROCINLINE:<{
+    LDMSGADDR
+    LDMSGADDR
+    257 PUSHINT
+    LDIX
+    LDREF
+    SWAP
+    CTOS
+    LDMSGADDR
+    DROP
+    s1 s4 XCHG
+    s3 s3 s0 XCHG3
+  }>
+  $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd PROCINLINE:<{
+  }>
+  $TAIUnlockController$_contract_init PROCINLINE:<{
+    26150 PUSHINT
+        NOW
+    s3 s(-1) PUXC
+    GREATER
+    THROWANYIFNOT
+    s2 PUSH
+    PUSHNULL
+    PUSHNULL
+        MYADDR
+    s1 s2 XCHG
+    267 PUSHINT
+    SWAP
+    98000000000 PUSHINT
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+    267 PUSHINT
+    ROT
+    s0 s6 XCHG
+    2000000000 PUSHINT
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+    8000000000 PUSHINT
+    0 PUSHINT
+    FALSE
+    90000000000 PUSHINT
+    1 PUSHINT
+    FALSE
+    FALSE
+    s5 s5 s5 PUSH3
+    PUSHNULL
+    FALSE
+    PUSHNULL
+    s3 s3 s3 PUSH3
+    s0 s0 PUSH2
+    $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd INLINECALLDICT
+    s8 s8 PUSH2
+    21 s() 24 s() XCHG
+    20 s() 22 s() XCHG
+    19 s() 20 s() XCHG
+    18 s() 19 s() XCHG
+    17 s() 18 s() XCHG
+    16 s() 17 s() XCHG
+    s15 16 s() XCHG
+    s14 s15 XCHG
+    s13 s14 XCHG
+    s12 s13 XCHG
+    s11 s12 XCHG
+    s10 s11 XCHG
+    s9 s10 XCHG
+  }>
+  $TAIUnlockController$_contract_load PROCINLINE:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+    IF:<{
+      $TAIUnlockController$_load INLINECALLDICT
+      26 s() POP
+      24 s() 25 s() XCHG
+      23 s() 24 s() XCHG
+      22 s() 23 s() XCHG
+      21 s() 22 s() XCHG
+      20 s() 21 s() XCHG
+      19 s() 20 s() XCHG
+      18 s() 19 s() XCHG
+      17 s() 18 s() XCHG
+      16 s() 17 s() XCHG
+      s15 16 s() XCHG
+      15 ROLL
+    }>ELSE<{
+      $TAIUnlockController$init$_load INLINECALLDICT
+      s0 s4 XCHG
+      ENDS
+      3 ROLL
+      $TAIUnlockController$_contract_init INLINECALLDICT
+    }>
+  }>
+  $TAIUnlockController$_contract_store PROCINLINE:<{
+    NEWC
+    TRUE
+    SWAP
+    1 STI
+    s0 26 s() XCHG
+    s0 25 s() XCHG
+    s0 24 s() XCHG
+    s0 23 s() XCHG
+    s0 22 s() XCHG
+    s0 21 s() XCHG
+    s0 20 s() XCHG
+    s0 19 s() XCHG
+    s0 18 s() XCHG
+    s0 17 s() XCHG
+    s0 16 s() XCHG
+    15 -ROLL
+    $TAIUnlockController$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $SaleInfo$_constructor_remaining_sold_endTimestamp_closed PROCINLINE:<{
+  }>
+  $TAIUnlockController$_fun_saleInfo PROCREF:<{
+    20 s() PUSH
+    20 s() PUSH
+    25 s() PUSH
+    21 s() PUSH
+    $SaleInfo$_constructor_remaining_sold_endTimestamp_closed INLINECALLDICT
+  }>
+  $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused PROCINLINE:<{
+  }>
+  $TAIUnlockController$_fun_unlockStatus PROCREF:<{
+    16 s() PUSH
+    18 s() PUSH
+    s15 PUSH
+    18 s() PUSH
+    $UnlockStatus$_constructor_currentRound_remainingLocked_lastPrice_paused INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_lastRecordedPrice PROCREF:<{
+    s10 PUSH
+  }>
+  $SupplySummary$_constructor_total_locked_circulating PROCINLINE:<{
+  }>
+  $TAIUnlockController$_fun_balanceOfInternal PROCREF:<{
+    267 PUSHINT
+    24 s() PUSH
+    s0 s2 XCHG
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    __tact_not_null INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_supplySummary PROCREF:<{
+        MYADDR
+    $TAIUnlockController$_fun_balanceOfInternal INLINECALLDICT
+    100000000000 PUSHINT
+    SWAP
+    SUB
+    100000000000 PUSHINT
+    SWAP
+    19 s() PUSH
+    SWAP
+    $SupplySummary$_constructor_total_locked_circulating INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_balanceOf PROCREF:<{
+    $TAIUnlockController$_fun_balanceOfInternal INLINECALLDICT
+  }>
+  $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd PROCINLINE:<{
+  }>
+  $TAIUnlockController$_fun_whitelistSaleInfo PROCREF:<{
+    s6 s5 PUSH2
+    SUB
+    DUP
+    0 LESSINT
+    IF:<{
+      DROP
+      0 PUSHINT
+    }>
+    s9 s7 s(-2) PU2XC
+    s8 s7 s(-1) PU2XC
+    s8 s7 PUSH2
+    $WhitelistSaleInfo$_constructor_active_total_sold_remaining_baselinePrice_currentPrice_windowEnd INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_getWhitelistUsageInternal PROCREF:<{
+    267 PUSHINT
+    23 s() PUSH
+    s0 s2 XCHG
+    257 PUSHINT
+    __tact_dict_get_slice_int INLINECALLDICT
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+      0 PUSHINT
+    }>
+    __tact_not_null INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_whitelistUsed PROCREF:<{
+    $TAIUnlockController$_fun_getWhitelistUsageInternal INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_requiredInflationForRound PROCREF:<{
+    DUP
+    1 GTINT
+    IF:<{
+      DUP
+      8 LESSINT
+    }>ELSE<{
+      FALSE
+    }>
+    IFJMP:<{
+      DROP
+      100 PUSHINT
+    }>
+    DUP
+    7 GTINT
+    IF:<{
+      DUP
+      14 LESSINT
+    }>ELSE<{
+      FALSE
+    }>
+    IFJMP:<{
+      DROP
+      80 PUSHINT
+    }>
+    DUP
+    13 GTINT
+    IF:<{
+      20 LESSINT
+    }>ELSE<{
+      DROP
+      FALSE
+    }>
+    IFJMP:<{
+      50 PUSHINT
+    }>
+    0 PUSHINT
+  }>
+  $TAIUnlockController$_fun_transferTaiInternal PROCREF:<{
+    50295 PUSHINT
+    OVER
+    0 GTINT
+    THROWANYIFNOT
+    25 s() 28 s() XCHG
+    24 s() 27 s() XCHG
+    23 s() 26 s() XCHG
+    22 s() 28 s() XCHG
+    21 s() 27 s() XCHG
+    20 s() 26 s() XCHG
+    19 s() 28 s() XCHG
+    18 s() 27 s() XCHG
+    17 s() 26 s() XCHG
+    16 s() 28 s() XCHG
+    s15 27 s() XCHG
+    s14 26 s() XCHG
+    s13 28 s() XCHG
+    s12 27 s() XCHG
+    s11 26 s() XCHG
+    s10 28 s() XCHG
+    s9 27 s() XCHG
+    s8 26 s() XCHG
+    s7 28 s() XCHG
+    s6 27 s() XCHG
+    s5 26 s() XCHG
+    s4 28 s() XCHG
+    s3 27 s() XCHG
+    s2 26 s() XCHG
+    s1 28 s() XCHG
+    s0 27 s() XCHG
+    26 s() PUSH
+    $TAIUnlockController$_fun_balanceOfInternal INLINECALLDICT
+    27056 PUSHINT
+    OVER
+    30 s() PUSH
+    GEQ
+    THROWANYIFNOT
+    267 PUSHINT
+    SWAP
+    29 s() PUSH
+    SUB
+    s3 24 s() XCHG
+    s1 s2 XCHG
+    s1 28 s() XCHG
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+    24 s() 25 s() XCHG
+    23 s() 24 s() XCHG
+    s0 22 s() XCHG
+    s0 23 s() XCHG
+    20 s() 21 s() XCHG
+    19 s() 20 s() XCHG
+    18 s() 19 s() XCHG
+    17 s() 18 s() XCHG
+    16 s() 17 s() XCHG
+    s15 16 s() XCHG
+    s14 s15 XCHG
+    s13 s14 XCHG
+    s12 s13 XCHG
+    s11 s12 XCHG
+    s10 s11 XCHG
+    s9 s10 XCHG
+    s8 s9 XCHG
+    s7 s8 XCHG
+    s6 s7 XCHG
+    s5 s6 XCHG
+    s4 s5 XCHG
+    s3 s4 XCHG
+    s1 s3 s0 XCHG3
+    27 s() PUSH
+    $TAIUnlockController$_fun_balanceOfInternal INLINECALLDICT
+    267 PUSHINT
+    s0 28 s() XCHG
+    ADD
+    s3 23 s() XCHG
+    s2 27 s() XCHG
+    s1 28 s() XCHG
+    257 PUSHINT
+    __tact_dict_set_slice_int INLINECALLDICT
+    23 s() 25 s() XCHG
+    22 s() 24 s() XCHG
+    21 s() 23 s() XCHG
+    s0 22 s() XCHG
+    19 s() 21 s() XCHG
+    18 s() 20 s() XCHG
+    17 s() 19 s() XCHG
+    16 s() 18 s() XCHG
+    s15 17 s() XCHG
+    s14 16 s() XCHG
+    s13 s15 XCHG
+    s12 s14 XCHG
+    s11 s13 XCHG
+    s10 s12 XCHG
+    s9 s11 XCHG
+    s8 s10 XCHG
+    s7 s9 XCHG
+    s6 s8 XCHG
+    s5 s7 XCHG
+    s4 s6 XCHG
+    s3 s5 XCHG
+    s4 s0 s3 XCHG3
+  }>
+  $TAIUnlockController$_fun_buildLeafCell PROCREF:<{
+    DROP
+        NEWC
+    s0 s1 PUXC
+        STSLICER
+    DROP
+        ENDC
+  }>
+  $TAIUnlockController$_fun_combineCells PROCREF:<{
+        NEWC
+    s2 s2 XCPU
+        STREF
+    DROP
+    OVER
+        STREF
+    DROP
+        ENDC
+  }>
+  $TAIUnlockController$_fun_foldProof PROCREF:<{
+    DUP
+    ISNULL
+    IFJMP:<{
+      DROP
+    }>
+    __tact_not_null INLINECALLDICT
+        CTOS
+    1 LDU
+        LDREF
+        LDOPTREF
+    DROP
+    s0 s2 XCHG
+    IF:<{
+      27 s() 28 s() XCHG
+      26 s() 28 s() XCHG
+      25 s() 28 s() XCHG
+      24 s() 28 s() XCHG
+      23 s() 28 s() XCHG
+      22 s() 28 s() XCHG
+      21 s() 28 s() XCHG
+      20 s() 28 s() XCHG
+      19 s() 28 s() XCHG
+      18 s() 28 s() XCHG
+      17 s() 28 s() XCHG
+      16 s() 28 s() XCHG
+      s15 28 s() XCHG
+      s14 28 s() XCHG
+      s13 28 s() XCHG
+      s12 28 s() XCHG
+      s11 28 s() XCHG
+      s10 28 s() XCHG
+      s9 28 s() XCHG
+      s8 28 s() XCHG
+      s7 28 s() XCHG
+      s6 28 s() XCHG
+      s5 28 s() XCHG
+      s4 28 s() XCHG
+      s3 28 s() XCHG
+      s2 28 s() XCHG
+      s1 28 s() XCHG
+      $TAIUnlockController$_fun_combineCells INLINECALLDICT
+    }>ELSE<{
+      27 s() 28 s() XCHG
+      26 s() 28 s() XCHG
+      25 s() 28 s() XCHG
+      24 s() 28 s() XCHG
+      23 s() 28 s() XCHG
+      22 s() 28 s() XCHG
+      21 s() 28 s() XCHG
+      20 s() 28 s() XCHG
+      19 s() 28 s() XCHG
+      18 s() 28 s() XCHG
+      17 s() 28 s() XCHG
+      16 s() 28 s() XCHG
+      s15 28 s() XCHG
+      s14 28 s() XCHG
+      s13 28 s() XCHG
+      s12 28 s() XCHG
+      s11 28 s() XCHG
+      s10 28 s() XCHG
+      s9 28 s() XCHG
+      s8 28 s() XCHG
+      s7 28 s() XCHG
+      s6 28 s() XCHG
+      s5 28 s() XCHG
+      s4 28 s() XCHG
+      s3 28 s() XCHG
+      s2 28 s() XCHG
+      SWAP
+      s0 28 s() XCHG
+      $TAIUnlockController$_fun_combineCells INLINECALLDICT
+    }>
+    26 s() 27 s() XCHG
+    25 s() 26 s() XCHG
+    24 s() 25 s() XCHG
+    23 s() 24 s() XCHG
+    22 s() 23 s() XCHG
+    21 s() 22 s() XCHG
+    20 s() 21 s() XCHG
+    19 s() 20 s() XCHG
+    18 s() 19 s() XCHG
+    17 s() 18 s() XCHG
+    16 s() 17 s() XCHG
+    s15 16 s() XCHG
+    15 ROLL
+    $TAIUnlockController$_fun_foldProof INLINECALLDICT
+  }>
+  $TAIUnlockController$_fun_verifyMerkleProof PROCREF:<{
+    27 s() 28 s() XCHG
+    26 s() 28 s() XCHG
+    25 s() 28 s() XCHG
+    24 s() 28 s() XCHG
+    23 s() 28 s() XCHG
+    22 s() 28 s() XCHG
+    21 s() 28 s() XCHG
+    20 s() 28 s() XCHG
+    19 s() 28 s() XCHG
+    18 s() 28 s() XCHG
+    17 s() 28 s() XCHG
+    16 s() 28 s() XCHG
+    s15 28 s() XCHG
+    s14 28 s() XCHG
+    s13 28 s() XCHG
+    s12 28 s() XCHG
+    s11 28 s() XCHG
+    s10 28 s() XCHG
+    s9 28 s() XCHG
+    s8 28 s() XCHG
+    s7 28 s() XCHG
+    s6 28 s() XCHG
+    s5 28 s() XCHG
+    s4 28 s() XCHG
+    s3 28 s() XCHG
+    s2 28 s() XCHG
+    $TAIUnlockController$_fun_foldProof INLINECALLDICT
+        HASHCU
+    s0 27 s() XCHG
+        HASHCU
+    s1 27 s() XCHG
+    EQUAL
+    25 s() 26 s() XCHG
+    24 s() 25 s() XCHG
+    23 s() 24 s() XCHG
+    22 s() 23 s() XCHG
+    21 s() 22 s() XCHG
+    20 s() 21 s() XCHG
+    19 s() 20 s() XCHG
+    18 s() 19 s() XCHG
+    17 s() 18 s() XCHG
+    16 s() 17 s() XCHG
+    s15 16 s() XCHG
+    s14 s15 XCHG
+    s13 s14 XCHG
+    s12 s13 XCHG
+    s11 s12 XCHG
+    s10 s11 XCHG
+    s9 s10 XCHG
+    s8 s9 XCHG
+    s7 s8 XCHG
+    s6 s7 XCHG
+    s5 s6 XCHG
+    s4 s5 XCHG
+    s3 s4 XCHG
+    s1 s3 s0 XCHG3
+  }>
+  $TAIUnlockController$_fun_resetWhitelistSale PROCREF:<{
+    IF:<{
+      s5 s6 PUSH2
+      LESS
+    }>ELSE<{
+      FALSE
+    }>
+    IF:<{
+      s6 s5 PUSH2
+      SUB
+      DUP
+      0 GTINT
+      IF:<{
+            MYADDR
+        26 s() PUSH
+        ROT
+        $TAIUnlockController$_fun_transferTaiInternal INLINECALLDICT
+        s7 s8 XCHG2
+        7 BLKDROP
+      }>ELSE<{
+        DROP
+        s7 s8 XCHG2
+        7 BLKDROP
+      }>
+    }>ELSE<{
+      s7 s8 XCHG2
+      7 BLKDROP
+    }>
+    FALSE
+    PUSHNULL
+    0 PUSHINT
+    s0 s0 s0 PUSH3
+    DUP
+    $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd INLINECALLDICT
+    s6 s8 XCHG
+    2 6 BLKSWAP
+  }>
+  $TAIUnlockController$_fun_calculateStablePayment PROCREF:<{
+    MUL
+    100000000 PUSHINT
+    DIV
+  }>
+  $PriceRecord$_constructor_price_timestamp_round PROCINLINE:<{
+  }>
+  %saleInfo PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    $TAIUnlockController$_fun_saleInfo INLINECALLDICT
+    12 4 BLKDROP2
+    14 4 BLKDROP2
+    $SaleInfo$_to_external INLINECALLDICT
+  }>
+  %unlockStatus PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    $TAIUnlockController$_fun_unlockStatus INLINECALLDICT
+    12 4 BLKDROP2
+    14 4 BLKDROP2
+    $UnlockStatus$_to_external INLINECALLDICT
+  }>
+  %lastRecordedPrice PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    $TAIUnlockController$_fun_lastRecordedPrice INLINECALLDICT
+    16 s() POP
+    15 BLKDROP
+    10 1 BLKDROP2
+    $PriceRecord$_to_opt_external INLINECALLDICT
+  }>
+  %supplySummary PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    $TAIUnlockController$_fun_supplySummary INLINECALLDICT
+    15 3 BLKDROP2
+    11 3 BLKDROP2
+    $SupplySummary$_to_external INLINECALLDICT
+  }>
+  %balanceOf PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    25 s() 26 s() XCHG
+    24 s() 25 s() XCHG
+    23 s() 24 s() XCHG
+    22 s() 23 s() XCHG
+    21 s() 22 s() XCHG
+    20 s() 21 s() XCHG
+    19 s() 20 s() XCHG
+    18 s() 19 s() XCHG
+    17 s() 18 s() XCHG
+    16 s() 17 s() XCHG
+    s15 16 s() XCHG
+    15 ROLL
+    $TAIUnlockController$_fun_balanceOf INLINECALLDICT
+    16 s() POP
+    15 BLKDROP
+    10 1 BLKDROP2
+  }>
+  %whitelistSaleInfo PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    $TAIUnlockController$_fun_whitelistSaleInfo INLINECALLDICT
+    14 7 BLKDROP2
+    12 7 BLKDROP2
+    $WhitelistSaleInfo$_to_external INLINECALLDICT
+  }>
+  %whitelistUsed PROC:<{
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    25 s() 26 s() XCHG
+    24 s() 25 s() XCHG
+    23 s() 24 s() XCHG
+    22 s() 23 s() XCHG
+    21 s() 22 s() XCHG
+    20 s() 21 s() XCHG
+    19 s() 20 s() XCHG
+    18 s() 19 s() XCHG
+    17 s() 18 s() XCHG
+    16 s() 17 s() XCHG
+    s15 16 s() XCHG
+    15 ROLL
+    $TAIUnlockController$_fun_whitelistUsed INLINECALLDICT
+    16 s() POP
+    15 BLKDROP
+    10 1 BLKDROP2
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    2 PUSHINT
+    SDSKIPFIRST
+    1 LDI
+    1 LDI
+    LDMSGADDR
+    OVER
+    s3 s4 XCHG
+    s6 s6 XCHG2
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $TAIUnlockController$_contract_load INLINECALLDICT
+    s0 27 s() XCHG
+    IFJMP:<{
+      15 BLKDROP
+      12 BLKDROP
+    }>
+    0 PUSHINT
+    26 s() PUSH
+    SBITS
+    DUP
+    31 GTINT
+    IF:<{
+      NIP
+      s0 26 s() XCHG
+      32 LDU
+      s0 27 s() XCHG
+    }>
+    OVER
+    3861224729 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s10 POP
+      s10 POP
+      s10 POP
+      s0 22 s() XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      45917 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      24 s() PUSH
+      SDEQ
+      THROWANYIFNOT
+      36934 PUSHINT
+      s0 s12 XCHG
+      NOT
+      s1 s12 XCHG
+      THROWANYIFNOT
+      33565 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      6593 PUSHINT
+          NOW
+      s12 s(-1) PUXC
+      GEQ
+      THROWANYIFNOT
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      1 PUSHINT
+      TRUE
+      s13 s11 s14 XCHG3
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s3 s4 XCHG3
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    3167374006 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s9 POP
+      s0 24 s() XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      33565 PUSHINT
+      s3 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      25076 PUSHINT
+      s15 PUSH
+      THROWANYIFNOT
+      4561 PUSHINT
+      s2 s13 PUSH2
+      GEQ
+      THROWANYIFNOT
+      $PriceRecord$_constructor_price_timestamp_round INLINECALLDICT
+      $PriceRecord$_as_optional INLINECALLDICT
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s0 s10 XCHG
+      s7 s9 XCHG
+      2 7 BLKSWAP
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2301350297 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      25 s() POP
+      25076 PUSHINT
+      s13 PUSH
+      THROWANYIFNOT
+      5635 PUSHINT
+      s14 PUSH
+      NOT
+      THROWANYIFNOT
+      s14 PUSH
+      INC
+      26180 PUSHINT
+      OVER
+      20 LESSINT
+      THROWANYIFNOT
+      36606 PUSHINT
+      17 s() PUSH
+      5000000000 PUSHINT
+      GEQ
+      THROWANYIFNOT
+      s9 PUSH
+      25644 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      $PriceRecord$_not_null INLINECALLDICT
+      51795 PUSHINT
+      s15 PUSH
+      86400 PUSHINT
+      ADD
+      s3 s(-1) PUXC
+      GEQ
+      THROWANYIFNOT
+      25 s() 27 s() XCHG
+      24 s() 26 s() XCHG
+      23 s() 27 s() XCHG
+      22 s() 26 s() XCHG
+      21 s() 27 s() XCHG
+      20 s() 26 s() XCHG
+      19 s() 27 s() XCHG
+      18 s() 26 s() XCHG
+      17 s() 27 s() XCHG
+      16 s() 26 s() XCHG
+      s15 27 s() XCHG
+      s14 26 s() XCHG
+      s13 27 s() XCHG
+      s12 26 s() XCHG
+      s11 27 s() XCHG
+      s10 26 s() XCHG
+      s9 27 s() XCHG
+      s8 26 s() XCHG
+      s7 27 s() XCHG
+      s6 26 s() XCHG
+      s5 27 s() XCHG
+      s4 26 s() XCHG
+      s3 27 s() XCHG
+      s2 26 s() XCHG
+      s1 28 s() XCHG
+      s0 29 s() XCHG
+      27 s() PUSH
+      $TAIUnlockController$_fun_requiredInflationForRound INLINECALLDICT
+      s11 POP
+      s11 POP
+      s11 POP
+      s14 POP
+      23 s() PUSH
+      100 MULCONST
+      s0 s8 XCHG
+      100 ADDCONST
+      s1 s11 XCHG
+      MUL
+      s0 s7 XCHG
+      15221 PUSHINT
+      s0 s8 XCHG
+      GEQ
+      s1 s7 XCHG
+      THROWANYIFNOT
+      s0 s12 XCHG
+      5000000000 PUSHINT
+      SUB
+      PUSHNULL
+          MYADDR
+      22 s() 26 s() XCHG
+      5000000000 PUSHINT
+      22 s() PUSH
+      s0 27 s() XCHG
+      22 s() 26 s() XCHG
+      21 s() 25 s() XCHG
+      20 s() 24 s() XCHG
+      19 s() 23 s() XCHG
+      18 s() 22 s() XCHG
+      17 s() 21 s() XCHG
+      s4 20 s() XCHG
+      18 s() 19 s() XCHG
+      s14 18 s() XCHG
+      s13 17 s() XCHG
+      s13 16 s() XCHG
+      s0 s15 XCHG
+      s4 s14 XCHG
+      s3 s13 XCHG
+      s8 s12 XCHG
+      s7 s11 XCHG
+      s6 s10 XCHG
+      s5 s9 XCHG
+      s3 s8 XCHG
+      s5 s7 XCHG
+      s3 s6 XCHG
+      s0 s5 XCHG
+      s4 s4 XCHG2
+      $TAIUnlockController$_fun_transferTaiInternal INLINECALLDICT
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    3107043122 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s14 POP
+      s0 24 s() XCHG
+      1 LDI
+      DROP
+      45917 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      25 s() PUSH
+      SDEQ
+      THROWANYIFNOT
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s0 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s3 s0 XCHG3
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1294606507 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 25 s() XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      LDMSGADDR
+      DROP
+      16021 PUSHINT
+      20 s() PUSH
+      NOT
+      THROWANYIFNOT
+      19104 PUSHINT
+          NOW
+      26 s() PUSH
+      LESS
+      THROWANYIFNOT
+      10849 PUSHINT
+      s2 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      32219 PUSHINT
+      s3 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      35815 PUSHINT
+      s2 PUSH
+      23 s() PUSH
+      LEQ
+      THROWANYIFNOT
+      30566 PUSHINT
+      __tact_context_get INLINECALLDICT
+      $Context$_get_value INLINECALLDICT
+      s0 s4 XCHG2
+      GEQ
+      s1 s3 XCHG
+      THROWANYIFNOT
+      s0 20 s() XCHG
+      20 s() PUSH
+      SUB
+      s0 19 s() XCHG
+      20 s() PUSH
+      ADD
+          MYADDR
+      26 s() 28 s() XCHG
+      25 s() 27 s() XCHG
+      24 s() 26 s() XCHG
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      20 s() 23 s() XCHG
+      s1 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s0 s0 s3 XCHG3
+      s0 s5 XCHG
+      $TAIUnlockController$_fun_transferTaiInternal INLINECALLDICT
+      20 s() PUSH
+      IFNOT:<{
+        TRUE
+        19 s() POP
+      }>
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    18720429 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 25 s() XCHG
+      LDMSGADDR
+      257 PUSHINT
+      LDIX
+      DROP
+      45917 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      27 s() PUSH
+      SDEQ
+      THROWANYIFNOT
+      10849 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      16021 PUSHINT
+      19 s() PUSH
+      NOT
+      THROWANYIFNOT
+      35815 PUSHINT
+      OVER
+      22 s() PUSH
+      LEQ
+      THROWANYIFNOT
+      s0 20 s() XCHG
+      20 s() PUSH
+      SUB
+      s0 19 s() XCHG
+      20 s() PUSH
+      ADD
+          MYADDR
+      26 s() 28 s() XCHG
+      25 s() 27 s() XCHG
+      24 s() 26 s() XCHG
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      20 s() 23 s() XCHG
+      s1 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s0 s0 s3 XCHG3
+      s0 s5 XCHG
+      $TAIUnlockController$_fun_transferTaiInternal INLINECALLDICT
+      20 s() PUSH
+      IFNOT:<{
+        TRUE
+        19 s() POP
+      }>
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    3981117921 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      25 s() POP
+      50349 PUSHINT
+      17 s() PUSH
+      NOT
+      THROWANYIFNOT
+      43767 PUSHINT
+          NOW
+      23 s() PUSH
+      GEQ
+      IF:<{
+        TRUE
+      }>ELSE<{
+        19 s() PUSH
+        0 EQINT
+      }>
+      THROWANYIFNOT
+      18 s() PUSH
+      DUP
+      0 GTINT
+      IF:<{
+            MYADDR
+        25 s() 27 s() XCHG
+        24 s() PUSH
+        s0 27 s() XCHG
+        24 s() 26 s() XCHG
+        23 s() 25 s() XCHG
+        22 s() 24 s() XCHG
+        21 s() 23 s() XCHG
+        20 s() 22 s() XCHG
+        19 s() 21 s() XCHG
+        18 s() 20 s() XCHG
+        17 s() 19 s() XCHG
+        16 s() 18 s() XCHG
+        s15 17 s() XCHG
+        s14 16 s() XCHG
+        s13 s15 XCHG
+        s12 s14 XCHG
+        s11 s13 XCHG
+        s10 s12 XCHG
+        s9 s11 XCHG
+        s8 s10 XCHG
+        s7 s9 XCHG
+        s6 s8 XCHG
+        s5 s7 XCHG
+        s4 s6 XCHG
+        s3 s5 XCHG
+        s0 s4 XCHG
+        s1 s3 s3 XCHG3
+        $TAIUnlockController$_fun_transferTaiInternal INLINECALLDICT
+        18 s() POP
+        19 s() POP
+        16 s() 23 s() XCHG
+        18 s() 22 s() XCHG
+        16 s() 21 s() XCHG
+        18 s() 20 s() XCHG
+        16 s() 19 s() XCHG
+        16 s() 17 s() XCHG
+        s1 16 s() XCHG
+        14 2 BLKSWAP
+      }>ELSE<{
+        DROP
+        16 s() POP
+        17 s() POP
+      }>
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      0 PUSHINT
+      s0 19 s() XCHG
+      16 s() 18 s() XCHG
+      TRUE
+      s0 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s4 s1 s3 XCHG3
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1773594179 PUSHINT
+    EQUAL
+    IFJMP:<{
+      s2 s8 XCHG
+      8 BLKDROP
+      s0 19 s() XCHG
+      LDREF
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      LDREF
+      DROP
+      CTOS
+      257 PUSHINT
+      LDIX
+      DROP
+      45917 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      24 s() PUSH
+      SDEQ
+      THROWANYIFNOT
+      15930 PUSHINT
+      s0 s6 XCHG
+      NOT
+      s1 s6 XCHG
+      THROWANYIFNOT
+      48891 PUSHINT
+      s3 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      29358 PUSHINT
+      s2 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      29174 PUSHINT
+      s5 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      s4 PUSH
+      259200 PUSHINT
+      GREATER
+      IF:<{
+        259200 PUSHINT
+        s5 POP
+      }>
+      TRUE
+      0 PUSHINT
+          NOW
+      s0 s7 XCHG2
+      ADD
+      s1 s6 XCHG
+      s3 s3 s0 XCHG3
+      $WhitelistSale$_constructor_active_merkleRoot_totalAmount_soldAmount_baselinePrice_currentPrice_windowEnd INLINECALLDICT
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      2 13 BLKSWAP
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    1380739122 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      25 s() POP
+      45917 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      25 s() PUSH
+      SDEQ
+      THROWANYIFNOT
+      s6 PUSH
+      IFNOTJMP:<{
+        23 s() 25 s() XCHG
+        22 s() 24 s() XCHG
+        21 s() 23 s() XCHG
+        20 s() 22 s() XCHG
+        19 s() 21 s() XCHG
+        18 s() 20 s() XCHG
+        17 s() 19 s() XCHG
+        16 s() 18 s() XCHG
+        s15 17 s() XCHG
+        s14 16 s() XCHG
+        s13 s15 XCHG
+        2 13 BLKSWAP
+        $TAIUnlockController$_contract_store INLINECALLDICT
+      }>
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      2 13 BLKSWAP
+      FALSE
+      $TAIUnlockController$_fun_resetWhitelistSale INLINECALLDICT
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    3164457204 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      25 s() POP
+      s6 PUSH
+      IFNOTJMP:<{
+        23 s() 25 s() XCHG
+        22 s() 24 s() XCHG
+        21 s() 23 s() XCHG
+        20 s() 22 s() XCHG
+        19 s() 21 s() XCHG
+        18 s() 20 s() XCHG
+        17 s() 19 s() XCHG
+        16 s() 18 s() XCHG
+        s15 17 s() XCHG
+        s14 16 s() XCHG
+        s13 s15 XCHG
+        2 13 BLKSWAP
+        $TAIUnlockController$_contract_store INLINECALLDICT
+      }>
+      10757 PUSHINT
+          NOW
+      s2 PUSH
+      GEQ
+      IF:<{
+        TRUE
+      }>ELSE<{
+        __tact_context_get_sender INLINECALLDICT
+        25 s() PUSH
+        SDEQ
+      }>
+      THROWANYIFNOT
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      2 13 BLKSWAP
+      TRUE
+      $TAIUnlockController$_fun_resetWhitelistSale INLINECALLDICT
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2162821518 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 25 s() XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      LDOPTREF
+      LDMSGADDR
+      DROP
+      7807 PUSHINT
+      s11 PUSH
+      THROWANYIFNOT
+      11099 PUSHINT
+          NOW
+      s6 PUSH
+      LEQ
+      THROWANYIFNOT
+      10849 PUSHINT
+      s4 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      2907 PUSHINT
+      s3 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      s9 PUSH
+      13010 PUSHINT
+      OVER
+      ISNULL
+      NOT
+      THROWANYIFNOT
+      __tact_not_null INLINECALLDICT
+      __tact_context_get_sender INLINECALLDICT
+      38791 PUSHINT
+      s1 s3 XCPU
+      SDEQ
+      THROWANYIFNOT
+      25 s() 28 s() XCHG
+      24 s() 27 s() XCHG
+      23 s() 26 s() XCHG
+      22 s() 28 s() XCHG
+      21 s() 27 s() XCHG
+      20 s() 26 s() XCHG
+      19 s() 28 s() XCHG
+      18 s() 27 s() XCHG
+      17 s() 26 s() XCHG
+      16 s() 28 s() XCHG
+      s15 27 s() XCHG
+      s14 26 s() XCHG
+      s13 28 s() XCHG
+      s12 27 s() XCHG
+      s11 26 s() XCHG
+      s10 28 s() XCHG
+      s9 27 s() XCHG
+      s8 26 s() XCHG
+      s7 28 s() XCHG
+      s6 27 s() XCHG
+      s5 26 s() XCHG
+      s4 28 s() XCHG
+      s3 27 s() XCHG
+      s2 26 s() XCHG
+      s1 29 s() XCHG
+      s0 30 s() XCHG
+      29 s() PUSH
+      28 s() PUSH
+      $TAIUnlockController$_fun_buildLeafCell INLINECALLDICT
+      26 s() 27 s() XCHG
+      25 s() 26 s() XCHG
+      24 s() 25 s() XCHG
+      23 s() 24 s() XCHG
+      22 s() 23 s() XCHG
+      21 s() 22 s() XCHG
+      20 s() 21 s() XCHG
+      19 s() 20 s() XCHG
+      18 s() 19 s() XCHG
+      17 s() 18 s() XCHG
+      16 s() 17 s() XCHG
+      s15 16 s() XCHG
+      s14 s15 XCHG
+      s13 s14 XCHG
+      s12 s13 XCHG
+      s11 s12 XCHG
+      s10 s11 XCHG
+      s9 s10 XCHG
+      s8 s9 XCHG
+      s7 s8 XCHG
+      s6 s7 XCHG
+      s5 s6 XCHG
+      s4 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s0 XCHG3
+      s1 31 s() XCHG
+      57785 PUSHINT
+      s0 32 s() XCHG
+      $TAIUnlockController$_fun_verifyMerkleProof INLINECALLDICT
+      s1 30 s() XCHG
+      THROWANYIFNOT
+      24 s() 25 s() XCHG
+      23 s() 24 s() XCHG
+      22 s() 23 s() XCHG
+      21 s() 22 s() XCHG
+      20 s() 21 s() XCHG
+      19 s() 20 s() XCHG
+      18 s() 19 s() XCHG
+      17 s() 18 s() XCHG
+      16 s() 17 s() XCHG
+      s15 16 s() XCHG
+      15 ROLL
+      s0 28 s() XCHG
+      27 s() PUSH
+      $TAIUnlockController$_fun_getWhitelistUsageInternal INLINECALLDICT
+      19196 PUSHINT
+      OVER
+      29 s() PUSH
+      ADD
+      SWAP
+      s0 31 s() XCHG
+      LEQ
+      s1 30 s() XCHG
+      THROWANYIFNOT
+      32395 PUSHINT
+      s6 PUSH
+      28 s() PUSH
+      ADD
+      s8 PUSH
+      LEQ
+      THROWANYIFNOT
+      267 PUSHINT
+      s0 29 s() XCHG
+      27 s() PUSH
+      ADD
+      s2 22 s() XCHG
+      s1 29 s() XCHG
+      28 s() PUSH
+      SWAP
+      257 PUSHINT
+      __tact_dict_set_slice_int INLINECALLDICT
+      s0 s4 XCHG
+      25 s() PUSH
+      ADD
+      24 s() 25 s() XCHG
+      23 s() 24 s() XCHG
+      22 s() 23 s() XCHG
+      21 s() 22 s() XCHG
+      s4 21 s() XCHG
+      19 s() 20 s() XCHG
+      18 s() 19 s() XCHG
+      17 s() 18 s() XCHG
+      16 s() 17 s() XCHG
+      s15 16 s() XCHG
+      s14 s15 XCHG
+      s13 s14 XCHG
+      s12 s13 XCHG
+      s11 s12 XCHG
+      s10 s11 XCHG
+      s9 s10 XCHG
+      s8 s9 XCHG
+      s7 s8 XCHG
+      s6 s7 XCHG
+      s0 s5 XCHG
+      s6 s3 XCPU
+      s0 s5 XCHG
+      s3 s4 XCHG
+      s1 s3 s0 XCHG3
+      s1 28 s() XCHG
+      DUP
+      s0 29 s() XCHG
+      $TAIUnlockController$_fun_calculateStablePayment INLINECALLDICT
+      s1 s2 XCHG
+      ADD
+          MYADDR
+      26 s() 28 s() XCHG
+      25 s() 27 s() XCHG
+      24 s() 26 s() XCHG
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      s12 s14 XCHG
+      s11 s13 XCHG
+      s10 s12 XCHG
+      s9 s11 XCHG
+      s8 s10 XCHG
+      s7 s9 XCHG
+      s6 s8 XCHG
+      s5 s7 XCHG
+      s4 s6 XCHG
+      s3 s5 XCHG
+      s0 s3 s3 XCHG3
+      s0 s4 XCHG
+      $TAIUnlockController$_fun_transferTaiInternal INLINECALLDICT
+      s5 s6 PUSH2
+      GEQ
+      IF:<{
+        TRUE
+        $TAIUnlockController$_fun_resetWhitelistSale INLINECALLDICT
+      }>
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    OVER
+    2652668014 PUSHINT
+    EQUAL
+    IFJMP:<{
+      2DROP
+      s0 25 s() XCHG
+      257 PUSHINT
+      LDIX
+      257 PUSHINT
+      LDIX
+      DROP
+      45917 PUSHINT
+      __tact_context_get_sender INLINECALLDICT
+      27 s() PUSH
+      SDEQ
+      THROWANYIFNOT
+      33565 PUSHINT
+      OVER
+      0 GTINT
+      THROWANYIFNOT
+      33565 PUSHINT
+      s2 PUSH
+      0 GTINT
+      THROWANYIFNOT
+      SWAP
+      1 LSHIFT#
+      2459 PUSHINT
+      s0 s2 XCHG
+      LEQ
+      THROWANYIFNOT
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      2 13 BLKSWAP
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    27 s() POP
+    0 EQINT
+    s0 26 s() XCHG
+    33 LESSINT
+    s1 26 s() XCHG
+    AND
+    IFJMP:<{
+      23 s() 25 s() XCHG
+      22 s() 24 s() XCHG
+      21 s() 23 s() XCHG
+      20 s() 22 s() XCHG
+      19 s() 21 s() XCHG
+      18 s() 20 s() XCHG
+      17 s() 19 s() XCHG
+      16 s() 18 s() XCHG
+      s15 17 s() XCHG
+      s14 16 s() XCHG
+      s13 s15 XCHG
+      2 13 BLKSWAP
+      $TAIUnlockController$_contract_store INLINECALLDICT
+    }>
+    15 BLKDROP
+    11 BLKDROP
+    130 THROW
+  }>
+  __tact_selector_hack PROC:<{
+    @atend @ 1 {
+            execute current@ context@ current!
+            {
+                // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+                // We want to extract recv_internal/recv_external from the dict and select needed function
+                // not by jumping to the needed function by it's index, but by using usual IF statements.
+                }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+                <{ // Start of the new code builder
+                    SETCP0
+                    // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                    swap
+                    // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                    <s ref@
+                    // Extract the recv_internal from the dict
+                    dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                    swap
+                    // Delete the recv_internal from the dict
+                    0 swap @procdictkeylen idict- drop
+                    // Delete the recv_external from the dict (it's okay if it's not there)
+                    -1 swap @procdictkeylen idict- drop
+                    // Delete the __tact_selector_hack from the dict
+                    65535 swap @procdictkeylen idict- drop
+                    // Bring the code builder from the bottom of the stack
+                    // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                    depth 1- roll
+                    // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                    swap
+                    // Check if the dict is empty
+                    dup null?
+                    // Store a copy of this flag in the bottom of the stack
+                    dup depth 1- -roll
+                    {
+                        // If the dict is empty, just drop it (it will be null if it's empty)
+                        drop
+                    }
+                    {
+                        // If the dict is not empty, prepare continuation to be stored in c3
+                        <{
+                            // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                            swap @procdictkeylen DICTPUSHCONST
+                            // Jump to the needed function by it's index
+                            DICTIGETJMPZ
+                            // If such key is not found, throw 11 along with the key as an argument
+                            11 THROWARG
+                        }> PUSHCONT
+                        // Store the continuation in c3
+                        c3 POP
+                    } cond
+                    // Function id is on top of the (runtime) stack
+                    DUP IFNOTJMP:<{
+                        // place recv_internal here
+                        DROP swap @addop
+                    }>
+                    // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                    depth 1- roll
+                    {
+                        // If the dict is empty, throw 11
+                        11 THROWARG
+                    }
+                    {
+                        // If the dict is not empty, jump to continuation from c3
+                        c3 PUSH JMPX
+                    } cond
+                }> b>
+            } : }END>c
+            current@ context! current!
+        } does @atend !
+  }>
+}END>c
