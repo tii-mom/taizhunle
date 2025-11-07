@@ -33,10 +33,17 @@ async function buildServer() {
   try {
     console.log('🔨 Building server with esbuild...');
     
+    // Get all server files
     const serverDir = join(rootDir, 'src/server');
-    const entryPoints = getAllTsFiles(serverDir).map(f => relative(rootDir, f));
+    const serverFiles = getAllTsFiles(serverDir).map(f => relative(rootDir, f));
+    
+    // Get all config files
+    const configDir = join(rootDir, 'src/config');
+    const configFiles = getAllTsFiles(configDir).map(f => relative(rootDir, f));
+    
+    const entryPoints = [...serverFiles, ...configFiles];
 
-    console.log(`Found ${entryPoints.length} TypeScript files`);
+    console.log(`Found ${entryPoints.length} TypeScript files (${serverFiles.length} server + ${configFiles.length} config)`);
 
     await build({
       entryPoints,
@@ -44,8 +51,8 @@ async function buildServer() {
       platform: 'node',
       target: 'node20',
       format: 'esm',
-      outdir: 'dist/server',
-      outbase: 'src/server',
+      outdir: 'dist',
+      outbase: 'src',
       sourcemap: true,
     });
 
