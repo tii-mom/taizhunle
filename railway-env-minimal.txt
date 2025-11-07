@@ -1,23 +1,18 @@
-# Railway 最小环境变量配置
-# 复制这些到 Railway Settings → Variables
+# Railway 最小环境变量配置（快速启动版）
+# 复制下面的内容到 Railway Variables → Raw Editor
+# 这是让服务器能够启动的最小配置
 
 NODE_ENV=production
 PORT=3000
 
-# 从你的 .env 文件复制这些值
-SUPABASE_URL=
-SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_KEY=
-DATABASE_URL=
+# Supabase 数据库（必需）
+SUPABASE_URL=https://pnpkesnkteeagweilkwe.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucGtlc25rdGVlYWd3ZWlsa3dlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3OTQyNDYsImV4cCI6MjA3NzM3MDI0Nn0.f3acD7cEeAN5Fy6kXp6Slrzdey--KMHZdvC0McVq3LQ
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucGtlc25rdGVlYWd3ZWlsa3dlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTc5NDI0NiwiZXhwIjoyMDc3MzcwMjQ2fQ.AR-FDJNeDPKgVrsWnvbqd6PDuaQts2qlxHskwlksBx0
 
-TELEGRAM_ADMIN_BOT_TOKEN=
-TELEGRAM_ADMIN_IDS=
+# 安全密钥（请修改！）
+JWT_SECRET=PLEASE-CHANGE-THIS-TO-RANDOM-STRING
 
-SESSION_SECRET=
-JWT_SECRET=
-
-TON_NETWORK=testnet
-TON_API_ENDPOINT=https://testnet.toncenter.com/api/v2/
-
+# 基础配置
 ENABLE_MOCK_DATA=true
-REDPACKET_PRICE_TON=9.99
+TON_NETWORK=testnet

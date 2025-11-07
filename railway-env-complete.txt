@@ -1,0 +1,70 @@
+# Railway 环境变量 - 完整配置
+# 复制下面的内容到 Railway Variables → Raw Editor
+
+# ============================================
+# 必需配置（服务器启动必须）
+# ============================================
+
+NODE_ENV=production
+PORT=3000
+
+# Supabase 数据库
+SUPABASE_URL=https://pnpkesnkteeagweilkwe.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucGtlc25rdGVlYWd3ZWlsa3dlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3OTQyNDYsImV4cCI6MjA3NzM3MDI0Nn0.f3acD7cEeAN5Fy6kXp6Slrzdey--KMHZdvC0McVq3LQ
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucGtlc25rdGVlYWd3ZWlsa3dlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MTc5NDI0NiwiZXhwIjoyMDc3MzcwMjQ2fQ.AR-FDJNeDPKgVrsWnvbqd6PDuaQts2qlxHskwlksBx0
+
+# 安全密钥（请修改为随机字符串！）
+JWT_SECRET=CHANGE-THIS-TO-RANDOM-STRING-FOR-PRODUCTION
+
+# ============================================
+# 功能配置（推荐配置）
+# ============================================
+
+# Mock 数据模式（测试用）
+ENABLE_MOCK_DATA=true
+
+# TON 区块链
+TON_NETWORK=testnet
+TONCENTER_API_KEY=061f4bf26320172112a42b870c02de9a235a795d52960bd80c3fbcdfa8d08891
+
+# DAO 费用分配
+FEE_CREATE=50
+FEE_JURY=100
+FEE_INVITE=50
+FEE_PLATFORM=100
+
+# ============================================
+# 可选配置（根据需要添加）
+# ============================================
+
+# Telegram Bot（如果需要 Bot 功能）
+# TELEGRAM_ADMIN_BOT_TOKEN=your-telegram-token
+# TELEGRAM_ADMIN_IDS=123456789
+
+# TON 合约地址
+TAI_UNLOCK_CONTROLLER=EQB9NffSKbslsvIY7Wi5pQL15KuWlgVAqqai_0W3Q1cZp9HW
+PREDICTION_MARKET_CONTRACT=EQCz_WsJ-14P_-URq0AT-HfGAWAyBt_WnLcor6s7tDTeq9lJ
+JUROR_STAKING_CONTRACT=EQC4SVjr97GTvW7l8AWTDXwCRAx5dcP9tAJjNmGcsv05L7ih
+TAI_ORACLE_CONTRACT=EQAt6joNLn0QZEAM0IpaQLWWvbtLDXCrTAMyR1RrwbL3qelJ
+
+# TON 钱包地址
+TON_TREASURY_ADDRESS=EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv
+TON_WHITELIST_TREASURY=EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv
+UNLOCK_TREASURY=EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv
+USDC_MASTER_ADDRESS=EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv
+
+# RSS 新闻源
+RSS_ESPN=https://www.espn.com/espn/rss/news
+RSS_BBC=https://feeds.bbci.co.uk/news/rss.xml
+RSS_SINA=https://rss.sina.com.cn/news/marquee/ddt.xml
+RSS_COIN=https://cointelegraph.com/rss
+
+# Twitter API
+TWITTER_BEARER=AAAAAAAAAAAAAAAAAAAAAG9N2AEAAAAAEXzKn%2BBAwjybwNyl5CNo4lIQq9g%3DvtzQy70ydI4TGHIcC4jFNPI1wHp4XlgYoPPkpWhbMyimqvGfhy
+
+# LLM API
+LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/
+LLM_API_KEY=c1f3574aafd34bf29096d2e9ff13ccb6.L2MRjuO76SryH90X
+
+# TON 部署助记词（敏感！仅在需要部署合约时使用）
+# TON_DEPLOY_MNEMONIC=decide audit charge drift risk unable random indicate leopard minimum project girl tag hope copy wise float spoon gap denial dish word satisfy hard
