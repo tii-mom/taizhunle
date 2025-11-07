@@ -33,20 +33,21 @@ async function buildServer() {
   try {
     console.log('🔨 Building server with esbuild...');
     
-    // Get all server files
-    const serverDir = join(rootDir, 'src/server');
-    const serverFiles = getAllTsFiles(serverDir).map(f => relative(rootDir, f));
+    // Collect all TypeScript files from required directories
+    const directories = ['server', 'config', 'constants', 'types', 'utils'];
+    const allFiles = [];
     
-    // Get all config files
-    const configDir = join(rootDir, 'src/config');
-    const configFiles = getAllTsFiles(configDir).map(f => relative(rootDir, f));
-    
-    const entryPoints = [...serverFiles, ...configFiles];
+    for (const dir of directories) {
+      const dirPath = join(rootDir, 'src', dir);
+      const files = getAllTsFiles(dirPath).map(f => relative(rootDir, f));
+      allFiles.push(...files);
+      console.log(`  ${dir}: ${files.length} files`);
+    }
 
-    console.log(`Found ${entryPoints.length} TypeScript files (${serverFiles.length} server + ${configFiles.length} config)`);
+    console.log(`\nTotal: ${allFiles.length} TypeScript files`);
 
     await build({
-      entryPoints,
+      entryPoints: allFiles,
       bundle: false,
       platform: 'node',
       target: 'node20',

@@ -4,7 +4,7 @@
  */
 
 import TelegramBot from 'node-telegram-bot-api';
-import { getUserPendingDao, claimDaoPool, getUserDaoStats } from '../services/feeDistributor';
+import { getUserPendingDao, claimDaoPool, getUserDaoStats } from '../services/feeDistributor.js';
 
 /**
  * 注册 DAO 相关指令

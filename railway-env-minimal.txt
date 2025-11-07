@@ -1,0 +1,23 @@
+# Railway 最小环境变量配置
+# 复制这些到 Railway Settings → Variables
+
+NODE_ENV=production
+PORT=3000
+
+# 从你的 .env 文件复制这些值
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_KEY=
+DATABASE_URL=
+
+TELEGRAM_ADMIN_BOT_TOKEN=
+TELEGRAM_ADMIN_IDS=
+
+SESSION_SECRET=
+JWT_SECRET=
+
+TON_NETWORK=testnet
+TON_API_ENDPOINT=https://testnet.toncenter.com/api/v2/
+
+ENABLE_MOCK_DATA=true
+REDPACKET_PRICE_TON=9.99

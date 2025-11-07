@@ -3,11 +3,7 @@
  * 分账分发器 - 将预测市场手续费分配到各个 DAO 池
  */
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from './supabaseClient.js';
 
 // Fee rates in basis points (1 bp = 0.01%)
 // Total fee: 3% (300 basis points)

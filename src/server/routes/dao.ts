@@ -9,7 +9,7 @@ import {
   getUserDaoStats,
   claimDaoPool,
   getDaoPoolStats,
-} from '../services/feeDistributor';
+} from '../services/feeDistributor.js';
 import { resolveUserId } from '../utils/user.js';
 import { supabase } from '../services/supabaseClient.js';
 
