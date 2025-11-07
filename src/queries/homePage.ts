@@ -19,7 +19,6 @@ export const homePageQuery = (sort: MarketSortKey) => {
     HomeFeedPage,
     Error,
     HomeFeedPage,
-    HomeFeedPage,
     HomeQueryKey,
     HomePageParam
   > = {
@@ -33,7 +32,7 @@ export const homePageQuery = (sort: MarketSortKey) => {
         nextCursor: feed.nextCursor,
       } satisfies HomeFeedPage;
     },
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getNextPageParam: (lastPage: HomeFeedPage) => lastPage.nextCursor,
   };
 
   return options;
