@@ -1,381 +1,233 @@
-/**
- * Telegram WebApp SDK Hook
- * 用于获取 Telegram 用户信息和 WebApp 功能
- */
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
+import type { SendTransactionRequest } from '@tonconnect/ui-react';
 
-import { useState, useEffect } from 'react';
-
-// Telegram WebApp 类型定义
-interface TelegramUser {
-  id: number;
-  first_name: string;
-  last_name?: string;
-  username?: string;
-  language_code?: string;
-  is_premium?: boolean;
-  photo_url?: string;
+interface UseTelegramWebAppOptions {
+  amountTai: number;
+  marketId: string | null;
+  selection: string | null;
+  crowdCode?: string | null;
+  onBetSuccess?: (betId: string, tx: string | null) => void;
 }
 
-interface TelegramWebApp {
-  initData: string;
-  initDataUnsafe: {
-    user?: TelegramUser;
-    chat?: {
-      id: number;
-      type: string;
-      title?: string;
-      username?: string;
-    };
-    start_param?: string;
-    auth_date: number;
-    hash: string;
-  };
-  version: string;
-  platform: string;
-  colorScheme: 'light' | 'dark';
-  themeParams: {
-    bg_color?: string;
-    text_color?: string;
-    hint_color?: string;
-    link_color?: string;
-    button_color?: string;
-    button_text_color?: string;
-    secondary_bg_color?: string;
-  };
-  isExpanded: boolean;
-  viewportHeight: number;
-  viewportStableHeight: number;
-  headerColor: string;
-  backgroundColor: string;
-  isClosingConfirmationEnabled: boolean;
-  
-  // 方法
-  ready(): void;
-  expand(): void;
-  close(): void;
-  showAlert(message: string, callback?: () => void): void;
-  showConfirm(message: string, callback?: (confirmed: boolean) => void): void;
-  showPopup(params: {
-    title?: string;
-    message: string;
-    buttons?: Array<{
-      id?: string;
-      type?: 'default' | 'ok' | 'close' | 'cancel' | 'destructive';
-      text: string;
-    }>;
-  }, callback?: (buttonId: string) => void): void;
-  showScanQrPopup(params: {
-    text?: string;
-  }, callback?: (text: string) => boolean): void;
-  closeScanQrPopup(): void;
-  readTextFromClipboard(callback?: (text: string) => void): void;
-  requestWriteAccess(callback?: (granted: boolean) => void): void;
-  requestContact(callback?: (granted: boolean, contact?: any) => void): void;
-  
-  // 事件
-  onEvent(eventType: string, eventHandler: () => void): void;
-  offEvent(eventType: string, eventHandler: () => void): void;
-  
-  // 主按钮
-  MainButton: {
-    text: string;
-    color: string;
-    textColor: string;
-    isVisible: boolean;
-    isActive: boolean;
-    isProgressVisible: boolean;
-    setText(text: string): void;
-    onClick(callback: () => void): void;
-    offClick(callback: () => void): void;
-    show(): void;
-    hide(): void;
-    enable(): void;
-    disable(): void;
-    showProgress(leaveActive?: boolean): void;
-    hideProgress(): void;
-    setParams(params: {
-      text?: string;
-      color?: string;
-      text_color?: string;
-      is_active?: boolean;
-      is_visible?: boolean;
-    }): void;
-  };
-  
-  // 返回按钮
-  BackButton: {
-    isVisible: boolean;
-    onClick(callback: () => void): void;
-    offClick(callback: () => void): void;
-    show(): void;
-    hide(): void;
-  };
-  
-  // 设置按钮
-  SettingsButton: {
-    isVisible: boolean;
-    onClick(callback: () => void): void;
-    offClick(callback: () => void): void;
-    show(): void;
-    hide(): void;
-  };
-  
-  // 触觉反馈
-  HapticFeedback: {
-    impactOccurred(style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft'): void;
-    notificationOccurred(type: 'error' | 'success' | 'warning'): void;
-    selectionChanged(): void;
-  };
-  
-  // 云存储
-  CloudStorage: {
-    setItem(key: string, value: string, callback?: (error: string | null, stored: boolean) => void): void;
-    getItem(key: string, callback: (error: string | null, value: string) => void): void;
-    getItems(keys: string[], callback: (error: string | null, values: Record<string, string>) => void): void;
-    removeItem(key: string, callback?: (error: string | null, removed: boolean) => void): void;
-    removeItems(keys: string[], callback?: (error: string | null, removed: boolean) => void): void;
-    getKeys(callback: (error: string | null, keys: string[]) => void): void;
-  };
+interface HookState {
+  status: 'idle' | 'authorizing' | 'ready' | 'processing' | 'success' | 'error';
+  error: string | null;
+  sessionToken: string | null;
 }
 
-// 扩展 Window 接口
-declare global {
-  interface Window {
-    Telegram?: {
-      WebApp: TelegramWebApp;
-    };
+function toNano(amountTai: number): string {
+  return Math.round(amountTai * 1_000_000_000).toString();
+}
+
+function getTelegramWebApp(): TelegramWebApp | null {
+  if (typeof window === 'undefined') {
+    return null;
   }
+  return window.Telegram?.WebApp ?? null;
 }
 
-interface UseTelegramWebAppReturn {
-  // WebApp 实例
-  webApp: TelegramWebApp | null;
-  
-  // 用户信息
-  user: TelegramUser | null;
-  
-  // 状态
-  isReady: boolean;
-  isInTelegram: boolean;
-  platform: string;
-  version: string;
-  colorScheme: 'light' | 'dark';
-  
-  // 主题
-  themeParams: TelegramWebApp['themeParams'];
-  
-  // 方法
-  ready: () => void;
-  expand: () => void;
-  close: () => void;
-  showAlert: (message: string) => Promise<void>;
-  showConfirm: (message: string) => Promise<boolean>;
-  showPopup: (params: Parameters<TelegramWebApp['showPopup']>[0]) => Promise<string>;
-  
-  // 触觉反馈
-  hapticFeedback: {
-    impact: (style?: 'light' | 'medium' | 'heavy') => void;
-    notification: (type: 'error' | 'success' | 'warning') => void;
-    selection: () => void;
-  };
-  
-  // 主按钮控制
-  mainButton: {
-    show: (text: string, onClick: () => void) => void;
-    hide: () => void;
-    setLoading: (loading: boolean) => void;
-    setText: (text: string) => void;
-  };
-  
-  // 云存储
-  cloudStorage: {
-    setItem: (key: string, value: string) => Promise<boolean>;
-    getItem: (key: string) => Promise<string | null>;
-    removeItem: (key: string) => Promise<boolean>;
-  };
-}
+export function useTelegramWebApp(options: UseTelegramWebAppOptions) {
+  const [tonConnectUI] = useTonConnectUI();
+  const wallet = useTonWallet();
+  const [state, setState] = useState<HookState>({ status: 'idle', error: null, sessionToken: null });
+  const onBetSuccessRef = useRef(options.onBetSuccess);
+  const mainButtonHandlerRef = useRef<(() => void) | null>(null);
 
-export function useTelegramWebApp(): UseTelegramWebAppReturn {
-  const [webApp, setWebApp] = useState<TelegramWebApp | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  const telegram = useMemo(() => getTelegramWebApp(), []);
+  const user = telegram?.initDataUnsafe.user;
+  const initData = telegram?.initData ?? '';
+  const amountDisplay = `${options.amountTai.toFixed(2)} TAI`;
+  const amountNano = useMemo(() => toNano(options.amountTai), [options.amountTai]);
+  const contractAddress = useMemo(() => import.meta.env.VITE_PREDICTION_CONTRACT as string | undefined, []);
 
   useEffect(() => {
-    // 检查是否在 Telegram 环境中
-    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-      const tg = window.Telegram.WebApp;
-      setWebApp(tg);
-      
-      // 初始化 WebApp
-      tg.ready();
-      setIsReady(true);
-      
-      // 展开到全屏
-      if (!tg.isExpanded) {
-        tg.expand();
-      }
-      
-      console.log('Telegram WebApp 初始化完成:', {
-        version: tg.version,
-        platform: tg.platform,
-        user: tg.initDataUnsafe.user,
-      });
-    } else {
-      console.warn('不在 Telegram WebApp 环境中');
+    onBetSuccessRef.current = options.onBetSuccess;
+  }, [options.onBetSuccess]);
+
+  useEffect(() => {
+    if (!telegram) {
+      return;
     }
-  }, []);
+    telegram.ready();
+    telegram.expand?.();
+    telegram.MainButton.show();
+    telegram.MainButton.setText(`点击预测（${amountDisplay}）`);
+  }, [telegram, amountDisplay]);
 
-  // 用户信息
-  const user = webApp?.initDataUnsafe.user || null;
-  
-  // 基础信息
-  const isInTelegram = !!webApp;
-  const platform = webApp?.platform || 'unknown';
-  const version = webApp?.version || '0.0';
-  const colorScheme = webApp?.colorScheme || 'light';
-  const themeParams = webApp?.themeParams || {};
+  const ensureAuthorization = useCallback(async () => {
+    if (!wallet?.account?.address || !initData) {
+      return null;
+    }
+    if (state.sessionToken) {
+      return state.sessionToken;
+    }
 
-  // 方法封装
-  const ready = () => webApp?.ready();
-  const expand = () => webApp?.expand();
-  const close = () => webApp?.close();
+    setState(prev => ({ ...prev, status: 'authorizing', error: null }));
 
-  const showAlert = (message: string): Promise<void> => {
-    return new Promise((resolve) => {
-      if (webApp) {
-        webApp.showAlert(message, resolve);
-      } else {
-        alert(message);
-        resolve();
-      }
+    const response = await fetch('/api/auth/implicit', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        initData,
+        wallet: wallet.account.address,
+      }),
     });
-  };
 
-  const showConfirm = (message: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (webApp) {
-        webApp.showConfirm(message, resolve);
-      } else {
-        resolve(confirm(message));
-      }
+    if (!response.ok) {
+      const message = await response.text();
+      setState({ status: 'error', error: message || '隐式登录失败', sessionToken: null });
+      return null;
+    }
+
+    const result = (await response.json()) as { jwt: string };
+    setState({ status: 'ready', error: null, sessionToken: result.jwt });
+    return result.jwt;
+  }, [initData, state.sessionToken, wallet?.account?.address]);
+
+  useEffect(() => {
+    if (!wallet?.account?.address) {
+      return;
+    }
+    // Trigger implicit auth eagerly to speed up one-click flow
+    ensureAuthorization().catch(error => {
+      console.error('Implicit auth failed', error);
     });
-  };
+  }, [ensureAuthorization, wallet?.account?.address]);
 
-  const showPopup = (params: Parameters<TelegramWebApp['showPopup']>[0]): Promise<string> => {
-    return new Promise((resolve) => {
-      if (webApp) {
-        webApp.showPopup(params, (buttonId) => resolve(buttonId || ''));
-      } else {
-        resolve(confirm(params.message) ? 'ok' : 'cancel');
+  const handleBet = useCallback(async () => {
+    if (!telegram) {
+      setState(prev => ({ ...prev, status: 'error', error: 'Telegram WebApp 未初始化' }));
+      return;
+    }
+    if (!tonConnectUI) {
+      setState(prev => ({ ...prev, status: 'error', error: 'TonConnect 未就绪' }));
+      return;
+    }
+    if (!contractAddress) {
+      setState(prev => ({ ...prev, status: 'error', error: '缺少预测合约地址配置' }));
+      return;
+    }
+    if (!options.marketId || !options.selection) {
+      setState(prev => ({ ...prev, status: 'error', error: '缺少预测场次或选项' }));
+      return;
+    }
+
+    telegram.MainButton.showProgress?.();
+    setState(prev => ({ ...prev, status: 'processing', error: null }));
+
+    try {
+      if (!wallet?.account?.address) {
+        await tonConnectUI.openModal();
+        telegram.MainButton.hideProgress?.();
+        setState(prev => ({ ...prev, status: 'idle', error: null }));
+        return;
       }
-    });
-  };
 
-  // 触觉反馈
-  const hapticFeedback = {
-    impact: (style: 'light' | 'medium' | 'heavy' = 'medium') => {
-      webApp?.HapticFeedback.impactOccurred(style);
-    },
-    notification: (type: 'error' | 'success' | 'warning') => {
-      webApp?.HapticFeedback.notificationOccurred(type);
-    },
-    selection: () => {
-      webApp?.HapticFeedback.selectionChanged();
-    },
-  };
-
-  // 主按钮控制
-  const mainButton = {
-    show: (text: string, onClick: () => void) => {
-      if (webApp) {
-        webApp.MainButton.setText(text);
-        webApp.MainButton.onClick(onClick);
-        webApp.MainButton.show();
+      const token = await ensureAuthorization();
+      if (!token) {
+        throw new Error('隐式授权失败');
       }
-    },
-    hide: () => {
-      webApp?.MainButton.hide();
-    },
-    setLoading: (loading: boolean) => {
-      if (loading) {
-        webApp?.MainButton.showProgress();
-      } else {
-        webApp?.MainButton.hideProgress();
-      }
-    },
-    setText: (text: string) => {
-      webApp?.MainButton.setText(text);
-    },
-  };
 
-  // 云存储
-  const cloudStorage = {
-    setItem: (key: string, value: string): Promise<boolean> => {
-      return new Promise((resolve) => {
-        if (webApp) {
-          webApp.CloudStorage.setItem(key, value, (error, stored) => {
-            resolve(!error && stored);
-          });
-        } else {
-          try {
-            localStorage.setItem(`tg_${key}`, value);
-            resolve(true);
-          } catch {
-            resolve(false);
-          }
-        }
+      const validUntil = Math.floor(Date.now() / 1000) + 60;
+      const txRequest: SendTransactionRequest = {
+        validUntil,
+        messages: [
+          {
+            address: contractAddress,
+            amount: amountNano,
+          },
+        ],
+      };
+
+      const txResponse = await tonConnectUI.sendTransaction(txRequest);
+
+      const body = {
+        initData,
+        wallet: wallet.account.address,
+        tx: txResponse.boc ?? null,
+        marketId: options.marketId,
+        selection: options.selection,
+        amountTai: options.amountTai,
+        crowdCode: options.crowdCode ?? null,
+      };
+
+      const betResponse = await fetch('/api/bet/oneclick', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
       });
-    },
-    
-    getItem: (key: string): Promise<string | null> => {
-      return new Promise((resolve) => {
-        if (webApp) {
-          webApp.CloudStorage.getItem(key, (error, value) => {
-            resolve(error ? null : value);
-          });
-        } else {
-          resolve(localStorage.getItem(`tg_${key}`));
-        }
-      });
-    },
-    
-    removeItem: (key: string): Promise<boolean> => {
-      return new Promise((resolve) => {
-        if (webApp) {
-          webApp.CloudStorage.removeItem(key, (error, removed) => {
-            resolve(!error && removed);
-          });
-        } else {
-          try {
-            localStorage.removeItem(`tg_${key}`);
-            resolve(true);
-          } catch {
-            resolve(false);
-          }
-        }
-      });
-    },
-  };
+
+      if (!betResponse.ok) {
+        const message = await betResponse.text();
+        throw new Error(message || '下注失败');
+      }
+
+      const betResult = (await betResponse.json()) as { betId: string; crowdUrl?: string };
+      setState(prev => ({ ...prev, status: 'success', error: null }));
+
+      const payload = {
+        event: 'bet-confirmed',
+        betId: betResult.betId,
+        amount: options.amountTai,
+        crowdUrl: betResult.crowdUrl,
+      };
+      telegram.sendData(JSON.stringify(payload));
+      onBetSuccessRef.current?.(betResult.betId, txResponse.boc ?? null);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '下注失败';
+      setState({ status: 'error', error: message, sessionToken: state.sessionToken });
+    } finally {
+      telegram.MainButton.hideProgress?.();
+    }
+  }, [
+    amountNano,
+    contractAddress,
+    ensureAuthorization,
+    initData,
+    options.amountTai,
+    options.crowdCode,
+    options.marketId,
+    options.selection,
+    state.sessionToken,
+    telegram,
+    tonConnectUI,
+    wallet?.account?.address,
+  ]);
+
+  useEffect(() => {
+    if (!telegram) {
+      return () => {};
+    }
+
+    if (mainButtonHandlerRef.current) {
+      telegram.MainButton.offClick(mainButtonHandlerRef.current);
+    }
+
+    telegram.MainButton.setText(`点击预测（${amountDisplay}）`);
+    mainButtonHandlerRef.current = handleBet;
+    telegram.MainButton.onClick(handleBet);
+
+    return () => {
+      if (mainButtonHandlerRef.current) {
+        telegram.MainButton.offClick(mainButtonHandlerRef.current);
+      }
+    };
+  }, [amountDisplay, handleBet, telegram]);
 
   return {
-    webApp,
+    status: state.status,
+    error: state.error,
     user,
-    isReady,
-    isInTelegram,
-    platform,
-    version,
-    colorScheme,
-    themeParams,
-    ready,
-    expand,
-    close,
-    showAlert,
-    showConfirm,
-    showPopup,
-    hapticFeedback,
-    mainButton,
-    cloudStorage,
-  };
+    sessionToken: state.sessionToken,
+    openTelegramShare: (url: string, text: string) => {
+      const shareUrl = new URL('https://t.me/share/url');
+      shareUrl.searchParams.set('url', url);
+      shareUrl.searchParams.set('text', text);
+      window.open(shareUrl.toString(), '_blank');
+    },
+  } as const;
 }
-
-// 导出类型
-export type { TelegramUser, TelegramWebApp, UseTelegramWebAppReturn };

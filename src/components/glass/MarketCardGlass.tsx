@@ -22,7 +22,10 @@ type MarketCardGlassProps = {
 
 export function MarketCardGlass({ card, onFavoriteToggle }: MarketCardGlassProps) {
   const navigate = useNavigate();
-  const { data } = useQuery(marketCardQuery(card.id));
+  const { data } = useQuery({
+    ...marketCardQuery(card.id),
+    enabled: Boolean(card.id),
+  });
   const [celebrate, setCelebrate] = useState(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(Boolean(card.isFavorite));
   const [quickBet, setQuickBet] = useState<{ side: 'yes' | 'no' } | null>(null);

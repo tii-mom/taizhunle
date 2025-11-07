@@ -1,6 +1,10 @@
 import cron from 'node-cron';
 import config from '../../config/env.js';
 import { supabase } from '../services/supabaseClient.js';
+import type { Database } from '../../types/supabase.js';
+
+type RedpacketSaleRow = Database['public']['Tables']['redpacket_sales']['Row'];
+type RedpacketSaleInsert = Database['public']['Tables']['redpacket_sales']['Insert'];
 
 function toNumber(value: string | number | null | undefined): number {
   if (value === null || value === undefined) {
@@ -26,14 +30,14 @@ async function adjustRedpacketPrice() {
   const now = new Date();
   const nowIso = now.toISOString();
 
-  const { data: previousSales, error: previousError } = await supabase
+  const { data: previousSalesRaw, error: previousError } = await supabase
     .from('redpacket_sales')
     .select('*')
     .lt('expires_at', nowIso)
     .order('expires_at', { ascending: false })
     .limit(1);
-
-  const previousSale = previousSales?.[0];
+  const previousSales = previousSalesRaw as RedpacketSaleRow[] | null;
+  const previousSale: RedpacketSaleRow | undefined = previousSales?.[0];
 
   if (previousError) {
     throw new Error(`Failed to load previous sale: ${previousError.message}`);
@@ -71,17 +75,18 @@ async function adjustRedpacketPrice() {
   const expiresAt = new Date(startAt);
   expiresAt.setUTCHours(23, 59, 59, 0);
 
-  const { data: existingSale, error: existingError } = await supabase
+  const { data: existingSaleRaw, error: existingError } = await supabase
     .from('redpacket_sales')
     .select('id, sold_tai')
     .eq('sale_code', saleCode)
     .limit(1);
+  const existingSale = existingSaleRaw as Pick<RedpacketSaleRow, 'id' | 'sold_tai'>[] | null;
 
   if (existingError) {
     throw new Error(`Failed to check current sale: ${existingError.message}`);
   }
 
-  const payload = {
+  const payload: RedpacketSaleInsert = {
     sale_code: saleCode,
     price_ton: newPrice,
     base_tai: baseTai,
@@ -105,8 +110,8 @@ async function adjustRedpacketPrice() {
       return;
     }
 
-    const { error: updateError } = await supabase
-      .from('redpacket_sales')
+    const redpacketSalesTable = supabase.from('redpacket_sales') as any;
+    const { error: updateError } = await redpacketSalesTable
       .update({
         ...payload,
       })
@@ -120,9 +125,8 @@ async function adjustRedpacketPrice() {
     return;
   }
 
-  const { error: insertError } = await supabase
-    .from('redpacket_sales')
-    .insert(payload);
+  const redpacketSalesTable = supabase.from('redpacket_sales') as any;
+  const { error: insertError } = await redpacketSalesTable.insert(payload);
 
   if (insertError) {
     throw new Error(`Failed to create sale for today: ${insertError.message}`);

@@ -43,6 +43,8 @@ interface Transaction {
   }>;
 }
 
+type MasterchainInfo = Record<string, unknown>;
+
 class TonService {
   private baseUrl: string;
   private apiKey: string;
@@ -241,7 +243,7 @@ class TonService {
    */
   async getNetworkInfo() {
     try {
-      const info = await this.request('getMasterchainInfo');
+      const info = await this.request<MasterchainInfo>('getMasterchainInfo');
       return {
         network: config.ton.network,
         isTestnet: config.ton.network === 'testnet',

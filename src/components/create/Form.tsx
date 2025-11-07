@@ -17,7 +17,7 @@ import { createMarketDraft, loadCreationPermission } from '../../services/market
 import { HotTopicSlider } from './HotTopicSlider';
 import { GlassModalGlass } from '../glass/GlassModalGlass';
 import { GlassButtonGlass } from '../glass/GlassButtonGlass';
-import { MARKET_TAG_WHITELIST } from '../../constants/marketTags';
+import { MARKET_TAG_WHITELIST, type MarketTag } from '../../constants/marketTags';
 
 const MAX_REFERENCE_URL_LENGTH = 500;
 const MAX_TAGS = 5;
@@ -61,7 +61,7 @@ export function CreateForm() {
   const titleValue = watch('title');
   const [referenceSummary, setReferenceSummary] = useState<string | null>(null);
   const [referenceLink, setReferenceLink] = useState<string | null>(null);
-  const [appliedTagsState, setAppliedTagsState] = useState<string[]>([]);
+  const [appliedTagsState, setAppliedTagsState] = useState<MarketTag[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,12 +82,12 @@ export function CreateForm() {
   );
 
   const numberFormatter = useMemo(() => new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }), []);
-  const allowedTags = useMemo(() => new Set(MARKET_TAG_WHITELIST), []);
+  const allowedTags = useMemo(() => new Set<MarketTag>(MARKET_TAG_WHITELIST), []);
 
-  const applyTags = useCallback((tags: string[]) => {
-    const unique: string[] = [];
+  const applyTags = useCallback((tags: Array<string | MarketTag>) => {
+    const unique: MarketTag[] = [];
     for (const tag of tags) {
-      const lower = tag.toLowerCase();
+      const lower = tag.toLowerCase() as MarketTag;
       if (!allowedTags.has(lower) || unique.includes(lower)) {
         continue;
       }
@@ -99,7 +99,7 @@ export function CreateForm() {
     setAppliedTagsState(unique);
   }, [allowedTags]);
 
-  const toggleTag = useCallback((tag: string) => {
+  const toggleTag = useCallback((tag: MarketTag) => {
     setAppliedTagsState((prev) => {
       if (prev.includes(tag)) {
         return prev.filter((entry) => entry !== tag);
@@ -356,7 +356,7 @@ export function CreateForm() {
               onTagChange={(tag) => {
                 if (tag === 'trending') {
                   applyTags([]);
-                } else if (allowedTags.has(tag)) {
+                } else if (allowedTags.has(tag as MarketTag)) {
                   applyTags([tag]);
                 }
               }}
@@ -388,12 +388,13 @@ export function CreateForm() {
                 <p className="mt-1 text-xs text-white/50">{t('create:form.tagsHint', { count: MAX_TAGS })}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {MARKET_TAG_WHITELIST.map((tag) => {
-                    const isActive = appliedTags.includes(tag);
+                    const typedTag = tag as MarketTag;
+                    const isActive = appliedTags.includes(typedTag);
                     return (
                       <button
                         key={tag}
                         type="button"
-                        onClick={() => toggleTag(tag)}
+                        onClick={() => toggleTag(typedTag)}
                         className={`rounded-full border px-4 py-1 text-xs font-semibold transition ${
                           isActive
                             ? 'border-emerald-300/60 bg-emerald-400/20 text-emerald-100'

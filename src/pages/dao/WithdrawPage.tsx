@@ -4,7 +4,15 @@ import { GlassButtonGlass } from '@/components/glass/GlassButtonGlass';
 import { CountUp } from '@/components/glass/CountUp';
 import { useI18n } from '@/hooks/useI18n';
 
-const CHECKLIST = [
+type StatusBadgeProps = { status: 'ok' | 'warning' };
+
+type ChecklistItem = {
+  labelKey: string;
+  value: number;
+  status: StatusBadgeProps['status'];
+};
+
+const CHECKLIST: ChecklistItem[] = [
   { labelKey: 'withdraw.checklist.stake', value: 125000, status: 'ok' },
   { labelKey: 'withdraw.checklist.points', value: 612, status: 'ok' },
   { labelKey: 'withdraw.checklist.pendingTasks', value: 0, status: 'ok' },
@@ -76,8 +84,6 @@ export default function WithdrawPage() {
     </GlassPageLayout>
   );
 }
-
-type StatusBadgeProps = { status: 'ok' | 'warning' };
 
 function StatusBadge({ status }: StatusBadgeProps) {
   return (

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import type { InfiniteData } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Search, Star } from 'lucide-react';
 
@@ -60,7 +61,7 @@ const resolveTemplateType: TemplateMatcher = (card) => {
   if (tags.some((tag) => ['btc', 'eth', 'sol', 'ton', 'bnb'].includes(tag))) return 'coin';
   if (tags.some((tag) => ['macro', 'cpi', 'gdp', 'economy'].includes(tag))) return 'macro';
   if (tags.some((tag) => ['uefa', 'madrid', 'sports', 'event'].includes(tag))) return 'sports';
-  return 'event';
+  return 'any';
 };
 
 export function HomeGlass() {
@@ -82,11 +83,12 @@ export function HomeGlass() {
   const catalogQuery = useMarketsQuery('all');
   const catalogCards = useMemo(() => catalogQuery.data ?? [], [catalogQuery.data]);
 
-  const feedQuery = useInfiniteQuery<HomeFeedPage>({
-    ...homePageQuery(activeSort),
-  });
+  const feedQuery = useInfiniteQuery(homePageQuery(activeSort));
 
-  const feedPages = useMemo(() => feedQuery.data?.pages ?? [], [feedQuery.data?.pages]);
+  const feedPages = useMemo<HomeFeedPage[]>(() => {
+    const infiniteData = feedQuery.data as InfiniteData<HomeFeedPage> | undefined;
+    return infiniteData?.pages ?? [];
+  }, [feedQuery.data]);
   const feedCards = useMemo(() => feedPages.flatMap((page) => page.items), [feedPages]);
 
   useEffect(() => {
@@ -129,7 +131,7 @@ export function HomeGlass() {
     [feedCards, favoriteIds],
   );
 
-  const cardsSource = useMemo(() => {
+  const cardsSource = useMemo<MarketCard[]>(() => {
     if (activeSort === 'following') {
       return enrichedCatalog
         .filter((card) => favoriteIds.has(card.id))

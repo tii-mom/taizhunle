@@ -14,14 +14,23 @@ import { useI18n } from '@/hooks/useI18n';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useBetExecutor } from '@/hooks/useBetExecutor';
 
+const createInvalidTypeErrorMap = (message: string): z.ZodErrorMap => (issue, ctx) => {
+  if (issue.code === z.ZodIssueCode.invalid_type) {
+    return { message };
+  }
+  return { message: ctx.defaultError };
+};
+
 const createBetSchema = (t: TFunction) =>
   z.object({
     amount: z
-      .number({ invalid_type_error: t('detail:modal.amountError') })
+      .number({ errorMap: createInvalidTypeErrorMap(t('detail:modal.amountError')) })
       .min(1, t('detail:modal.amountError')),
     side: z.enum(['yes', 'no'], {
-      invalid_type_error: t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
       required_error: t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
+      errorMap: createInvalidTypeErrorMap(
+        t('market:quickBet.sideRequired', { defaultValue: '请选择投注方向' }),
+      ),
     }),
   });
 

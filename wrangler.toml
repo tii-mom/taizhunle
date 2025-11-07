@@ -1,0 +1,20 @@
+name = "taizhunle-mini"
+main = "bot/index.ts"
+compatibility_date = "2024-07-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production.vars]
+BOT_TOKEN = "<your-bot-token>"
+WEB_APP_URL = "https://<hash>.pages.dev"
+SUPABASE_URL = "https://<your-subdomain>.supabase.co"
+SUPABASE_SERVICE_KEY = "<your-service-key>"
+MINIAPP_JWT_SECRET = "<32-char-random-string>"
+CROWD_SHARE_HOST = "https://<hash>.pages.dev"
+
+[triggers]
+crons = ["*/2 * * * *"]
+
+[pages]
+pages_build_output_dir = "dist"
+project_name = "taizhunle-mini"
+pages_functions_dir = "api"

@@ -14,7 +14,7 @@ type CountUpProps = {
 export function CountUp({ end, duration = 1000, className = '', decimals = 0, suffix = '' }: CountUpProps) {
   const [count, setCount] = useState(0);
   const previousValueRef = useRef(0);
-  const frameRef = useRef<number>();
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const startValue = previousValueRef.current;
@@ -46,10 +46,11 @@ export function CountUp({ end, duration = 1000, className = '', decimals = 0, su
     frameRef.current = requestAnimationFrame(animate);
 
     return () => {
-      if (frameRef.current) {
+      if (frameRef.current !== null) {
         cancelAnimationFrame(frameRef.current);
       }
       previousValueRef.current = end;
+      frameRef.current = null;
     };
   }, [end, duration]);
 

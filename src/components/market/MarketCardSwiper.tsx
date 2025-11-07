@@ -26,7 +26,10 @@ export function MarketCardSwiper({ cards, onPlaceBet, onShare, isReady }: Props)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [quickBetCard, setQuickBetCard] = useState<MarketCard | null>(null);
-  const quickBet = useQuery(betQuery(quickBetCard?.id ?? ''));
+  const quickBet = useQuery({
+    ...betQuery(quickBetCard?.id ?? ''),
+    enabled: Boolean(quickBetCard?.id),
+  });
   const longPressTimerRef = useRef<number | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
 

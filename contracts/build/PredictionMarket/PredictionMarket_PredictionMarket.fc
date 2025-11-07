@@ -671,30 +671,30 @@ builder $PredictionMarket$_store(builder build_0, (slice, slice, slice, int, cel
 
 ((slice, slice, slice, int, cell, cell, cell, int), tuple) $PredictionMarket$_fun_marketInfo((slice, slice, slice, int, cell, cell, cell, int) $self, int $id) impure inline_ref {
     var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
-    var $fresh$ret_28 = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $id));
-    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_28);
+    var $fresh$ret_21 = $Market$_load_opt(__tact_dict_get_int_cell($self'markets, 257, $id));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_21);
 }
 
 ((slice, slice, slice, int, cell, cell, cell, int), tuple) $PredictionMarket$_fun_positionOf((slice, slice, slice, int, cell, cell, cell, int) $self, int $id, slice $user) impure inline_ref {
     var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
     tuple $bookOpt = $PositionBook$_load_opt(__tact_dict_get_int_cell($self'positions, 257, $id));
     if (null?($bookOpt)) {
-        var $fresh$ret_29 = null();
-        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_29);
+        var $fresh$ret_22 = null();
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_22);
     }
-    var $fresh$ret_30 = $BetPosition$_load_opt(__tact_dict_get_slice_cell($PositionBook$_get_entries($PositionBook$_not_null($bookOpt)), 267, $user));
-    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_30);
+    var $fresh$ret_23 = $BetPosition$_load_opt(__tact_dict_get_slice_cell($PositionBook$_get_entries($PositionBook$_not_null($bookOpt)), 267, $user));
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_23);
 }
 
 ((slice, slice, slice, int, cell, cell, cell, int), int) $PredictionMarket$_fun_creditOf((slice, slice, slice, int, cell, cell, cell, int) $self, slice $user) impure inline_ref {
     var (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault)) = $self;
     int $saved = __tact_dict_get_slice_int($self'userCredits, 267, $user, 257);
     if (null?($saved)) {
-        var $fresh$ret_31 = 0;
-        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_31);
+        var $fresh$ret_24 = 0;
+        return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_24);
     }
-    var $fresh$ret_32 = __tact_not_null($saved);
-    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_32);
+    var $fresh$ret_25 = __tact_not_null($saved);
+    return (($self'admin, $self'treasury, $self'staking, $self'nextMarketId, $self'markets, $self'positions, $self'userCredits, $self'platformVault), $fresh$ret_25);
 }
 
 ((slice, slice, slice, int, cell, cell, cell, int), ()) $PredictionMarket$_fun_handleRewardPayouts((slice, slice, slice, int, cell, cell, cell, int) $self, cell $cellOpt, int $marketId, int $rewardPool) impure inline_ref {

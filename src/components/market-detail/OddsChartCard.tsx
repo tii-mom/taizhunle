@@ -9,6 +9,7 @@ import {
   YAxis,
   type TooltipProps,
 } from 'recharts';
+import type { Payload } from 'recharts/types/component/DefaultTooltipContent';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 
@@ -54,7 +55,13 @@ function formatVolume(value: number): string {
   return value.toLocaleString();
 }
 
-function OddsTooltip({ active, payload, label }: TooltipProps<number, string>) {
+type OddsTooltipProps = TooltipProps<number, string> & {
+  payload?: Payload<number, string>[];
+  label?: string | number;
+  active?: boolean;
+};
+
+function OddsTooltip({ active, payload, label }: OddsTooltipProps) {
   if (!active || !payload?.length) {
     return null;
   }

@@ -302,6 +302,82 @@ comment on column public.whale_rankings.amount_tai is 'TAI 持仓（最小单位
 comment on column public.whale_rankings.rank is '当前名次，1 为榜首';
 
 -- ===========================================
+-- 🤖 Telegram Mini App 会话
+-- ===========================================
+create table public.miniapp_sessions (
+  id uuid default uuid_generate_v4() primary key,
+  telegram_id bigint unique not null,
+  user_id uuid references public.users(id) not null,
+  ton_wallet text not null,
+  chat_id bigint,
+  chat_type text,
+  start_param text,
+  last_active_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+comment on table public.miniapp_sessions is 'Telegram Mini App 会话表，记录免注册关联关系';
+
+-- ===========================================
+-- ⚡️ 一键下注流水
+-- ===========================================
+create table public.miniapp_oneclick_bets (
+  id uuid default uuid_generate_v4() primary key,
+  session_id uuid references public.miniapp_sessions(id) not null,
+  user_id uuid references public.users(id) not null,
+  market_id text not null,
+  selection text not null,
+  amount_tai numeric not null,
+  ton_wallet text not null,
+  telegram_user_id bigint not null,
+  ton_tx_boc text,
+  status text default 'pending' check (status in ('pending', 'confirmed', 'failed')),
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+comment on table public.miniapp_oneclick_bets is 'Mini App 内发起的一键下注记录';
+
+-- ===========================================
+-- ⚡️ 闪电团 (Crowd) 主表
+-- ===========================================
+create table public.miniapp_flash_crowds (
+  id uuid default uuid_generate_v4() primary key,
+  share_code text unique not null,
+  owner_session_id uuid references public.miniapp_sessions(id) not null,
+  telegram_user_id bigint not null,
+  market_id text,
+  target_size integer not null default 5,
+  stake_amount_tai numeric default 0,
+  last_fill_count integer default 0,
+  status text default 'open' check (status in ('open', 'filling', 'full', 'closed')),
+  notify_chat_id text,
+  notify_chat_type text,
+  start_param text,
+  last_notified_at timestamp with time zone,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+comment on table public.miniapp_flash_crowds is 'Mini App 闪电团主表，追踪每个拼团进度';
+
+-- ===========================================
+-- ⚡️ 闪电团成员关联
+-- ===========================================
+create table public.miniapp_flash_crowd_members (
+  id bigserial primary key,
+  flash_crowd_id uuid references public.miniapp_flash_crowds(id) on delete cascade not null,
+  session_id uuid references public.miniapp_sessions(id) not null,
+  telegram_user_id bigint not null,
+  is_owner boolean default false,
+  joined_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  unique(flash_crowd_id, session_id)
+);
+
+comment on table public.miniapp_flash_crowd_members is '闪电团成员关联表';
+
+-- ===========================================
 -- 📇 索引创建
 -- ===========================================
 
@@ -318,6 +394,11 @@ create index idx_predictions_end_time on public.predictions(end_time);
 -- 下注表索引
 create index idx_bets_prediction_id on public.bets(prediction_id);
 create index idx_bets_user_id on public.bets(user_id);
+
+-- Mini App 索引
+create index idx_miniapp_sessions_user on public.miniapp_sessions(user_id);
+create index idx_miniapp_oneclick_bets_session on public.miniapp_oneclick_bets(session_id);
+create index idx_miniapp_flash_crowds_status on public.miniapp_flash_crowds(status);
 create index idx_bets_status on public.bets(status);
 
 -- 红包相关索引

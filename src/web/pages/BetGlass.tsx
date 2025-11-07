@@ -9,7 +9,10 @@ import { useTheme } from '@/providers/ThemeProvider';
 
 export function BetGlass() {
   const { id = '' } = useParams();
-  const { data, isPending } = useQuery(betQuery(id));
+  const { data, isPending } = useQuery({
+    ...betQuery(id),
+    enabled: Boolean(id),
+  });
   const { t } = useI18n('home');
   const { mode } = useTheme();
   const messageClass = mode === 'light' ? 'text-slate-700' : 'text-white/70';

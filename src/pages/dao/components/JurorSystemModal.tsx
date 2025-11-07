@@ -6,9 +6,11 @@ import { useI18n } from '@/hooks/useI18n';
 import { useTheme } from '@/providers/ThemeProvider';
 import { DAO_LEVELS, type DaoLevelKey } from '../constants';
 
+type StakeRuleKey = 'l1' | 'l2' | 'l3' | 'l4';
+
 const LEVEL_ORDER: DaoLevelKey[] = ['normal', 'l1', 'l2', 'l3', 'l4'];
-const STAKE_KEYS: DaoLevelKey[] = ['l1', 'l2', 'l3', 'l4'];
-const STAKE_RULES: Record<'l1' | 'l2' | 'l3' | 'l4', { stake: number; cooldownHours: number }> = {
+const STAKE_KEYS: StakeRuleKey[] = ['l1', 'l2', 'l3', 'l4'];
+const STAKE_RULES: Record<StakeRuleKey, { stake: number; cooldownHours: number }> = {
   l1: { stake: 1_000, cooldownHours: 72 },
   l2: { stake: 5_000, cooldownHours: 48 },
   l3: { stake: 10_000, cooldownHours: 24 },
@@ -35,7 +37,7 @@ export function JurorSystemModal({ open, onClose, levelKey, levelName, points, n
   }
 
   const formatter = new Intl.NumberFormat(locale);
-  const highlightStakeKey: 'l1' | 'l2' | 'l3' | 'l4' = levelKey === 'normal' ? 'l1' : (levelKey as 'l1' | 'l2' | 'l3' | 'l4');
+  const highlightStakeKey: StakeRuleKey = levelKey === 'normal' ? 'l1' : (levelKey as StakeRuleKey);
   const stakeRule = STAKE_RULES[highlightStakeKey];
 
   const sanitizedUsage = dailyLimit === null ? 0 : Math.min(dailyUsed, dailyLimit);

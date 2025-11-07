@@ -1,0 +1,31 @@
+{
+  "network": "testnet",
+  "deployerAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+  "timestamp": "2025-11-07T03:42:34.462Z",
+  "contracts": {
+    "unlockController": {
+      "address": "EQB9NffSKbslsvIY7Wi5pQL15KuWlgVAqqai_0W3Q1cZp9HW",
+      "adminAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+      "treasuryAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+      "saleEndTimestamp": "1765078954",
+      "saleEndDate": "2025-12-07T03:42:34.000Z",
+      "usdcMasterAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv"
+    },
+    "jurorStaking": {
+      "address": "EQC4SVjr97GTvW7l8AWTDXwCRAx5dcP9tAJjNmGcsv05L7ih",
+      "adminAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+      "predictionMarketAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+      "treasuryAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv"
+    },
+    "predictionMarket": {
+      "address": "EQCz_WsJ-14P_-URq0AT-HfGAWAyBt_WnLcor6s7tDTeq9lJ",
+      "adminAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+      "treasuryAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv",
+      "stakingAddress": "EQC4SVjr97GTvW7l8AWTDXwCRAx5dcP9tAJjNmGcsv05L7ih"
+    },
+    "taiOracle": {
+      "address": "EQAt6joNLn0QZEAM0IpaQLWWvbtLDXCrTAMyR1RrwbL3qelJ",
+      "adminAddress": "EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv"
+    }
+  }
+}

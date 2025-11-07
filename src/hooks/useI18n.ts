@@ -1,4 +1,5 @@
-import { useTranslation, type Namespace, type TFunction } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import type { Namespace, TFunction } from 'i18next';
 
 type UseI18nResult = {
   t: TFunction;

@@ -42,7 +42,10 @@ function formatRelativeTime(value: number, locale: string): string {
 
 export function MarketDetailGlass() {
   const { id = '' } = useParams();
-  const { data, isPending } = useQuery(marketDetailQuery(id));
+  const { data, isPending } = useQuery({
+    ...marketDetailQuery(id),
+    enabled: Boolean(id),
+  });
   const wallet = useTonWallet();
   const { t, locale } = useI18n(['home', 'detail', 'market']);
   const { mode } = useTheme();
@@ -93,7 +96,7 @@ export function MarketDetailGlass() {
 
         {data.systemInfo.referenceUrl ? (
           <AuroraPanel
-            variant="violet"
+            variant="emerald"
             className={clsx(
               'flex flex-col gap-3 p-5',
               isLight ? 'text-slate-700' : 'text-white/80',

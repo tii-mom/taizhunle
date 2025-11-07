@@ -217,6 +217,21 @@ npm run dev:server        # 仅后端（watch 模式）
 - **监控/日志**：当前仅 stdout；建议接入 Sentry（`SENTRY_DSN` 预留）、日志聚合。
 - **Cron 任务**：由应用内 node-cron 执行，部署时需确保单实例或加锁，避免重复执行。
 
+### 9.1 TON 合约部署记录
+- **网络**：TON Testnet（TonScan 前缀 `https://testnet.tonscan.org/address/`）
+- **时间**：2025-11-07
+- **部署者**：`EQCxJ05yeawVWlsN5SfJ-obajgh2lFffR-O7ebH_s_wqQamv`
+- **成本**：约 0.207 TON（0.2 TON 部署 + 0.007 TON 手续费）
+
+| 合约 | 职责 | 地址 |
+| --- | --- | --- |
+| `TAIUnlockController` | 解锁控制器 / 白名单 | [EQB9NffSKbslsvIY7Wi5pQL15KuWlgVAqqai_0W3Q1cZp9HW](https://testnet.tonscan.org/address/EQB9NffSKbslsvIY7Wi5pQL15KuWlgVAqqai_0W3Q1cZp9HW) |
+| `JurorStaking` | 陪审员质押与配额采样 | [EQC4SVjr97GTvW7l8AWTDXwCRAx5dcP9tAJjNmGcsv05L7ih](https://testnet.tonscan.org/address/EQC4SVjr97GTvW7l8AWTDXwCRAx5dcP9tAJjNmGcsv05L7ih) |
+| `PredictionMarket` | 预测市场主合约 | [EQCz_WsJ-14P_-URq0AT-HfGAWAyBt_WnLcor6s7tDTeq9lJ](https://testnet.tonscan.org/address/EQCz_WsJ-14P_-URq0AT-HfGAWAyBt_WnLcor6s7tDTeq9lJ) |
+| `TaiOracle` | TAI 价格喂价 | [EQAt6joNLn0QZEAM0IpaQLWWvbtLDXCrTAMyR1RrwbL3qelJ](https://testnet.tonscan.org/address/EQAt6joNLn0QZEAM0IpaQLWWvbtLDXCrTAMyR1RrwbL3qelJ) |
+
+> 上述地址同时记录于 `addresses.json`、`deployment-results.json` 及 `.env` 模板，便于运维快速查验交易。
+
 ## 10. Mock 与功能开关
 - `.env` 的 `ENABLE_MOCK_DATA=true` 时部分接口回退到 `src/server/services/mockRedpacketService`。
 - 多个前端服务在请求失败时返回模拟数据：`inviteService`, `rankingService`, `useAssetData`。

@@ -372,27 +372,27 @@ builder $JurorStaking$_store(builder build_0, (slice, slice, slice, int, int, ce
 
 ((slice, slice, slice, int, int, cell, cell), tuple) $JurorStaking$_fun_stakeOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
     var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
-    var $fresh$ret_33 = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
-    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_33);
+    var $fresh$ret_26 = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_26);
 }
 
 ((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_stakeAmountOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
     var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
     tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
     if (null?($infoOpt)) {
-        var $fresh$ret_34 = 0;
-        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_34);
+        var $fresh$ret_27 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_27);
     }
-    var $fresh$ret_35 = $StakeInfo$_get_amount($StakeInfo$_not_null($infoOpt));
-    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_35);
+    var $fresh$ret_28 = $StakeInfo$_get_amount($StakeInfo$_not_null($infoOpt));
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_28);
 }
 
 ((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_stakeDaysOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
     var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
     tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
     if (null?($infoOpt)) {
-        var $fresh$ret_36 = 0;
-        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_36);
+        var $fresh$ret_29 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_29);
     }
     var ($info'amount, $info'accumulatedSeconds, $info'lastUpdate, $info'penaltyCount, $info'pausedUntil, $info'pendingReward, $info'points) = $StakeInfo$_not_null($infoOpt);
     int $extra = 0;
@@ -404,11 +404,11 @@ builder $JurorStaking$_store(builder build_0, (slice, slice, slice, int, int, ce
     }
     int $totalSeconds = ($info'accumulatedSeconds + $extra);
     if (($totalSeconds <= 0)) {
-        var $fresh$ret_37 = 0;
-        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_37);
+        var $fresh$ret_30 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_30);
     }
-    var $fresh$ret_38 = ($totalSeconds / 86400);
-    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_38);
+    var $fresh$ret_31 = ($totalSeconds / 86400);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_31);
 }
 
 ((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_whitelistQuotaOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
@@ -425,27 +425,27 @@ builder $JurorStaking$_store(builder build_0, (slice, slice, slice, int, int, ce
     if (($quota < 0)) {
         $quota = 0;
     }
-    var $fresh$ret_39 = $quota;
-    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_39);
+    var $fresh$ret_32 = $quota;
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_32);
 }
 
 ((slice, slice, slice, int, int, cell, cell), int) $JurorStaking$_fun_rewardCreditOf((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
     var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
     int $saved = __tact_dict_get_slice_int($self'rewardCredits, 267, $user, 257);
     if (null?($saved)) {
-        var $fresh$ret_40 = 0;
-        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_40);
+        var $fresh$ret_33 = 0;
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_33);
     }
-    var $fresh$ret_41 = __tact_not_null($saved);
-    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_41);
+    var $fresh$ret_34 = __tact_not_null($saved);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_34);
 }
 
 ((slice, slice, slice, int, int, cell, cell), (int, int, int, int, int, int, int)) $JurorStaking$_fun_settleStake((slice, slice, slice, int, int, cell, cell) $self, slice $user) impure inline_ref {
     var (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits)) = $self;
     tuple $infoOpt = $StakeInfo$_load_opt(__tact_dict_get_slice_cell($self'stakes, 267, $user));
     if (null?($infoOpt)) {
-        var $fresh$ret_42 = $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points(0, 0, $global_now(), 0, 0, 0, 0);
-        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_42);
+        var $fresh$ret_35 = $StakeInfo$_constructor_amount_accumulatedSeconds_lastUpdate_penaltyCount_pausedUntil_pendingReward_points(0, 0, $global_now(), 0, 0, 0, 0);
+        return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_35);
     }
     var ($mutInfo'amount, $mutInfo'accumulatedSeconds, $mutInfo'lastUpdate, $mutInfo'penaltyCount, $mutInfo'pausedUntil, $mutInfo'pendingReward, $mutInfo'points) = $StakeInfo$_not_null($infoOpt);
     int $current = $global_now();
@@ -454,8 +454,8 @@ builder $JurorStaking$_store(builder build_0, (slice, slice, slice, int, int, ce
         $mutInfo'accumulatedSeconds = ($mutInfo'accumulatedSeconds + $delta);
     }
     $mutInfo'lastUpdate = $current;
-    var $fresh$ret_43 = ($mutInfo'amount, $mutInfo'accumulatedSeconds, $mutInfo'lastUpdate, $mutInfo'penaltyCount, $mutInfo'pausedUntil, $mutInfo'pendingReward, $mutInfo'points);
-    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_43);
+    var $fresh$ret_36 = ($mutInfo'amount, $mutInfo'accumulatedSeconds, $mutInfo'lastUpdate, $mutInfo'penaltyCount, $mutInfo'pausedUntil, $mutInfo'pendingReward, $mutInfo'points);
+    return (($self'admin, $self'prediction, $self'treasury, $self'emergencyPaused, $self'totalStaked, $self'stakes, $self'rewardCredits), $fresh$ret_36);
 }
 
 ((slice, slice, slice, int, int, cell, cell), ()) $JurorStaking$_fun_creditReward((slice, slice, slice, int, int, cell, cell) $self, slice $user, int $amount) impure inline_ref {

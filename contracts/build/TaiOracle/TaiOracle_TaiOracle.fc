@@ -299,40 +299,40 @@ builder $TaiOracle$_store(builder build_0, (slice, cell, tuple) v) inline {
 
 ((slice, cell, tuple), tuple) $TaiOracle$_fun_latest((slice, cell, tuple) $self) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
-    var $fresh$ret_44 = $self'latestEntry;
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_44);
+    var $fresh$ret_37 = $self'latestEntry;
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_37);
 }
 
 ((slice, cell, tuple), tuple) $TaiOracle$_fun_priceAt((slice, cell, tuple) $self, int $dayIndex) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
-    var $fresh$ret_45 = $PriceEntry$_load_opt(__tact_dict_get_int_cell($self'priceHistory, 257, $dayIndex));
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_45);
+    var $fresh$ret_38 = $PriceEntry$_load_opt(__tact_dict_get_int_cell($self'priceHistory, 257, $dayIndex));
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_38);
 }
 
 ((slice, cell, tuple), int) $TaiOracle$_fun_abs((slice, cell, tuple) $self, int $value) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
     if (($value < 0)) {
-        var $fresh$ret_56 = (- $value);
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_56);
+        var $fresh$ret_49 = (- $value);
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_49);
     }
-    var $fresh$ret_57 = $value;
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_57);
+    var $fresh$ret_50 = $value;
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_50);
 }
 
 ((slice, cell, tuple), int) $TaiOracle$_fun_withinDeviation((slice, cell, tuple) $self, int $basePrice, int $price) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
     int $diff = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_abs(($price - $basePrice));
     int $limit = (($basePrice * 3000) / 10000);
-    var $fresh$ret_55 = ($diff <= $limit);
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_55);
+    var $fresh$ret_48 = ($diff <= $limit);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_48);
 }
 
 ((slice, cell, tuple), (int, int)) $TaiOracle$_fun_accumulate((slice, cell, tuple) $self, int $day, int $remaining, int $basePrice, (int, int) $acc) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
     var (($acc'sum, $acc'count)) = $acc;
     if (($remaining <= 0)) {
-        var $fresh$ret_53 = ($acc'sum, $acc'count);
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_53);
+        var $fresh$ret_46 = ($acc'sum, $acc'count);
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_46);
     }
     tuple $entryOpt = $PriceEntry$_load_opt(__tact_dict_get_int_cell($self'priceHistory, 257, $day));
     var ($mutAcc'sum, $mutAcc'count) = ($acc'sum, $acc'count);
@@ -343,47 +343,47 @@ builder $TaiOracle$_store(builder build_0, (slice, cell, tuple) v) inline {
             $mutAcc'count = ($mutAcc'count + 1);
         }
     }
-    var $fresh$ret_54 = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_accumulate(($day - 1), ($remaining - 1), $basePrice, ($mutAcc'sum, $mutAcc'count));
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_54);
+    var $fresh$ret_47 = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_accumulate(($day - 1), ($remaining - 1), $basePrice, ($mutAcc'sum, $mutAcc'count));
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_47);
 }
 
 ((slice, cell, tuple), int) $TaiOracle$_fun_average((slice, cell, tuple) $self, int $days) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
     if (($days <= 0)) {
-        var $fresh$ret_46 = 0;
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_46);
+        var $fresh$ret_39 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_39);
     }
     tuple $latestOpt = $self'latestEntry;
     if (null?($latestOpt)) {
-        var $fresh$ret_47 = 0;
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_47);
+        var $fresh$ret_40 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_40);
     }
     var ($latest'timestamp, $latest'price) = $PriceEntry$_not_null($latestOpt);
     int $basePrice = $latest'price;
     if (($basePrice <= 0)) {
-        var $fresh$ret_48 = 0;
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_48);
+        var $fresh$ret_41 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_41);
     }
     int $dayIndex = ($latest'timestamp / 86400);
     var ($acc'sum, $acc'count) = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_accumulate($dayIndex, $days, $basePrice, $AvgState$_constructor_sum_count(0, 0));
     ifnot ($acc'count) {
-        var $fresh$ret_49 = 0;
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_49);
+        var $fresh$ret_42 = 0;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_42);
     }
-    var $fresh$ret_50 = ($acc'sum / $acc'count);
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_50);
+    var $fresh$ret_43 = ($acc'sum / $acc'count);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_43);
 }
 
 ((slice, cell, tuple), int) $TaiOracle$_fun_canUnlock((slice, cell, tuple) $self, int $lastPrice, int $requiredBps) impure inline_ref {
     var (($self'admin, $self'priceHistory, $self'latestEntry)) = $self;
     int $avg = ($self'admin, $self'priceHistory, $self'latestEntry)~$TaiOracle$_fun_average(3);
     if (($avg <= 0)) {
-        var $fresh$ret_51 = false;
-        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_51);
+        var $fresh$ret_44 = false;
+        return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_44);
     }
     int $threshold = (($lastPrice * (10000 + $requiredBps)) / 10000);
-    var $fresh$ret_52 = ($avg >= $threshold);
-    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_52);
+    var $fresh$ret_45 = ($avg >= $threshold);
+    return (($self'admin, $self'priceHistory, $self'latestEntry), $fresh$ret_45);
 }
 
 ((slice, cell, tuple), ()) $TaiOracle$_fun_storeEntry((slice, cell, tuple) $self, int $timestamp, int $price) impure inline_ref {
